@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.my.evc.dao.UserDao;
 import com.my.evc.exception.BaseException;
+import com.my.evc.mapper.UserMapper;
 import com.my.evc.model.User;
 import com.my.evc.service.UserService;
 
@@ -14,10 +14,10 @@ import com.my.evc.service.UserService;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
     
     public void createUser(User user) throws BaseException {
-        userDao.create(user);
+        userMapper.create(user);
     }
 
     public User getUserByID() throws BaseException {
