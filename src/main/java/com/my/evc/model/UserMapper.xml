@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.dao.UserDao">
+	<select id="getById" parameterType="int" resultType="com.my.evc.model.User">
+		select * from user where id=#{id}
+	</select>
+	<select id="create" parameterType="com.my.evc.model.User" resultType="int">
+		insert into user(name,password,student_id,email) 
+		values(#{name},#{password},#{studentId},#{email})
+	</select>
+</mapper>

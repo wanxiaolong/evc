@@ -15,7 +15,7 @@ import com.my.evc.exception.ValidationException;
 public class BaseController {
 
     protected static final int SUCCESS = 0;
-    protected static final int ERROR = -1;
+    protected static final int FAILED = -1;
     protected static final String EMPTY_SYMBOL = "{}";
 
     /**
@@ -26,7 +26,7 @@ public class BaseController {
     public FailedResponse getFailedResponse(String errorCode,
             String errorMessage) {
         FailedResponse failedResponse = new FailedResponse();
-        failedResponse.setStatus(ERROR);
+        failedResponse.setStatus(FAILED);
         failedResponse.setErrorCode(errorCode);
         failedResponse.setErrorMessage(errorMessage);
         return failedResponse;

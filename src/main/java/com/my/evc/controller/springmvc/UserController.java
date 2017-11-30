@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,16 +20,19 @@ import com.my.evc.service.UserService;
 @RequestMapping("/user")
 public class UserController extends BaseController {
     
-    private final Logger LOGGER = Logger.getLogger(UserController.class);
+    private static final String JSON_TYPE = "application/json";
     
     @Autowired
     private UserService userService;
+    
+    private final Logger LOGGER = Logger.getLogger(UserController.class);
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public JsonResponse<User> createUser(@RequestBody(required=true) User user,
+    @RequestMapping(value="/create", method = RequestMethod.POST)
+    public JsonResponse<String> createUser(@RequestBody(required=true) User user,
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
+        System.out.println("===============Add User===================");
         try {
             userService.createUser(user);
         } catch (BaseException e) {
@@ -40,57 +42,19 @@ public class UserController extends BaseController {
             LOGGER.error(e);
             throw new Exception();
         }
-        return new JsonResponse<User>(SUCCESS, user);
+
+        return new JsonResponse<String>(SUCCESS, "Created succeed!");
     }
     
+    /**
+     * Self service to check whether this service is up or down.
+     */
     @ResponseBody
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public JsonResponse<String> deleteUser(@PathVariable("id") int id, HttpServletRequest request,
-            HttpServletResponse response) throws BaseException, Exception {
-        try {
-            userService.deleteUserByID(id);
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        return new JsonResponse<String>(SUCCESS, "Delete succeed!");
-    }
-    
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.PUT)
-    public JsonResponse<String> updateUser(@RequestBody(required=true) User user,
+    @RequestMapping(value="/ping", method = RequestMethod.GET, produces=JSON_TYPE)
+    public JsonResponse<String> ping(String name,
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
-        try {
-            userService.updateUser(user);
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        return new JsonResponse<String>(SUCCESS, "Update succeed!");
+        System.out.println("============" + name + "==================");
+        return new JsonResponse<String>(SUCCESS, name);
     }
-    
-    @ResponseBody
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public JsonResponse<User> findUser(@PathVariable("id") int id, HttpServletRequest request,
-            HttpServletResponse response) throws BaseException, Exception {
-        User user = null;
-        try {
-            user = userService.findUserByID(id);
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        return new JsonResponse<User>(SUCCESS, user);
-    }
-    
 }

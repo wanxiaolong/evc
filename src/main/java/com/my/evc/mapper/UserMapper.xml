@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.UserMapper">
+
+    <insert id="create" parameterType="com.my.evc.model.User" keyProperty="id" useGeneratedKeys="true">
+        insert into user(username,password,student_id,email) 
+        values(#{username},#{password},#{studentId},#{email})
+    </insert>
+    
+    <delete id="delete" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    
+    <update id="update" parameterType="com.my.evc.model.User">
+        update user set username=#{username}, password=#{password}, student_id=#{studentId}, email=#{email} 
+        where id=#{id}
+    </update>
+    
+    <select id="find" parameterType="int" resultType="com.my.evc.model.User">
+        select * from user where id=#{id}
+    </select>
+</mapper>

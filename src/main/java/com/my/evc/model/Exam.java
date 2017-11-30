@@ -1,0 +1,75 @@
+package com.my.evc.model;
+
+/**
+ * 描述一次考试。 <br>
+ * 一次完整的考试应该描述为：<br>
+ * 2017年度上学期英语半期考试 <br>
+ * 2017年度上学期第3次语文考试
+ */
+public class Exam extends BaseModel {
+    
+    private String name;           //考试名称
+    private int year;              //年度
+    private int semester;          //学期
+    private String subject;        //科目
+    private int nth;               //第几次
+    private boolean isHalf;        //是否是半期考试
+    private boolean isFinal;       //是否是期末考试
+    private String note;           //备注
+    private int adminId;           //管理员ID（谁创建的这次考试）
+    
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getYear() {
+        return year;
+    }
+    public void setYear(int year) {
+        this.year = year;
+    }
+    public int getSemester() {
+        return semester;
+    }
+    public void setSemester(int semester) {
+        this.semester = semester;
+    }
+    public String getSubject() {
+        return subject;
+    }
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+    public int getNth() {
+        return nth;
+    }
+    public void setNth(int nth) {
+        this.nth = nth;
+    }
+    public boolean isHalf() {
+        return isHalf;
+    }
+    public void setHalf(boolean isHalf) {
+        this.isHalf = isHalf;
+    }
+    public boolean isFinal() {
+        return isFinal;
+    }
+    public void setFinal(boolean isFinal) {
+        this.isFinal = isFinal;
+    }
+    public String getNote() {
+        return note;
+    }
+    public void setNote(String note) {
+        this.note = note;
+    }
+    public int getAdminId() {
+        return adminId;
+    }
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
+    }
+}
