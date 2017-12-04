@@ -17,12 +17,11 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!-- Auto scan Spring bean -->
+    <!-- 自动扫描Spring对象 -->
     <context:component-scan base-package="com.my.evc.controller" />
     <context:component-scan base-package="com.my.evc.service" />
-    <context:component-scan base-package="com.my.evc.mapper" />
     
-    <!-- Import config file -->
+    <!-- 引入配置文件 -->
     <context:property-placeholder location="classpath:project.properties" />
     <context:annotation-config/>
     
@@ -56,7 +55,7 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
     
-    <!-- View resolver -->
+    <!-- 视图解析器 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
         <property name="prefix" value="/views/"/>
         <property name="suffix" value=".jsp"/>
@@ -67,7 +66,6 @@
         <property name="basename" value="i18n/message"/>
     </bean>
     
-    <!-- 基于Cookie的本地化解析器 -->
-    <!-- see: https://www.cnblogs.com/flying607/p/4698949.html -->
+    <!-- 基于Session的本地化解析器 -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 </beans>

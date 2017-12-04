@@ -1,0 +1,36 @@
+.evc-page-header .header, .evc-content, .evc-page-footer {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.evc-page-footer {
+	text-align: center;
+	border-top: 1px solid #d0d0d0;
+	padding-top: 25px;
+	margin-top: 25px;
+}
+
+.evc-page-header .container-fluid {
+	width: 1200px;
+}
+
+.evc-page-header .header .logo {
+	background-image: url(http://www.runoob.com/wp-content/themes/runoob/assets/img/runoob-logo.png);
+	height: 39px;
+	width: 258px;
+	background-repeat: no-repeat;
+}
+
+.evc-page-header .header .description {
+	font-size: 18px;
+	color: #777;
+}
+
+.dropdown-menu>li>a:hover {
+	background-color: #2e6da4;
+	color: #fff;
+}
+
+.navbar-nav>li:hover {
+	background-color: #e7e7e7;
+}
