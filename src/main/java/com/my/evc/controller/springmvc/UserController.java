@@ -20,15 +20,13 @@ import com.my.evc.service.UserService;
 @RequestMapping("/user")
 public class UserController extends BaseController {
     
-    private static final String JSON_TYPE = "application/json";
-    
     @Autowired
     private UserService userService;
     
     private final Logger LOGGER = Logger.getLogger(UserController.class);
 
     @ResponseBody
-    @RequestMapping(value="/create", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public JsonResponse<String> createUser(@RequestBody(required=true) User user,
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
@@ -42,19 +40,25 @@ public class UserController extends BaseController {
             LOGGER.error(e);
             throw new Exception();
         }
-
         return new JsonResponse<String>(SUCCESS, "Created succeed!");
     }
     
-    /**
-     * Self service to check whether this service is up or down.
-     */
     @ResponseBody
-    @RequestMapping(value="/ping", method = RequestMethod.GET, produces=JSON_TYPE)
-    public JsonResponse<String> ping(String name,
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public JsonResponse<String> login(@RequestBody(required=true) User user,
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
-        System.out.println("============" + name + "==================");
-        return new JsonResponse<String>(SUCCESS, name);
+        System.out.println("===============User login===================");
+        try {
+            User user2 = userService.login(user.getUsername(), user.getPassword());
+            request.getSession().setAttribute("username", user2);
+        } catch (BaseException e) {
+            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+            throw new BaseException();
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception();
+        }
+        return new JsonResponse<String>(SUCCESS, "Login succeed!");
     }
 }

@@ -4,9 +4,9 @@
 
     <insert id="create" parameterType="com.my.evc.model.Student" keyProperty="id" useGeneratedKeys="true">
         insert into student
-            (name,sex,grade,birth_year,birth_month,description) 
+            (name,short_name,sex,grade,birth_year,birth_month,description) 
         values
-            (#{name},#{sex},#{grade},#{birthYear},#{birthMonth},#{description})
+            (#{name},#{shortName},#{sex},#{grade},#{birthYear},#{birthMonth},#{description})
     </insert>
     
     <delete id="delete" parameterType="int">
@@ -15,7 +15,7 @@
     
     <update id="update" parameterType="com.my.evc.model.Student">
         update student set 
-            name=#{name}, sex=#{sex}, 
+            name=#{name}, short_name=#{shortName}, sex=#{sex}, 
             grade=#{grade}, birth_year=#{birthYear}, 
             birth_month=#{birthMonth}, description=#{description}
         where id=#{id}

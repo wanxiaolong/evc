@@ -6,6 +6,7 @@ package com.my.evc.model;
 public class Student extends BaseModel {
     
     private String name;            //姓名
+    private String shortName;       //姓名缩写（拼音首字母）
     private String sex;             //性别
     private String grade;           //年级
     private int birthYear;          //出生年份（用于计算年龄）
@@ -17,6 +18,12 @@ public class Student extends BaseModel {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public String getShortName() {
+        return shortName;
+    }
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
     public String getSex() {
         return sex;

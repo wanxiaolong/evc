@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.my.evc.common.ErrorCodeAndMessage;
+import com.my.evc.common.ErrorCode;
 import com.my.evc.common.FailedResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.exception.DuplicateException;
@@ -57,8 +57,8 @@ public class BaseController {
     @ResponseBody
     public FailedResponse baseExceptionHandler() {
         return getFailedResponse(
-                ErrorCodeAndMessage.DATABASE_ACCESS_FAILED_CODE,
-                ErrorCodeAndMessage.DATABASE_ACCESS_FAILED_MESSAGE);
+                ErrorCode.DATABASE_ACCESS_FAILED_CODE,
+                ErrorCode.DATABASE_ACCESS_FAILED_MESSAGE);
     }
 
     /**
@@ -99,7 +99,7 @@ public class BaseController {
     @ResponseBody
     public FailedResponse exceptionHandler(Exception exception) {
         return getFailedResponse(
-                ErrorCodeAndMessage.SYSTEM_ERROR_CODE,
-                ErrorCodeAndMessage.SYSTEM_ERROR_MESSAGE);
+                ErrorCode.SYSTEM_ERROR_CODE,
+                ErrorCode.SYSTEM_ERROR_MESSAGE);
     }
 }

@@ -2,17 +2,17 @@ package com.my.evc.model;
 
 public class User extends BaseModel {
     
-    private String name;
+    private String username;
     private String password;
     private String email;
     private int studentId;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

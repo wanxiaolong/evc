@@ -19,4 +19,8 @@
     <select id="find" parameterType="int" resultType="com.my.evc.model.User">
         select * from user where id=#{id}
     </select>
+    
+    <select id="findByNameAndPass" parameterType="map" resultType="com.my.evc.model.User">
+        select * from user where username=#{username} and password=#{password}
+    </select>
 </mapper>

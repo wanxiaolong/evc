@@ -1,12 +1,12 @@
 package com.my.evc.exception;
 
-import com.my.evc.common.ErrorCodeAndMessage;
+import com.my.evc.common.ErrorCode;
 
 public class BaseException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    private String errorCode = ErrorCodeAndMessage.DATABASE_ACCESS_FAILED_CODE;
-    private String errorMessage = ErrorCodeAndMessage.DATABASE_ACCESS_FAILED_MESSAGE;
+    private String errorCode = ErrorCode.DATABASE_ACCESS_FAILED_CODE;
+    private String errorMessage = ErrorCode.DATABASE_ACCESS_FAILED_MESSAGE;
 
     public BaseException() {
         super();
