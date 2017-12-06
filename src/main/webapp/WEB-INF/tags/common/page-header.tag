@@ -1,4 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ tag language="java" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+	String username = request.getParameter("username");
+%>
+
 <div class="evc-page-header">
 	<!-- 顶部 -->
 	<div class="header">
@@ -17,10 +24,10 @@
 			<div>
 				<!--向左对齐-->
 				<ul class="nav navbar-nav navbar-left">
-					<li><a href="home.jsp">首页</a></li>
+					<li><a href="<%=basePath%>/home.jsp">首页</a></li>
 					<li><a href="#">关于我们</a></li>
 					<li><a href="#">资料下载</a></li>
-					<li><a href="score.jsp">成绩查询</a></li>
+					<li><a href="<%=basePath%>/score.jsp">成绩查询</a></li>
 					<li><a href="#">公告栏</a></li>
 					<li><a href="#">留言板</a></li>
 					<li><a href="#">联系我们</a></li>
@@ -41,18 +48,23 @@
 					</li>
 				</ul>
 				<!--向右对齐-->
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							登录 <b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="#">用户登录</a></li>
-							<li class="divider"></li>
-							<li><a href="#">管理员登录</a></li>
-						</ul>
-					</li>
-				</ul>
+				<c:if test="<%=(username != null)%>">
+					<p class="navbar-text navbar-right">欢迎：<%=username%></p>
+				</c:if>
+				<c:if test="<%=(username == null)%>">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								登录 <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="<%=basePath%>/login.jsp">用户登录</a></li>
+								<li class="divider"></li>
+								<li><a href="#">管理员登录</a></li>
+							</ul>
+						</li>
+					</ul>
+				</c:if>
 				<p class="navbar-text navbar-right">2017年12月5日</p>
 			</div>
 		</div>

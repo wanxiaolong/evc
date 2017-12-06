@@ -1,3 +1,6 @@
+/**
+ * Home page.
+ */
 .evc-page-header .header, .evc-content, .evc-page-footer {
 	width: 1200px;
 	margin: 0 auto;
@@ -8,6 +11,7 @@
 	border-top: 1px solid #d0d0d0;
 	padding-top: 25px;
 	margin-top: 25px;
+	margin-bottom: 25px;
 }
 
 .evc-page-header .container-fluid {
@@ -34,3 +38,7 @@
 .navbar-nav>li:hover {
 	background-color: #e7e7e7;
 }
+
+/**
+ * Login page.
+ */

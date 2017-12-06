@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ tag language="java" pageEncoding="utf-8"%>
 <div class="evc-page-footer">
 	<div class="copyright">
 		© 2003-2017 中国英语村 保留所有版权

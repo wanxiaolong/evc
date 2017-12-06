@@ -2,6 +2,7 @@ package com.my.evc.controller.springmvc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
@@ -19,6 +21,8 @@ import com.my.evc.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
+    
+    private static final String SESSION_NAME = "user";
     
     @Autowired
     private UserService userService;
@@ -43,15 +47,17 @@ public class UserController extends BaseController {
         return new JsonResponse<String>(SUCCESS, "Created succeed!");
     }
     
-    @ResponseBody
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public JsonResponse<String> login(@RequestBody(required=true) User user,
-            HttpServletRequest request, HttpServletResponse response)
+    public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
         System.out.println("===============User login===================");
+        User user = null;
         try {
-            User user2 = userService.login(user.getUsername(), user.getPassword());
-            request.getSession().setAttribute("username", user2);
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            user = userService.login(username, password);
+            //登录之后存储用户信息
+            request.getSession().setAttribute("user", user);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -59,6 +65,16 @@ public class UserController extends BaseController {
             LOGGER.error(e);
             throw new Exception();
         }
-        return new JsonResponse<String>(SUCCESS, "Login succeed!");
+        ModelAndView mav = new ModelAndView("redirect:/home.jsp");
+        mav.addObject("username", user.getUsername());
+        return mav;
+    }
+    
+    /**
+     * 检查用户是否已经登录。
+     */
+    public boolean hasLogin(HttpSession session) {
+        Object object = session.getAttribute(SESSION_NAME);
+        return (object == null) ? true : false;
     }
 }
