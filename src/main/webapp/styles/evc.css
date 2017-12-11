@@ -1,9 +1,14 @@
+body {
+	font-size: 14px;
+}
+
 /**
  * Home page.
  */
 .evc-page-header .header, .evc-content, .evc-page-footer {
 	width: 1200px;
 	margin: 0 auto;
+	font-weight: 200;
 }
 
 .evc-page-footer {
@@ -37,6 +42,51 @@
 
 .navbar-nav>li:hover {
 	background-color: #e7e7e7;
+}
+
+
+/**
+ * Home page.
+ */
+.evc-content .evc-desc {
+	padding: 30px;
+	background: #eee;
+	line-height: 30px;
+	margin-bottom: 20px;
+}
+
+/**
+ * Contact us page.
+ */
+
+
+/**
+ * Support page.
+ */
+
+/**
+ * Resource page.
+ */
+.evc-content .evc-resource ul {
+	list-style: none;
+	padding-left: 0px;
+	line-height: 25px;
+	border: 1px solid #eee;
+}
+
+.evc-content .evc-resource ul>li {
+	padding: 5px;
+}
+
+.evc-content .evc-resource ul>li:hover {
+	cursor: pointer;
+}
+
+.evc-content .evc-resource ul>li:nth-child(odd){ /*奇数行*/
+	background-color:#eee;
+}
+.evc-content .evc-resource ul>li:nth-child(even){ /*偶数行*/
+	background-color:#fff;
 }
 
 /**

@@ -9,9 +9,20 @@
 <body>
 	<common:page-header/>
 	<div class="evc-content">
-		<div class="jumbotron">
-			<h1>Content example</h1>
-			<p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+		<div class="evc-desc">
+			<h2>简介</h2>
+			<p>
+			中国英语村秦妈妈留守儿童之家(Qin Mama Parental Home for Left-behind Kids, EVC) 位于四川省资阳市雁江区石岭镇金带铺场镇。
+			自2000年以来，为社会托管留守儿童200余人（其中有些是当地留 守儿童，也有来自于外地的留守儿童---诸如小院、伍隍、资阳、资中、内江、威远、巴中、自贡、成都、德阳、德昌、凉山等地），
+			现有留守儿童70余人，孩子们都将秦妈妈留守儿童之家当成自己的家，秦妈妈留守儿童之家为孩子们提供良好的学习环境，营造温馨、舒适的家园，将留守儿童当作自己亲身儿女来管理、教育。
+			周末、节假日常开展一些丰富多彩的有益于孩子身心健康的各类活动，让孩子们在这个充满爱心的大家园里健康地成长。让在外务工的父母放心地工作，解决了农民工的后顾之虑。
+			秦妈妈留守儿童之家日益受到社会的青睐。
+			</p>
+			<p>
+			中国英语村秦妈妈留守儿童之家专为留守儿童编有中学英语电子试卷(High School English Electronic Paper)，
+			适用于中学生、家长、英语教师及其他英语爱好者。它有利于学生学习、巩固、提高英语知识；教师可用它来检测学生的英语学习，
+			避免以前考试后批阅大堆大堆试卷的苦恼；也方便家长敦促孩子的英语学习。供大家免费下载使用。
+			</p>
 		</div>
 		<div id="myCarousel" class="carousel slide">
 			<!-- 轮播（Carousel）指标 -->
