@@ -26,7 +26,7 @@
 				<ul class="nav navbar-nav navbar-left">
 					<li><a href="<%=basePath%>/home.jsp">首页</a></li>
 					<li><a href="<%=basePath%>/score.jsp">成绩查询</a></li>
-					<li><a href="<%=basePath%>/resource.jsp">资料下载</a></li>
+					<li><a href="<%=basePath%>/rest/file/list">资料下载</a></li>
 					<li><a href="#">公告栏</a></li>
 					<li><a href="#">文章栏</a></li>
 					<li><a href="#">留言板</a></li>

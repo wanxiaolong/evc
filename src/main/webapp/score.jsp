@@ -14,7 +14,7 @@
 		<form class="form-inline" role="form">
 			<div>查询条件</div>
 			<div class="form-group">
-				<label for="name">学期：</label>
+				<label>学期：</label>
 				<select class="form-control">
 					<option>2017年第二学期</option>
 					<option>2017年第一学期</option>
@@ -23,7 +23,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<label for="name">科目：</label>
+				<label>科目：</label>
 				<select class="form-control">
 					<option>语文</option>
 					<option>数学</option>
@@ -31,11 +31,8 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="name">姓名：</label>
+				<label>姓名：</label>
 				<input type="text" class="form-control" id="name" placeholder="请输入学生姓名">
-			</div>
-			<div class="checkbox">
-				<label> <input type="checkbox">请打勾</label>
 			</div>
 			<button type="submit" class="btn btn-default">提交</button>
 		</form>
