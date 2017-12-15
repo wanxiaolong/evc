@@ -36,7 +36,7 @@ public class UserController extends BaseController {
             throws BaseException, Exception {
         System.out.println("===============Add User===================");
         try {
-            userService.createUser(user);
+            userService.create(user);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();

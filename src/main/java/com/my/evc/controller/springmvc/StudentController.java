@@ -31,7 +31,7 @@ public class StudentController extends BaseController {
     public JsonResponse<Student> createStudent(@RequestBody(required=true) Student student,
             HttpServletRequest request, HttpServletResponse response) throws BaseException, Exception {
         try {
-            studentService.createStudent(student);
+            studentService.create(student);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -47,7 +47,7 @@ public class StudentController extends BaseController {
     public JsonResponse<String> deleteStudent(@PathVariable("id") int id, HttpServletRequest request,
             HttpServletResponse response) throws BaseException, Exception {
         try {
-            studentService.deleteStudentByID(id);
+            studentService.deleteByID(id);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -64,7 +64,7 @@ public class StudentController extends BaseController {
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
         try {
-            studentService.updateStudent(student);
+            studentService.update(student);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -81,7 +81,7 @@ public class StudentController extends BaseController {
             HttpServletResponse response) throws BaseException, Exception {
         Student student = null;
         try {
-            student = studentService.findStudentByID(id);
+            student = studentService.findByID(id);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();

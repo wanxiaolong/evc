@@ -35,7 +35,7 @@ public class FileController extends BaseController {
             throws BaseException, Exception {
         System.out.println("===============Add File===================");
         try {
-            fileService.createFile(null);
+            fileService.create(null);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -52,7 +52,7 @@ public class FileController extends BaseController {
         System.out.println("===============List Files===================");
         List<File> files = null;
         try {
-            files = fileService.getFiles();
+            files = fileService.listFiles();
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
