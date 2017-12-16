@@ -34,7 +34,6 @@ public class UserController extends BaseController {
     public JsonResponse<String> createUser(@RequestBody(required=true) User user,
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
-        System.out.println("===============Add User===================");
         try {
             userService.create(user);
         } catch (BaseException e) {
@@ -50,7 +49,6 @@ public class UserController extends BaseController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
-        System.out.println("===============User login===================");
         User user = null;
         try {
             String username = request.getParameter("username");

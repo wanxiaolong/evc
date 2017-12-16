@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,25 +17,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
-import com.my.evc.model.File;
-import com.my.evc.service.FileService;
+import com.my.evc.model.Notice;
+import com.my.evc.service.NoticeService;
 
 @Controller
-@RequestMapping("/file")
-public class FileController extends BaseController {
+@RequestMapping("/notice")
+public class NoticeController extends BaseController {
     
     @Autowired
-    private FileService fileService;
+    private NoticeService noticeService;
     
-    private final Logger LOGGER = Logger.getLogger(FileController.class);
+    private final Logger LOGGER = Logger.getLogger(NoticeController.class);
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public JsonResponse<String> createFile(@RequestBody(required=true) File file,
+    public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
             HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
         try {
-            fileService.create(null);
+            noticeService.create(null);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -45,12 +46,13 @@ public class FileController extends BaseController {
         return new JsonResponse<String>(SUCCESS, "Created succeed!");
     }
     
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    public ModelAndView listFiles(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value="/{id}")
+    public ModelAndView noticeDetail(@PathVariable("id") int id, 
+            HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
-        List<File> files = null;
+        Notice notice = null;
         try {
-            files = fileService.listFiles();
+            notice = noticeService.findByID(id);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
@@ -58,8 +60,26 @@ public class FileController extends BaseController {
             LOGGER.error(e);
             throw new Exception();
         }
-        ModelAndView mav = new ModelAndView("file");
-        mav.addObject("model", files);
+        ModelAndView mav = new ModelAndView("notice_detail");
+        mav.addObject("model", notice);
+        return mav;
+    }
+    
+    @RequestMapping(value="/list", method = RequestMethod.GET)
+    public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
+            throws BaseException, Exception {
+        List<Notice> notices = null;
+        try {
+            notices = noticeService.listNotices();
+        } catch (BaseException e) {
+            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+            throw new BaseException();
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw new Exception();
+        }
+        ModelAndView mav = new ModelAndView("notice");
+        mav.addObject("model", notices);
         return mav;
     }
 }

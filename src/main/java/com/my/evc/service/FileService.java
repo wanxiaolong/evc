@@ -1,6 +1,5 @@
 package com.my.evc.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,23 +63,8 @@ public class FileService implements BaseService<File>{
         }
     }
 
-    public List<File> listFiles(boolean isMock) throws BaseException {
-        if (isMock) {
-            //Mock data
-            List<File> files = new ArrayList<File>();
-            for (int i=0; i< 20; i++) {
-                File file = new File();
-                String fileName = "File"+i+".rar";
-                file.setName(fileName);
-                file.setPath("/files/eng/" + fileName);
-                String date = "2017-11-" + (10+i) + " 11:11:11";
-                file.setCreationDate(date);
-                files.add(file);
-            }
-            return files;
-        } else {
-            return fileMapper.listFiles();
-        }
+    public List<File> listFiles() throws BaseException {
+        return fileMapper.listFiles();
     }
 
 }

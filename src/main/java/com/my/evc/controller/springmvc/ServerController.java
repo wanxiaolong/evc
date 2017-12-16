@@ -34,7 +34,6 @@ public class ServerController extends BaseController {
     @RequestMapping(value = "/ping", method = RequestMethod.GET, produces = JSON_TYPE)
     public JsonResponse<String> ping(String name, HttpServletRequest request, HttpServletResponse response)
             throws BaseException, Exception {
-        System.out.println("============" + name + "==================");
         return new JsonResponse<String>(SUCCESS, name);
     }
 

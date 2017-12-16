@@ -55,6 +55,6 @@
             <include refid="all_fields"/>
         from file 
         order by creation_date desc 
-        limit 10
+        limit 100
     </select>
 </mapper>

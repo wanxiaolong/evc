@@ -3,35 +3,48 @@
 <mapper namespace="com.my.evc.mapper.NoticeMapper">
 
     <insert id="create" parameterType="com.my.evc.model.Notice" keyProperty="id" useGeneratedKeys="true">
-        insert into file
-            (subject,type,name,path,description)
+        insert into notice
+            (admin_id,title,important_level,content)
         values
-            (#{subject},#{type},#{name},#{path},#{description})
+            (#{adminId},#{title},#{importantLevel},#{content})
     </insert>
     
     <delete id="delete" parameterType="int">
-        delete from file where id=#{id}
+        delete from notice where id=#{id}
     </delete>
     
     <update id="update" parameterType="com.my.evc.model.Notice">
-        update file 
+        update notice 
         set 
-            subject=#{subject}, 
-            type=#{type}, 
-            name=#{name}, 
-            path=#{path} 
-            description=#{description} 
+            adminId=#{adminId}, 
+            title=#{title}, 
+            important_level=#{importantLevel}, 
+            content=#{content} 
         where 
             id=#{id}
     </update>
     
+    <sql id="all_fields">
+        n.id as id,
+        n.admin_id as adminId, 
+        n.title as title, 
+        n.important_level as importantLevel,
+        n.content as content,
+        n.creation_date as creationDate
+    </sql>
+    
     <select id="find" parameterType="int" resultType="com.my.evc.model.Notice">
-        select * from file where id=#{id}
+        select 
+            <include refid="all_fields"/>, a.username as adminName
+        from notice n join admin a on n.admin_id=a.id
+        where n.id=#{id}
     </select>
     
-    <select id="listFiles" parameterType="map" resultType="com.my.evc.model.Notice">
-        select * from file 
-        order by creation_date desc 
-        limit 10
+    <select id="listNotices" resultType="com.my.evc.model.Notice">
+        select
+            <include refid="all_fields"/>, a.username as adminName
+        from notice n join admin a on n.admin_id=a.id
+        order by n.creation_date desc 
+        limit 100
     </select>
 </mapper>
