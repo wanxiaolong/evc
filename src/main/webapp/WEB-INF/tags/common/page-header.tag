@@ -28,7 +28,6 @@
 					<li><a href="<%=basePath%>/score.jsp">成绩查询</a></li>
 					<li><a href="<%=basePath%>/rest/file/list">资料下载</a></li>
 					<li><a href="<%=basePath%>/rest/notice/list">公告栏</a></li>
-					<li><a href="#">文章栏</a></li>
 					<li><a href="#">留言板</a></li>
 					<li><a href="<%=basePath%>/contact.jsp">联系我们</a></li>
 					<li class="dropdown">
@@ -38,6 +37,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="#">家规</a></li>
+							<li><a href="#">文章栏</a></li>
 							<li><a href="#">教育业绩</a></li>
 							<li><a href="<%=basePath%>/support.jsp">社会资助</a></li>
 							<li class="divider"></li>

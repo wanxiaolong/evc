@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="common" tagdir="/WEB-INF/tags/common"%>
+
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +15,39 @@
 <body>
 	<common:page-header/>
 	<div class="evc-content">
+		<div id="myCarousel" class="carousel slide">
+			<!-- 轮播（Carousel）指标 -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+				<li data-target="#myCarousel" data-slide-to="3"></li>
+				<li data-target="#myCarousel" data-slide-to="4"></li>
+			</ol>
+			<!-- 轮播（Carousel）项目 -->
+			<div class="carousel-inner">
+				<div class="item active">
+					<img src="<%=basePath%>/images/slides/slide1.jpg" alt="打篮球">
+				</div>
+				<div class="item">
+					<img src="<%=basePath%>/images/slides/slide2.jpg" alt="乒乓球">
+				</div>
+				<div class="item">
+					<img src="<%=basePath%>/images/slides/slide3.jpg" alt="学生作品">
+				</div>
+				<div class="item">
+					<img src="<%=basePath%>/images/slides/slide5.jpg" alt="圣诞晚会">
+				</div>
+				<div class="item">
+					<img src="<%=basePath%>/images/slides/slide6.jpg" alt="一起学习">
+				</div>
+			</div>
+			<!-- 轮播（Carousel）导航 -->
+			<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+			<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+		</div> 
 		<div class="evc-desc">
-			<h2>简介</h2>
+			<h3>简介</h3>
 			<p>
 			中国英语村秦妈妈留守儿童之家(Qin Mama Parental Home for Left-behind Kids, EVC) 位于四川省资阳市雁江区石岭镇金带铺场镇。
 			自2000年以来，为社会托管留守儿童200余人（其中有些是当地留 守儿童，也有来自于外地的留守儿童---诸如小院、伍隍、资阳、资中、内江、威远、巴中、自贡、成都、德阳、德昌、凉山等地），
@@ -24,29 +61,6 @@
 			避免以前考试后批阅大堆大堆试卷的苦恼；也方便家长敦促孩子的英语学习。供大家免费下载使用。
 			</p>
 		</div>
-		<div id="myCarousel" class="carousel slide">
-			<!-- 轮播（Carousel）指标 -->
-			<ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#myCarousel" data-slide-to="1"></li>
-				<li data-target="#myCarousel" data-slide-to="2"></li>
-			</ol>
-			<!-- 轮播（Carousel）项目 -->
-			<div class="carousel-inner">
-				<div class="item active">
-					<img src="http://www.runoob.com/wp-content/uploads/2014/07/slide1.png" alt="First slide">
-				</div>
-				<div class="item">
-					<img src="http://www.runoob.com/wp-content/uploads/2014/07/slide2.png" alt="Second slide">
-				</div>
-				<div class="item">
-					<img src="http://www.runoob.com/wp-content/uploads/2014/07/slide3.png" alt="Third slide">
-				</div>
-			</div>
-			<!-- 轮播（Carousel）导航 -->
-			<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-			<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-		</div> 
 		<div class="container">
 			<!-- Example row of columns -->
 			<div class="row">
