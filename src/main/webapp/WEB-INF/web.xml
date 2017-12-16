@@ -42,6 +42,10 @@
     <listener>
         <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
     </listener>
+    <listener>
+        <!-- Used to add download account after file is downloaded. -->
+        <listener-class>com.my.evc.listener.FileDownloadListener</listener-class>
+    </listener>
     
     <servlet>
         <servlet-name>SpringMvcDispatcher</servlet-name>

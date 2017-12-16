@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.my.evc.mapper.FileMapper">
+<mapper namespace="com.my.evc.mapper.NoticeMapper">
 
-    <insert id="create" parameterType="com.my.evc.model.File" keyProperty="id" useGeneratedKeys="true">
+    <insert id="create" parameterType="com.my.evc.model.Notice" keyProperty="id" useGeneratedKeys="true">
         insert into file
-        	(subject,type,name,path,description)
+            (subject,type,name,path,description)
         values
-        	(#{subject},#{type},#{name},#{path},#{description})
+            (#{subject},#{type},#{name},#{path},#{description})
     </insert>
     
     <delete id="delete" parameterType="int">
         delete from file where id=#{id}
     </delete>
     
-    <update id="update" parameterType="com.my.evc.model.File">
+    <update id="update" parameterType="com.my.evc.model.Notice">
         update file 
         set 
-        	subject=#{subject}, 
-        	type=#{type}, 
-        	name=#{name}, 
-        	path=#{path} 
-        	description=#{description} 
+            subject=#{subject}, 
+            type=#{type}, 
+            name=#{name}, 
+            path=#{path} 
+            description=#{description} 
         where 
-        	id=#{id}
+            id=#{id}
     </update>
     
-    <select id="find" parameterType="int" resultType="com.my.evc.model.File">
+    <select id="find" parameterType="int" resultType="com.my.evc.model.Notice">
         select * from file where id=#{id}
     </select>
     
-    <select id="listFiles" parameterType="map" resultType="com.my.evc.model.File">
+    <select id="listFiles" parameterType="map" resultType="com.my.evc.model.Notice">
         select * from file 
         order by creation_date desc 
         limit 10

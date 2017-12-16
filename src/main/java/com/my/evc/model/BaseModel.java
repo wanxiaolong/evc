@@ -1,7 +1,5 @@
 package com.my.evc.model;
 
-import java.util.Date;
-
 /**
  * This is the base model class which contains some common attributes for
  * every database model. Note that this class is an <b>abstract</b> class, 
@@ -9,7 +7,7 @@ import java.util.Date;
  */
 public abstract class BaseModel {
     private int id;
-    private Date creationDate;
+    private String creationDate;
 
     public int getId() {
         return id;
@@ -19,11 +17,14 @@ public abstract class BaseModel {
         this.id = id;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
-
-    public void setCreationDate(Date creationDate) {
+    
+    public void setCreationDate(String creationDate) {
+        if (creationDate.contains(".")) {
+            creationDate = creationDate.substring(0, creationDate.lastIndexOf("."));
+        }
         this.creationDate = creationDate;
     }
 

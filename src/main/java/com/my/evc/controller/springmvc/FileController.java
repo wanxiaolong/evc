@@ -52,7 +52,7 @@ public class FileController extends BaseController {
         System.out.println("===============List Files===================");
         List<File> files = null;
         try {
-            files = fileService.listFiles();
+            files = fileService.listFiles(false);
         } catch (BaseException e) {
             LOGGER.error(e.getErrorCode() + e.getErrorMessage());
             throw new BaseException();
