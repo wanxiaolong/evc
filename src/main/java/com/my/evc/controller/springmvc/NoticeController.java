@@ -23,63 +23,63 @@ import com.my.evc.service.NoticeService;
 @Controller
 @RequestMapping("/notice")
 public class NoticeController extends BaseController {
-    
-    @Autowired
-    private NoticeService noticeService;
-    
-    private final Logger LOGGER = Logger.getLogger(NoticeController.class);
+	
+	@Autowired
+	private NoticeService noticeService;
+	
+	private final Logger LOGGER = Logger.getLogger(NoticeController.class);
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
-            HttpServletRequest request, HttpServletResponse response)
-            throws BaseException, Exception {
-        try {
-            noticeService.create(null);
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        return new JsonResponse<String>(SUCCESS, "Created succeed!");
-    }
-    
-    @RequestMapping(value="/{id}")
-    public ModelAndView noticeDetail(@PathVariable("id") int id, 
-            HttpServletRequest request, HttpServletResponse response)
-            throws BaseException, Exception {
-        Notice notice = null;
-        try {
-            notice = noticeService.findByID(id);
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        ModelAndView mav = new ModelAndView("notice_detail");
-        mav.addObject("model", notice);
-        return mav;
-    }
-    
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
-            throws BaseException, Exception {
-        List<Notice> notices = null;
-        try {
-            notices = noticeService.listNotices();
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        ModelAndView mav = new ModelAndView("notice");
-        mav.addObject("model", notices);
-        return mav;
-    }
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST)
+	public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
+			HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		try {
+			noticeService.create(null);
+		} catch (BaseException e) {
+			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+			throw new BaseException();
+		} catch (Exception e) {
+			LOGGER.error(e);
+			throw new Exception();
+		}
+		return new JsonResponse<String>(SUCCESS, "Created succeed!");
+	}
+	
+	@RequestMapping(value="/{id}")
+	public ModelAndView noticeDetail(@PathVariable("id") int id, 
+			HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		Notice notice = null;
+		try {
+			notice = noticeService.findByID(id);
+		} catch (BaseException e) {
+			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+			throw new BaseException();
+		} catch (Exception e) {
+			LOGGER.error(e);
+			throw new Exception();
+		}
+		ModelAndView mav = new ModelAndView("notice_detail");
+		mav.addObject("model", notice);
+		return mav;
+	}
+	
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		List<Notice> notices = null;
+		try {
+			notices = noticeService.listNotices();
+		} catch (BaseException e) {
+			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+			throw new BaseException();
+		} catch (Exception e) {
+			LOGGER.error(e);
+			throw new Exception();
+		}
+		ModelAndView mav = new ModelAndView("notice");
+		mav.addObject("model", notices);
+		return mav;
+	}
 }

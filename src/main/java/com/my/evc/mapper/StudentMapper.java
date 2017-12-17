@@ -5,5 +5,5 @@ import com.my.evc.model.Student;
 
 @MapperScan
 public interface StudentMapper extends BaseMapper<Student> {
-    
+	
 }

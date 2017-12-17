@@ -13,23 +13,23 @@ import com.my.evc.service.StudentService;
 @Transactional
 public class StudentService implements BaseService<Student>{
 
-    @Autowired
-    private StudentMapper studentMapper;
-    
-    public void create(Student student) throws BaseException {
-        studentMapper.create(student);
-    }
+	@Autowired
+	private StudentMapper studentMapper;
+	
+	public void create(Student student) throws BaseException {
+		studentMapper.create(student);
+	}
 
-    public Student findByID(int id) throws BaseException {
-        return studentMapper.find(id);
-    }
+	public Student findByID(int id) throws BaseException {
+		return studentMapper.find(id);
+	}
 
-    public void deleteByID(int id) throws BaseException {
-        studentMapper.delete(id);
-    }
+	public void deleteByID(int id) throws BaseException {
+		studentMapper.delete(id);
+	}
 
-    public void update(Student student) throws BaseException {
-        studentMapper.update(student);
-    }
+	public void update(Student student) throws BaseException {
+		studentMapper.update(student);
+	}
 
 }

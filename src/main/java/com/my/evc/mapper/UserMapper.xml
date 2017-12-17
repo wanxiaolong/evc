@@ -2,35 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.evc.mapper.UserMapper">
 
-    <insert id="create" parameterType="com.my.evc.model.User" keyProperty="id" useGeneratedKeys="true">
-        insert into user
-        	(username,password,student_id,email) 
-        values
-        	(#{username},#{password},#{studentId},#{email})
-    </insert>
-    
-    <delete id="delete" parameterType="int">
-        delete from user where id=#{id}
-    </delete>
-    
-    <update id="update" parameterType="com.my.evc.model.User">
-        update user set 
-        	username=#{username}, 
-        	password=#{password}, 
-        	student_id=#{studentId}, 
-        	email=#{email} 
-        where 
-        	id=#{id}
-    </update>
-    
-    <select id="find" parameterType="int" resultType="com.my.evc.model.User">
-        select * from user where id=#{id}
-    </select>
-    
-    <select id="findByNameAndPass" parameterType="map" resultType="com.my.evc.model.User">
-        select * from user 
-        where 
-        	username=#{username} and 
-        	password=#{password}
-    </select>
+	<insert id="create" parameterType="com.my.evc.model.User" keyProperty="id" useGeneratedKeys="true">
+		insert into user
+			(username,password,student_id,email) 
+		values
+			(#{username},#{password},#{studentId},#{email})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from user where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.User">
+		update user set 
+			username=#{username}, 
+			password=#{password}, 
+			student_id=#{studentId}, 
+			email=#{email}, 
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		id as id,
+		username as username,
+		password as password,
+		student_id as studentId,
+		email as email,
+		creation_date as creationDate,
+		last_login as lastLogin
+	</sql>
+	
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.User">
+		select 
+			<include refid="all_fields"/>
+		from user where id=#{id}
+	</select>
+	
+	<select id="findByNameAndPass" parameterType="map" resultType="com.my.evc.model.User">
+		select 
+			<include refid="all_fields"/>
+		from user 
+		where 
+			username=#{username} and 
+			password=#{password}
+	</select>
+
+	<update id="updateLastLogin" parameterType="int">
+		update user set
+			last_login=sysdate() 
+		where 
+			id=#{id}
+	</update>
 </mapper>

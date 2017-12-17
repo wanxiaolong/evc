@@ -86,3 +86,20 @@ body {
 /**
  * Login page.
  */
+.evc-content .evc-login {
+	width: 300px;
+	margin: auto;
+}
+.evc-content .evc-login .row {
+	margin-top: 10px;
+}
+
+/**
+ * History page.
+ */
+.evc-content .evc-p-container {
+	line-height: 30px;
+	padding: 20px;
+	background: #f8f8f8;
+	border: 1px solid #e7e7e7;
+}

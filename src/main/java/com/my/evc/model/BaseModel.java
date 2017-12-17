@@ -6,26 +6,26 @@ package com.my.evc.model;
  * models are child class of it.
  */
 public abstract class BaseModel {
-    private int id;
-    private String creationDate;
+	private int id;
+	private String creationDate;
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getCreationDate() {
-        return creationDate;
-    }
-    
-    public void setCreationDate(String creationDate) {
-        if (creationDate.contains(".")) {
-            creationDate = creationDate.substring(0, creationDate.lastIndexOf("."));
-        }
-        this.creationDate = creationDate;
-    }
+	public String getCreationDate() {
+		return creationDate;
+	}
+	
+	public void setCreationDate(String creationDate) {
+		if (creationDate.contains(".")) {
+			creationDate = creationDate.substring(0, creationDate.lastIndexOf("."));
+		}
+		this.creationDate = creationDate;
+	}
 
 }

@@ -73,8 +73,6 @@
 				<p>吴生友（福建软件开发商）</p>
 			</div>
 		</div>
-		
-		
 	</div>
 	<common:page-footer/>
 </body>

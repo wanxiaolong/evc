@@ -8,8 +8,8 @@ import com.my.evc.exception.BaseException;
  * @author wxiaolong
  */
 public interface BaseService<T> {
-    public void create(T entity) throws BaseException;
-    public void deleteByID(int id) throws BaseException;
-    public void update(T entity) throws BaseException;
-    public T findByID(int id) throws BaseException;
+	public void create(T entity) throws BaseException;
+	public void deleteByID(int id) throws BaseException;
+	public void update(T entity) throws BaseException;
+	public T findByID(int id) throws BaseException;
 }

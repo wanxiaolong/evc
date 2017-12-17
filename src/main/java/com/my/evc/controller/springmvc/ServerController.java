@@ -22,33 +22,33 @@ import com.my.evc.exception.BaseException;
 @Controller
 @RequestMapping("/server")
 public class ServerController extends BaseController {
-    private static final String JSON_TYPE = "application/json";
+	private static final String JSON_TYPE = "application/json";
 
-    @Autowired
-    private LocaleResolver localeResolver;
+	@Autowired
+	private LocaleResolver localeResolver;
 
-    /**
-     * 自检。测试当前server是否能正常响应。
-     */
-    @ResponseBody
-    @RequestMapping(value = "/ping", method = RequestMethod.GET, produces = JSON_TYPE)
-    public JsonResponse<String> ping(String name, HttpServletRequest request, HttpServletResponse response)
-            throws BaseException, Exception {
-        return new JsonResponse<String>(SUCCESS, name);
-    }
+	/**
+	 * 自检。测试当前server是否能正常响应。
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/ping", method = RequestMethod.GET, produces = JSON_TYPE)
+	public JsonResponse<String> ping(String name, HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		return new JsonResponse<String>(SUCCESS, name);
+	}
 
-    /**
-     * 语言切换。
-     */
-    @RequestMapping(value = "lang", method = RequestMethod.GET)
-    public String language(HttpServletRequest request, HttpServletResponse response, 
-            @RequestParam("lang") String language) {
-        language = language.toLowerCase();
-        if ("en".equalsIgnoreCase(language)) {
-            localeResolver.setLocale(request, response, Locale.US);
-        } else {
-            localeResolver.setLocale(request, response, Locale.CHINA);
-        }
-        return "index";
-    }
+	/**
+	 * 语言切换。
+	 */
+	@RequestMapping(value = "lang", method = RequestMethod.GET)
+	public String language(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam("lang") String language) {
+		language = language.toLowerCase();
+		if ("en".equalsIgnoreCase(language)) {
+			localeResolver.setLocale(request, response, Locale.US);
+		} else {
+			localeResolver.setLocale(request, response, Locale.CHINA);
+		}
+		return "index";
+	}
 }

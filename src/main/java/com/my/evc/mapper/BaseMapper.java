@@ -8,10 +8,10 @@ package com.my.evc.mapper;
  * @param <T> The model type you want to operate.
  */
 public interface BaseMapper<T> {
-    
-    public void create(T entity);
-    public void delete(int id);
-    public void update(T entity);
-    public T find(int id);
-    
+	
+	public void create(T entity);
+	public void delete(int id);
+	public void update(T entity);
+	public T find(int id);
+	
 }

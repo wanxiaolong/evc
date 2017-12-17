@@ -8,5 +8,5 @@ import com.my.evc.model.Notice;
 
 @MapperScan
 public interface NoticeMapper extends BaseMapper<Notice> {
-    public List<Notice> listNotices();
+	public List<Notice> listNotices();
 }

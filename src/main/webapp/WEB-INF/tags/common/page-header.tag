@@ -32,6 +32,7 @@
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
+							<li><a href="<%=basePath%>/history.jsp">发展历程</a></li>
 							<li><a href="#">家规</a></li>
 							<li><a href="#">文章栏</a></li>
 							<li><a href="#">教育业绩</a></li>
@@ -45,6 +46,9 @@
 				</ul>
 				<!--向右对齐-->
 				<c:if test="<%=(username != null)%>">
+					<p class="navbar-text navbar-right">
+						<a href="<%=basePath%>/rest/user/logout">退出</a>
+					</p>
 					<p class="navbar-text navbar-right">欢迎：<%=username%></p>
 				</c:if>
 				<c:if test="<%=(username == null)%>">

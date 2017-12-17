@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.evc.mapper.StudentMapper">
 
-    <insert id="create" parameterType="com.my.evc.model.Student" keyProperty="id" useGeneratedKeys="true">
-        insert into student
-            (name,short_name,sex,grade,birth_year,birth_month,description) 
-        values
-            (#{name},#{shortName},#{sex},#{grade},#{birthYear},#{birthMonth},#{description})
-    </insert>
-    
-    <delete id="delete" parameterType="int">
-        delete from student where id=#{id}
-    </delete>
-    
-    <update id="update" parameterType="com.my.evc.model.Student">
-        update student 
-        set 
-            name=#{name}, 
-            short_name=#{shortName}, 
-            sex=#{sex}, 
-            grade=#{grade}, 
-            birth_year=#{birthYear}, 
-            birth_month=#{birthMonth}, 
-            description=#{description}
-        where 
-        	id=#{id}
-    </update>
-    
-    <select id="find" parameterType="int" resultType="com.my.evc.model.Student">
-        select * from student where id=#{id}
-    </select>
+	<insert id="create" parameterType="com.my.evc.model.Student" keyProperty="id" useGeneratedKeys="true">
+		insert into student
+			(name,short_name,sex,grade,birth_year,birth_month,description) 
+		values
+			(#{name},#{shortName},#{sex},#{grade},#{birthYear},#{birthMonth},#{description})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from student where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Student">
+		update student 
+		set 
+			name=#{name}, 
+			short_name=#{shortName}, 
+			sex=#{sex}, 
+			grade=#{grade}, 
+			birth_year=#{birthYear}, 
+			birth_month=#{birthMonth}, 
+			description=#{description}
+		where 
+			id=#{id}
+	</update>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Student">
+		select * from student where id=#{id}
+	</select>
 </mapper>

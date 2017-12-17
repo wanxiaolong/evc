@@ -14,38 +14,38 @@ import com.my.evc.type.NoticeImportantLevel;
 @Service
 @Transactional
 public class NoticeService implements BaseService<Notice>{
-    
-    @Autowired
-    private NoticeMapper noticeMapper;
-    
-    public void create(Notice file) throws BaseException {
-        noticeMapper.create(file);
-    }
+	
+	@Autowired
+	private NoticeMapper noticeMapper;
+	
+	public void create(Notice file) throws BaseException {
+		noticeMapper.create(file);
+	}
 
-    public void deleteByID(int id) throws BaseException {
-        noticeMapper.delete(id);
-    }
+	public void deleteByID(int id) throws BaseException {
+		noticeMapper.delete(id);
+	}
 
-    public void update(Notice file) throws BaseException {
-        noticeMapper.update(file);
-    }
+	public void update(Notice file) throws BaseException {
+		noticeMapper.update(file);
+	}
 
-    public Notice findByID(int id) throws BaseException {
-        Notice notice = noticeMapper.find(id);
-        return convertImportantLevel(notice);
-    }
-    
-    public List<Notice> listNotices() throws BaseException {
-        List<Notice> notices = noticeMapper.listNotices();
-        for (Notice notice : notices) {
-            convertImportantLevel(notice);
-        }
-        return notices;
-    }
-    
-    private Notice convertImportantLevel(Notice notice) {
-        int numValue = Integer.parseInt(notice.getImportantLevel());
-        notice.setImportantLevel(NoticeImportantLevel.fromValue(numValue).getName());
-        return notice;
-    }
+	public Notice findByID(int id) throws BaseException {
+		Notice notice = noticeMapper.find(id);
+		return convertImportantLevel(notice);
+	}
+	
+	public List<Notice> listNotices() throws BaseException {
+		List<Notice> notices = noticeMapper.listNotices();
+		for (Notice notice : notices) {
+			convertImportantLevel(notice);
+		}
+		return notices;
+	}
+	
+	private Notice convertImportantLevel(Notice notice) {
+		int numValue = Integer.parseInt(notice.getImportantLevel());
+		notice.setImportantLevel(NoticeImportantLevel.fromValue(numValue).getName());
+		return notice;
+	}
 }

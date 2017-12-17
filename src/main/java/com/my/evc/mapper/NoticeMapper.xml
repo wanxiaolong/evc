@@ -2,49 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.evc.mapper.NoticeMapper">
 
-    <insert id="create" parameterType="com.my.evc.model.Notice" keyProperty="id" useGeneratedKeys="true">
-        insert into notice
-            (admin_id,title,important_level,content)
-        values
-            (#{adminId},#{title},#{importantLevel},#{content})
-    </insert>
-    
-    <delete id="delete" parameterType="int">
-        delete from notice where id=#{id}
-    </delete>
-    
-    <update id="update" parameterType="com.my.evc.model.Notice">
-        update notice 
-        set 
-            adminId=#{adminId}, 
-            title=#{title}, 
-            important_level=#{importantLevel}, 
-            content=#{content} 
-        where 
-            id=#{id}
-    </update>
-    
-    <sql id="all_fields">
-        n.id as id,
-        n.admin_id as adminId, 
-        n.title as title, 
-        n.important_level as importantLevel,
-        n.content as content,
-        n.creation_date as creationDate
-    </sql>
-    
-    <select id="find" parameterType="int" resultType="com.my.evc.model.Notice">
-        select 
-            <include refid="all_fields"/>, a.username as adminName
-        from notice n join admin a on n.admin_id=a.id
-        where n.id=#{id}
-    </select>
-    
-    <select id="listNotices" resultType="com.my.evc.model.Notice">
-        select
-            <include refid="all_fields"/>, a.username as adminName
-        from notice n join admin a on n.admin_id=a.id
-        order by n.creation_date desc 
-        limit 100
-    </select>
+	<insert id="create" parameterType="com.my.evc.model.Notice" keyProperty="id" useGeneratedKeys="true">
+		insert into notice
+			(admin_id,title,important_level,content)
+		values
+			(#{adminId},#{title},#{importantLevel},#{content})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from notice where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Notice">
+		update notice 
+		set 
+			adminId=#{adminId}, 
+			title=#{title}, 
+			important_level=#{importantLevel}, 
+			content=#{content} 
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		n.id as id,
+		n.admin_id as adminId, 
+		n.title as title, 
+		n.important_level as importantLevel,
+		n.content as content,
+		n.creation_date as creationDate
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Notice">
+		select 
+			<include refid="all_fields"/>, a.username as adminName
+		from notice n join admin a on n.admin_id=a.id
+		where n.id=#{id}
+	</select>
+	
+	<select id="listNotices" resultType="com.my.evc.model.Notice">
+		select
+			<include refid="all_fields"/>, a.username as adminName
+		from notice n join admin a on n.admin_id=a.id
+		order by n.creation_date desc 
+		limit 100
+	</select>
 </mapper>

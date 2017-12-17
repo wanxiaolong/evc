@@ -16,16 +16,16 @@ import com.my.evc.util.EncryptionUtil;
 @Transactional
 public class UserService implements BaseService<User> {
 
-    @Autowired
-    private UserMapper userMapper;
-    
-    public void create(User user) throws BaseException {
-        String password = user.getPassword();
-        String encryptedPassword = EncryptionUtil.md5(password);
-        user.setPassword(encryptedPassword);
-        userMapper.create(user);
-    }
-    
+	@Autowired
+	private UserMapper userMapper;
+	
+	public void create(User user) throws BaseException {
+		String password = user.getPassword();
+		String encryptedPassword = EncryptionUtil.md5(password);
+		user.setPassword(encryptedPassword);
+		userMapper.create(user);
+	}
+	
 	public void deleteByID(int id) throws BaseException {
 		userMapper.delete(id);
 	}
@@ -39,15 +39,19 @@ public class UserService implements BaseService<User> {
 	}
 	
 	public User login(String username, String password) throws BaseException {
-        password = EncryptionUtil.md5(password);
-        User user = getUserByNameAndPass(username, password);
-        if (user == null) {
-            throw new BusinessException(ErrorCode.USER_NOT_FOUND, "User not found! username=" + username);
-        }
-        return user;
-    }
+		password = EncryptionUtil.md5(password);
+		User user = getUserByNameAndPass(username, password);
+		if (user == null) {
+			throw new BusinessException(ErrorCode.USER_NOT_FOUND, "User not found! username=" + username);
+		}
+		return user;
+	}
 
-    public User getUserByNameAndPass(String username, String encryptedPassword) throws BaseException {
-        return userMapper.findByNameAndPass(username, encryptedPassword);
-    }
+	public User getUserByNameAndPass(String username, String encryptedPassword) throws BaseException {
+		return userMapper.findByNameAndPass(username, encryptedPassword);
+	}
+	
+	public void updateLastLogin(int id) {
+		userMapper.updateLastLogin(id);
+	}
 }

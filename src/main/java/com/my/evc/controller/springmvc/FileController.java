@@ -22,44 +22,44 @@ import com.my.evc.service.FileService;
 @Controller
 @RequestMapping("/file")
 public class FileController extends BaseController {
-    
-    @Autowired
-    private FileService fileService;
-    
-    private final Logger LOGGER = Logger.getLogger(FileController.class);
+	
+	@Autowired
+	private FileService fileService;
+	
+	private final Logger LOGGER = Logger.getLogger(FileController.class);
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public JsonResponse<String> createFile(@RequestBody(required=true) File file,
-            HttpServletRequest request, HttpServletResponse response)
-            throws BaseException, Exception {
-        try {
-            fileService.create(null);
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        return new JsonResponse<String>(SUCCESS, "Created succeed!");
-    }
-    
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    public ModelAndView listFiles(HttpServletRequest request, HttpServletResponse response)
-            throws BaseException, Exception {
-        List<File> files = null;
-        try {
-            files = fileService.listFiles();
-        } catch (BaseException e) {
-            LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-            throw new BaseException();
-        } catch (Exception e) {
-            LOGGER.error(e);
-            throw new Exception();
-        }
-        ModelAndView mav = new ModelAndView("file");
-        mav.addObject("model", files);
-        return mav;
-    }
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST)
+	public JsonResponse<String> createFile(@RequestBody(required=true) File file,
+			HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		try {
+			fileService.create(null);
+		} catch (BaseException e) {
+			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+			throw new BaseException();
+		} catch (Exception e) {
+			LOGGER.error(e);
+			throw new Exception();
+		}
+		return new JsonResponse<String>(SUCCESS, "Created succeed!");
+	}
+	
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public ModelAndView listFiles(HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		List<File> files = null;
+		try {
+			files = fileService.listFiles();
+		} catch (BaseException e) {
+			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
+			throw new BaseException();
+		} catch (Exception e) {
+			LOGGER.error(e);
+			throw new Exception();
+		}
+		ModelAndView mav = new ModelAndView("file");
+		mav.addObject("model", files);
+		return mav;
+	}
 }

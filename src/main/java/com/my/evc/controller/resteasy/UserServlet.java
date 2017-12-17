@@ -8,13 +8,13 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/user")
 public class UserServlet {
-    
-    @GET
-    @Path("/{param}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getMsg(@PathParam("param") String name) {
-        String msg = "Rest say: good " + name;
-        System.out.println("============" + msg + "============");
-        return msg;
-    }
+	
+	@GET
+	@Path("/{param}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getMsg(@PathParam("param") String name) {
+		String msg = "Rest say: good " + name;
+		System.out.println("============" + msg + "============");
+		return msg;
+	}
 }
