@@ -8,18 +8,14 @@
 
 <div class="evc-page-header">
 	<!-- 顶部 -->
-	<div class="header">
-		<div class="logo">
-			
-		</div>
-		<div class="description">
-			English Village of China
-		</div>
+	<div class="header row">
+		<div class="logo col-md-3"></div>
+		<div class="title col-md-9"></div>
 	</div>
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">中国英语村</a>
+				<a class="navbar-brand" href="<%=basePath%>/home.jsp">中国英语村</a>
 			</div>
 			<div>
 				<!--向左对齐-->

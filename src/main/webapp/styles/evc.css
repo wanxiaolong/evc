@@ -1,6 +1,13 @@
 body {
 	font-size: 14px;
 }
+.evc-content h1, 
+.evc-content h2, 
+.evc-content h3, 
+.evc-content h4, 
+.evc-content h5 {
+	font-weight: 200;
+}
 
 /**
  * Home page.
@@ -24,15 +31,15 @@ body {
 }
 
 .evc-page-header .header .logo {
-	background-image: url(http://www.runoob.com/wp-content/themes/runoob/assets/img/runoob-logo.png);
-	height: 39px;
-	width: 258px;
+	background-image: url(../images/evc_logo.png);
+	height: 50px;
+	width: 260px;
 	background-repeat: no-repeat;
 }
 
-.evc-page-header .header .description {
-	font-size: 18px;
-	color: #777;
+.evc-page-header .header .title {
+	background: url(../images/evc_title.png) no-repeat center center;
+	height: 50px;
 }
 
 .dropdown-menu>li>a:hover {
@@ -49,12 +56,19 @@ body {
  * Home page.
  */
 .evc-content .evc-desc {
-	padding: 30px;
+	padding: 20px;
 	background: #eee;
-	line-height: 30px;
+	line-height: 25px;
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
+
+.evc-content #home_carousel .carousel-control {
+	font-size: 100px;
+	line-height: 500px;
+	width: 12%;
+}
+
 
 /**
  * Contact us page.
@@ -68,10 +82,6 @@ body {
 /**
  * File page.
  */
-.evc-content .evc-file .table {
-	border-bottom: 1px solid #ddd;
-	color: #777;
-}
 
 /**
  * Login page.
