@@ -15,7 +15,7 @@
 <body>
 	<common:page-header/>
 	<div class="evc-content">
-		<div class="evc-desc">
+		<div class="evc-p-container">
 			<h3>中国英语村秦妈妈留守儿童之家简介</h3>
 			<p>
 			中国英语村秦妈妈留守儿童之家(Qin Mama Parental Home for Left-behind Kids, EVC) 位于四川省资阳市雁江区石岭镇金带铺场镇。
@@ -64,18 +64,18 @@
 			<!-- Example row of columns -->
 			<div class="row">
 				<div class="col-md-4">
-					<h2>文化交流活动</h2>
+					<h3>文化交流活动</h3>
 					<p>秦妈妈留守儿童到大学校园与外国人用英语交流，旨在提高孩子学习语言的兴趣，让英语学以致用，让孩子体会语言交际功能。</p>
 					<p><a class="btn btn-default" href="#" role="button">查看详情»</a></p>
 				</div>
 				<div class="col-md-4">
-					<h2>献爱心活动</h2>
+					<h3>献爱心活动</h3>
 					<p>秦妈妈留守儿童之家会不定期组织孩子到敬老院为老人献爱心，包括赠送水果，打扫卫生，搀扶老人走路等，旨在培养孩子要尊敬
 					老人，孝敬老人的思想。</p>
 					<p><a class="btn btn-default" href="#" role="button">查看详情»</a></p>
 				</div>
 				<div class="col-md-4">
-					<h2>文体活动</h2>
+					<h3>文体活动</h3>
 					<p>秦妈妈留守儿童之家还会不定期的组织孩子参加各类文体活动，包括打乒乓球，打篮球，象棋比赛，围棋比赛，书画比赛等，
 					让孩子充分发挥自己的特长，培养其兴趣爱好，充实孩子的学习生活。</p>
 					<p><a class="btn btn-default" href="#" role="button">查看详情»</a></p>

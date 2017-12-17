@@ -28,9 +28,14 @@ public class FileController extends BaseController {
 	
 	private final Logger LOGGER = Logger.getLogger(FileController.class);
 
+	/**
+	 * 使用POST方法上传文件，使用GET方法读取上传文件进度。
+	 * 
+	 * @see #getUploadStatus()
+	 */
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST)
-	public JsonResponse<String> createFile(@RequestBody(required=true) File file,
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public JsonResponse<String> uploadFile(@RequestBody(required=true) File file,
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		try {
@@ -43,6 +48,16 @@ public class FileController extends BaseController {
 			throw new Exception();
 		}
 		return new JsonResponse<String>(SUCCESS, "Created succeed!");
+	}
+	
+	/**
+	 * 使用POST方法上传文件，使用GET方法读取上传文件进度。
+	 * 
+	 * @see #uploadFile(File, HttpServletRequest, HttpServletResponse)
+	 */
+	@RequestMapping(value = "/status", method = RequestMethod.GET)
+	public void getUploadStatus() {
+		
 	}
 	
 	@RequestMapping(value="/list", method = RequestMethod.GET)

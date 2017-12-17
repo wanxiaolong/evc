@@ -55,11 +55,15 @@ body {
 /**
  * Home page.
  */
-.evc-content .evc-desc {
+ .evc-content .evc-p-container {
+	line-height: 30px;
 	padding: 20px;
-	background: #eee;
-	line-height: 25px;
-	margin-bottom: 20px;
+	background: #f8f8f8;
+	border: 1px solid #e7e7e7;
+	border-radius: 5px;
+}
+
+.evc-content #home_carousel {
 	margin-top: 20px;
 }
 
@@ -68,7 +72,6 @@ body {
 	line-height: 500px;
 	width: 12%;
 }
-
 
 /**
  * Contact us page.
@@ -82,6 +85,21 @@ body {
 /**
  * File page.
  */
+ 
+/**
+ * File upload page.
+ */
+/*small style adjust*/
+.evc-content .file-preview .fileinput-remove {
+	top: 5px;
+	font-size: 30px;
+}
+.evc-content .krajee-default.file-preview-frame {
+	padding: 5px;
+}
+.evc-content .krajee-default.file-preview-error {
+	border: 1px solid red;
+}
 
 /**
  * Login page.
@@ -97,9 +115,3 @@ body {
 /**
  * History page.
  */
-.evc-content .evc-p-container {
-	line-height: 30px;
-	padding: 20px;
-	background: #f8f8f8;
-	border: 1px solid #e7e7e7;
-}

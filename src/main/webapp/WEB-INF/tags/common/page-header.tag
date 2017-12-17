@@ -38,7 +38,7 @@
 							<li><a href="#">教育业绩</a></li>
 							<li><a href="<%=basePath%>/support.jsp">社会资助</a></li>
 							<li class="divider"></li>
-							<li><a href="#">测试菜单</a></li>
+							<li><a href="<%=basePath%>/file_upload.jsp">资料上传</a></li>
 							<li class="divider"></li>
 							<li><a href="#">测试菜单</a></li>
 						</ul>

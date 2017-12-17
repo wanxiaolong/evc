@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>中国英语村-登录</title>
+	<title>中国英语村-用户登录</title>
 	<common:import/>
 </head>
 <body>
@@ -13,7 +13,7 @@
 		<form action="rest/user/login" method="POST">
 			<div class="evc-login">
 				<div class="text-center">
-					<h3>请登录</h3>
+					<h3>用户登录</h3>
 				</div>
 				<div class="row">
 					<input type="text" class="form-control" name="username" placeholder="请输入账户名" required autofocus/>
