@@ -8,16 +8,27 @@ package com.my.evc.model;
  */
 public class Exam extends BaseModel {
 	
-	private String name;		   //考试名称
-	private int year;			  //年度
-	private int semester;		  //学期
-	private String subject;		//科目
-	private int nth;			   //第几次
-	private boolean isHalf;		//是否是半期考试
-	private boolean isFinal;	   //是否是期末考试
-	private String note;		   //备注
-	private int adminId;		   //管理员ID（谁创建的这次考试）
+	private int adminId;			//管理员ID（谁创建的这次考试）
+	private int subjectId;			//科目ID
+	private String name;			//考试名称
+	private int year;				//年度
+	private int semester;			//学期
+	private boolean isHalf;			//是否是半期考试
+	private boolean isFinal;		//是否是期末考试
+	private String note;			//备注
 	
+	public int getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
+	}
+	public int getSubjectId() {
+		return subjectId;
+	}
+	public void setSubjectId(int subjectId) {
+		this.subjectId = subjectId;
+	}
 	public String getName() {
 		return name;
 	}
@@ -36,18 +47,6 @@ public class Exam extends BaseModel {
 	public void setSemester(int semester) {
 		this.semester = semester;
 	}
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	public int getNth() {
-		return nth;
-	}
-	public void setNth(int nth) {
-		this.nth = nth;
-	}
 	public boolean isHalf() {
 		return isHalf;
 	}
@@ -65,11 +64,5 @@ public class Exam extends BaseModel {
 	}
 	public void setNote(String note) {
 		this.note = note;
-	}
-	public int getAdminId() {
-		return adminId;
-	}
-	public void setAdminId(int adminId) {
-		this.adminId = adminId;
 	}
 }

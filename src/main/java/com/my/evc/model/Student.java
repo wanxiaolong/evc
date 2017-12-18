@@ -5,25 +5,33 @@ package com.my.evc.model;
  */
 public class Student extends BaseModel {
 	
+	private int idNumber;			//学号
 	private String name;			//姓名
-	private String shortName;	   //姓名缩写（拼音首字母）
-	private String sex;			 //性别
-	private String grade;		   //年级
-	private int birthYear;		  //出生年份（用于计算年龄）
-	private int birthMonth;		 //出生月份（用于计算年龄）
-	private String description;	 //备注
+	private String namePinyin;		//姓名缩写（拼音首字母）
+	private String sex;				//性别
+	private String grade;			//年级
+	private String clazz;			//班级
+	private int birthYear;			//出生年份（用于计算年龄）
+	private int birthDay;			//出生日期（用于查询成绩）
+	private String description;		//备注
 	
+	public int getIdNumber() {
+		return idNumber;
+	}
+	public void setIdNumber(int idNumber) {
+		this.idNumber = idNumber;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getShortName() {
-		return shortName;
+	public String getNamePinyin() {
+		return namePinyin;
 	}
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public void setNamePinyin(String namePinyin) {
+		this.namePinyin = namePinyin;
 	}
 	public String getSex() {
 		return sex;
@@ -37,17 +45,23 @@ public class Student extends BaseModel {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	public String getClazz() {
+		return clazz;
+	}
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
+	}
 	public int getBirthYear() {
 		return birthYear;
 	}
 	public void setBirthYear(int birthYear) {
 		this.birthYear = birthYear;
 	}
-	public int getBirthMonth() {
-		return birthMonth;
+	public int getBirthDay() {
+		return birthDay;
 	}
-	public void setBirthMonth(int birthMonth) {
-		this.birthMonth = birthMonth;
+	public void setBirthDay(int birthDay) {
+		this.birthDay = birthDay;
 	}
 	public String getDescription() {
 		return description;

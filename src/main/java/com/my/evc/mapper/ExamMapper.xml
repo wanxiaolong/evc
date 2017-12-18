@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.ExamMapper">
+
+	<insert id="create" parameterType="com.my.evc.model.Exam" keyProperty="id" useGeneratedKeys="true">
+		insert into exam
+			(admin_id,subject_id,name,year,semester,is_half,is_final,note) 
+		values
+			(#{adminId},#{subjectId},#{name},#{year},#{semester},#{isHalf},#{isFinal},#{note})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from exam where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Exam">
+		update exam 
+		set 
+			admin_id=#{adminId},
+			subject_id=#{subjectId}, 
+			name=#{name}, 
+			year=#{year}, 
+			semester=#{semester}, 
+			is_half=#{isHalf}, 
+			is_final=#{isFinal}, 
+			note=#{note}
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		admin_id as adminId,
+		subject_id as subjectId, 
+		name as name, 
+		year as year, 
+		semester as semester, 
+		is_half as isHalf, 
+		is_final as isFinal, 
+		note as note
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Exam">
+		select
+			<include refid="all_fields"/>
+		from exam where id=#{id}
+	</select>
+	
+</mapper>

@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.File" keyProperty="id" useGeneratedKeys="true">
 		insert into file
-			(subject,type,name,path,description)
+			(subject_id,type,name,path,description)
 		values
-			(#{subject},#{type},#{name},#{path},#{description})
+			(#{subjectId},#{type},#{name},#{path},#{description})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,7 +16,7 @@
 	<update id="update" parameterType="com.my.evc.model.File">
 		update file 
 		set 
-			subject=#{subject}, 
+			subject_id=#{subjectId}, 
 			type=#{type}, 
 			name=#{name}, 
 			path=#{path}, 
@@ -28,7 +28,7 @@
 	
 	<sql id="all_fields">
 		id as id,
-		subject as subject,
+		subject_id as subjectId,
 		type as type,
 		name as name,
 		path as path,

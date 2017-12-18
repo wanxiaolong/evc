@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Student" keyProperty="id" useGeneratedKeys="true">
 		insert into student
-			(name,short_name,sex,grade,birth_year,birth_month,description) 
+			(id_number,name,name_pinyin,sex,grade,class,birth_year,birth_day,description) 
 		values
-			(#{name},#{shortName},#{sex},#{grade},#{birthYear},#{birthMonth},#{description})
+			(#{idNumber},#{name},#{namePinyin},#{sex},#{grade},#{clazz},#{birthYear},#{birthDay},#{description})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,18 +16,40 @@
 	<update id="update" parameterType="com.my.evc.model.Student">
 		update student 
 		set 
+			id_number=#{idNumber},
 			name=#{name}, 
-			short_name=#{shortName}, 
+			name_pinyin=#{namePinyin}, 
 			sex=#{sex}, 
 			grade=#{grade}, 
+			class=#{clazz}, 
 			birth_year=#{birthYear}, 
-			birth_month=#{birthMonth}, 
+			birth_day=#{birthDay}, 
 			description=#{description}
 		where 
 			id=#{id}
 	</update>
 	
+	<sql id="all_fields">
+		id_number as idNumber,
+		name as name, 
+		name_pinyin as namePinyin, 
+		sex as sex, 
+		grade as grade, 
+		class as clazz, 
+		birth_year as birthYear, 
+		birth_day as birthDay, 
+		description as description
+	</sql>
+	
 	<select id="find" parameterType="int" resultType="com.my.evc.model.Student">
-		select * from student where id=#{id}
+		select
+			<include refid="all_fields"/>
+		from student where id=#{id}
+	</select>
+	
+	<select id="findByIdNumber" parameterType="int" resultType="com.my.evc.model.Student">
+		select
+			<include refid="all_fields"/>
+		from student where id_number=#{idNumber}
 	</select>
 </mapper>

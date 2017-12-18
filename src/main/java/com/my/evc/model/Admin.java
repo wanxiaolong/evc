@@ -7,7 +7,7 @@ public class Admin extends BaseModel {
 	
 	private String username;	//用户名
 	private String password;	//密码
-	private String lastLogin;   //上次登录时间
+	private String lastLogin;	//上次登录时间
 
 	public String getLastLogin() {
 		return lastLogin;

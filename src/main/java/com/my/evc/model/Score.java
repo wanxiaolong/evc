@@ -5,9 +5,9 @@ package com.my.evc.model;
  */
 public class Score extends BaseModel {
 	
-	private int studentId;	//学生的主键
-	private int examId;	   //考试的主键
-	private double score;	 //成绩
+	private int studentId;		//学生的主键
+	private int examId;			//考试的主键
+	private double score;		//成绩
 	
 	public int getStudentId() {
 		return studentId;
