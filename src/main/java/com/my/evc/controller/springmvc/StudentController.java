@@ -3,7 +3,6 @@ package com.my.evc.controller.springmvc;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +20,6 @@ import com.my.evc.service.StudentService;
 @RequestMapping("/student")
 public class StudentController extends BaseController {
 	
-	private final Logger LOGGER = Logger.getLogger(StudentController.class);
-	
 	@Autowired
 	private StudentService studentService;
 
@@ -30,15 +27,7 @@ public class StudentController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonResponse<Student> createStudent(@RequestBody(required=true) Student student,
 			HttpServletRequest request, HttpServletResponse response) throws BaseException, Exception {
-		try {
-			studentService.create(student);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		studentService.create(student);
 		return new JsonResponse<Student>(SUCCESS, student);
 	}
 	
@@ -46,15 +35,7 @@ public class StudentController extends BaseController {
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	public JsonResponse<String> deleteStudent(@PathVariable("id") int id, HttpServletRequest request,
 			HttpServletResponse response) throws BaseException, Exception {
-		try {
-			studentService.deleteByID(id);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		studentService.deleteByID(id);
 		return new JsonResponse<String>(SUCCESS, "Delete succeed!");
 	}
 	
@@ -63,15 +44,7 @@ public class StudentController extends BaseController {
 	public JsonResponse<String> updateStudent(@RequestBody(required=true) Student student,
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		try {
-			studentService.update(student);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		studentService.update(student);
 		return new JsonResponse<String>(SUCCESS, "Update succeed!");
 	}
 	
@@ -79,17 +52,7 @@ public class StudentController extends BaseController {
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public JsonResponse<Student> findStudent(@PathVariable("id") int id, HttpServletRequest request,
 			HttpServletResponse response) throws BaseException, Exception {
-		Student student = null;
-		try {
-			student = studentService.findByID(id);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		Student student = studentService.findByID(id);
 		return new JsonResponse<Student>(SUCCESS, student);
 	}
-	
 }

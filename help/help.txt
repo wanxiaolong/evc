@@ -1,8 +1,14 @@
 1. Cannot download file which name is chinese.
 https://www.cnblogs.com/wangyangsk/p/4972612.html
 
+
 2. How to use BootStrap-FileInput plugin to upload files:
 http://blog.csdn.net/u012526194/article/details/69937741
 Official document:
 https://github.com/kartik-v/bootstrap-fileinput
 
+
+3. After file uploaded successfully, the server MUST return a json string, 
+otherwise the page would display an "Unexpected end of JSON input." error.
+https://segmentfault.com/q/1010000007994178/a-1020000007997036
+https://stackoverflow.com/questions/25173727/syntax-error-unexpected-end-of-input-parsejson

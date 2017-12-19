@@ -45,13 +45,13 @@
 					</li>
 				</ul>
 				<!--向右对齐-->
-				<c:if test="<%=(username != null)%>">
+				<c:if test="${not empty model}">
 					<p class="navbar-text navbar-right">
 						<a href="<%=basePath%>/rest/user/logout">退出</a>
 					</p>
-					<p class="navbar-text navbar-right">欢迎：<%=username%></p>
+					<p class="navbar-text navbar-right">欢迎：${model}</p>
 				</c:if>
-				<c:if test="<%=(username == null)%>">
+				<c:if test="${empty model}">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">

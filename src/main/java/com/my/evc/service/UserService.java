@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.my.evc.common.ErrorCode;
+import com.my.evc.common.ErrorEnum;
 import com.my.evc.exception.BaseException;
 import com.my.evc.exception.BusinessException;
 import com.my.evc.mapper.UserMapper;
@@ -42,7 +42,7 @@ public class UserService implements BaseService<User> {
 		password = EncryptionUtil.md5(password);
 		User user = getUserByNameAndPass(username, password);
 		if (user == null) {
-			throw new BusinessException(ErrorCode.USER_NOT_FOUND, "User not found! username=" + username);
+			throw new BusinessException(ErrorEnum.USER_NOT_FOUND);
 		}
 		return user;
 	}

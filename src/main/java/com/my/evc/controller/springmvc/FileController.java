@@ -4,20 +4,19 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.File;
 import com.my.evc.service.FileService;
+import com.my.evc.util.FileUtil;
 
 @Controller
 @RequestMapping("/file")
@@ -26,55 +25,29 @@ public class FileController extends BaseController {
 	@Autowired
 	private FileService fileService;
 	
-	private final Logger LOGGER = Logger.getLogger(FileController.class);
-
 	/**
-	 * 使用POST方法上传文件，使用GET方法读取上传文件进度。
-	 * 
-	 * @see #getUploadStatus()
+	 * 文件上传
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public JsonResponse<String> uploadFile(@RequestBody(required=true) File file,
-			HttpServletRequest request, HttpServletResponse response)
-			throws BaseException, Exception {
-		try {
-			fileService.create(null);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
-		return new JsonResponse<String>(SUCCESS, "Created succeed!");
+	@ResponseBody
+	public String uploadFile(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		FileUtil.handleUploadFile(request, response);
+		response.setStatus(Status.CREATED.getStatusCode());
+		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
+		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
+		return EMPTY_JSON;
 	}
 	
 	/**
-	 * 使用POST方法上传文件，使用GET方法读取上传文件进度。
-	 * 
-	 * @see #uploadFile(File, HttpServletRequest, HttpServletResponse)
+	 * 文件列表。
 	 */
-	@RequestMapping(value = "/status", method = RequestMethod.GET)
-	public void getUploadStatus() {
-		
-	}
-	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView listFiles(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		List<File> files = null;
-		try {
-			files = fileService.listFiles();
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		List<File> files = fileService.listFiles();
 		ModelAndView mav = new ModelAndView("file");
-		mav.addObject("model", files);
+		mav.addObject(MODEL, files);
 		return mav;
 	}
 }

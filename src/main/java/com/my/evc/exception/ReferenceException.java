@@ -1,11 +1,12 @@
 package com.my.evc.exception;
 
+import com.my.evc.common.ErrorEnum;
+
 public class ReferenceException extends BaseException{
 
 	private static final long serialVersionUID = 1L;
 
-	public ReferenceException(String errorCode,
-			String errorMessage) {
-		super(errorCode, errorMessage);
+	public ReferenceException(ErrorEnum errorEnum) {
+		super(errorEnum);
 	}
 }

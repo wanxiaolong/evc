@@ -31,7 +31,7 @@
 <script type="text/javascript">
 $("#uploadfile").fileinput({
 	language: 'zh', //设置语言
-	uploadUrl: "http://127.0.0.1/testDemo/fileupload/upload.do", //上传的地址
+	uploadUrl: "http://localhost:8080/evc/rest/file/upload", //上传的地址
 	//allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
 	//uploadExtraData:{"id": 1, "fileName":'123.mp3'},
 	uploadAsync: true, //默认异步上传
@@ -51,7 +51,7 @@ $("#uploadfile").fileinput({
 	maxFileCount: 10, //表示允许同时上传的最大文件个数
 	enctype:'multipart/form-data',
 	validateInitialCount:true,
-	previewFileIcon: "<iclass='glyphicon glyphicon-king'></i>",
+	previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
 	msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 }).on("fileuploaded", function (event, data, previewId, index){
 	//上传成功后的回调

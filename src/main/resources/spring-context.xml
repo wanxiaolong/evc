@@ -69,4 +69,8 @@
     
     <!-- 基于Session的本地化解析器 -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    
+    <bean id="systemConfig" class="com.my.evc.common.SystemConfig">
+        <property name="fileUploadPath" value="${file.upload.path}"/>
+    </bean>
 </beans>

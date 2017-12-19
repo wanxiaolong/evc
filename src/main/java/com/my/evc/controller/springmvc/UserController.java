@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,22 +26,12 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
-	private final Logger LOGGER = Logger.getLogger(UserController.class);
-
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonResponse<String> createUser(@RequestBody(required=true) User user,
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		try {
-			userService.create(user);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		userService.create(user);
 		return new JsonResponse<String>(SUCCESS, "Created succeed!");
 	}
 	
@@ -50,35 +39,22 @@ public class UserController extends BaseController {
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		User user = null;
-		try {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
-			user = userService.login(username, password);
-			//登录之后存储用户信息
-			request.getSession().setAttribute("user", user);
-			//更新登录日期
-			userService.updateLastLogin(user.getId());
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		user = userService.login(username, password);
+		//登录之后存储用户信息
+		request.getSession().setAttribute("user", user);
+		//更新登录日期
+		userService.updateLastLogin(user.getId());
 		ModelAndView mav = new ModelAndView("redirect:/home.jsp");
-		mav.addObject("username", user.getUsername());
+		mav.addObject(MODEL, user.getUsername());
 		return mav;
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		try {
-			request.getSession().removeAttribute("user");
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		request.getSession().removeAttribute("user");
 		ModelAndView mav = new ModelAndView("redirect:/home.jsp");
 		return mav;
 	}

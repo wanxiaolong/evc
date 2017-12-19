@@ -1,52 +1,22 @@
 package com.my.evc.exception;
 
-import com.my.evc.common.ErrorCode;
+import com.my.evc.common.ErrorEnum;
 
 public class BaseException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private String errorCode = ErrorCode.DATABASE_ACCESS_FAILED_CODE;
-	private String errorMessage = ErrorCode.DATABASE_ACCESS_FAILED_MESSAGE;
+	//Default error
+	private ErrorEnum errorEnum = ErrorEnum.SYSTEM_ERROR;
 
-	public BaseException() {
-		super();
+	public BaseException(ErrorEnum errorEnum) {
+		this.errorEnum = errorEnum;
 	}
-
-	public BaseException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		//super(message, cause, enableSuppression, writableStackTrace);
+	
+	public ErrorEnum getErrorEnum() {
+		return errorEnum;
 	}
-
-	public BaseException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public BaseException(String message) {
-		super(message);
-	}
-
-	public BaseException(String errorCode, String errorMessage) {
-		this.setErrorCode(errorCode);
-		this.setErrorMessage(errorMessage);
-	}
-
-	public BaseException(Throwable cause) {
-		super(cause);
-	}
-
-	public String getErrorCode() {
-		return errorCode;
-	}
-
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	
+	public void setErrorEnum(ErrorEnum errorEnum) {
+		this.errorEnum = errorEnum;
 	}
 }

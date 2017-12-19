@@ -3,7 +3,7 @@ package com.my.evc.common;
 public class FailedResponse {
 
 	private int status;
-	private String errorCode;
+	private int errorCode;
 	private String errorMessage;
 
 	public int getStatus() {
@@ -14,11 +14,11 @@ public class FailedResponse {
 		this.status = status;
 	}
 
-	public String getErrorCode() {
+	public int getErrorCode() {
 		return errorCode;
 	}
-
-	public void setErrorCode(String errorCode) {
+	
+	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
 	}
 

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.my.evc.common.ErrorCode;
+import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.FailedResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.exception.DuplicateException;
@@ -16,20 +16,24 @@ public class BaseController {
 
 	protected static final int SUCCESS = 0;
 	protected static final int FAILED = -1;
-	protected static final String EMPTY_SYMBOL = "{}";
+	protected static final String EMPTY_JSON = "{}";
+	protected static final String MODEL = "model";
 
 	/**
 	 * Get the property of the FailedResponse object.
 	 * 
 	 * @return Return a FailedResponse object.
 	 */
-	public FailedResponse getFailedResponse(String errorCode,
-			String errorMessage) {
+	public FailedResponse getFailedResponse(int errorCode, String errorMessage) {
 		FailedResponse failedResponse = new FailedResponse();
 		failedResponse.setStatus(FAILED);
 		failedResponse.setErrorCode(errorCode);
 		failedResponse.setErrorMessage(errorMessage);
 		return failedResponse;
+	}
+	
+	public FailedResponse getFailedResponse(ErrorEnum errorEnum) {
+		return getFailedResponse(errorEnum.getCode(), errorEnum.getMessage());
 	}
 
 	/**
@@ -43,8 +47,7 @@ public class BaseController {
 	@ResponseBody
 	public FailedResponse duplicateExceptionHandler(
 			DuplicateException duplicateException) {
-		return getFailedResponse(duplicateException.getErrorCode(),
-				duplicateException.getErrorMessage());
+		return getFailedResponse(duplicateException.getErrorEnum());
 	}
 
 	/**
@@ -56,9 +59,7 @@ public class BaseController {
 	@ExceptionHandler(value = BaseException.class)
 	@ResponseBody
 	public FailedResponse baseExceptionHandler() {
-		return getFailedResponse(
-				ErrorCode.DATABASE_ACCESS_FAILED_CODE,
-				ErrorCode.DATABASE_ACCESS_FAILED_MESSAGE);
+		return getFailedResponse(ErrorEnum.DATABASE_ACCESS_FAILED);
 	}
 
 	/**
@@ -71,8 +72,7 @@ public class BaseController {
 	@ResponseBody
 	public FailedResponse validationExceptionHandler(
 			ValidationException validationException) {
-		return getFailedResponse(validationException.getErrorCode(),
-				validationException.getErrorMessage());
+		return getFailedResponse(validationException.getErrorEnum());
 	}
 
 	/**
@@ -85,8 +85,7 @@ public class BaseController {
 	@ResponseBody
 	public FailedResponse referenceExceptionHandler(
 			ReferenceException referenceException) {
-		return getFailedResponse(referenceException.getErrorCode(),
-				referenceException.getErrorMessage());
+		return getFailedResponse(referenceException.getErrorEnum());
 	}
 
 	/**
@@ -98,8 +97,6 @@ public class BaseController {
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
 	public FailedResponse exceptionHandler(Exception exception) {
-		return getFailedResponse(
-				ErrorCode.SYSTEM_ERROR_CODE,
-				ErrorCode.SYSTEM_ERROR_MESSAGE);
+		return getFailedResponse(ErrorEnum.SYSTEM_ERROR);
 	}
 }

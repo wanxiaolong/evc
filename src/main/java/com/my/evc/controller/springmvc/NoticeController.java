@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,22 +26,12 @@ public class NoticeController extends BaseController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	private final Logger LOGGER = Logger.getLogger(NoticeController.class);
-
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		try {
-			noticeService.create(null);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		noticeService.create(null);
 		return new JsonResponse<String>(SUCCESS, "Created succeed!");
 	}
 	
@@ -50,36 +39,18 @@ public class NoticeController extends BaseController {
 	public ModelAndView noticeDetail(@PathVariable("id") int id, 
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		Notice notice = null;
-		try {
-			notice = noticeService.findByID(id);
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		Notice notice = noticeService.findByID(id);
 		ModelAndView mav = new ModelAndView("notice_detail");
-		mav.addObject("model", notice);
+		mav.addObject(MODEL, notice);
 		return mav;
 	}
 	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		List<Notice> notices = null;
-		try {
-			notices = noticeService.listNotices();
-		} catch (BaseException e) {
-			LOGGER.error(e.getErrorCode() + e.getErrorMessage());
-			throw new BaseException();
-		} catch (Exception e) {
-			LOGGER.error(e);
-			throw new Exception();
-		}
+		List<Notice> notices = noticeService.listNotices();
 		ModelAndView mav = new ModelAndView("notice");
-		mav.addObject("model", notices);
+		mav.addObject(MODEL, notices);
 		return mav;
 	}
 }

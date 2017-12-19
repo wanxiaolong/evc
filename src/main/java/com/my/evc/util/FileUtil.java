@@ -1,0 +1,53 @@
+package com.my.evc.util;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.my.evc.common.SystemConfig;
+
+public class FileUtil {
+	
+	public static void handleUploadFile(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, FileUploadException {
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		DiskFileItemFactory factory = new DiskFileItemFactory();//基于磁盘文件项目创建一个工厂对象
+		ServletFileUpload upload = new ServletFileUpload(factory);//创建一个新的文件上传对象
+		List<FileItem> items = upload.parseRequest(request);//解析上传请求
+		Iterator<FileItem> itr = items.iterator();
+		while (itr.hasNext()) {
+			FileItem item = (FileItem) itr.next();
+			if (!item.isFormField()) {
+				if (item.getName() != null && !item.getName().equals("")) {//判断是否选择了文件
+					//String uploadPath = request.getServletContext().getRealPath(SystemConfig.FILE_RELATIVE_PATH);
+					String uploadPath = SystemConfig.FILE_RELATIVE_PATH;
+					File file = new File(uploadPath,item.getName());//获取根目录对应的真实物理路径
+					copyStream(item.getInputStream(), new FileOutputStream(file));
+				}
+			}
+		}
+	}
+	
+	private static void copyStream(InputStream in, FileOutputStream out) throws IOException {
+		int length=0;
+		byte[] buffer = new byte[1024];
+		while((length = in.read(buffer))!=-1){
+			out.write(buffer,0,length);
+		}
+		in.close();
+		out.close();
+	}
+}
