@@ -15,6 +15,9 @@ public class SystemConfig {
 	 */
 	public static String FILE_RELATIVE_PATH = "";
 	
+	/**
+	 * This method is called by spring to dynamically inject config.
+	 */
 	public static void setFileUploadPath(String fileUploadPath) {
 		FILE_RELATIVE_PATH = fileUploadPath;
 	}
