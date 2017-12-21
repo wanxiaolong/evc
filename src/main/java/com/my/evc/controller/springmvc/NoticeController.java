@@ -19,6 +19,9 @@ import com.my.evc.exception.BaseException;
 import com.my.evc.model.Notice;
 import com.my.evc.service.NoticeService;
 
+/**
+ * 本类处理公告相关的请求。
+ */
 @Controller
 @RequestMapping("/notice")
 public class NoticeController extends BaseController {
@@ -26,6 +29,9 @@ public class NoticeController extends BaseController {
 	@Autowired
 	private NoticeService noticeService;
 	
+	/**
+	 * 创建公告。
+	 */
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
@@ -35,6 +41,9 @@ public class NoticeController extends BaseController {
 		return new JsonResponse<String>(SUCCESS, "Created succeed!");
 	}
 	
+	/**
+	 * 公告详情。
+	 */
 	@RequestMapping(value="/{id}")
 	public ModelAndView noticeDetail(@PathVariable("id") int id, 
 			HttpServletRequest request, HttpServletResponse response)
@@ -45,6 +54,9 @@ public class NoticeController extends BaseController {
 		return mav;
 	}
 	
+	/**
+	 * 公告列表。
+	 */
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {

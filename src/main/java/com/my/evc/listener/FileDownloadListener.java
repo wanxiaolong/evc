@@ -12,10 +12,13 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 import com.my.evc.exception.BaseException;
 import com.my.evc.service.FileService;
 
+/**
+ * 监听文件下载请求，每次下载都会增加该文件的下载量，并更新到数据库。
+ */
 public class FileDownloadListener implements ServletRequestListener {
 	/**
-	 * Add file download count after a download request is destroyed.
-	 * this is not to block the download process.
+	 * 把逻辑放在请求销毁的回调函数里，是不想阻碍下载流程，提高用户体验。
+	 * 因为这个请求不用再真正下载文件之前完成。
 	 */
 	public void requestDestroyed(ServletRequestEvent sre) {
 		ServletRequest request = sre.getServletRequest();
@@ -24,8 +27,8 @@ public class FileDownloadListener implements ServletRequestListener {
 		if (uri.startsWith("/files")) {
 			ServletContext sc = request.getServletContext();
 			XmlWebApplicationContext cxt = (XmlWebApplicationContext)WebApplicationContextUtils.getWebApplicationContext(sc);
-			//File service is not "AutoWired" because it could be null.
-			//See: https://www.cnblogs.com/digdeep/p/4770004.html
+			//这里用到的FileService没有被自动注入进来。
+			//参见： https://www.cnblogs.com/digdeep/p/4770004.html
 			FileService fileService = (FileService) cxt.getBean("fileService");
 			String fileName = uri.substring(uri.lastIndexOf('/') + 1);
 			try {

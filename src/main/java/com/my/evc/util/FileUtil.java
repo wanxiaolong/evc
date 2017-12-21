@@ -18,8 +18,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.my.evc.common.SystemConfig;
 
+/**
+ * 文件工具类。
+ */
 public class FileUtil {
 	
+	/**
+	 * 处理文件上传的请求。通过Apache fileupload工具包来解析请求。
+	 */
 	public static void handleUploadFile(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, FileUploadException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -32,7 +38,6 @@ public class FileUtil {
 			FileItem item = (FileItem) itr.next();
 			if (!item.isFormField()) {
 				if (item.getName() != null && !item.getName().equals("")) {//判断是否选择了文件
-					//String uploadPath = request.getServletContext().getRealPath(SystemConfig.FILE_RELATIVE_PATH);
 					String uploadPath = SystemConfig.FILE_RELATIVE_PATH;
 					File file = new File(uploadPath,item.getName());//获取根目录对应的真实物理路径
 					copyStream(item.getInputStream(), new FileOutputStream(file));
@@ -41,6 +46,9 @@ public class FileUtil {
 		}
 	}
 	
+	/**
+	 * 拷贝流数据。把数据从输入流写到输出流。
+	 */
 	private static void copyStream(InputStream in, FileOutputStream out) throws IOException {
 		int length=0;
 		byte[] buffer = new byte[1024];

@@ -18,6 +18,9 @@ import com.my.evc.model.File;
 import com.my.evc.service.FileService;
 import com.my.evc.util.FileUtil;
 
+/**
+ * 本类处理文件相关的请求。
+ */
 @Controller
 @RequestMapping("/file")
 public class FileController extends BaseController {
@@ -26,7 +29,7 @@ public class FileController extends BaseController {
 	private FileService fileService;
 	
 	/**
-	 * 文件上传
+	 * 文件上传。
 	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody

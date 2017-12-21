@@ -35,6 +35,9 @@ public class NoticeService implements BaseService<Notice>{
 		return convertImportantLevel(notice);
 	}
 	
+	/**
+	 * 显示公告列表。
+	 */
 	public List<Notice> listNotices() throws BaseException {
 		List<Notice> notices = noticeMapper.listNotices();
 		for (Notice notice : notices) {
@@ -43,6 +46,9 @@ public class NoticeService implements BaseService<Notice>{
 		return notices;
 	}
 	
+	/**
+	 * 转换数值型的重要级别为字符串。因为数据库存的是数字，而页面上展示的是文字。
+	 */
 	private Notice convertImportantLevel(Notice notice) {
 		int numValue = Integer.parseInt(notice.getImportantLevel());
 		notice.setImportantLevel(NoticeImportantLevel.fromValue(numValue).getName());

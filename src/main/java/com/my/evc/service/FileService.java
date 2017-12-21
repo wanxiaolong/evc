@@ -38,22 +38,26 @@ public class FileService implements BaseService<File>{
 	}
 	
 	/**
-	 * When user download file, add the download count.
-	 * @param id the Primary Key of the file.
+	 * 当用户下载文件的时候，增加文件的下载量。
+	 * @param id 文件对象的主键。
 	 */
 	public synchronized void addDownloadCountById(int id) throws BaseException {
 		File file = findByID(id);
 		addDownloadCount(file);
 	}
 	
+	/**
+	 * 当用户下载文件的时候，增加文件的下载量。
+	 * @param name 文件名。
+	 */
 	public synchronized void addDownloadCountByName(String name) throws BaseException {
 		File file = findByName(name);
 		addDownloadCount(file);
 	}
 	
 	/**
-	 * Add download count only if the file is founded. 
-	 * For 404 page(download file not found), just ignore this step.
+	 * 抽取的公共方法，只是在文件存在的时候才增加其下载量。
+	 * 对于找不到的文件，可视为非法调用，直接忽略即可。
 	 */
 	private void addDownloadCount(File file) throws BaseException {
 		if (file != null) {
@@ -63,6 +67,9 @@ public class FileService implements BaseService<File>{
 		}
 	}
 
+	/**
+	 * 供文件列表页面展示。
+	 */
 	public List<File> listFiles() throws BaseException {
 		return fileMapper.listFiles();
 	}

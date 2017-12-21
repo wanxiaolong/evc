@@ -1,5 +1,8 @@
 package com.my.evc.type;
 
+/**
+ * 本类描述公告模型（Notice）的重要级别。
+ */
 public enum NoticeImportantLevel {
 	HIGH(2, "高"), MEDIUM(1, "一般"), DEFAULT(0, "默认");
 	

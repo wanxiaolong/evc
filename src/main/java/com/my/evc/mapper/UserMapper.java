@@ -8,14 +8,15 @@ import com.my.evc.model.User;
 @MapperScan
 public interface UserMapper extends BaseMapper<User> {
 	/**
-	 * 使用@Param注解，可以在*Mapper.xml中使用parameterType="map"
+	 * 通过用户名和密码查找用户，来验证用户的密码是否正确。<br>
+	 * 这里使用@Param注解，可以在*Mapper.xml中使用parameterType="map"。
 	 */
 	public User findByNameAndPass(
 			@Param(value = "username") String username, 
 			@Param(value = "password") String password);
 	
 	/**
-	 * 登录的时候需要更新上次登录时间
+	 * 登录的时候需要更新上次登录时间。
 	 */
 	public void updateLastLogin(int id);
 }

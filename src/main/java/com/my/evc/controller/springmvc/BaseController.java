@@ -11,6 +11,9 @@ import com.my.evc.exception.DuplicateException;
 import com.my.evc.exception.ReferenceException;
 import com.my.evc.exception.ValidationException;
 
+/**
+ * 本类是所有控制器（Controller）的基类，这里定义了统一处理异常的方式，所以在子类中无需捕获异常了。
+ */
 @Controller
 public class BaseController {
 
