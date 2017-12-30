@@ -1,5 +1,6 @@
 package com.my.evc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,26 +36,43 @@ public class ScoreService implements BaseService<Score>{
 		return scoreMapper.find(id);
 	}
 	
-	public void uploadScore(List<Map<String,String>> scoreList) {
-		if (scoreList == null) {
-			return;
+	public List<Score> uploadScore(List<Map<String,String>> scoreList) {
+		if (scoreList == null || scoreList.size() == 0) {
+			System.out.println("空数组列表！");
+			return null;
 		}
+		//取得最后一个Map，里面封装了examId
+		Map<String, String> parameters = scoreList.get(scoreList.size() - 1);
+		String examId = parameters.get("exam_id");
+		scoreList.remove(parameters);
+		
+		List<Score> scores = new ArrayList<Score>();
 		for(Map<String, String> map : scoreList) {
 			Score score = new Score();
+			score.setExamId(Integer.parseInt(examId));
 			for(String key : map.keySet()) {
 				ScoreTitle title = ScoreTitle.fromString(key.toUpperCase());
 				if (title != null) {
 					double value = Double.parseDouble(map.get(key));
-					saveScore(title, value, score);
+					saveValueToScore(title, value, score);
 				}
 			}
+			scores.add(score);
 		}
+		System.out.println(scores);
+		
+		//把成绩保存在数据库中
+		for(Score score: scores) {
+			scoreMapper.create(score);
+		}
+		
+		return scores;
 	}
 	
 	/**
 	 * 根据科目，将分值保存到Score对象上。
 	 */
-	private void saveScore(ScoreTitle subjectType, double value, Score score) {
+	private void saveValueToScore(ScoreTitle subjectType, double value, Score score) {
 		switch (subjectType) {
 			case CHINESE:
 				score.setChinese(value);

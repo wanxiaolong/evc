@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,20 +47,33 @@ public class FileUtil {
 	public static List<Map<String,String>> handleUploadScore(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException, FileUploadException {
 		Iterator<FileItem> itr = parseUploadRequest(request, response);
+		
+		List<Map<String, String>> listScore = null;
+		String examId = null;
 		while (itr.hasNext()) {
 			FileItem item = (FileItem) itr.next();
+			if (item.isFormField()) {
+				if ("exam_id".equalsIgnoreCase(item.getFieldName())) {
+					examId = item.getString();
+				}
+			}
 			if (!item.isFormField()) {
 				String fileName = item.getName();
 				//只接受.xls和.xlsx文件
 				if (!StringUtils.isEmpty(fileName) && 
 						(fileName.endsWith(".xlsx") || fileName.endsWith(".xls"))) {
-					return ExcelUtil.readExcel(item.getInputStream(), item.getName());
+					listScore = ExcelUtil.readExcel(item.getInputStream(), item.getName());
 				} else {
 					throw new IOException("只能上传.xlsx和.xls类型的文件。当前文件名为：" + fileName);
 				}
 			}
 		}
-		return null;
+		if (listScore != null && examId != null) {
+			Map<String, String> parameters = new HashMap<String, String>();
+			parameters.put("exam_id", examId);
+			listScore.add(parameters);
+		}
+		return listScore;
 	}
 	
 	/**
