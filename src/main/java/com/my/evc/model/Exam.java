@@ -9,7 +9,6 @@ package com.my.evc.model;
 public class Exam extends BaseModel {
 	
 	private int adminId;			//管理员ID（谁创建的这次考试）
-	private int subjectId;			//科目ID
 	private String name;			//考试名称
 	private int year;				//年度
 	private int semester;			//学期
@@ -22,12 +21,6 @@ public class Exam extends BaseModel {
 	}
 	public void setAdminId(int adminId) {
 		this.adminId = adminId;
-	}
-	public int getSubjectId() {
-		return subjectId;
-	}
-	public void setSubjectId(int subjectId) {
-		this.subjectId = subjectId;
 	}
 	public String getName() {
 		return name;

@@ -1,3 +1,6 @@
+/**
+ * 公共样式
+ */
 body {
 	font-size: 14px;
 }
@@ -10,7 +13,7 @@ body {
 }
 
 /**
- * Home page.
+ * 主页(home.jsp)
  */
 .evc-page-header .header, .evc-content, .evc-page-footer {
 	width: 1200px;
@@ -50,12 +53,7 @@ body {
 .navbar-nav>li:hover {
 	background-color: #e7e7e7;
 }
-
-
-/**
- * Home page.
- */
- .evc-content .evc-p-container {
+.evc-content .evc-p-container {
 	line-height: 30px;
 	padding: 20px;
 	background: #f8f8f8;
@@ -72,24 +70,11 @@ body {
 	line-height: 500px;
 	width: 12%;
 }
-
-/**
- * Contact us page.
- */
-
-
-/**
- * Support page.
- */
-
-/**
- * File page.
- */
  
 /**
- * File upload page.
+ * 文件上传页面(file_upload.jsp)
+ * 对上传插件的默认样式进行微调，加上evc-content前缀以覆盖默认的样式。
  */
-/*small style adjust*/
 .evc-content .file-preview .fileinput-remove {
 	top: 5px;
 	font-size: 30px;
@@ -100,9 +85,21 @@ body {
 .evc-content .krajee-default.file-preview-error {
 	border: 1px solid red;
 }
+.evc-content .krajee-default .file-footer-caption {
+	margin-bottom: 24px;
+}
+.evc-content .krajee-default.file-preview-frame .file-thumbnail-footer {
+	height: 90px;
+}
+.evc-content .krajee-default .file-thumb-progress .progress, 
+.evc-content .krajee-default .file-thumb-progress .progress-bar {
+	height: 16px;
+	font-size: 9px;
+	line-height: 16px;
+}
 
 /**
- * Login page.
+ * 登录页面(login.jsp)
  */
 .evc-content .evc-login {
 	width: 300px;
@@ -112,6 +109,4 @@ body {
 	margin-top: 10px;
 }
 
-/**
- * History page.
- */
+

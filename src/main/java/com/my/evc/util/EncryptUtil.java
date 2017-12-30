@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * 加密工具类。
  */
-public class EncryptionUtil {
+public class EncryptUtil {
 
 	/**
 	 * 用MD5算法加密字符串。

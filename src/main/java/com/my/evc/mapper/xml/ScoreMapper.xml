@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.ScoreMapper">
+
+	<insert id="create" parameterType="com.my.evc.model.Score" keyProperty="id" useGeneratedKeys="true">
+		insert into score
+			(student_id_number,exam_id,chinese,math,english,physics,chemistry,
+			biologic,politics,history,geography,physical,experiment,score1,score2) 
+		values
+			(#{studentIdNumber},#{examId},#{chinese},#{math},#{english},#{physics},#{chemistry},
+			#{biologic},#{politics},#{history},#{geography},#{physical},#{experiment},#{score1},#{score2})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from score where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Score">
+		update score 
+		set 
+			student_id_number=#{studentIdNumber},
+			exam_id=#{examId},
+			chinese=#{chinese},
+			math=#{math},
+			english=#{english},
+			physics=#{physics},
+			chemistry=#{chemistry},
+			biologic=#{biologic},
+			politics=#{politics},
+			history=#{history},
+			geography=#{geography},
+			physical=#{physical},
+			experiment=#{experiment},
+			score1=#{score1},
+			score2=#{score2}
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		student_id_number as studentIdNumber,
+		exam_id as examId,
+		chinese as chinese,
+		math as math,
+		english as english,
+		physics as physics,
+		chemistry as chemistry,
+		biologic as biologic,
+		politics as politics,
+		history as history,
+		geography as geography,
+		physical as physical,
+		experiment as experiment,
+		score1 as score1,
+		score2 as score2
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Score">
+		select
+			<include refid="all_fields"/>
+		from score where id=#{id}
+	</select>
+	
+</mapper>

@@ -9,8 +9,7 @@ import com.my.evc.exception.BaseException;
 import com.my.evc.exception.BusinessException;
 import com.my.evc.mapper.UserMapper;
 import com.my.evc.model.User;
-import com.my.evc.service.UserService;
-import com.my.evc.util.EncryptionUtil;
+import com.my.evc.util.EncryptUtil;
 
 @Service
 @Transactional
@@ -21,7 +20,7 @@ public class UserService implements BaseService<User> {
 	
 	public void create(User user) throws BaseException {
 		String password = user.getPassword();
-		String encryptedPassword = EncryptionUtil.md5(password);
+		String encryptedPassword = EncryptUtil.md5(password);
 		user.setPassword(encryptedPassword);
 		userMapper.create(user);
 	}
@@ -46,7 +45,7 @@ public class UserService implements BaseService<User> {
 	 * @throws BaseException 当用户密码错误（查找失败）的时候，抛出异常。
 	 */
 	public User login(String username, String password) throws BaseException {
-		password = EncryptionUtil.md5(password);
+		password = EncryptUtil.md5(password);
 		User user = getUserByNameAndPass(username, password);
 		if (user == null) {
 			throw new BusinessException(ErrorEnum.USER_NOT_FOUND);
