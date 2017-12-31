@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.my.evc.exception.BaseException;
+import com.my.evc.exception.DaoException;
 import com.my.evc.mapper.ScoreMapper;
 import com.my.evc.model.Score;
 import com.my.evc.type.ScoreTitle;
@@ -36,7 +37,7 @@ public class ScoreService implements BaseService<Score>{
 		return scoreMapper.find(id);
 	}
 	
-	public List<Score> uploadScore(List<Map<String,String>> scoreList) {
+	public List<Score> uploadScore(List<Map<String,String>> scoreList) throws DaoException {
 		if (scoreList == null || scoreList.size() == 0) {
 			System.out.println("空数组列表！");
 			return null;
@@ -59,7 +60,6 @@ public class ScoreService implements BaseService<Score>{
 			}
 			scores.add(score);
 		}
-		System.out.println(scores);
 		
 		//把成绩保存在数据库中
 		for(Score score: scores) {
@@ -72,8 +72,11 @@ public class ScoreService implements BaseService<Score>{
 	/**
 	 * 根据科目，将分值保存到Score对象上。
 	 */
-	private void saveValueToScore(ScoreTitle subjectType, double value, Score score) {
+	private void saveValueToScore(ScoreTitle subjectType, Double value, Score score) {
 		switch (subjectType) {
+			case ID_NUMBER:
+				score.setStudentIdNumber(value.intValue());
+				break;
 			case CHINESE:
 				score.setChinese(value);
 				break;
