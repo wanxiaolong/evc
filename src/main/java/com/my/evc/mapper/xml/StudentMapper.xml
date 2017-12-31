@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Student" keyProperty="id" useGeneratedKeys="true">
 		insert into student
-			(id_number,name,name_pinyin,sex,grade,class,birth_year,birth_day,description) 
+			(number,name,name_pinyin,sex,grade,class,birth_year,birth_day,description) 
 		values
-			(#{idNumber},#{name},#{namePinyin},#{sex},#{grade},#{clazz},#{birthYear},#{birthDay},#{description})
+			(#{number},#{name},#{namePinyin},#{sex},#{grade},#{clazz},#{birthYear},#{birthDay},#{description})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,7 +16,7 @@
 	<update id="update" parameterType="com.my.evc.model.Student">
 		update student 
 		set 
-			id_number=#{idNumber},
+			number=#{number},
 			name=#{name}, 
 			name_pinyin=#{namePinyin}, 
 			sex=#{sex}, 
@@ -30,7 +30,7 @@
 	</update>
 	
 	<sql id="all_fields">
-		id_number as idNumber,
+		number as number,
 		name as name, 
 		name_pinyin as namePinyin, 
 		sex as sex, 
@@ -50,6 +50,6 @@
 	<select id="findByIdNumber" parameterType="int" resultType="com.my.evc.model.Student">
 		select
 			<include refid="all_fields"/>
-		from student where id_number=#{idNumber}
+		from student where number=#{number}
 	</select>
 </mapper>

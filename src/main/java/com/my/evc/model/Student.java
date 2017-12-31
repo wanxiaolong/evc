@@ -5,7 +5,7 @@ package com.my.evc.model;
  */
 public class Student extends BaseModel {
 	
-	private int idNumber;			//学号
+	private int number;				//学号
 	private String name;			//姓名
 	private String namePinyin;		//姓名缩写（拼音首字母）
 	private String sex;				//性别
@@ -15,11 +15,11 @@ public class Student extends BaseModel {
 	private int birthDay;			//出生日期（用于查询成绩）
 	private String description;		//备注
 	
-	public int getIdNumber() {
-		return idNumber;
+	public int getNumber() {
+		return number;
 	}
-	public void setIdNumber(int idNumber) {
-		this.idNumber = idNumber;
+	public void setNumber(int number) {
+		this.number = number;
 	}
 	public String getName() {
 		return name;

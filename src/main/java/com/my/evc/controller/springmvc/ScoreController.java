@@ -36,11 +36,23 @@ public class ScoreController extends BaseController {
 			HttpServletResponse response) throws BaseException, Exception {
 		//调用工具类处理文件上传请求
 		List<Map<String,String>> scoreList = FileUtil.handleUploadScore(request, response);
-		//调用service保存解析到的成绩
 		scoreService.uploadScore(scoreList);
+		
 		response.setStatus(Status.CREATED.getStatusCode());
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
 		return EMPTY_JSON;
+	}
+	
+	/**
+	 * 成绩查询。
+	 */
+	@RequestMapping(value = "/query", method = RequestMethod.POST)
+	public void queryScore(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String studentName = request.getParameter("student_name");
+		String studentBirthDay = request.getParameter("student_birthday");
+		String examId = request.getParameter("exam_id");
+		scoreService.queryScoreByName(studentName, studentBirthDay, Integer.parseInt(examId));
 	}
 }

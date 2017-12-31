@@ -13,6 +13,8 @@ public enum ErrorEnum {
 	
 	ILLEGAL_REQUEST_NO_EXAM_ID(401, "无效请求。参数中缺少exam_id"),
 	
+	DAO_PARTIAL_INSERT(601, "只插入了部分数据"),
+	
 	USER_NOT_FOUND(102,"User not found.");
 	
 	

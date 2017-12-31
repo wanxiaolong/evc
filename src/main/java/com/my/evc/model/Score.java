@@ -7,7 +7,7 @@ package com.my.evc.model;
  */
 public class Score extends BaseModel {
 	
-	private int studentIdNumber;	//学生的学号
+	private int studentNumber;		//学生的学号
 	private int examId;				//考试的主键
 	private double chinese;			//语文
 	private double math;			//数学
@@ -23,11 +23,11 @@ public class Score extends BaseModel {
 	private double score1;			//预留字段1
 	private double score2;			//预留字段2
 	
-	public int getStudentIdNumber() {
-		return studentIdNumber;
+	public int getStudentNumber() {
+		return studentNumber;
 	}
-	public void setStudentIdNumber(int studentIdNumber) {
-		this.studentIdNumber = studentIdNumber;
+	public void setStudentNumber(int studentNumber) {
+		this.studentNumber = studentNumber;
 	}
 	public int getExamId() {
 		return examId;

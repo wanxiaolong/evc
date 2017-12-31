@@ -34,7 +34,4 @@ public enum ScoreTitle {
 		}
 		return null;
 	}
-	public static void main(String[] args) {
-		System.out.println(fromString("数学"));
-	}
 }

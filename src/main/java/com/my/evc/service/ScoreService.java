@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.my.evc.common.Constant;
+import com.my.evc.common.ErrorEnum;
 import com.my.evc.exception.BaseException;
+import com.my.evc.exception.BusinessException;
 import com.my.evc.exception.DaoException;
 import com.my.evc.mapper.ScoreMapper;
 import com.my.evc.model.Score;
@@ -16,7 +20,9 @@ import com.my.evc.type.ScoreTitle;
 
 @Service
 @Transactional
-public class ScoreService implements BaseService<Score>{
+public class ScoreService implements BaseService<Score> {
+	
+	private static final Logger LOGGER = Logger.getLogger(ScoreService.class);
 	
 	@Autowired
 	private ScoreMapper scoreMapper;
@@ -37,16 +43,17 @@ public class ScoreService implements BaseService<Score>{
 		return scoreMapper.find(id);
 	}
 	
-	public List<Score> uploadScore(List<Map<String,String>> scoreList) throws DaoException {
-		if (scoreList == null || scoreList.size() == 0) {
-			System.out.println("空数组列表！");
-			return null;
-		}
-		//取得最后一个Map，里面封装了examId
+	/**
+	 * 将列表中的成绩插入到数据库中。<br>
+	 * 由于之前的逻辑已经保证scoreList不会为空，所以这里无需再次验证。
+	 */
+	public int uploadScore(List<Map<String, String>> scoreList) throws DaoException, BusinessException {
+		//取得最后一个Map，里面封装了examId，读取之后需要移除这个装examId的Map。
 		Map<String, String> parameters = scoreList.get(scoreList.size() - 1);
-		String examId = parameters.get("exam_id");
+		String examId = parameters.get(Constant.PARAM_EXAM_ID);
 		scoreList.remove(parameters);
 		
+		//将读取到的成绩转换成Score对象并保存到List中
 		List<Score> scores = new ArrayList<Score>();
 		for(Map<String, String> map : scoreList) {
 			Score score = new Score();
@@ -61,12 +68,15 @@ public class ScoreService implements BaseService<Score>{
 			scores.add(score);
 		}
 		
-		//把成绩保存在数据库中
-		for(Score score: scores) {
-			scoreMapper.create(score);
+		//把成绩List保存在数据库中
+		int rows = scoreMapper.createBatch(scores);
+		//插入完成后验证插入的行数
+		if (rows != scores.size()) {
+			LOGGER.error("插入成绩数不完全。待插入：" + scores.size() + ", 实际插入：" + rows);
+			throw new BusinessException(ErrorEnum.DAO_PARTIAL_INSERT);
 		}
-		
-		return scores;
+		LOGGER.info("插入数据库完成！已插入：" + rows);
+		return rows;
 	}
 	
 	/**
@@ -75,7 +85,7 @@ public class ScoreService implements BaseService<Score>{
 	private void saveValueToScore(ScoreTitle subjectType, Double value, Score score) {
 		switch (subjectType) {
 			case ID_NUMBER:
-				score.setStudentIdNumber(value.intValue());
+				score.setStudentNumber(value.intValue());
 				break;
 			case CHINESE:
 				score.setChinese(value);
@@ -114,5 +124,21 @@ public class ScoreService implements BaseService<Score>{
 			default:
 				break;
 		}
+	}
+
+	/**
+	 * 按姓名查询学生某次考试的成绩。
+	 */
+	public void queryScoreByName(String studentName, String studentBirthDay, int examId) {
+		
+	}
+	
+	/**
+	 * 按学号查询学生某次考试的成绩。
+	 * @param number 学号
+	 * @param examId 考试
+	 */
+	public void queryScoreByNumber(int number, int examId) {
+		
 	}
 }

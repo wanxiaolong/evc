@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -25,6 +26,8 @@ import com.my.evc.exception.BusinessException;
  * 用于从Excel导入成绩到数据库，也用于从数据库导出成绩到Excel
  */
 public class ExcelUtil {
+	
+	private static final Logger LOGGER = Logger.getLogger(ExcelUtil.class);
 	
 	/**
 	 * 读取成绩表的Excel，第一行为表头，剩下的行数为成绩。结果将包含在一个List&lt;Map&gt;中，
@@ -98,7 +101,7 @@ public class ExcelUtil {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_NO_SCORE);
 		}
 		
-		System.out.println("读取Excel完成！读取到的成绩：" + scoreList.size());
+		LOGGER.info("读取Excel完成！读取到的成绩：" + scoreList.size());
 		return scoreList;
 	}
 	
