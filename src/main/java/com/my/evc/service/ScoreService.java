@@ -17,6 +17,7 @@ import com.my.evc.exception.DaoException;
 import com.my.evc.mapper.ScoreMapper;
 import com.my.evc.model.Score;
 import com.my.evc.type.ScoreTitle;
+import com.my.evc.vo.ScoreVo;
 
 @Service
 @Transactional
@@ -129,10 +130,37 @@ public class ScoreService implements BaseService<Score> {
 	/**
 	 * 按姓名查询学生某次考试的成绩。
 	 */
-	public void queryScoreByName(String studentName, String studentBirthDay, int examId) {
-		
+	public List<ScoreVo> queryScoreByName(String name, String birthday, int examId) {
+		List<ScoreVo> scoreVos = scoreMapper.findByNameAndExam(name, birthday, examId);
+		//计算总分
+		for(ScoreVo vo : scoreVos) {
+			double total = calculateTotal(vo);
+			vo.setTotal(total);
+		}
+		return scoreVos;
 	}
 	
+	/**
+	 * 计算一次考试的总分。
+	 */
+	private double calculateTotal(ScoreVo vo) {
+		double sum = 0;
+		sum += vo.getChinese();
+		sum += vo.getMath();
+		sum += vo.getEnglish();
+		sum += vo.getPhysics();
+		sum += vo.getChemistry();
+		sum += vo.getBiologic();
+		sum += vo.getPolitics();
+		sum += vo.getHistory();
+		sum += vo.getGeography();
+		sum += vo.getPhysical();
+		sum += vo.getExperiment();
+		sum += vo.getScore1();
+		sum += vo.getScore2();
+		return sum;
+	}
+
 	/**
 	 * 按学号查询学生某次考试的成绩。
 	 * @param number 学号

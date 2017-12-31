@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>中国英语村-资料上传</title>
+	<title>中国英语村-成绩上传</title>
 	<common:import/>
 	<link rel="stylesheet" href="<%=basePath%>/vendor/bootstrap-fileinput-4.4.7/css/fileinput.min.css">
 	<script src="<%=basePath%>/vendor/bootstrap-fileinput-4.4.7/js/fileinput.min.js"></script>
@@ -41,7 +41,7 @@
 <script type="text/javascript">
 $("#uploadfile").fileinput({
 	language: 'zh', //设置语言
-	uploadUrl: "http://localhost:8080/evc/rest/score/upload", //上传的地址
+	uploadUrl: "<%=basePath%>/rest/score/upload", //上传的地址
 	allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
 	uploadExtraData:{"exam_id": $("#exam option:selected").val()},
 	uploadAsync: true, //默认异步上传

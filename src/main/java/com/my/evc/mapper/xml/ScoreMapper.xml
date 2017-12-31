@@ -54,26 +54,36 @@
 	</update>
 	
 	<sql id="all_fields">
-		student_number as studentNumber,
-		exam_id as examId,
-		chinese as chinese,
-		math as math,
-		english as english,
-		physics as physics,
-		chemistry as chemistry,
-		biologic as biologic,
-		politics as politics,
-		history as history,
-		geography as geography,
-		physical as physical,
-		experiment as experiment,
-		score1 as score1,
-		score2 as score2
+		score.id as id,
+		score.student_number as studentNumber,
+		score.exam_id as examId,
+		score.chinese as chinese,
+		score.math as math,
+		score.english as english,
+		score.physics as physics,
+		score.chemistry as chemistry,
+		score.biologic as biologic,
+		score.politics as politics,
+		score.history as history,
+		score.geography as geography,
+		score.physical as physical,
+		score.experiment as experiment,
+		score.score1 as score1,
+		score.score2 as score2,
+		score.creation_date as creationDate
 	</sql>
 	
 	<select id="find" parameterType="int" resultType="com.my.evc.model.Score">
 		select
 			<include refid="all_fields"/>
 		from score where id=#{id}
+	</select>
+	<select id="findByNameAndExam" parameterType="map" resultType="com.my.evc.vo.ScoreVo">
+		select
+			<include refid="all_fields"/>,
+		student.name as studentName
+		from score join student 
+		on student.number = score.student_number
+		where name=#{name} and birth_day=#{birthday} and exam_id=#{examId}
 	</select>
 </mapper>

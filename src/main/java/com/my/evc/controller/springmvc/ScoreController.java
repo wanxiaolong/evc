@@ -12,10 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.my.evc.common.Constant;
 import com.my.evc.exception.BaseException;
 import com.my.evc.service.ScoreService;
 import com.my.evc.util.FileUtil;
+import com.my.evc.vo.ScoreVo;
 
 /**
  * 本类处理文件相关的请求。
@@ -45,14 +48,31 @@ public class ScoreController extends BaseController {
 	}
 	
 	/**
-	 * 成绩查询。
+	 * 跳转到成绩查询页面。
+	 */
+	@RequestMapping(value = "/query", method = RequestMethod.GET)
+	public ModelAndView queryScorePage(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		ModelAndView mav = new ModelAndView("score");
+		return mav;
+	}
+	
+	/**
+	 * 执行成绩查询。注意这里返回的是VO对象，非模型对象。
 	 */
 	@RequestMapping(value = "/query", method = RequestMethod.POST)
-	public void queryScore(HttpServletRequest request, 
+	public ModelAndView queryScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		String studentName = request.getParameter("student_name");
-		String studentBirthDay = request.getParameter("student_birthday");
-		String examId = request.getParameter("exam_id");
-		scoreService.queryScoreByName(studentName, studentBirthDay, Integer.parseInt(examId));
+		String name = request.getParameter(Constant.PARAM_NAME);
+		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
+		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
+		List<ScoreVo> scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
+		//返回到score页面
+		ModelAndView mav = new ModelAndView("score");
+		mav.addObject(MODEL, scoreVos);
+		mav.addObject(Constant.PARAM_NAME, name);
+		mav.addObject(Constant.PARAM_BIRTHDAY, birthday);
+		mav.addObject(Constant.PARAM_EXAM_ID, examId);
+		return mav;
 	}
 }
