@@ -5,7 +5,17 @@ public enum ErrorEnum {
 	DAO_ERROR(100, "Database layer error."),
 	DATABASE_ACCESS_FAILED(101, "Access DB failed."),
 	SQL_ERROR(103, "SQL error"),
+	
+	
+	INVALID_EXCEL_NO_SCORE(301, "无效Excel文件。没有成绩。"),
+	INVALID_EXCEL_UNSUPPORTED_TYPE(302, "无效Excel文件。只支持.xlsx和.xls类型的文件。"),
+	INVALID_EXCEL_EMPTY_FILE_NAME(303, "无效Excel文件。文件名为空。"),
+	
+	ILLEGAL_REQUEST_NO_EXAM_ID(401, "无效请求。参数中缺少exam_id"),
+	
 	USER_NOT_FOUND(102,"User not found.");
+	
+	
 	
 	private String message;
 	private int code;

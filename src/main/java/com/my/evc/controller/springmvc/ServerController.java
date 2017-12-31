@@ -40,7 +40,7 @@ public class ServerController extends BaseController {
 	/**
 	 * 语言切换。
 	 */
-	@RequestMapping(value = "lang", method = RequestMethod.GET)
+	@RequestMapping(value = "/language", method = RequestMethod.GET)
 	public String language(HttpServletRequest request, HttpServletResponse response, 
 			@RequestParam("lang") String language) {
 		language = language.toLowerCase();
