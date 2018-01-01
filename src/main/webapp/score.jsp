@@ -21,19 +21,14 @@
 			<div>查询条件</div>
 			<div class="form-group">
 				<label>学期：</label>
-				<select class="form-control">
-					<option>2017年第二学期</option>
-					<option>2017年第一学期</option>
-					<option>2016年第二学期</option>
-					<option>2016年第一学期</option>
+				<select class="form-control" id="semesterSelect" name="semester">
+					<option>--请选择--</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>考试：</label>
-				<select class="form-control" name="exam_id">
-					<option value="3">半期考试</option>
-					<option value="1">第一次月考</option>
-					<option value="4">期末考试</option>
+				<select class="form-control" id="examSelect" name="exam_id">
+					<option>--请选择--</option>
 				</select>
 			</div>
 			<div class="form-group">
@@ -73,7 +68,7 @@
 			</thead>
 			<tbody>
 				<c:if test="${empty model}">
-					<div>没有记录！</div>
+					<tr><td colspan="12">没有记录！</td></tr>
 				</c:if>
 				<c:if test="${not empty model}">
 					<c:forEach items="${model}" var="score">
@@ -98,4 +93,54 @@
 	</div>
 	<common:page-footer/>
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.ajax({
+		type: 'GET',
+		url: '<%=basePath%>/rest/semester/findAll',
+		success: function (data) {
+			var semesterArray = data.response;
+			if (semesterArray.length > 0) {
+				for(var index in semesterArray) {
+					var semester = semesterArray[index];
+					//动态创建并添加select的option
+					var option = new Option(semester.name, semester.number);
+					$("#semesterSelect").append(option);
+				}
+			}
+			
+		},
+		error: function () {
+			console.log("调用查询考试信息接口失败！");
+		}
+	});
+	
+	
+	$('#semesterSelect').change(function(){
+		var selectedSemester = $(this).children('option:selected').val();//这就是selected的值
+		$.ajax({
+			type: 'GET',
+			url: '<%=basePath%>/rest/exam/findBySemester?semester=' + selectedSemester,
+			success: function (data) {
+				//移除examSelect所有带有value的option
+				$("#examSelect option[value]").remove();
+				
+				var examArray = data.response;
+				if (examArray.length > 0) {
+					for(var index in examArray) {
+						var exam = examArray[index];
+						//动态创建并添加select的option
+						var option = new Option(exam.name, exam.id);
+						$("#examSelect").append(option);
+					}
+				}
+				
+			},
+			error: function () {
+				console.log("调用查询考试信息接口失败！");
+			}
+		});
+	});
+});
+</script>
 </html>

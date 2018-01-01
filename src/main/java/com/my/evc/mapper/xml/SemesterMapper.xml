@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.SemesterMapper">
+
+	<insert id="create" parameterType="com.my.evc.model.Semester" keyProperty="id" useGeneratedKeys="true">
+		insert into semester
+			(admin_id,name,year,number) 
+		values
+			(#{adminId},#{name},#{year},#{number})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from semester where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Semester">
+		update semester 
+		set 
+			admin_id=#{adminId},
+			name=#{name}, 
+			year=#{year}, 
+			number=#{number}
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		id as id,
+		admin_id as adminId,
+		name as name, 
+		year as year, 
+		number as number,
+		creation_date as creationDate
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Semester">
+		select
+			<include refid="all_fields"/>
+		from semester where id=#{id}
+	</select>
+	
+	<select id="findAll" resultType="com.my.evc.model.Semester">
+		select
+			<include refid="all_fields"/>
+		from semester
+	</select>
+</mapper>
