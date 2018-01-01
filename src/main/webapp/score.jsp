@@ -95,6 +95,7 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
+	//页面准备好的时候，调用后端服务查询所有的学期，并自动添加到学期下拉菜单中
 	$.ajax({
 		type: 'GET',
 		url: '<%=basePath%>/rest/semester/findAll',
@@ -111,11 +112,11 @@ $(document).ready(function(){
 			
 		},
 		error: function () {
-			console.log("调用查询考试信息接口失败！");
+			console.log("调用查询学期信息接口失败！");
 		}
 	});
 	
-	
+	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
 	$('#semesterSelect').change(function(){
 		var selectedSemester = $(this).children('option:selected').val();//这就是selected的值
 		$.ajax({
