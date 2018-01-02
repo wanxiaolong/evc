@@ -73,4 +73,12 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	//Use DataTable plugin to provide sort/search/pagination feature for table.
+	//By default, this plugin uses English, provide this URL to do localization for this plugin.
+	$('#scoreTable').DataTable({
+		language: {
+			url: webroot + '/localization/chinese.json'
+		}
+	});
 });

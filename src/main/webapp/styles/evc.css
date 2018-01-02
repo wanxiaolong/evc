@@ -109,4 +109,29 @@ body {
 	margin-top: 10px;
 }
 
-
+/**
+ * 成绩查询页面。
+ */
+.evc-content .filter {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 20px;
+}
+.evc-content .filter-row {
+	margin: 10px 0px;
+}
+.evc-content .filter-row select,
+.evc-content .filter-row input,
+.evc-content .filter-row button {
+	width: 200px;
+}
+.evc-content .filter-block {
+	margin-bottom: 20px;
+}
+.evc-content.score .title {
+	font-size: 25px;
+}
+.evc-content #scoreTable th,
+.evc-content #scoreTable td {
+	text-align: center;
+}

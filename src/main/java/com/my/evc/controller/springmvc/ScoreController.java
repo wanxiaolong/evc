@@ -1,10 +1,12 @@
 package com.my.evc.controller.springmvc;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import com.my.evc.model.Semester;
 import com.my.evc.service.ScoreService;
 import com.my.evc.service.SemesterService;
 import com.my.evc.util.FileUtil;
+import com.my.evc.util.ValidateCode;
 import com.my.evc.vo.ScoreVo;
 
 /**
@@ -78,5 +81,16 @@ public class ScoreController extends BaseController {
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
 		List<ScoreVo> scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
+	}
+	
+	/**
+	 * 查询成绩时获取验证码。
+	 */
+	@RequestMapping(value = "/getcode", method = RequestMethod.GET)
+	@ResponseBody
+	public InputStream getValidationCode(HttpServletRequest request, 
+		HttpServletResponse response) throws BaseException, Exception {
+		HttpSession session = request.getSession();
+		return ValidateCode.getCode(session);
 	}
 }

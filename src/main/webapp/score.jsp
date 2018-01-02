@@ -17,44 +17,47 @@
 </head>
 <body>
 	<common:page-header/>
-	<div class="evc-content">
+	<div class="evc-content score">
 		<!-- 查询条件 -->
-		<div class="form-inline">
-			<div>查询条件</div>
-			<div class="form-group">
-				<label>学期：</label>
-				<select class="form-control" id="semesterSelect" name="semester">
-					<option>--请选择--</option>
-					<c:forEach items="${semesters}" var="semester">
-						<option value="${semester.number}">${semester.name}</option>
-					</c:forEach>
-				</select>
+		<div class="form-inline filter-block">
+			<div class="title">查询条件</div>
+			<div class="filter-row">
+				<div class="filter">
+					<label>学期：</label>
+					<select class="form-control" id="semesterSelect" name="semester">
+						<option>--请选择--</option>
+						<c:forEach items="${semesters}" var="semester">
+							<option value="${semester.number}">${semester.name}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="filter">
+					<label>考试：</label>
+					<select class="form-control" id="examSelect">
+						<option>--请选择--</option>
+					</select>
+				</div>
+				<div class="filter">
+					<img/>
+					<input type="text" class="form-control" id="verify_code" placeholder="验证码">
+				</div>
 			</div>
-			<div class="form-group">
-				<label>考试：</label>
-				<select class="form-control" id="examSelect">
-					<option>--请选择--</option>
-				</select>
+			<div class="filter-row">
+				<div class="filter">
+					<label>姓名：</label>
+					<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}">
+				</div>
+				<div class="filter">
+					<label>生日：</label>
+					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}">
+				</div>
+				<button type="button" id="queryBtn" class="btn btn-default">查询</button>
 			</div>
-			<div class="form-group">
-				<label>姓名：</label>
-				<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}">
-			</div>
-			<div class="form-group">
-				<label>生日：</label>
-				<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}">
-			</div>
-			<div class="form-group">
-				<label>验证码：</label>
-				<input type="text" class="form-control" id="verify_code" placeholder="验证码">
-				<img/>
-			</div>
-			<button type="button" id="queryBtn" class="btn btn-default">查询</button>
 		</div>
 
 		<!-- 表格布局 -->
 		<table id="scoreTable" class="table table-striped table-bordered">
-			<caption>查询结果</caption>
+			<caption class="title">查询结果</caption>
 			<thead>
 				<tr>
 					<th>学号</th>
@@ -78,15 +81,5 @@
 </body>
 <script type="text/javascript" src="<%=basePath%>/scripts/common.js"></script>
 <script type="text/javascript" src="<%=basePath%>/scripts/score.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-	//Use DataTable plugin to provide sort/search/pagination feature for table.
-	//By default, this plugin uses English, provide this URL to do localization for this plugin.
-	$('#file_table').DataTable({
-		language: {
-			url: '/evc/localization/chinese.json'
-		}
-	});
-});
 </script>
 </html>
