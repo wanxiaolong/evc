@@ -12,43 +12,48 @@
 <head>
 	<title>中国英语村-成绩查询</title>
 	<common:import/>
+	<script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
 </head>
 <body>
 	<common:page-header/>
 	<div class="evc-content">
 		<!-- 查询条件 -->
-		<form class="form-inline" role="form" method="POST" action="<%=basePath%>/rest/score/query">
+		<div class="form-inline">
 			<div>查询条件</div>
 			<div class="form-group">
 				<label>学期：</label>
 				<select class="form-control" id="semesterSelect" name="semester">
 					<option>--请选择--</option>
+					<c:forEach items="${semesters}" var="semester">
+						<option value="${semester.number}">${semester.name}</option>
+					</c:forEach>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>考试：</label>
-				<select class="form-control" id="examSelect" name="exam_id">
+				<select class="form-control" id="examSelect">
 					<option>--请选择--</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label>姓名：</label>
-				<input type="text" class="form-control" name="name" placeholder="学生姓名" value="${name}">
+				<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}">
 			</div>
 			<div class="form-group">
 				<label>生日：</label>
-				<input type="text" class="form-control" name="birthday" placeholder="学生生日" value="${birthday}">
+				<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}">
 			</div>
 			<div class="form-group">
 				<label>验证码：</label>
-				<input type="text" class="form-control" name="verify_code" placeholder="验证码">
+				<input type="text" class="form-control" id="verify_code" placeholder="验证码">
 				<img/>
 			</div>
-			<button type="submit" class="btn btn-default">提交</button>
-		</form>
+			<button type="button" id="queryBtn" class="btn btn-default">查询</button>
+		</div>
 
 		<!-- 表格布局 -->
-		<table class="table table-striped table-bordered">
+		<table id="scoreTable" class="table table-striped table-bordered">
 			<caption>查询结果</caption>
 			<thead>
 				<tr>
@@ -66,81 +71,21 @@
 					<th>总分</th>
 				</tr>
 			</thead>
-			<tbody>
-				<c:if test="${empty model}">
-					<tr><td colspan="12">没有记录！</td></tr>
-				</c:if>
-				<c:if test="${not empty model}">
-					<c:forEach items="${model}" var="score">
-						<tr>
-							<td>${score.studentNumber}</td>
-							<td>${score.studentName}</td>
-							<td>${score.chinese}</td>
-							<td>${score.math}</td>
-							<td>${score.english}</td>
-							<td>${score.physics}</td>
-							<td>${score.chemistry}</td>
-							<td>${score.biologic}</td>
-							<td>${score.politics}</td>
-							<td>${score.history}</td>
-							<td>${score.geography}</td>
-							<td>${score.total}</td>
-						</tr>
-					</c:forEach>
-				</c:if>
-			</tbody>
+			<tbody></tbody>
 		</table>
 	</div>
 	<common:page-footer/>
 </body>
+<script type="text/javascript" src="<%=basePath%>/scripts/common.js"></script>
+<script type="text/javascript" src="<%=basePath%>/scripts/score.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	//页面准备好的时候，调用后端服务查询所有的学期，并自动添加到学期下拉菜单中
-	$.ajax({
-		type: 'GET',
-		url: '<%=basePath%>/rest/semester/findAll',
-		success: function (data) {
-			var semesterArray = data.response;
-			if (semesterArray.length > 0) {
-				for(var index in semesterArray) {
-					var semester = semesterArray[index];
-					//动态创建并添加select的option
-					var option = new Option(semester.name, semester.number);
-					$("#semesterSelect").append(option);
-				}
-			}
-			
-		},
-		error: function () {
-			console.log("调用查询学期信息接口失败！");
+	//Use DataTable plugin to provide sort/search/pagination feature for table.
+	//By default, this plugin uses English, provide this URL to do localization for this plugin.
+	$('#file_table').DataTable({
+		language: {
+			url: '/evc/localization/chinese.json'
 		}
-	});
-	
-	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
-	$('#semesterSelect').change(function(){
-		var selectedSemester = $(this).children('option:selected').val();//这就是selected的值
-		$.ajax({
-			type: 'GET',
-			url: '<%=basePath%>/rest/exam/findBySemester?semester=' + selectedSemester,
-			success: function (data) {
-				//移除examSelect所有带有value的option
-				$("#examSelect option[value]").remove();
-				
-				var examArray = data.response;
-				if (examArray.length > 0) {
-					for(var index in examArray) {
-						var exam = examArray[index];
-						//动态创建并添加select的option
-						var option = new Option(exam.name, exam.id);
-						$("#examSelect").append(option);
-					}
-				}
-				
-			},
-			error: function () {
-				console.log("调用查询考试信息接口失败！");
-			}
-		});
 	});
 });
 </script>

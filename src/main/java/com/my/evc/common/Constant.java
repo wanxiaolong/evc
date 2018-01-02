@@ -12,6 +12,7 @@ public class Constant {
 	public static final String PARAM_NAME = "name";
 	public static final String PARAM_BIRTHDAY = "birthday";
 	public static final String PARAM_SEMESTER = "semester";
+	public static final String PARAM_SEMESTERS = "semesters";
 	
 	public static final List<String> ALLOWED_FILE_EXTENSION = Arrays.asList(new String[]{".xlsx", ".xls"});
 }

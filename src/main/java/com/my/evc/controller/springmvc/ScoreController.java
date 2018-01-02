@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
+import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
+import com.my.evc.model.Semester;
 import com.my.evc.service.ScoreService;
+import com.my.evc.service.SemesterService;
 import com.my.evc.util.FileUtil;
 import com.my.evc.vo.ScoreVo;
 
@@ -29,6 +32,9 @@ public class ScoreController extends BaseController {
 	
 	@Autowired
 	private ScoreService scoreService;
+	
+	@Autowired
+	private SemesterService semesterService;
 	
 	/**
 	 * 成绩上传。这里上传的是一个Excel文件，后台需要读取这个文件，并把成绩插入到score表中。
@@ -53,26 +59,24 @@ public class ScoreController extends BaseController {
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	public ModelAndView queryScorePage(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
+		//成绩查询页面默认填充好第一个下拉菜单：学期
+		List<Semester> semesters = semesterService.findAll();
 		ModelAndView mav = new ModelAndView("score");
+		mav.addObject(Constant.PARAM_SEMESTERS, semesters);
 		return mav;
 	}
 	
 	/**
-	 * 执行成绩查询。注意这里返回的是VO对象，非模型对象。
+	 * 执行成绩查询。注意这里返回的是Json对象，非视图对象。
 	 */
 	@RequestMapping(value = "/query", method = RequestMethod.POST)
-	public ModelAndView queryScore(HttpServletRequest request, 
+	@ResponseBody
+	public JsonResponse<List<ScoreVo>> queryScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
 		String name = request.getParameter(Constant.PARAM_NAME);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
 		List<ScoreVo> scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
-		//返回到score页面
-		ModelAndView mav = new ModelAndView("score");
-		mav.addObject(MODEL, scoreVos);
-		mav.addObject(Constant.PARAM_NAME, name);
-		mav.addObject(Constant.PARAM_BIRTHDAY, birthday);
-		mav.addObject(Constant.PARAM_EXAM_ID, examId);
-		return mav;
+		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}
 }
