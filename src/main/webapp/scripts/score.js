@@ -79,6 +79,8 @@ $(document).ready(function(){
 					$("#scoreTable tbody tr").remove();
 					$("#scoreTable tbody").append(tr);
 				}
+				//初始化表格
+				initDataTable('scoreTable');
 			},
 			error: function () {
 				console.log("调用查询接口失败！");
@@ -88,23 +90,27 @@ $(document).ready(function(){
 		updateVerifyCode();
 	});
 	
-	//Use DataTable plugin to provide sort/search/pagination feature for table.
-	//By default, this plugin uses English, provide this URL to do localization for this plugin.
-	$('#scoreTable').DataTable({
-		language: {
-			url: webroot + '/localization/chinese.json'
-		}
-	});
-	
-	updateVerifyCode();
+	//绑定验证码的点击事件。点击后更新验证码。
 	$('#verifyCodeImg').click(function(){
 		updateVerifyCode();
 	});
+	
+	//更新验证码
+	updateVerifyCode();
 });
 
 function updateVerifyCode() {
 	$("#verifyCodeImg").attr("src", webroot + "/rest/score/getcode?t=" + new Date().getTime());
 }
+
+function initDataTable(id) {
+	return $('#' + id).DataTable({
+		language: {
+			url: webroot + '/localization/chinese.json'
+		}
+	});
+}
+
 //检查所有必填的字段，看是否为空。如果为空，则将边框标红。
 function checkRequiredField() {
 	var errorFields = [];
