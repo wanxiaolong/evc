@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServlet;
@@ -21,7 +18,7 @@ public class ValidateCode extends HttpServlet {
 	//图片宽度
 	private static final int width=80;
 	//图片高度
-	private static final int height=30;
+	private static final int height=35;
 	//字体大小
 	private static final int fontsize=25;
 	//干扰线数量
@@ -30,7 +27,7 @@ public class ValidateCode extends HttpServlet {
 	private static final int nums=4;
 	//随机数产生器
 	private static Random random = new Random();
-	private static byte[] generator(HttpSession session) throws Exception {
+	private static byte[] generate(HttpSession session) throws Exception {
 		//产生的字符串
 		String randString="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		//创建一幅图像
@@ -72,14 +69,14 @@ public class ValidateCode extends HttpServlet {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(os);
 		encoder.encode(image);
-		session.setAttribute(Constant.PARAM_VALIDATION_CODE, code.toString());
+		session.setAttribute(Constant.PARAM_VERIFY_CODE, code.toString());
 		return os.toByteArray();
 	}
 	/**
 	 * 用于调用产生验证码的过程
 	 */
-	public static InputStream getCode(HttpSession session) throws Exception {
-		return new ByteArrayInputStream(generator(session));
+	public static byte[] getCode(HttpSession session) throws Exception {
+		return generate(session);
 	}
 	/**
 	 * 产生一个随机的颜色

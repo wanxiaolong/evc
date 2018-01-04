@@ -12,7 +12,7 @@ public enum ErrorEnum {
 	INVALID_EXCEL_EMPTY_FILE_NAME(303, "无效Excel文件。文件名为空。"),
 	
 	ILLEGAL_REQUEST_NO_EXAM_ID(401, "无效请求。参数中缺少exam_id"),
-	
+	ILLEGAL_REQUEST_ERROR_VERIFY_CODE(402, "验证码错误"),
 	DAO_PARTIAL_INSERT(601, "只插入了部分数据"),
 	
 	USER_NOT_FOUND(102,"User not found.");

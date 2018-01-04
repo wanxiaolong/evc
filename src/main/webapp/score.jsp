@@ -24,7 +24,7 @@
 			<div class="filter-row">
 				<div class="filter">
 					<label>学期：</label>
-					<select class="form-control" id="semesterSelect" name="semester">
+					<select class="form-control" id="semesterSelect" name="semester" required>
 						<option>--请选择--</option>
 						<c:forEach items="${semesters}" var="semester">
 							<option value="${semester.number}">${semester.name}</option>
@@ -33,23 +33,23 @@
 				</div>
 				<div class="filter">
 					<label>考试：</label>
-					<select class="form-control" id="examSelect">
+					<select class="form-control" id="examSelect" required>
 						<option>--请选择--</option>
 					</select>
 				</div>
 				<div class="filter">
-					<img/>
-					<input type="text" class="form-control" id="verify_code" placeholder="验证码">
+					<img class="verify-code-img" id="verifyCodeImg" alt="更换验证码"/>
+					<input type="text" class="form-control verify-code-input" id="verifyCode" placeholder="验证码" required>
 				</div>
 			</div>
 			<div class="filter-row">
 				<div class="filter">
 					<label>姓名：</label>
-					<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}">
+					<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}" required>
 				</div>
 				<div class="filter">
 					<label>生日：</label>
-					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}">
+					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" required>
 				</div>
 				<button type="button" id="queryBtn" class="btn btn-default">查询</button>
 			</div>

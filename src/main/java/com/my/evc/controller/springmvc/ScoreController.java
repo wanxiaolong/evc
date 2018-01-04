@@ -1,6 +1,5 @@
 package com.my.evc.controller.springmvc;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
+import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
+import com.my.evc.exception.ValidationException;
 import com.my.evc.model.Semester;
 import com.my.evc.service.ScoreService;
 import com.my.evc.service.SemesterService;
@@ -79,6 +80,12 @@ public class ScoreController extends BaseController {
 		String name = request.getParameter(Constant.PARAM_NAME);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
+		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
+		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
+		//先检验验证码
+		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
+			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
+		}
 		List<ScoreVo> scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}
@@ -88,7 +95,7 @@ public class ScoreController extends BaseController {
 	 */
 	@RequestMapping(value = "/getcode", method = RequestMethod.GET)
 	@ResponseBody
-	public InputStream getValidationCode(HttpServletRequest request, 
+	public byte[] getValidationCode(HttpServletRequest request, 
 		HttpServletResponse response) throws BaseException, Exception {
 		HttpSession session = request.getSession();
 		return ValidateCode.getCode(session);

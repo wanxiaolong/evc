@@ -11,7 +11,9 @@ body {
 .evc-content h5 {
 	font-weight: 200;
 }
-
+.err-bdr {
+	border: 1px solid red;
+}
 /**
  * 主页(home.jsp)
  */
@@ -134,4 +136,12 @@ body {
 .evc-content #scoreTable th,
 .evc-content #scoreTable td {
 	text-align: center;
+}
+.evc-content .verify-code-img {
+	width: 80px;
+	height: 35px;
+	cursor: pointer;
+}
+.evc-content .filter-row .verify-code-input {
+	width: 116px;
 }
