@@ -53,9 +53,7 @@ $(document).ready(function(){
 				}
 				$("#verifyCode").removeClass("err-bdr");
 				if (array.length > 0) {
-					insertRowsWithData(array);
-				} else {
-					insertRowsWithoutData();
+					addRows(array);
 				}
 			},
 			error: function () {
@@ -64,7 +62,6 @@ $(document).ready(function(){
 		});
 		//每次查询后，立即更新验证码。
 		updateVerifyCode();
-		initDataTable("scoreTable");
 	});
 	
 	//绑定验证码的点击事件。点击后更新验证码。
@@ -74,7 +71,7 @@ $(document).ready(function(){
 	
 	//更新验证码
 	updateVerifyCode();
-	insertRowsWithoutData();
+	table = initDataTable("scoreTable");
 });
 function updateVerifyCode() {
 	$("#verifyCodeImg").attr("src", webroot + "/rest/score/getcode?t=" + new Date().getTime());
@@ -84,59 +81,56 @@ function initDataTable(id) {
 		language: {
 			url: webroot + '/localization/chinese.json'
 		},
-		paging: false,  //分页
-		searching: true,//搜索
-		ordering: true, //排序
-		aaSorting : [[0, "asc"]] //默认的排序方式，第1列，升序排列  
+		bPaginate: true,//是否显示分页器（左上角显示 ‘每页显示x条记录’）
+		bFilter: true, //是否显示搜索框（右上角）
+		bSort: true, //是否允许列排序
+		aaSorting: [[0, "asc"]] //默认的排序方式，第1列，升序排列
 	});
 }
-function insertRowsWithoutData() {
-	var tr = "<tr><td colspan=\"12\">没有记录！</td></tr>";
-	$("#scoreTable tbody tr").remove();
-	$("#scoreTable tbody").append(tr);
-}
-function insertRowsWithData(array) {
-	//先删除现有的行，再动态创建并添加行
-	$("#scoreTable tbody tr").remove();
+function addRows(array) {
+	//先删除现有的行，再动态创建并添加行。
+	//注意:
+	//1. 这里使用的是rows(selector)方法而不是row(selector)方法，这里用于选择多行
+	//2. 从表格中移除之后，需要重新调用draw()方法
+	table.rows("tr").remove().draw();
 	for(var index in array) {
 		var score = array[index];
-		var tr = 
-		"<tr>" +
-			"<td>" + score.studentNumber + "</td>" +
-			"<td>" + score.studentName + "</td>" +
-			"<td>" + score.chinese + "</td>" +
-			"<td>" + score.math + "</td>" +
-			"<td>" + score.english + "</td>" +
-			"<td>" + score.physics + "</td>" +
-			"<td>" + score.chemistry + "</td>" +
-			"<td>" + score.biologic + "</td>" +
-			"<td>" + score.politics + "</td>" +
-			"<td>" + score.history + "</td>" +
-			"<td>" + score.geography + "</td>" +
-			"<td>" + score.total + "</td>" +
-		"</tr>";
-		$("#scoreTable tbody").append(tr);
+		table.row.add([
+			score.studentNumber,
+			score.studentName,
+			score.chinese,
+			score.math,
+			score.english,
+			score.physics,
+			score.chemistry,
+			score.biologic,
+			score.politics,
+			score.history,
+			score.geography,
+			score.total
+		]).draw(false);
 	}
 }
-
 //检查所有必填的字段，看是否为空。如果为空，则将边框标红。
 function checkRequiredField() {
 	var errorFields = [];
+	//对每个含有required属性的控件绑定事件
 	$("[required]").each(function(index, element){
 		var tagName = element.tagName;
+		//获取控件值
 		var val = '';
 		if (tagName == 'SELECT') {
-			val = $(this).children('option:selected').val()
+			val = $(this).children('option:selected').attr('value');
 		} else if (tagName == 'INPUT') {
 			val = $(this).val();
 		}
-		if (val == null || val == '' || val == '--请选择--') {
+		//检查输入
+		if (val == null || val == '') {
 			$(this).addClass('err-bdr');
 			errorFields.push($(this).attr('id'));
 		} else {
 			$(this).removeClass('err-bdr');
 		}
 	});
-	console.log(errorFields);
 	return errorFields.length == 0 ? true : false;
 }

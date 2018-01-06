@@ -56,8 +56,8 @@
 		</div>
 
 		<!-- 表格布局 -->
+		<div class="title">查询结果</div>
 		<table id="scoreTable" class="table table-striped table-bordered">
-			<caption class="title">查询结果</caption>
 			<thead>
 				<tr>
 					<th>学号</th>

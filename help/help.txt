@@ -12,3 +12,7 @@ https://github.com/kartik-v/bootstrap-fileinput
 otherwise the page would display an "Unexpected end of JSON input." error.
 https://segmentfault.com/q/1010000007994178/a-1020000007997036
 https://stackoverflow.com/questions/25173727/syntax-error-unexpected-end-of-input-parsejson
+
+4. DataTable reference(Dynamically add and remove rows, configurations):
+https://datatables.net/reference/api/
+https://datatables.net/reference/option/
