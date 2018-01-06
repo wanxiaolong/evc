@@ -83,9 +83,10 @@ public class ScoreController extends BaseController {
 		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
 		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
 		//先检验验证码
-		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
-			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
-		}
+		//开发时关闭验证码校验功能
+//		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
+//			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
+//		}
 		List<ScoreVo> scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}

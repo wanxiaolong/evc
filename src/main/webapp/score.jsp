@@ -39,7 +39,7 @@
 				</div>
 				<div class="filter">
 					<img class="verify-code-img" id="verifyCodeImg" alt="更换验证码"/>
-					<input type="text" class="form-control verify-code-input" id="verifyCode" placeholder="验证码" required>
+					<input type="text" class="form-control verify-code-input" id="verifyCode" placeholder="验证码">
 				</div>
 			</div>
 			<div class="filter-row">
