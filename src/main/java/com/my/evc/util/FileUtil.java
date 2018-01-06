@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -111,7 +112,7 @@ public class FileUtil {
 	/**
 	 * 拷贝流数据。把数据从输入流写到输出流。
 	 */
-	private static void copyStream(InputStream in, FileOutputStream out) throws IOException {
+	public static void copyStream(InputStream in, OutputStream out) throws IOException {
 		int length=0;
 		byte[] buffer = new byte[1024];
 		while((length = in.read(buffer))!=-1){

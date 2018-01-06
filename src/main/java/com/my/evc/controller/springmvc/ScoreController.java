@@ -24,7 +24,7 @@ import com.my.evc.model.Semester;
 import com.my.evc.service.ScoreService;
 import com.my.evc.service.SemesterService;
 import com.my.evc.util.FileUtil;
-import com.my.evc.util.ValidateCode;
+import com.my.evc.util.ValidateCodeUtil;
 import com.my.evc.vo.ScoreVo;
 
 /**
@@ -98,6 +98,8 @@ public class ScoreController extends BaseController {
 	public byte[] getValidationCode(HttpServletRequest request, 
 		HttpServletResponse response) throws BaseException, Exception {
 		HttpSession session = request.getSession();
-		return ValidateCode.getCode(session);
+		char[] chars = ValidateCodeUtil.getCode();
+		session.setAttribute(Constant.PARAM_VERIFY_CODE, String.copyValueOf(chars));
+		return ValidateCodeUtil.getImage(chars);
 	}
 }

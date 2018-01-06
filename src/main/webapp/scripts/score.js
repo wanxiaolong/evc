@@ -53,34 +53,10 @@ $(document).ready(function(){
 				}
 				$("#verifyCode").removeClass("err-bdr");
 				if (array.length > 0) {
-					//先删除现有的行，再动态创建并添加行
-					$("#scoreTable tbody tr").remove();
-					for(var index in array) {
-						var score = array[index];
-						var tr = 
-						"<tr>" +
-							"<td>" + score.studentNumber + "</td>" +
-							"<td>" + score.studentName + "</td>" +
-							"<td>" + score.chinese + "</td>" +
-							"<td>" + score.math + "</td>" +
-							"<td>" + score.english + "</td>" +
-							"<td>" + score.physics + "</td>" +
-							"<td>" + score.chemistry + "</td>" +
-							"<td>" + score.biologic + "</td>" +
-							"<td>" + score.politics + "</td>" +
-							"<td>" + score.history + "</td>" +
-							"<td>" + score.geography + "</td>" +
-							"<td>" + score.total + "</td>" +
-						"</tr>";
-						$("#scoreTable tbody").append(tr);
-					}
+					insertRowsWithData(array);
 				} else {
-					var tr = "<tr><td colspan=\"12\">没有记录！</td></tr>";
-					$("#scoreTable tbody tr").remove();
-					$("#scoreTable tbody").append(tr);
+					insertRowsWithoutData();
 				}
-				//初始化表格
-				initDataTable('scoreTable');
 			},
 			error: function () {
 				console.log("调用查询接口失败！");
@@ -88,6 +64,7 @@ $(document).ready(function(){
 		});
 		//每次查询后，立即更新验证码。
 		updateVerifyCode();
+		initDataTable("scoreTable");
 	});
 	
 	//绑定验证码的点击事件。点击后更新验证码。
@@ -97,18 +74,49 @@ $(document).ready(function(){
 	
 	//更新验证码
 	updateVerifyCode();
+	insertRowsWithoutData();
 });
-
 function updateVerifyCode() {
 	$("#verifyCodeImg").attr("src", webroot + "/rest/score/getcode?t=" + new Date().getTime());
 }
-
 function initDataTable(id) {
 	return $('#' + id).DataTable({
 		language: {
 			url: webroot + '/localization/chinese.json'
-		}
+		},
+		paging: false,  //分页
+		searching: true,//搜索
+		ordering: true, //排序
+		aaSorting : [[0, "asc"]] //默认的排序方式，第1列，升序排列  
 	});
+}
+function insertRowsWithoutData() {
+	var tr = "<tr><td colspan=\"12\">没有记录！</td></tr>";
+	$("#scoreTable tbody tr").remove();
+	$("#scoreTable tbody").append(tr);
+}
+function insertRowsWithData(array) {
+	//先删除现有的行，再动态创建并添加行
+	$("#scoreTable tbody tr").remove();
+	for(var index in array) {
+		var score = array[index];
+		var tr = 
+		"<tr>" +
+			"<td>" + score.studentNumber + "</td>" +
+			"<td>" + score.studentName + "</td>" +
+			"<td>" + score.chinese + "</td>" +
+			"<td>" + score.math + "</td>" +
+			"<td>" + score.english + "</td>" +
+			"<td>" + score.physics + "</td>" +
+			"<td>" + score.chemistry + "</td>" +
+			"<td>" + score.biologic + "</td>" +
+			"<td>" + score.politics + "</td>" +
+			"<td>" + score.history + "</td>" +
+			"<td>" + score.geography + "</td>" +
+			"<td>" + score.total + "</td>" +
+		"</tr>";
+		$("#scoreTable tbody").append(tr);
+	}
 }
 
 //检查所有必填的字段，看是否为空。如果为空，则将边框标红。
