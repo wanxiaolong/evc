@@ -116,29 +116,7 @@ function addRows(array) {
 		]).draw(false);
 	}
 }
-//检查所有必填的字段，看是否为空。如果为空，则将边框标红。
-function checkRequiredField() {
-	var errorFields = [];
-	//对每个含有required属性的控件绑定事件
-	$("[required]").each(function(index, element){
-		var tagName = element.tagName;
-		//获取控件值
-		var val = '';
-		if (tagName == 'SELECT') {
-			val = $(this).children('option:selected').attr('value');
-		} else if (tagName == 'INPUT') {
-			val = $(this).val();
-		}
-		//检查输入
-		if (val == null || val == '') {
-			$(this).addClass('err-bdr');
-			errorFields.push($(this).attr('id'));
-		} else {
-			$(this).removeClass('err-bdr');
-		}
-	});
-	return errorFields.length == 0 ? true : false;
-}
+
 //为查询类型绑定事件
 function initQueryType() {
 	//默认个人成绩选中
