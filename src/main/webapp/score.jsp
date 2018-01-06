@@ -21,6 +21,15 @@
 		<!-- 查询条件 -->
 		<div class="form-inline filter-block">
 			<div class="title">查询条件</div>
+			
+			<div class="filter-row">
+				<label>查询类型：</label>
+				<div class="btn-group">
+					<button class="btn btn-default" id="queryByPerson" value="person">查询个人成绩</button>
+					<button class="btn btn-default" id="queryByClass" value="class">查询班级成绩</button>
+				</div>
+			</div>
+			
 			<div class="filter-row">
 				<div class="filter">
 					<label>学期：</label>
@@ -37,19 +46,20 @@
 						<option>--请选择--</option>
 					</select>
 				</div>
-				<div class="filter">
-					<img class="verify-code-img" id="verifyCodeImg" alt="更换验证码"/>
-					<input type="text" class="form-control verify-code-input" id="verifyCode" placeholder="验证码">
+				<div class="filter" id="nameFilter">
+					<label>姓名：</label>
+					<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}" required>
+				</div>
+				<div class="filter" id="birthdayFilter">
+					<label>生日：</label>
+					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" required>
 				</div>
 			</div>
 			<div class="filter-row">
 				<div class="filter">
-					<label>姓名：</label>
-					<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}" required>
-				</div>
-				<div class="filter">
-					<label>生日：</label>
-					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" required>
+					<label>验证：</label>
+					<img class="verify-code-img" id="verifyCodeImg" alt="更换验证码"/>
+					<input type="text" class="form-control verify-code-input" id="verifyCode" placeholder="验证码">
 				</div>
 				<button type="button" id="queryBtn" class="btn btn-default">查询</button>
 			</div>

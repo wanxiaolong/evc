@@ -23,4 +23,9 @@ public interface ScoreMapper extends BaseMapper<Score> {
 			@Param("name") String name, 
 			@Param("birthday") String birthday, 
 			@Param("examId") int examId);
+	
+	/**
+	 * 根据考试ID，查询所有的成绩（全班成绩）。
+	 */
+	public List<ScoreVo> findByClass(int examId);
 }

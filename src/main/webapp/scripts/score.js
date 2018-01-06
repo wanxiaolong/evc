@@ -35,7 +35,7 @@ $(document).ready(function(){
 		if(!checkRequiredField()) {
 			return;
 		}
-		
+		var queryType = $("button[class*='selected']").attr('value');
 		var examId = $("#examSelect").children('option:selected').val();
 		var name = $("#name").val();
 		var birthday = $("#birthday").val();
@@ -43,7 +43,11 @@ $(document).ready(function(){
 		$.ajax({
 			type: 'POST',
 			url: webroot + '/rest/score/query',
-			data: 'exam_id=' + examId + '&name=' + name + '&birthday=' + birthday + '&verify_code=' + verifyCode,
+			data: 	'query_type=' + queryType + 
+					'&exam_id=' + examId + 
+					'&name=' + name + 
+					'&birthday=' + birthday + 
+					'&verify_code=' + verifyCode,
 			success: function (data) {
 				var array = data.response;
 				if (data.errorMessage != null) {
@@ -72,6 +76,7 @@ $(document).ready(function(){
 	//更新验证码
 	updateVerifyCode();
 	table = initDataTable("scoreTable");
+	initQueryType();
 });
 function updateVerifyCode() {
 	$("#verifyCodeImg").attr("src", webroot + "/rest/score/getcode?t=" + new Date().getTime());
@@ -133,4 +138,26 @@ function checkRequiredField() {
 		}
 	});
 	return errorFields.length == 0 ? true : false;
+}
+//为查询类型绑定事件
+function initQueryType() {
+	//默认个人成绩选中
+	$("#queryByPerson").addClass('selected');
+	$(".btn-group button").each(function(){
+		$(this).click(function(){
+			$(".btn-group button").each(function(){
+				$(this).removeClass('selected')
+			});
+			$(this).addClass('selected');
+			
+			//如果点击了queryByClass，则隐藏学生姓名和生日
+			if ($(this).attr('id') == 'queryByClass') {
+				$("#nameFilter").hide();
+				$("#birthdayFilter").hide();
+			} else {
+				$("#nameFilter").show();
+				$("#birthdayFilter").show();
+			}
+		});
+	});
 }

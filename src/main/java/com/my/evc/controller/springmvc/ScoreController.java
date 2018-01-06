@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
-import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
-import com.my.evc.exception.ValidationException;
 import com.my.evc.model.Semester;
 import com.my.evc.service.ScoreService;
 import com.my.evc.service.SemesterService;
@@ -71,12 +69,14 @@ public class ScoreController extends BaseController {
 	}
 	
 	/**
-	 * 执行成绩查询。注意这里返回的是Json对象，非视图对象。
+	 * 执行成绩查询。本方法同时支持查询个人成绩和查询全班成绩。如果name未指定，则查询全班成绩。<br>
+	 * 注意这里返回的是Json对象，非视图对象。
 	 */
 	@RequestMapping(value = "/query", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse<List<ScoreVo>> queryScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
+		String queryType = request.getParameter(Constant.PARAM_QUERY_TYPE);
 		String name = request.getParameter(Constant.PARAM_NAME);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
@@ -87,7 +87,13 @@ public class ScoreController extends BaseController {
 //		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
 //			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
 //		}
-		List<ScoreVo> scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
+		List<ScoreVo> scoreVos = null;
+		if ("class".equalsIgnoreCase(queryType)) {
+			scoreVos = scoreService.queryScoreByClass(Integer.parseInt(examId));
+		} else {
+			scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
+		}
+		
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}
 	

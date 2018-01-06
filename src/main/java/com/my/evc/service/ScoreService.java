@@ -141,6 +141,19 @@ public class ScoreService implements BaseService<Score> {
 	}
 	
 	/**
+	 * 按姓名查询学生某次考试的成绩。
+	 */
+	public List<ScoreVo> queryScoreByClass(int examId) {
+		List<ScoreVo> scoreVos = scoreMapper.findByClass(examId);
+		//计算总分
+		for(ScoreVo vo : scoreVos) {
+			double total = calculateTotal(vo);
+			vo.setTotal(total);
+		}
+		return scoreVos;
+	}
+	
+	/**
 	 * 计算一次考试的总分。
 	 */
 	private double calculateTotal(ScoreVo vo) {

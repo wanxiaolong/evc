@@ -78,6 +78,7 @@
 			<include refid="all_fields"/>
 		from score where id=#{id}
 	</select>
+	
 	<select id="findByNameAndExam" parameterType="map" resultType="com.my.evc.vo.ScoreVo">
 		select
 			<include refid="all_fields"/>,
@@ -85,5 +86,14 @@
 		from score join student 
 		on student.number = score.student_number
 		where name=#{name} and birth_day=#{birthday} and exam_id=#{examId}
+	</select>
+	
+	<select id="findByClass" parameterType="int" resultType="com.my.evc.vo.ScoreVo">
+		select
+			<include refid="all_fields"/>,
+		student.name as studentName
+		from score join student 
+		on student.number = score.student_number
+		where exam_id=#{examId}
 	</select>
 </mapper>

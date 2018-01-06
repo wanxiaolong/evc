@@ -78,7 +78,7 @@ public class ValidateCodeUtil extends HttpServlet {
 			g2d.rotate(Math.toRadians(-randRotate), width / 2, height / 2);
 		}
 		//画边框
-		g2d.setColor(Color.black);
+		g2d.setColor(new Color(204, 204, 204));
 		g2d.drawRect(0, 0, width-1, height-1);
 		//消亡图形对象
 		g2d.dispose();

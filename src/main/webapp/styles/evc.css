@@ -123,8 +123,7 @@ body {
 	margin: 10px 0px;
 }
 .evc-content .filter-row select,
-.evc-content .filter-row input,
-.evc-content .filter-row button {
+.evc-content .filter-row input[type=text] {
 	width: 200px;
 }
 .evc-content .filter-block {
@@ -144,4 +143,8 @@ body {
 }
 .evc-content .filter-row .verify-code-input {
 	width: 116px;
+}
+.evc-content .btn-group .selected {
+	background: #CCC;
+	font-weight: 700;
 }
