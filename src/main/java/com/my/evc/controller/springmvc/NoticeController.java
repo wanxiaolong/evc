@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Notice;
+import com.my.evc.security.Permission;
+import com.my.evc.security.RequirePermission;
 import com.my.evc.service.NoticeService;
 
 /**
@@ -33,6 +35,7 @@ public class NoticeController extends BaseController {
 	 * 创建公告。
 	 */
 	@ResponseBody
+	@RequirePermission(permissions = {Permission.NOTICE_ADD})
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
 			HttpServletRequest request, HttpServletResponse response)

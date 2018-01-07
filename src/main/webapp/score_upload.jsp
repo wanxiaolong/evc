@@ -21,7 +21,7 @@
 	<common:page-header/>
 	<div class="evc-content">
 		<div class="">
-			<p>仅支持一次上传一个文件，支持预览：</p>
+			<p>请选择你要为哪次考试上传成绩（仅支持一次上传一个文件，支持预览）：</p>
 		</div>
 		<div class="filter-row">
 			<div class="filter">

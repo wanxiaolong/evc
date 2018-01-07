@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Student;
+import com.my.evc.security.Permission;
+import com.my.evc.security.RequirePermission;
 import com.my.evc.service.StudentService;
 
 @Controller
@@ -24,6 +26,7 @@ public class StudentController extends BaseController {
 	private StudentService studentService;
 
 	@ResponseBody
+	@RequirePermission(permissions = {Permission.STUDENT_ADD})
 	@RequestMapping(method = RequestMethod.POST)
 	public JsonResponse<Student> createStudent(@RequestBody(required=true) Student student,
 			HttpServletRequest request, HttpServletResponse response) throws BaseException, Exception {
@@ -32,6 +35,7 @@ public class StudentController extends BaseController {
 	}
 	
 	@ResponseBody
+	@RequirePermission(permissions = {Permission.STUDENT_DELETE})
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
 	public JsonResponse<String> deleteStudent(@PathVariable("id") int id, HttpServletRequest request,
 			HttpServletResponse response) throws BaseException, Exception {
@@ -40,6 +44,7 @@ public class StudentController extends BaseController {
 	}
 	
 	@ResponseBody
+	@RequirePermission(permissions = {Permission.STUDENT_EDIT})
 	@RequestMapping(method = RequestMethod.PUT)
 	public JsonResponse<String> updateStudent(@RequestBody(required=true) Student student,
 			HttpServletRequest request, HttpServletResponse response)
@@ -49,6 +54,7 @@ public class StudentController extends BaseController {
 	}
 	
 	@ResponseBody
+	@RequirePermission(permissions = {Permission.STUDENT_VIEW})
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public JsonResponse<Student> findStudent(@PathVariable("id") int id, HttpServletRequest request,
 			HttpServletResponse response) throws BaseException, Exception {

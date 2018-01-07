@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.File;
+import com.my.evc.security.Permission;
+import com.my.evc.security.RequirePermission;
 import com.my.evc.service.FileService;
 import com.my.evc.util.FileUtil;
 
@@ -31,6 +33,7 @@ public class FileController extends BaseController {
 	/**
 	 * 文件上传。
 	 */
+	@RequirePermission(permissions = {Permission.FILE_ADD})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadFile(HttpServletRequest request, 

@@ -25,6 +25,14 @@
     <context:property-placeholder location="classpath:project.properties" />
     <context:annotation-config/>
     
+    <!-- 权限拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/rest/**"/>
+            <bean class="com.my.evc.security.PermissionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
     <mvc:resources mapping="/images/**" location="/images/" />

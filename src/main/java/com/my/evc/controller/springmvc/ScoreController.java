@@ -19,6 +19,8 @@ import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Semester;
+import com.my.evc.security.Permission;
+import com.my.evc.security.RequirePermission;
 import com.my.evc.service.ScoreService;
 import com.my.evc.service.SemesterService;
 import com.my.evc.util.FileUtil;
@@ -54,6 +56,7 @@ public class ScoreController extends BaseController {
 	/**
 	 * 成绩上传。这里上传的是一个Excel文件，后台需要读取这个文件，并把成绩插入到score表中。
 	 */
+	@RequirePermission(permissions = {Permission.SCORE_ADD})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadScore(HttpServletRequest request, 
