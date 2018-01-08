@@ -25,16 +25,21 @@
     <context:property-placeholder location="classpath:project.properties" />
     <context:annotation-config/>
     
-    <!-- 权限拦截器 -->
+    <!-- 自定义的权限拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/rest/**"/>
+            <!-- 注意，这里的path是除了web.xml中定义的前缀之后的
+            :参见：http://blog.csdn.net/u014520797/article/details/52893474 -->
+            <mvc:mapping path="/score/query"/>
+            <mvc:mapping path="/file/upload"/>
             <bean class="com.my.evc.security.PermissionInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
     
-    <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
+    
+    <!-- 静态资源不拦截 -->
+    <mvc:default-servlet-handler/>
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/scripts/**" location="/scripts/" />
     <mvc:resources mapping="/styles/**" location="/styles/" />

@@ -16,3 +16,6 @@ https://stackoverflow.com/questions/25173727/syntax-error-unexpected-end-of-inpu
 4. DataTable reference(Dynamically add and remove rows, configurations):
 https://datatables.net/reference/api/
 https://datatables.net/reference/option/
+
+5. How to config the path of interceptor(the path prefix configured in web.xml is igonred when matching):
+http://blog.csdn.net/u014520797/article/details/52893474

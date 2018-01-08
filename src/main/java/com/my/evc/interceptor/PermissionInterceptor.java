@@ -1,4 +1,4 @@
-package com.my.evc.security;
+package com.my.evc.interceptor;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -19,7 +18,9 @@ import com.my.evc.common.ErrorEnum;
 import com.my.evc.exception.BusinessException;
 import com.my.evc.exception.SystemException;
 import com.my.evc.model.User;
+import com.my.evc.security.RequirePermission;
 import com.my.evc.service.RoleService;
+import com.my.evc.util.CommonUtil;
 
 /**
  * 调用Restful方法之前检查权限的拦截器。
@@ -42,7 +43,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
 		HttpSession session = request.getSession();
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
-		String restfulServiceUri = extractServiceURI(handlerMethod);
+		String restfulServiceUri = CommonUtil.extractServiceURI(handlerMethod);
 		
 		try {
 			//利用反射获取方法需要的权限
@@ -71,23 +72,6 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		}
 	}
 
-	/**
-	 * 获取访问的Service的URI。例子：<br>
-	 * <li>POST:/file/upload</li>
-	 * <li>GET:/file/list</li>
-	 */
-	private String extractServiceURI(HandlerMethod handlerMethod) {
-		//获取标注在Class级别的RequestMapping的value
-		String classUri = handlerMethod.getBean().getClass().getAnnotation(RequestMapping.class).value()[0];
-		
-		//获取标注在Method级别的RequestMapping的value
-		String methodUri = handlerMethod.getMethodAnnotation(RequestMapping.class).value()[0];
-		
-		//获取标注在Method级别的RequestMapping的method
-		String requestType = handlerMethod.getMethodAnnotation(RequestMapping.class).method()[0].toString();
-		return requestType + ":" + classUri + methodUri;
-	}
-
 	@Override
 	public void postHandle(HttpServletRequest request,HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws SystemException {
@@ -98,7 +82,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			throw new SystemException(ErrorEnum.SYSTEM_ERROR);
 		}
 	}
-
+	
 	/**
 	 * 检查用户是否有需要的权限。
 	 *
