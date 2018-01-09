@@ -1,89 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                           http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context 
-                           http://www.springframework.org/schema/context/spring-context.xsd
-                           http://www.springframework.org/schema/mvc
-                           http://www.springframework.org/schema/mvc/spring-mvc.xsd
-                           http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx.xsd
-                           http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						   http://www.springframework.org/schema/beans/spring-beans.xsd
+						   http://www.springframework.org/schema/context 
+						   http://www.springframework.org/schema/context/spring-context.xsd
+						   http://www.springframework.org/schema/mvc
+						   http://www.springframework.org/schema/mvc/spring-mvc.xsd
+						   http://www.springframework.org/schema/tx
+						   http://www.springframework.org/schema/tx/spring-tx.xsd
+						   http://www.springframework.org/schema/aop
+						   http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!-- 自动扫描Spring对象 -->
-    <context:component-scan base-package="com.my.evc.controller" />
-    <context:component-scan base-package="com.my.evc.service" />
-    
-    <!-- 引入配置文件 -->
-    <context:property-placeholder location="classpath:project.properties" />
-    <context:annotation-config/>
-    
-    <!-- 自定义的权限拦截器 -->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <!-- 注意，这里的path是除了web.xml中定义的前缀之后的
-            :参见：http://blog.csdn.net/u014520797/article/details/52893474 -->
-            <mvc:mapping path="/score/query"/>
-            <mvc:mapping path="/file/upload"/>
-            <bean class="com.my.evc.security.PermissionInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
-    
-    <mvc:annotation-driven/>
-    
-    <!-- 静态资源不拦截 -->
-    <mvc:default-servlet-handler/>
-    <mvc:resources mapping="/images/**" location="/images/" />
-    <mvc:resources mapping="/scripts/**" location="/scripts/" />
-    <mvc:resources mapping="/styles/**" location="/styles/" />
-    
-    <!-- 加入proxy-target-class属性，参见http://blog.csdn.net/gloomy_114/article/details/62042382 -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-    
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driver}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-    </bean>
-    
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath:com/my/evc/mapper/**/*Mapper.xml"/>
-    </bean>
-    
-    <!-- DAO接口所在包名，Spring会自动查找其下的类 ,包下的类需要使用@MapperScan注解,否则容器注入会失败 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.my.evc.mapper" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-    </bean>
-    
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-    
-    <!-- 视图解析器 -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
-        <property name="prefix" value="/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-    
-    <!-- 配置国际化资源文件 -->
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="i18n/message"/>
-    </bean>
-    
-    <!-- 基于Session的本地化解析器 -->
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
-    
-    <bean id="systemConfig" class="com.my.evc.common.SystemConfig">
-        <property name="fileUploadPath" value="${file.upload.path}"/>
-    </bean>
+	<!-- 自动扫描Spring对象 -->
+	<context:component-scan base-package="com.my.evc.controller" />
+	<context:component-scan base-package="com.my.evc.service" />
+	
+	<!-- 引入配置文件 -->
+	<context:property-placeholder location="classpath:project.properties" />
+	<context:annotation-config/>
+	
+	<!-- 自定义的权限拦截器，多个拦截器按照声明的先后顺序依次执行 -->
+	<mvc:interceptors>
+		<!-- 登录拦截器，对于某些页面，需要先登录才能执行 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/score/query"/>
+			<bean class="com.my.evc.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+		
+		<!-- 权限拦截器，对于某些功能，只有管理员才能执行 -->
+		<mvc:interceptor>
+			<!-- 注意，这里的path是除了web.xml中定义的前缀之后的
+			:参见：http://blog.csdn.net/u014520797/article/details/52893474 -->
+			<mvc:mapping path="/score/query"/>
+			<mvc:mapping path="/file/upload"/>
+			<bean class="com.my.evc.interceptor.PermissionInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<mvc:annotation-driven/>
+	
+	<!-- 静态资源不拦截 -->
+	<mvc:default-servlet-handler/>
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/scripts/**" location="/scripts/" />
+	<mvc:resources mapping="/styles/**" location="/styles/" />
+	
+	<!-- 加入proxy-target-class属性，参见http://blog.csdn.net/gloomy_114/article/details/62042382 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:com/my/evc/mapper/**/*Mapper.xml"/>
+	</bean>
+	
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 ,包下的类需要使用@MapperScan注解,否则容器注入会失败 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.my.evc.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 视图解析器 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 配置国际化资源文件 -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="i18n/message"/>
+	</bean>
+	
+	<!-- 基于Session的本地化解析器 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+	
+	<bean id="systemConfig" class="com.my.evc.common.SystemConfig">
+		<property name="fileUploadPath" value="${file.upload.path}"/>
+	</bean>
 </beans>

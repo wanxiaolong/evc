@@ -21,7 +21,6 @@ import com.my.evc.util.CommonUtil;
  * 调用Restful方法之前检查登录的拦截器。
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-	private static final String ACCESS_DENY_LOG = "User not login: Resource=%s";
 
 	private static Logger logger = Logger.getLogger(LoginInterceptor.class);
 	
@@ -35,14 +34,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		String restfulServiceUri = CommonUtil.extractServiceURI(handlerMethod);
-		
+		String requestURI = request.getRequestURI();
 		try {
 			User user = (User)session.getAttribute(Constant.PARAM_USER);
+			//如果用户没有登录，跳转到登录页，并且带上当前URI，便于登陆之后跳转回来
 			if (user == null) {
-				String logMessage = String.format(ACCESS_DENY_LOG, restfulServiceUri);
-				logger.debug(logMessage);
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				return false;
+				response.sendRedirect("/evc/login.jsp?ru=" + requestURI);
 			}
 			return true;
 		} catch (Exception e) {
