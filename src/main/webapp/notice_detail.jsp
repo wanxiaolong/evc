@@ -21,7 +21,7 @@
 				</div>
 				<div class="col-md-6">
 					<label for="author">发布者</label><br>
-					<input name="author" value="${model.adminName}" disabled="disabled"><br>
+					<input name="author" value="${model.userName}" disabled="disabled"><br>
 				</div>
 			</div>
 			<div class="row">

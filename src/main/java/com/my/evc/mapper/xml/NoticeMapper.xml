@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Notice" keyProperty="id" useGeneratedKeys="true">
 		insert into notice
-			(admin_id,title,important_level,content)
+			(user_id,title,important_level,content)
 		values
-			(#{adminId},#{title},#{importantLevel},#{content})
+			(#{userId},#{title},#{importantLevel},#{content})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,7 +16,7 @@
 	<update id="update" parameterType="com.my.evc.model.Notice">
 		update notice 
 		set 
-			adminId=#{adminId}, 
+			user_id=#{usersId}, 
 			title=#{title}, 
 			important_level=#{importantLevel}, 
 			content=#{content} 
@@ -26,7 +26,7 @@
 	
 	<sql id="all_fields">
 		n.id as id,
-		n.admin_id as adminId, 
+		n.user_id as userId, 
 		n.title as title, 
 		n.important_level as importantLevel,
 		n.content as content,
@@ -35,15 +35,15 @@
 	
 	<select id="find" parameterType="int" resultType="com.my.evc.model.Notice">
 		select 
-			<include refid="all_fields"/>, a.username as adminName
-		from notice n join admin a on n.admin_id=a.id
+			<include refid="all_fields"/>, u.username as userName
+		from notice n join user u on n.user_id=u.id
 		where n.id=#{id}
 	</select>
 	
 	<select id="listNotices" resultType="com.my.evc.model.Notice">
 		select
-			<include refid="all_fields"/>, a.username as adminName
-		from notice n join admin a on n.admin_id=a.id
+			<include refid="all_fields"/>, u.username as userName
+		from notice n join user u on n.user_id=u.id
 		order by n.creation_date desc 
 		limit 100
 	</select>

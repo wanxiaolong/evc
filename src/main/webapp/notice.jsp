@@ -31,7 +31,7 @@
 								<a href="${notice.id}">${notice.title}</a>
 							</td>
 							<td class="col-md-1">${notice.importantLevel}</td>
-							<td class="col-md-1">${notice.adminName}</td>
+							<td class="col-md-1">${notice.userName}</td>
 							<td class="col-md-2">${notice.creationDate}</td>
 						</tr>
 					</c:forEach>
