@@ -40,7 +40,7 @@ public class FileController extends BaseController {
 	@ResponseBody
 	public String uploadFile(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		FileUtil.handleUploadFile(request, response);
+		FileUtil.handleUploadFile(request);
 		response.setStatus(Status.CREATED.getStatusCode());
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.

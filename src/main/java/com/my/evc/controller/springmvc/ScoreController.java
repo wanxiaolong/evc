@@ -62,7 +62,7 @@ public class ScoreController extends BaseController {
 	public String uploadScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
 		//调用工具类处理文件上传请求
-		List<Map<String,String>> scoreList = FileUtil.handleUploadScore(request, response);
+		List<Map<String,String>> scoreList = FileUtil.handleUploadScore(request);
 		scoreService.uploadScore(scoreList);
 		
 		response.setStatus(Status.CREATED.getStatusCode());
