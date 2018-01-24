@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.MessageMapper">
+
+	<insert id="create" parameterType="com.my.evc.model.Message" keyProperty="id" useGeneratedKeys="true">
+		insert into message
+			(type,title,contact,content)
+		values
+			(#{type},#{title},#{contact},#{content})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from message where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Message">
+		update message 
+		set 
+			type=#{type}, 
+			title=#{title}, 
+			contact=#{contact}, 
+			content=#{content} 
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		id as id,
+		type as type, 
+		title as title, 
+		contact as contact,
+		content as content,
+		creation_date as creationDate
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Message">
+		select 
+			<include refid="all_fields"/>
+		from message 
+		where id=#{id}
+	</select>
+	
+	<select id="listMessages" resultType="com.my.evc.model.Message">
+		select
+			<include refid="all_fields"/>
+		from message
+		order by creation_date desc 
+		limit 100
+	</select>
+</mapper>

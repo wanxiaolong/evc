@@ -24,7 +24,7 @@
 					<li><a href="<%=basePath%>/rest/score/query">成绩查询</a></li>
 					<li><a href="<%=basePath%>/rest/file/list">资料下载</a></li>
 					<li><a href="<%=basePath%>/rest/notice/list">公告栏</a></li>
-					<li><a href="#">留言板</a></li>
+					<li><a href="<%=basePath%>/rest/message/list">留言板</a></li>
 					<li><a href="<%=basePath%>/contact.jsp">联系我们</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
