@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="common" tagdir="/WEB-INF/tags/common"%>
 
+<%
+	String ru = request.getParameter("ru");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +32,7 @@
 					<a class="col-lg-6 text-right" href="#">忘记密码？</a>
 				</div>
 				<div class="row">
+					<input type="hidden" name="ru" value="<%=ru%>"/>
 					<button type="submit" class="btn btn-success col-lg-12">登录</button>
 				</div>
 			</div>

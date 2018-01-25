@@ -15,6 +15,7 @@ public class Constant {
 	public static final String PARAM_SEMESTERS = "semesters";
 	public static final String PARAM_VERIFY_CODE = "verify_code";
 	public static final String PARAM_QUERY_TYPE = "query_type";
+	public static final String PARAM_RU = "ru";
 	
 	public static final List<String> ALLOWED_FILE_EXTENSION = Arrays.asList(new String[]{".xlsx", ".xls"});
 }

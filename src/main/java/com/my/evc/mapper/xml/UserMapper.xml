@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.User" keyProperty="id" useGeneratedKeys="true">
 		insert into user
-			(username,password,student_id,email) 
+			(role_id,username,password,email) 
 		values
-			(#{username},#{password},#{studentId},#{email})
+			(#{roleId},#{username},#{password},#{email})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -15,9 +15,9 @@
 	
 	<update id="update" parameterType="com.my.evc.model.User">
 		update user set 
+			user_id=#{userId},
 			username=#{username}, 
 			password=#{password}, 
-			student_id=#{studentId}, 
 			email=#{email}, 
 		where 
 			id=#{id}
@@ -25,9 +25,9 @@
 	
 	<sql id="all_fields">
 		id as id,
+		role_id as roleId,
 		username as username,
 		password as password,
-		student_id as studentId,
 		email as email,
 		creation_date as creationDate,
 		last_login as lastLogin

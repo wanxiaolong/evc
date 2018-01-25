@@ -48,12 +48,15 @@ public class UserController extends BaseController {
 		User user = null;
 		String username = request.getParameter(Constant.PARAM_USERNAME);
 		String password = request.getParameter(Constant.PARAM_PASSWORD);
+		String ru = request.getParameter(Constant.PARAM_RU);
 		user = userService.login(username, password);
 		//登录之后存储用户信息
 		request.getSession().setAttribute(Constant.PARAM_USER, user);
 		//更新登录日期
 		userService.updateLastLogin(user.getId());
-		ModelAndView mav = new ModelAndView("redirect:/home.jsp");
+		
+		String target = (ru != null) ? ru : "/home.jsp";
+		ModelAndView mav = new ModelAndView("redirect:" + target);
 		mav.addObject(MODEL, user.getUsername());
 		return mav;
 	}

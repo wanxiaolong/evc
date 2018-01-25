@@ -34,12 +34,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		String restfulServiceUri = CommonUtil.extractServiceURI(handlerMethod);
-		String requestURI = request.getRequestURI();
 		try {
 			User user = (User)session.getAttribute(Constant.PARAM_USER);
 			//如果用户没有登录，跳转到登录页，并且带上当前URI，便于登陆之后跳转回来
 			if (user == null) {
-				response.sendRedirect("/evc/login.jsp?ru=" + requestURI);
+				String requestURI = request.getRequestURI();
+				String contextPath = request.getContextPath();
+				String relativePath = requestURI.substring(contextPath.length());
+				response.sendRedirect("/evc/login.jsp?ru=" + relativePath);
 			}
 			return true;
 		} catch (Exception e) {
