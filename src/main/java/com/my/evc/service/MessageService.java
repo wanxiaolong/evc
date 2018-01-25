@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.my.evc.exception.BaseException;
 import com.my.evc.mapper.MessageMapper;
 import com.my.evc.model.Message;
+import com.my.evc.type.MessageType;
 
 @Service
 @Transactional
@@ -39,6 +40,15 @@ public class MessageService implements BaseService<Message>{
 	 */
 	public List<Message> listNotices() throws BaseException {
 		List<Message> messages = messageMapper.listMessages();
+		for (Message message : messages) {
+			convertType(message);
+		}
 		return messages;
+	}
+	
+	private Message convertType(Message message) {
+		int type = Integer.parseInt(message.getType());
+		message.setType(MessageType.fromValue(type).getName());
+		return message;
 	}
 }
