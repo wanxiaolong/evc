@@ -8,16 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.my.evc.common.JsonResponse;
+import com.my.evc.common.Constant;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Message;
-import com.my.evc.model.Notice;
 import com.my.evc.security.Permission;
 import com.my.evc.security.RequirePermission;
 import com.my.evc.service.MessageService;
@@ -35,14 +32,20 @@ public class MessageController extends BaseController {
 	/**
 	 * 创建留言。
 	 */
-	@ResponseBody
 	@RequirePermission(permissions = {Permission.MESSAGE_ADD})
-	@RequestMapping(method = RequestMethod.POST)
-	public JsonResponse<String> createMessage(@RequestBody(required=true) Notice file,
+	@RequestMapping(value="create", method = RequestMethod.POST)
+	public ModelAndView createMessage(
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		messageService.create(null);
-		return new JsonResponse<String>(SUCCESS, "Created succeed!");
+		String type = request.getParameter(Constant.PARAM_TYPE);
+		String title = request.getParameter(Constant.PARAM_TITLE);
+		String contact = request.getParameter(Constant.PARAM_CONTACT);
+		String content = request.getParameter(Constant.PARAM_CONTENT);
+		
+		Message message = new Message(type,title, contact, content);
+		
+		messageService.create(message);
+		return getListView();
 	}
 	
 	/**
@@ -64,6 +67,10 @@ public class MessageController extends BaseController {
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
+		return getListView();
+	}
+	
+	private ModelAndView getListView() throws BaseException {
 		List<Message> messages = messageService.listNotices();
 		ModelAndView mav = new ModelAndView("message");
 		mav.addObject(MODEL, messages);

@@ -10,6 +10,15 @@ public class Message extends BaseModel {
 	private String contact; //联系方式
 	private String content; //内容
 	
+	public Message(){}
+	
+	public Message(String type, String title, String contact, String content) {
+		this.type = type;
+		this.title = title;
+		this.contact = contact;
+		this.content = content;
+	}
+	
 	public String getType() {
 		return type;
 	}

@@ -148,3 +148,19 @@ body {
 	background: #CCC;
 	font-weight: 700;
 }
+
+/*留言列表页*/
+.evc-message .right {
+	height: 40px;
+	text-align: right;
+	margin-bottom: 5px;
+}
+
+/*创建留言页面*/
+.evc-message .submit {
+	text-align: right;
+}
+.evc-message .submit input[type='submit'] {
+	width: 100px;
+	height: 30px;
+}

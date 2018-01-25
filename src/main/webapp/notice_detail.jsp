@@ -12,7 +12,7 @@
 <body>
 	<common:page-header />
 	<div class="evc-content">
-		<div class="evc-notice">
+		<div class="evc-message">
 			<div><h3>公告详情</h3></div>
 			<div class="row">
 				<div class="col-md-6">

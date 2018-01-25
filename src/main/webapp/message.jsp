@@ -15,6 +15,9 @@
 	<common:page-header />
 	<div class="evc-content">
 		<div class="evc-message">
+			<div class="right">
+				<a href="/evc/message_detail.jsp">我要留言>>></a>
+			</div>
 			<table id="_table" class="table table-striped">
 				<thead>
 					<tr class="row">
