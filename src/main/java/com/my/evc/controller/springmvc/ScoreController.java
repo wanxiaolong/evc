@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
-import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
-import com.my.evc.exception.ValidationException;
 import com.my.evc.model.Semester;
 import com.my.evc.security.Permission;
 import com.my.evc.security.RequirePermission;
@@ -98,12 +96,12 @@ public class ScoreController extends BaseController {
 		String name = request.getParameter(Constant.PARAM_NAME);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
-		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
-		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
-		//先检验验证码
-		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
-			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
-		}
+		//检验验证码（测试期间注释掉）
+//		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
+//		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
+//		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
+//			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
+//		}
 		List<ScoreVo> scoreVos = null;
 		if ("class".equalsIgnoreCase(queryType)) {
 			scoreVos = scoreService.queryScoreByClass(Integer.parseInt(examId));

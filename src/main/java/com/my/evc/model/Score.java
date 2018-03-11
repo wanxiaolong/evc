@@ -9,19 +9,19 @@ public class Score extends BaseModel {
 	
 	private int studentNumber;		//学生的学号
 	private int examId;				//考试的主键
-	private double chinese;			//语文
-	private double math;			//数学
-	private double english;			//英语
-	private double physics;			//物理
-	private double chemistry;		//化学
-	private double biologic;		//生物
-	private double politics;		//政治
-	private double history;			//历史
-	private double geography;		//地理
-	private double physical;		//体育
-	private double experiment;		//实验
-	private double score1;			//预留字段1
-	private double score2;			//预留字段2
+	private String chinese;			//语文
+	private String math;			//数学
+	private String english;			//英语
+	private String physics;			//物理
+	private String chemistry;		//化学
+	private String biologic;		//生物
+	private String politics;		//政治
+	private String history;			//历史
+	private String geography;		//地理
+	private String physical;		//体育
+	private String experiment;		//实验
+	private String score1;			//预留字段1
+	private String score2;			//预留字段2
 	
 	public int getStudentNumber() {
 		return studentNumber;
@@ -35,82 +35,82 @@ public class Score extends BaseModel {
 	public void setExamId(int examId) {
 		this.examId = examId;
 	}
-	public double getChinese() {
+	public String getChinese() {
 		return chinese;
 	}
-	public void setChinese(double chinese) {
+	public void setChinese(String chinese) {
 		this.chinese = chinese;
 	}
-	public double getMath() {
+	public String getMath() {
 		return math;
 	}
-	public void setMath(double math) {
+	public void setMath(String math) {
 		this.math = math;
 	}
-	public double getEnglish() {
+	public String getEnglish() {
 		return english;
 	}
-	public void setEnglish(double english) {
+	public void setEnglish(String english) {
 		this.english = english;
 	}
-	public double getPhysics() {
+	public String getPhysics() {
 		return physics;
 	}
-	public void setPhysics(double physics) {
+	public void setPhysics(String physics) {
 		this.physics = physics;
 	}
-	public double getChemistry() {
+	public String getChemistry() {
 		return chemistry;
 	}
-	public void setChemistry(double chemistry) {
+	public void setChemistry(String chemistry) {
 		this.chemistry = chemistry;
 	}
-	public double getBiologic() {
+	public String getBiologic() {
 		return biologic;
 	}
-	public void setBiologic(double biologic) {
+	public void setBiologic(String biologic) {
 		this.biologic = biologic;
 	}
-	public double getPolitics() {
+	public String getPolitics() {
 		return politics;
 	}
-	public void setPolitics(double politics) {
+	public void setPolitics(String politics) {
 		this.politics = politics;
 	}
-	public double getHistory() {
+	public String getHistory() {
 		return history;
 	}
-	public void setHistory(double history) {
+	public void setHistory(String history) {
 		this.history = history;
 	}
-	public double getGeography() {
+	public String getGeography() {
 		return geography;
 	}
-	public void setGeography(double geography) {
+	public void setGeography(String geography) {
 		this.geography = geography;
 	}
-	public double getPhysical() {
+	public String getPhysical() {
 		return physical;
 	}
-	public void setPhysical(double physical) {
+	public void setPhysical(String physical) {
 		this.physical = physical;
 	}
-	public double getExperiment() {
+	public String getExperiment() {
 		return experiment;
 	}
-	public void setExperiment(double experiment) {
+	public void setExperiment(String experiment) {
 		this.experiment = experiment;
 	}
-	public double getScore1() {
+	public String getScore1() {
 		return score1;
 	}
-	public void setScore1(double score1) {
+	public void setScore1(String score1) {
 		this.score1 = score1;
 	}
-	public double getScore2() {
+	public String getScore2() {
 		return score2;
 	}
-	public void setScore2(double score2) {
+	public void setScore2(String score2) {
 		this.score2 = score2;
 	}
 }

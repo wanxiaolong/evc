@@ -30,7 +30,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws IOException {
-
 		HttpSession session = request.getSession();
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		String restfulServiceUri = CommonUtil.extractServiceURI(handlerMethod);

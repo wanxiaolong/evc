@@ -62,7 +62,7 @@ public class ScoreService implements BaseService<Score> {
 			for(String key : map.keySet()) {
 				ScoreTitle title = ScoreTitle.fromString(key.toUpperCase());
 				if (title != null) {
-					double value = Double.parseDouble(map.get(key));
+					String value = map.get(key);
 					saveValueToScore(title, value, score);
 				}
 			}
@@ -83,10 +83,10 @@ public class ScoreService implements BaseService<Score> {
 	/**
 	 * 根据科目，将分值保存到Score对象上。
 	 */
-	private void saveValueToScore(ScoreTitle subjectType, Double value, Score score) {
+	private void saveValueToScore(ScoreTitle subjectType, String value, Score score) {
 		switch (subjectType) {
 			case ID_NUMBER:
-				score.setStudentNumber(value.intValue());
+				score.setStudentNumber(Integer.parseInt(value));
 				break;
 			case CHINESE:
 				score.setChinese(value);
@@ -132,11 +132,11 @@ public class ScoreService implements BaseService<Score> {
 	 */
 	public List<ScoreVo> queryScoreByName(String name, String birthday, int examId) {
 		List<ScoreVo> scoreVos = scoreMapper.findByNameAndExam(name, birthday, examId);
-		//计算总分
-		for(ScoreVo vo : scoreVos) {
-			double total = calculateTotal(vo);
-			vo.setTotal(total);
-		}
+		//计算总分，由于有些成绩是等级，所以不能计算总分。
+//		for(ScoreVo vo : scoreVos) {
+//			double total = calculateTotal(vo);
+//			vo.setTotal(total);
+//		}
 		return scoreVos;
 	}
 	
@@ -146,33 +146,33 @@ public class ScoreService implements BaseService<Score> {
 	public List<ScoreVo> queryScoreByClass(int examId) {
 		List<ScoreVo> scoreVos = scoreMapper.findByClass(examId);
 		//计算总分
-		for(ScoreVo vo : scoreVos) {
-			double total = calculateTotal(vo);
-			vo.setTotal(total);
-		}
+//		for(ScoreVo vo : scoreVos) {
+//			double total = calculateTotal(vo);
+//			vo.setTotal(total);
+//		}
 		return scoreVos;
 	}
 	
 	/**
 	 * 计算一次考试的总分。
 	 */
-	private double calculateTotal(ScoreVo vo) {
-		double sum = 0;
-		sum += vo.getChinese();
-		sum += vo.getMath();
-		sum += vo.getEnglish();
-		sum += vo.getPhysics();
-		sum += vo.getChemistry();
-		sum += vo.getBiologic();
-		sum += vo.getPolitics();
-		sum += vo.getHistory();
-		sum += vo.getGeography();
-		sum += vo.getPhysical();
-		sum += vo.getExperiment();
-		sum += vo.getScore1();
-		sum += vo.getScore2();
-		return sum;
-	}
+//	private double calculateTotal(ScoreVo vo) {
+//		double sum = 0;
+//		sum += Double.parseDouble(vo.getChinese());
+//		sum += Double.parseDouble(vo.getMath());
+//		sum += Double.parseDouble(vo.getEnglish());
+//		sum += Double.parseDouble(vo.getPhysics());
+//		sum += Double.parseDouble(vo.getChemistry());
+//		sum += Double.parseDouble(vo.getBiologic());
+//		sum += Double.parseDouble(vo.getPolitics());
+//		sum += Double.parseDouble(vo.getHistory());
+//		sum += Double.parseDouble(vo.getGeography());
+//		sum += Double.parseDouble(vo.getPhysical());
+//		sum += Double.parseDouble(vo.getExperiment());
+//		sum += Double.parseDouble(vo.getScore1());
+//		sum += Double.parseDouble(vo.getScore2());
+//		return sum;
+//	}
 
 	/**
 	 * 按学号查询学生某次考试的成绩。

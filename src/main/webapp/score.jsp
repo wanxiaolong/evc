@@ -40,15 +40,16 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="filter">
+				<!-- 查询成绩时，不需要指定考试，选择学期后直接查询该学生该学期所有的考试成绩 -->
+				<!-- <div class="filter">
 					<label>考试：</label>
 					<select class="form-control" id="examSelect" required>
 						<option>--请选择--</option>
 					</select>
-				</div>
+				</div> -->
 				<div class="filter" id="nameFilter">
 					<label>姓名：</label>
-					<input type="text" class="form-control" id="name" placeholder="学生姓名" value="${name}" required>
+					<input type="text" class="form-control" id="name" placeholder="支持首字母查询" value="${name}" required>
 				</div>
 				<div class="filter" id="birthdayFilter">
 					<label>生日：</label>
@@ -56,11 +57,6 @@
 				</div>
 			</div>
 			<div class="filter-row">
-				<div class="filter">
-					<label>验证：</label>
-					<img class="verify-code-img" id="verifyCodeImg" alt="更换验证码"/>
-					<input type="text" class="form-control verify-code-input" id="verifyCode" placeholder="验证码">
-				</div>
 				<button type="button" id="queryBtn" class="btn btn-default">查询</button>
 			</div>
 		</div>
