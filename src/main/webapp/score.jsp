@@ -24,6 +24,10 @@
 			
 			<div class="filter-row">
 				<div class="filter">
+					<input type="checkbox" id="queryAll">
+					<label>查询所有历史成绩</label>
+				</div>
+				<div class="filter">
 					<label>学期：</label>
 					<select class="form-control" id="semesterSelect" name="semester" required>
 						<option>--请选择--</option>
@@ -58,6 +62,7 @@
 				<tr>
 					<th>学号</th>
 					<th>姓名</th>
+					<th>学期</th>
 					<th>考试</th>
 					<th>语文</th>
 					<th>数学</th>

@@ -95,14 +95,18 @@ public class ScoreController extends BaseController {
 		String name = request.getParameter(Constant.PARAM_NAME);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
+		boolean queryAll = Boolean.parseBoolean(request.getParameter(Constant.PARAM_QUERY_ALL));
 		//检验验证码（测试期间注释掉）
 //		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
 //		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
 //		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
 //			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
 //		}
+		//如果是查询所有的历史成绩
+		if (queryAll) {
+			semesterId = "0"; //semesterId=0: 此条件不作为过滤条件
+		}
 		List<ScoreVo> scoreVos = scoreService.queryScoreBySemester(name, birthday, Integer.parseInt(semesterId));
-		
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}
 	

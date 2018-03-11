@@ -4,66 +4,63 @@
  */
 var webroot = getWebRoot();
 $(document).ready(function(){
-	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
-//	$('#semesterSelect').change(function(){
-//		var selectedSemester = $(this).children('option:selected').val();//获取selected的值
-//		$.ajax({
-//			type: 'GET',
-//			url: webroot + '/rest/exam/findBySemester?semester=' + selectedSemester,
-//			success: function (data) {
-//				//移除examSelect所有带有value的option
-//				$("#examSelect option[value]").remove();
-//				
-//				var examArray = data.response;
-//				if (examArray.length > 0) {
-//					for(var index in examArray) {
-//						var exam = examArray[index];
-//						//动态创建并添加select的option
-//						var option = new Option(exam.name, exam.id);
-//						$("#examSelect").append(option);
-//					}
-//				}
-//			},
-//			error: function () {
-//				console.log("调用查询考试信息接口失败！");
-//			}
-//		});
-//	});
-	
-	$('#queryBtn').click(function(){
-		//先执行必要的字段检查
-		if(!checkRequiredField()) {
-			return;
-		}
-		var semesterId = $("#semesterSelect").children('option:selected').val();
-		var name = $("#name").val();
-		var birthday = $("#birthday").val();
-		
-		$.ajax({
-			type: 'POST',
-			url: webroot + '/rest/score/query',
-			data: 	'semester_id=' + semesterId + 
-					'&name=' + name + 
-					'&birthday=' + birthday,
-			success: function (data) {
-				var array = data.response;
-				if (data.errorMessage != null) {
-					alert(data.errorMessage);
-					return;
-				}
-				if (array.length > 0) {
-					addRows(array);
-				}
-			},
-			error: function () {
-				alert("调用成绩查询接口失败！");
-				console.log("调用查询接口失败！");
-			}
-		});
-	});
 	table = initDataTable("scoreTable");
+
+	//监听查询按钮点击事件
+	$('#queryBtn').click(function(){
+		executeScoreQuery();
+	});
+	
+	//监听复选框状态变化事件
+	$("#queryAll").change(function() {
+		initSemesterSelect();
+	});
 });
 
+function executeScoreQuery() {
+	//先执行必要的字段检查
+	if(!checkRequiredField()) {
+		return;
+	}
+	var isQueryAll = $("#queryAll").is(':checked');
+	var semesterId = $("#semesterSelect").children('option:selected').val();
+	var name = $("#name").val();
+	var birthday = $("#birthday").val();
+	
+	$.ajax({
+		type: 'POST',
+		url: webroot + '/rest/score/query',
+		data: 	'query_all=' + isQueryAll +
+				'&semester_id=' + semesterId + 
+				'&name=' + name + 
+				'&birthday=' + birthday,
+		success: function (data) {
+			var array = data.response;
+			if (data.errorMessage != null) {
+				alert(data.errorMessage);
+				return;
+			}
+			addRows(array);
+		},
+		error: function () {
+			alert("调用成绩查询接口失败！");
+			console.log("调用查询接口失败！");
+		}
+	});
+}
+function initSemesterSelect() {
+	//如果查询所有历史成绩，则学期的下拉菜单不可用
+	var isQueryAll = $("#queryAll").is(':checked');
+	var semester = $("#semesterSelect");
+	if(isQueryAll) {
+		semester.attr("disabled","disabled");
+		semester.removeAttr("required");
+		semester.removeClass("err-bdr");
+	} else {
+		semester.removeAttr("disabled");
+		semester.attr("required","required");
+	}
+}
 function initDataTable(id) {
 	return $('#' + id).DataTable({
 		language: {
@@ -81,11 +78,16 @@ function addRows(array) {
 	//1. 这里使用的是rows(selector)方法而不是row(selector)方法，这里用于选择多行
 	//2. 从表格中移除之后，需要重新调用draw()方法
 	table.rows("tr").remove().draw();
+	if (array.length == 0) {
+		return;
+	}
+	
 	for(var index in array) {
 		var score = array[index];
 		table.row.add([
 			score.studentNumber,
 			score.studentName,
+			score.semesterName,
 			score.examName,
 			score.chinese,
 			score.math,
