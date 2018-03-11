@@ -35,14 +35,14 @@ $(document).ready(function(){
 		if(!checkRequiredField()) {
 			return;
 		}
-		var queryType = $("button[class*='selected']").attr('value');
+		var semesterId = $("#semesterSelect").children('option:selected').val();
 		var name = $("#name").val();
 		var birthday = $("#birthday").val();
-		var verifyCode = $("#verifyCode").val();
+		
 		$.ajax({
 			type: 'POST',
 			url: webroot + '/rest/score/query',
-			data: 	'query_type=' + queryType + 
+			data: 	'semester_id=' + semesterId + 
 					'&name=' + name + 
 					'&birthday=' + birthday,
 			success: function (data) {
@@ -86,6 +86,7 @@ function addRows(array) {
 		table.row.add([
 			score.studentNumber,
 			score.studentName,
+			score.examName,
 			score.chinese,
 			score.math,
 			score.english,

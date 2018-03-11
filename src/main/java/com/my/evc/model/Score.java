@@ -6,7 +6,6 @@ package com.my.evc.model;
  * 比如哪天临时有个比赛，成绩也可以用这个统计。
  */
 public class Score extends BaseModel {
-	
 	private int studentNumber;		//学生的学号
 	private int examId;				//考试的主键
 	private String chinese;			//语文

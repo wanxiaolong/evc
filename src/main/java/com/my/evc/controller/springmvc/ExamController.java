@@ -34,8 +34,8 @@ public class ExamController extends BaseController {
 	@ResponseBody
 	public JsonResponse<List<Exam>> findBySemester(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		String semesterNumber = request.getParameter(Constant.PARAM_SEMESTER);
-		List<Exam> exams = examService.findBySemester(Integer.parseInt(semesterNumber));
+		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
+		List<Exam> exams = examService.findBySemester(Integer.parseInt(semesterId));
 		return new JsonResponse<List<Exam>>(SUCCESS, exams);
 	}
 }

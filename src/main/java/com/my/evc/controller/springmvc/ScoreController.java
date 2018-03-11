@@ -92,22 +92,16 @@ public class ScoreController extends BaseController {
 	@ResponseBody
 	public JsonResponse<List<ScoreVo>> queryScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		String queryType = request.getParameter(Constant.PARAM_QUERY_TYPE);
 		String name = request.getParameter(Constant.PARAM_NAME);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
-		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
+		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		//检验验证码（测试期间注释掉）
 //		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
 //		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
 //		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
 //			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
 //		}
-		List<ScoreVo> scoreVos = null;
-		if ("class".equalsIgnoreCase(queryType)) {
-			scoreVos = scoreService.queryScoreByClass(Integer.parseInt(examId));
-		} else {
-			scoreVos = scoreService.queryScoreByName(name, birthday, Integer.parseInt(examId));
-		}
+		List<ScoreVo> scoreVos = scoreService.queryScoreBySemester(name, birthday, Integer.parseInt(semesterId));
 		
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}

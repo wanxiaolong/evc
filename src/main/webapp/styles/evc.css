@@ -148,6 +148,10 @@ body {
 	background: #CCC;
 	font-weight: 700;
 }
+.evc-content .query-btn {
+	width: 150px;
+	background: #7d7;
+}
 
 /*留言列表页*/
 .evc-message .right {

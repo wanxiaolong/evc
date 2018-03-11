@@ -17,12 +17,12 @@ public interface ScoreMapper extends BaseMapper<Score> {
 	public int createBatch(List<Score> scoreList);
 	
 	/**
-	 * 查询学生某次考试的成绩（生日仅作为验证使用）。
+	 * 查询学生某学期考试的成绩（生日仅作为验证使用）。
 	 */
-	public List<ScoreVo> findByNameAndExam(
-			@Param("name") String name, 
+	public List<ScoreVo> findBySemester(
+			@Param("studentName") String studentName, 
 			@Param("birthday") String birthday, 
-			@Param("examId") int examId);
+			@Param("semesterId") int semesterId);
 	
 	/**
 	 * 根据考试ID，查询所有的成绩（全班成绩）。

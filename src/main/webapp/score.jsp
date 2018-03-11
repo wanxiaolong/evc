@@ -23,14 +23,6 @@
 			<div class="title">查询条件</div>
 			
 			<div class="filter-row">
-				<label>查询类型：</label>
-				<div class="btn-group">
-					<button class="btn btn-default" id="queryByPerson" value="person">查询个人成绩</button>
-					<button class="btn btn-default" id="queryByClass" value="class">查询班级成绩</button>
-				</div>
-			</div>
-			
-			<div class="filter-row">
 				<div class="filter">
 					<label>学期：</label>
 					<select class="form-control" id="semesterSelect" name="semester" required>
@@ -55,9 +47,7 @@
 					<label>生日：</label>
 					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" required>
 				</div>
-			</div>
-			<div class="filter-row">
-				<button type="button" id="queryBtn" class="btn btn-default">查询</button>
+				<button type="button" id="queryBtn" class="btn btn-default query-btn">查询</button>
 			</div>
 		</div>
 
@@ -68,6 +58,7 @@
 				<tr>
 					<th>学号</th>
 					<th>姓名</th>
+					<th>考试</th>
 					<th>语文</th>
 					<th>数学</th>
 					<th>英语</th>

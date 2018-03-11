@@ -79,13 +79,18 @@
 		from score where id=#{id}
 	</select>
 	
-	<select id="findByNameAndExam" parameterType="map" resultType="com.my.evc.vo.ScoreVo">
+	<select id="findBySemester" parameterType="map" resultType="com.my.evc.vo.ScoreVo">
 		select
 			<include refid="all_fields"/>,
-		student.name as studentName
+		student.name as studentName,
+		exam.name as examName
 		from score join student 
 		on student.number = score.student_number
-		where name=#{name} and birth_day=#{birthday} and exam_id=#{examId}
+		join exam 
+		on score.exam_id = exam.id
+		where student.name=#{studentName} 
+		and birth_day=#{birthday} 
+		and semester_number = #{semesterId}
 	</select>
 	
 	<select id="findByClass" parameterType="int" resultType="com.my.evc.vo.ScoreVo">

@@ -11,10 +11,9 @@ public class Constant {
 	public static final String PARAM_PASSWORD = "password";
 	public static final String PARAM_NAME = "name";
 	public static final String PARAM_BIRTHDAY = "birthday";
-	public static final String PARAM_SEMESTER = "semester";
+	public static final String PARAM_SEMESTER_ID = "semester_id";
 	public static final String PARAM_SEMESTERS = "semesters";
 	public static final String PARAM_VERIFY_CODE = "verify_code";
-	public static final String PARAM_QUERY_TYPE = "query_type";
 	public static final String PARAM_RU = "ru";
 	public static final String PARAM_TYPE = "type";
 	public static final String PARAM_TITLE = "title";
