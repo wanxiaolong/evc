@@ -15,7 +15,42 @@ $(document).ready(function(){
 	$("#queryAll").change(function() {
 		initSemesterSelect();
 	});
+	
+	queryAllStudents();
 });
+
+//根据拼音首字母查询学生
+function queryAllStudents() {
+	$.ajax({
+		type: 'GET',
+		url: webroot + '/rest/student/all',
+		success: function (data) {
+			var array = data.response;
+			if (data.errorMessage != null) {
+				alert(data.errorMessage);
+				return;
+			}
+			addNameOption(array);
+		},
+		error: function () {
+			alert("调用学生信息查询接口失败！");
+			console.log("调用查询接口失败！");
+		}
+	});
+}
+
+//将查询到的学生动态增加到下拉菜单中
+function addNameOption(array) {
+	//先清空原来的选择项
+	$("#name").empty();
+	$("#name").append("<option>--请选择--</option>");
+	//再依次添加
+	for(var index in array) {
+		var student = array[index];
+		var option = "<option value='" + student.namePinyin+"'>" + student.name + "</option>";
+		$("#name").append(option);
+	}
+}
 
 function executeScoreQuery() {
 	//先执行必要的字段检查

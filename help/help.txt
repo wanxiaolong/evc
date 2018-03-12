@@ -1,12 +1,10 @@
 1. Cannot download file which name is chinese.
 https://www.cnblogs.com/wangyangsk/p/4972612.html
 
-
 2. How to use BootStrap-FileInput plugin to upload files:
 http://blog.csdn.net/u012526194/article/details/69937741
 Official document:
 https://github.com/kartik-v/bootstrap-fileinput
-
 
 3. After file uploaded successfully, the server MUST return a json string, 
 otherwise the page would display an "Unexpected end of JSON input." error.
@@ -19,3 +17,9 @@ https://datatables.net/reference/option/
 
 5. How to config the path of interceptor(the path prefix configured in web.xml is igonred when matching):
 http://blog.csdn.net/u014520797/article/details/52893474
+
+6. Mybatis like queries
+http://www.cnblogs.com/cyttina/p/3894428.html
+
+7. Display MyBatis SQL in console
+https://www.cnblogs.com/zhaopengcheng/p/6855996.html

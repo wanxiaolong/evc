@@ -1,5 +1,7 @@
 package com.my.evc.controller.springmvc;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -60,5 +62,27 @@ public class StudentController extends BaseController {
 			HttpServletResponse response) throws BaseException, Exception {
 		Student student = studentService.findByID(id);
 		return new JsonResponse<Student>(SUCCESS, student);
+	}
+	
+	/**
+	 * 通过首字母来查找学生
+	 */
+	@ResponseBody
+	@RequestMapping(value="/pinyin/{pinyin}", method = RequestMethod.GET)
+	public JsonResponse<List<Student>> findByNamePinYin(@PathVariable("pinyin") String pinyin) 
+			throws BaseException, Exception {
+		List<Student> students = studentService.findByPinYin(pinyin);
+		return new JsonResponse<List<Student>>(SUCCESS, students);
+	}
+
+	/**
+	 * 查找所有学生
+	 */
+	@ResponseBody
+	@RequestMapping(value="/all", method = RequestMethod.GET)
+	public JsonResponse<List<Student>> findByNamePinYin() 
+			throws BaseException, Exception {
+		List<Student> students = studentService.findAll();
+		return new JsonResponse<List<Student>>(SUCCESS, students);
 	}
 }

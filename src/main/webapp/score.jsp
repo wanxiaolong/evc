@@ -45,7 +45,8 @@
 				</div> -->
 				<div class="filter" id="nameFilter">
 					<label>姓名：</label>
-					<input type="text" class="form-control" id="name" placeholder="支持首字母查询" value="${name}" required>
+					<%-- <input type="text" class="form-control" id="name" placeholder="支持首字母查询" value="${name}" required> --%>
+					<select class="form-control" id="name" data-live-search="true"></select>
 				</div>
 				<div class="filter" id="birthdayFilter">
 					<label>生日：</label>
