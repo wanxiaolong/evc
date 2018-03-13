@@ -47,9 +47,12 @@ function addNameOption(array) {
 	//再依次添加
 	for(var index in array) {
 		var student = array[index];
-		var option = "<option value='" + student.namePinyin+"'>" + student.name + "</option>";
+		var option = "<option value='" + student.namePinyin+"'>" + student.name + "("+student.namePinyin+")" + "</option>";
 		$("#name").append(option);
 	}
+	
+	$("#name").select2();
+	$("#semesterSelect").select2();
 }
 
 function executeScoreQuery() {
@@ -59,7 +62,7 @@ function executeScoreQuery() {
 	}
 	var isQueryAll = $("#queryAll").is(':checked');
 	var semesterId = $("#semesterSelect").children('option:selected').val();
-	var name = $("#name").val();
+	var namePinyin = $("#name").val();
 	var birthday = $("#birthday").val();
 	
 	$.ajax({
@@ -67,7 +70,7 @@ function executeScoreQuery() {
 		url: webroot + '/rest/score/query',
 		data: 	'query_all=' + isQueryAll +
 				'&semester_id=' + semesterId + 
-				'&name=' + name + 
+				'&name_pinyin=' + namePinyin + 
 				'&birthday=' + birthday,
 		success: function (data) {
 			var array = data.response;

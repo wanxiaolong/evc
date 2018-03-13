@@ -52,4 +52,16 @@
 			<include refid="all_fields"/>
 		from student where number=#{number}
 	</select>
+	
+	<select id="findByPinYin" parameterType="String" resultType="com.my.evc.model.Student">
+		select
+			<include refid="all_fields"/>
+		from student where name_pinyin like concat(concat('%',#{pinyin}),'%');
+	</select>
+	
+	<select id="findAll" resultType="com.my.evc.model.Student">
+		select
+			<include refid="all_fields"/>
+		from student;
+	</select>
 </mapper>

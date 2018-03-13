@@ -92,7 +92,7 @@
 		on score.exam_id = exam.id
 		join semester
 		on exam.semester_number = semester.number
-		where student.name=#{studentName} 
+		where student.name_pinyin=#{namePinYin} 
 		and birth_day=#{birthday} 
 		<if test="semesterId > 0">
 			and semester_number = #{semesterId}

@@ -92,7 +92,7 @@ public class ScoreController extends BaseController {
 	@ResponseBody
 	public JsonResponse<List<ScoreVo>> queryScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		String name = request.getParameter(Constant.PARAM_NAME);
+		String namePinYin = request.getParameter(Constant.PARAM_NAME_PINYIN);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		boolean queryAll = Boolean.parseBoolean(request.getParameter(Constant.PARAM_QUERY_ALL));
@@ -106,7 +106,7 @@ public class ScoreController extends BaseController {
 		if (queryAll) {
 			semesterId = "0"; //semesterId=0: 此条件不作为过滤条件
 		}
-		List<ScoreVo> scoreVos = scoreService.queryScoreBySemester(name, birthday, Integer.parseInt(semesterId));
+		List<ScoreVo> scoreVos = scoreService.queryScoreBySemester(namePinYin, birthday, Integer.parseInt(semesterId));
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}
 	

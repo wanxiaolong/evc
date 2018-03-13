@@ -130,8 +130,8 @@ public class ScoreService implements BaseService<Score> {
 	/**
 	 * 按姓名查询学生某次考试的成绩。
 	 */
-	public List<ScoreVo> queryScoreBySemester(String name, String birthday, int semesterId) {
-		List<ScoreVo> scoreVos = scoreMapper.findBySemester(name, birthday, semesterId);
+	public List<ScoreVo> queryScoreBySemester(String namePinYin, String birthday, int semesterId) {
+		List<ScoreVo> scoreVos = scoreMapper.findBySemester(namePinYin, birthday, semesterId);
 		//计算总分，由于有些成绩是等级，所以不能计算总分。
 //		for(ScoreVo vo : scoreVos) {
 //			double total = calculateTotal(vo);

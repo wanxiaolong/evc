@@ -20,7 +20,7 @@ public interface ScoreMapper extends BaseMapper<Score> {
 	 * 查询学生某学期考试的成绩（生日仅作为验证使用）。
 	 */
 	public List<ScoreVo> findBySemester(
-			@Param("studentName") String studentName, 
+			@Param("namePinYin") String namePinYin, 
 			@Param("birthday") String birthday, 
 			@Param("semesterId") int semesterId);
 	
