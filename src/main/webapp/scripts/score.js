@@ -114,6 +114,15 @@ function initDataTable(id) {
 		language: {
 			url: webroot + '/localization/chinese.json'
 		},
+		columnDefs: [
+			//--------------------------------  //前几列的名字固定，宽度固定
+			{ "sWidth": "100px", "targets": 0 },//学号
+			{ "sWidth": "70px" , "targets": 1 },//姓名
+			{ "sWidth": "150px", "targets": 2 },//学期
+			{ "sWidth": "150px", "targets": 3 },//考试
+			//----------------------------------//后续列为成绩列，宽度自动确定
+		],
+		bAutoWidth: false,
 		bPaginate: true,//是否显示分页器（左上角显示 ‘每页显示x条记录’）
 		bFilter: true, //是否显示搜索框（右上角）
 		bSort: true, //是否允许列排序

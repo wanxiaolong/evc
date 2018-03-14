@@ -23,3 +23,7 @@ http://www.cnblogs.com/cyttina/p/3894428.html
 
 7. Display MyBatis SQL in console
 https://www.cnblogs.com/zhaopengcheng/p/6855996.html
+
+8. Set column width for datatables
+http://blog.csdn.net/tongnian_2010/article/details/72991099
+

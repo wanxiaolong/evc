@@ -192,6 +192,15 @@ body {
 	cursor: not-allowed;
 	background-color: #eee;
 }
+.dataTables_wrapper {
+	margin: 10px 0px;
+}
+table.table.dataTable thead th, table.table.dataTable thead td,
+table.table.dataTable tbody th, table.table.dataTable tbody td {
+	padding: 10px 0px;
+	vertical-align: middle;
+}
+
 /**
  * -------------------------------------------
  * 留言列表页面
