@@ -5,7 +5,10 @@
 var webroot = getWebRoot();
 $(document).ready(function(){
 	table = initDataTable("scoreTable");
-
+	
+	//移除select2下拉菜单的title属性，没用
+	$("#select2-semesterSelect-container").removeAttr("title");
+	
 	//监听查询按钮点击事件
 	$('#queryBtn').click(function(){
 		executeScoreQuery();
@@ -55,6 +58,7 @@ function addNameOption(array) {
 	$("#semesterSelect").select2();
 }
 
+//发送请求到后台执行成绩查询
 function executeScoreQuery() {
 	//先执行必要的字段检查
 	if(!checkRequiredField()) {
@@ -86,17 +90,23 @@ function executeScoreQuery() {
 		}
 	});
 }
+
+//根据是否选中“查询所有历史成绩”初始化各个控件的状态
 function initSemesterSelect() {
 	//如果查询所有历史成绩，则学期的下拉菜单不可用
 	var isQueryAll = $("#queryAll").is(':checked');
-	var semester = $("#semesterSelect");
+	var semesterSelect = $("#semesterSelect");
+	var semesterSelect2Container = $("#select2-semesterSelect-container");
+	semesterSelect2Container.removeAttr("title");
 	if(isQueryAll) {
-		semester.attr("disabled","disabled");
-		semester.removeAttr("required");
-		semester.removeClass("err-bdr");
+		semesterSelect.attr("disabled","disabled");
+		semesterSelect2Container.addClass("select2-disabled");
+		semesterSelect.removeAttr("required");
+		semesterSelect.removeClass("err-bdr");
 	} else {
-		semester.removeAttr("disabled");
-		semester.attr("required","required");
+		semesterSelect.removeAttr("disabled");
+		semesterSelect2Container.removeClass("select2-disabled");
+		semesterSelect.attr("required","required");
 	}
 }
 function initDataTable(id) {

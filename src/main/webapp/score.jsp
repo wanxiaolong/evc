@@ -33,7 +33,7 @@
 					<input type="checkbox" id="queryAll">
 					<label>查询所有历史成绩</label>
 				</div>
-				<div class="filter">
+				<div class="filter" id="semesterFilter">
 					<label>学期：</label>
 					<select class="form-control" id="semesterSelect" name="semester" data-live-search="true" required>
 						<option>--请选择--</option>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="filter" id="birthdayFilter">
 					<label>生日：</label>
-					<input type="text" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" required>
+					<input type="tel" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" maxlength="4" required>
 				</div>
 				<button type="button" id="queryBtn" class="btn btn-default query-btn">查询</button>
 			</div>

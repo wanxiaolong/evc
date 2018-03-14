@@ -1,5 +1,7 @@
 /**
+ * -------------------------------------------
  * 公共样式
+ * -------------------------------------------
  */
 body {
 	font-size: 14px;
@@ -14,8 +16,11 @@ body {
 .err-bdr {
 	border: 1px solid red;
 }
+
 /**
+ * -------------------------------------------
  * 主页(home.jsp)
+ * -------------------------------------------
  */
 .evc-page-header .header, .evc-content, .evc-page-footer {
 	width: 1200px;
@@ -74,8 +79,10 @@ body {
 }
  
 /**
+ * -------------------------------------------
  * 文件上传页面(file_upload.jsp)
  * 对上传插件的默认样式进行微调，加上evc-content前缀以覆盖默认的样式。
+ * -------------------------------------------
  */
 .evc-content .file-preview .fileinput-remove {
 	top: 5px;
@@ -101,7 +108,9 @@ body {
 }
 
 /**
+ * -------------------------------------------
  * 登录页面(login.jsp)
+ * -------------------------------------------
  */
 .evc-content .evc-login {
 	width: 300px;
@@ -112,7 +121,9 @@ body {
 }
 
 /**
+ * -------------------------------------------
  * 成绩查询页面。
+ * -------------------------------------------
  */
 .evc-content .filter {
 	display: inline-block;
@@ -166,23 +177,37 @@ body {
 	font-size: 14px;
 	line-height: 1.42857143;
 	color: #555;
-	background-color: #fff;
 	background-image: none;
 	border: 1px solid #ccc;
 	border-radius: 4px;
+	margin-top: -4px;
 }
 .select2-container--default .selection .select2-selection--single {
 	border: none;
 }
-
-/*留言列表页*/
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+	margin-top: -5px;
+}
+.select2-disabled {
+	cursor: not-allowed;
+	background-color: #eee;
+}
+/**
+ * -------------------------------------------
+ * 留言列表页面
+ * -------------------------------------------
+ */
 .evc-message .right {
 	height: 40px;
 	text-align: right;
 	margin-bottom: 5px;
 }
 
-/*创建留言页面*/
+/**
+ * -------------------------------------------
+ * 创建留言页面
+ * -------------------------------------------
+ */
 .evc-message .submit {
 	text-align: right;
 }
