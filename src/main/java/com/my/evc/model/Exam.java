@@ -8,13 +8,27 @@ package com.my.evc.model;
  */
 public class Exam extends BaseModel {
 	
-	private int adminId;			//管理员ID（谁创建的这次考试）
-	private String name;			//考试名称
-	private int semesterNumber;		//学期。比如20171代表2017年上学期
-	private boolean isHalf;			//是否是半期考试
-	private boolean isFinal;		//是否是期末考试
-	private String note;			//备注
+	private int adminId;				//管理员ID（谁创建的这次考试）
+	private String name;				//考试名称
+	private int semesterNumber;			//学期。比如20171代表2017年上学期
+	private boolean isHalf;				//是否是半期考试
+	private boolean isFinal;			//是否是期末考试
+	private boolean isShowGradeRank;	//是否显示年级排名
+	private boolean isShowClassRank;	//是否显示班级排名
+	private String note;				//备注
 	
+	public boolean isShowClassRank() {
+		return isShowClassRank;
+	}
+	public boolean isShowGradeRank() {
+		return isShowGradeRank;
+	}
+	public void setShowClassRank(boolean isShowClassRank) {
+		this.isShowClassRank = isShowClassRank;
+	}
+	public void setShowGradeRank(boolean isShowGradeRank) {
+		this.isShowGradeRank = isShowGradeRank;
+	}
 	public int getAdminId() {
 		return adminId;
 	}

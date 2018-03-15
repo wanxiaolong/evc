@@ -10,7 +10,21 @@ public class ScoreVo extends Score {
 	private String examName;			//考试名称
 	private String studentName;			//学生姓名
 	private double total;				//总分
+	private boolean isShowClassRank;	//是否显示班级排名
+	private boolean isShowGradeRank;	//是否显示年级排名
 	
+	public boolean isShowClassRank() {
+		return isShowClassRank;
+	}
+	public boolean isShowGradeRank() {
+		return isShowGradeRank;
+	}
+	public void setShowClassRank(boolean isShowClassRank) {
+		this.isShowClassRank = isShowClassRank;
+	}
+	public void setShowGradeRank(boolean isShowGradeRank) {
+		this.isShowGradeRank = isShowGradeRank;
+	}
 	public String getSemesterName() {
 		return semesterName;
 	}

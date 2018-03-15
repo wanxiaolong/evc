@@ -27,3 +27,7 @@ https://www.cnblogs.com/zhaopengcheng/p/6855996.html
 8. Set column width for datatables
 http://blog.csdn.net/tongnian_2010/article/details/72991099
 
+9. Use $().dataTables to initialize a table, then met an JS issue: table.rows() is not a function
+https://www.datatables.net/forums/discussion/22479/table-row-is-not-a-function
+
+

@@ -73,6 +73,8 @@
 					<th>历史</th>
 					<th>地理</th>
 					<th>总分</th>
+					<th>班名</th>
+					<th>级名</th>
 				</tr>
 			</thead>
 			<tbody></tbody>

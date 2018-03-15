@@ -21,6 +21,8 @@
 			semester_number=#{semesterNumber}, 
 			is_half=#{isHalf}, 
 			is_final=#{isFinal}, 
+			is_show_grade_rank=#{isShowGradeRank},
+			is_show_class_rank=#{isShowClassRank},
 			note=#{note}
 		where 
 			id=#{id}
@@ -33,6 +35,8 @@
 		semester_number as semesterNumber, 
 		is_half as isHalf, 
 		is_final as isFinal, 
+		is_show_grade_rank as isShowGradeRank,
+		is_show_class_rank as isShowClassRank,
 		note as note,
 		creation_date as creationDate
 	</sql>

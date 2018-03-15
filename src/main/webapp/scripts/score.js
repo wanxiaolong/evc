@@ -141,7 +141,7 @@ function addRows(array) {
 	
 	for(var index in array) {
 		var score = array[index];
-		table.row.add([
+		var data = [
 			score.studentNumber,
 			score.studentName,
 			score.semesterName,
@@ -156,6 +156,19 @@ function addRows(array) {
 			score.history,
 			score.geography,
 			score.total
-		]).draw(false);
+		];
+		//根据考试的配置，决定是否显示班级排名和年级排名
+		if (score.isShowClassRank) {
+			data.push(1);
+		} else {
+			data.push('-');
+		}
+		if (score.isShowGradeRank) {
+			data.push(10);
+		} else {
+			data.push('-');
+		}
+		
+		table.row.add(data).draw(false);
 	}
 }

@@ -200,7 +200,18 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 	padding: 10px 0px;
 	vertical-align: middle;
 }
-
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, 
+.table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, 
+.table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+	border: none;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.table-bordered>tbody>tr>td:last-child,
+.table-bordered>tbody>tr>th:last-child,
+.table-bordered>tbody>tr>th:last-child {
+	border-right: none;
+}
 /**
  * -------------------------------------------
  * 留言列表页面
