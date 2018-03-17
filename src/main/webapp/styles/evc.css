@@ -212,6 +212,9 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 .table-bordered>thead>tr>th:last-child {
 	border-right: none;
 }
+.select2-container--default .selection .select2-selection--single .select2-selection__rendered.err-bdr {
+	border: 1px solid red;
+}
 /**
  * -------------------------------------------
  * 留言列表页面

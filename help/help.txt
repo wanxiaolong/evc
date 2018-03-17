@@ -30,4 +30,5 @@ http://blog.csdn.net/tongnian_2010/article/details/72991099
 9. Use $().dataTables to initialize a table, then met an JS issue: table.rows() is not a function
 https://www.datatables.net/forums/discussion/22479/table-row-is-not-a-function
 
-
+10. Config '/' or '/*' for DispatcherServlet in web.xml
+https://www.cnblogs.com/wlf-919874006/p/5046870.html

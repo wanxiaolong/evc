@@ -102,7 +102,7 @@ function initSemesterSelect() {
 		semesterSelect.attr("disabled","disabled");
 		semesterSelect2Container.addClass("select2-disabled");
 		semesterSelect.removeAttr("required");
-		semesterSelect.removeClass("err-bdr");
+		semesterSelect2Container.removeClass("err-bdr");
 	} else {
 		semesterSelect.removeAttr("disabled");
 		semesterSelect2Container.removeClass("select2-disabled");

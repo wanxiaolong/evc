@@ -23,11 +23,12 @@ function checkRequiredField() {
 		var tagName = element.tagName;
 		//获取控件值
 		var val = '';
-		if (tagName == 'SELECT') {
+		if (tagName == 'SELECT') { //普通的select
 			val = $(this).children('option:selected').attr('value');
-		} else if (tagName == 'INPUT') {
+		} else if (tagName == 'INPUT') {//普通的input
 			val = $(this).val();
 		}
+
 		//检查输入
 		if (val == null || val == '') {
 			$(this).addClass('err-bdr');
@@ -35,6 +36,23 @@ function checkRequiredField() {
 		} else {
 			$(this).removeClass('err-bdr');
 		}
+		
+		
+		//对于select2的下拉菜单，需要检查修饰原始select的span的值，该span的id为：select2-[id]-container
+		var isSelect2 = $(this).hasClass('select2-hidden-accessible');
+		if (isSelect2) {
+			var select2Id = 'select2-' + $(this).attr('id') + '-container';
+			var select2Span = $('#' + select2Id);
+			val = select2Span.html();
+			
+			//检查输入：如果select的值是'--请选择--'，那等于没选
+			if (val == '--请选择--') {
+				select2Span.addClass('err-bdr');
+			} else {
+				select2Span.removeClass('err-bdr');
+			}
+		}
+		
 	});
 	return errorFields.length == 0 ? true : false;
 }

@@ -18,8 +18,8 @@
 	<link href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet"/>
 	
 	<!-- For select2 -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+	<script src="<%=basePath%>/vendor/select2-4.0.5/js/select2.min.js"></script>
+	<link href="<%=basePath%>/vendor/select2-4.0.5/css/select2.min.css" rel="stylesheet"/>
 </head>
 <body>
 	<common:page-header/>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="filter" id="nameFilter">
 					<label>姓名：</label>
-					<select class="form-control" id="name" data-live-search="true"></select>
+					<select class="form-control" id="name" data-live-search="true" required></select>
 				</div>
 				<div class="filter" id="birthdayFilter">
 					<label>生日：</label>
