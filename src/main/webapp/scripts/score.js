@@ -26,7 +26,7 @@ $(document).ready(function(){
 function queryAllStudents() {
 	$.ajax({
 		type: 'GET',
-		url: webroot + '/rest/student/all',
+		url: webroot + '/student/all',
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
@@ -71,7 +71,7 @@ function executeScoreQuery() {
 	
 	$.ajax({
 		type: 'POST',
-		url: webroot + '/rest/score/query',
+		url: webroot + '/score/query',
 		data: 	'query_all=' + isQueryAll +
 				'&semester_id=' + semesterId + 
 				'&name_pinyin=' + namePinyin + 

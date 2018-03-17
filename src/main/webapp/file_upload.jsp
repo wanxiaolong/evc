@@ -31,7 +31,7 @@
 <script type="text/javascript">
 $("#uploadfile").fileinput({
 	language: 'zh', //设置语言
-	uploadUrl: "http://localhost:8080/evc/rest/file/upload", //上传的地址
+	uploadUrl: "http://localhost:8080/evc/file/upload", //上传的地址
 	//allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
 	//uploadExtraData:{"id": 1, "fileName":'123.mp3'},
 	uploadAsync: true, //默认异步上传

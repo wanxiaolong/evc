@@ -14,7 +14,7 @@
 	<div class="evc-content">
 		<div class="evc-message">
 			<div><h3>留言详情</h3></div>
-			<form action="rest/message/create" method="POST">
+			<form action="message/create" method="POST">
 				<div class="row">
 					<div class="col-md-6">
 						<label for="type">类型</label><br>

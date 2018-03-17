@@ -21,10 +21,10 @@
 				<!--向左对齐-->
 				<ul class="nav navbar-nav navbar-left">
 					<li><a href="<%=basePath%>/home.jsp">首页</a></li>
-					<li><a href="<%=basePath%>/rest/score/query">成绩查询</a></li>
-					<li><a href="<%=basePath%>/rest/file/list">资料下载</a></li>
-					<li><a href="<%=basePath%>/rest/notice/list">公告栏</a></li>
-					<li><a href="<%=basePath%>/rest/message/list">留言板</a></li>
+					<li><a href="<%=basePath%>/score/query">成绩查询</a></li>
+					<li><a href="<%=basePath%>/file/list">资料下载</a></li>
+					<li><a href="<%=basePath%>/notice/list">公告栏</a></li>
+					<li><a href="<%=basePath%>/message/list">留言板</a></li>
 					<li><a href="<%=basePath%>/contact.jsp">联系我们</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -39,33 +39,12 @@
 							<li><a href="<%=basePath%>/support.jsp">社会资助</a></li>
 							<li class="divider"></li>
 							<li><a href="<%=basePath%>/file_upload.jsp">资料上传</a></li>
-							<li><a href="<%=basePath%>/rest/score/upload">成绩上传</a></li>
+							<li><a href="<%=basePath%>/score/upload">成绩上传</a></li>
 							<li class="divider"></li>
 							<li><a href="#">测试菜单</a></li>
 						</ul>
 					</li>
 				</ul>
-				<!--向右对齐-->
-				<c:if test="${not empty model}">
-					<p class="navbar-text navbar-right">
-						<a href="<%=basePath%>/rest/user/logout">退出</a>
-					</p>
-					<p class="navbar-text navbar-right">欢迎：${model}</p>
-				</c:if>
-				<c:if test="${empty model}">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								登录 <b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="<%=basePath%>/login.jsp">用户登录</a></li>
-								<li class="divider"></li>
-								<li><a href="#">管理员登录</a></li>
-							</ul>
-						</li>
-					</ul>
-				</c:if>
 				<p class="navbar-text navbar-right">2017年12月5日</p>
 			</div>
 		</div>

@@ -8,15 +8,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-context.xml</param-value>
 	</context-param>
-	<context-param>
-		<param-name>javax.ws.rs.core.Application</param-name>
-		<param-value>com.my.evc.controller.resteasy.RestEasyApplication</param-value>
-	</context-param>
-	<context-param>
-		<!-- If do not add this prop, URL is invalid -->
-		<param-name>resteasy.servlet.mapping.prefix</param-name>
-		<param-value>/resteasy</param-value>
-	</context-param>
 	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -40,9 +31,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<listener>
-		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-	</listener>
-	<listener>
 		<!-- Used to add download account after file is downloaded. -->
 		<listener-class>com.my.evc.listener.FileDownloadListener</listener-class>
 	</listener>
@@ -56,42 +44,10 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<servlet>
-		<servlet-name>JerseyDispatcher</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<init-param>
-			<!-- Sets resource folder of ServletContainer -->
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>com.my.evc.controller.jersey</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.JSPTemplatesBasePath</param-name>
-			<param-value>/views/</param-value>
-		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.WebPageContentRegex</param-name>
-			<param-value>/(images|styles|scripts)/.*</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
-		<servlet-name>RestEasyDispatcher</servlet-name>
-		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	
 
 	<servlet-mapping>
 		<servlet-name>SpringMvcDispatcher</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>JerseyDispatcher</servlet-name>
-		<url-pattern>/jersey/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>RestEasyDispatcher</servlet-name>
-		<url-pattern>/resteasy/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Welcome file list -->

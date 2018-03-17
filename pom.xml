@@ -34,34 +34,9 @@
 
 	<properties>
 		<spring.version>4.1.2.RELEASE</spring.version>
-		<resteasy.version>3.0.10.Final</resteasy.version>
 	</properties>
 
 	<dependencies>
-		<!-- RestEasy RESTful API framework -->
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-client</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-spring</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-
-		<!-- Jersey RESTful API framework -->
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-servlet</artifactId>
-			<version>1.18.1</version>
-		</dependency>
-
 		<!-- Log4j -->
 		<dependency>
 			<groupId>log4j</groupId>

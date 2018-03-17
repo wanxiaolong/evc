@@ -1,10 +1,9 @@
-package com.my.evc.controller.springmvc;
+package com.my.evc.controller;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +40,7 @@ public class FileController extends BaseController {
 	public String uploadFile(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
 		FileUtil.handleUploadFile(request);
-		response.setStatus(Status.CREATED.getStatusCode());
+		response.setStatus(HttpServletResponse.SC_OK);
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
 		return EMPTY_JSON;
@@ -57,7 +56,7 @@ public class FileController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		//fileService.deleteByID(id);
-		return new JsonResponse<String>(Status.OK.getStatusCode(), "Deleted.");
+		return new JsonResponse<String>(HttpServletResponse.SC_OK, "Deleted.");
 	}
 	
 	/**

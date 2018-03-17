@@ -9,7 +9,7 @@ $(document).ready(function(){
 		var selectedSemester = $(this).children('option:selected').val();//获取selected的值
 		$.ajax({
 			type: 'GET',
-			url: webroot + '/rest/exam/findBySemester?semester=' + selectedSemester,
+			url: webroot + '/exam/findBySemester?semester=' + selectedSemester,
 			success: function (data) {
 				//移除examSelect所有带有value的option
 				$("#examSelect option[value]").remove();
@@ -32,7 +32,7 @@ $(document).ready(function(){
 	
 	$("#uploadfile").fileinput({
 		language: 'zh', //设置语言
-		uploadUrl: "<%=basePath%>/rest/score/upload", //上传的地址
+		uploadUrl: "<%=basePath%>/score/upload", //上传的地址
 		allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
 		uploadExtraData:{"exam_id": $("#exam option:selected").val()},
 		uploadAsync: true, //默认异步上传

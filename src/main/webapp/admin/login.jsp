@@ -14,7 +14,7 @@
 <body>
 	<common:page-header/>
 	<div class="evc-content">
-		<form action="rest/user/login" method="POST">
+		<form action="user/login" method="POST">
 			<div class="evc-login">
 				<div class="text-center">
 					<h3>用户登录</h3>

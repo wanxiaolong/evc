@@ -1,4 +1,4 @@
-package com.my.evc.controller.springmvc;
+package com.my.evc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;

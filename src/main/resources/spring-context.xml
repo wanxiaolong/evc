@@ -28,16 +28,16 @@
 	<!-- 自定义的权限拦截器，多个拦截器按照声明的先后顺序依次执行 -->
 	<mvc:interceptors>
 		<!-- 登录拦截器，对于某些页面，需要先登录才能执行 -->
-		<!-- <mvc:interceptor>
-			<mvc:mapping path="/score/query"/>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"/>
+			<mvc:exclude-mapping path="/admin/login.jsp" />
 			<bean class="com.my.evc.interceptor.LoginInterceptor"/>
-		</mvc:interceptor> -->
+		</mvc:interceptor>
 		
 		<!-- 权限拦截器，对于某些功能，只有管理员才能执行 -->
 		<mvc:interceptor>
 			<!-- 注意，这里的path是除了web.xml中定义的前缀之后的
 			:参见：http://blog.csdn.net/u014520797/article/details/52893474 -->
-			<!-- <mvc:mapping path="/score/query"/> -->
 			<mvc:mapping path="/file/upload"/>
 			<bean class="com.my.evc.interceptor.PermissionInterceptor"/>
 		</mvc:interceptor>

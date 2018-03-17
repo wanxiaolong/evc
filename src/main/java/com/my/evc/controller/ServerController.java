@@ -1,4 +1,4 @@
-package com.my.evc.controller.springmvc;
+package com.my.evc.controller;
 
 import java.util.Locale;
 

@@ -1,4 +1,4 @@
-package com.my.evc.controller.springmvc;
+package com.my.evc.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +55,7 @@ public class UserController extends BaseController {
 		//更新登录日期
 		userService.updateLastLogin(user.getId());
 		
-		String target = (ru != null) ? ru : "/home.jsp";
+		String target = (ru != null) ? ru : "/admin/home.jsp";
 		ModelAndView mav = new ModelAndView("redirect:" + target);
 		mav.addObject(MODEL, user.getUsername());
 		return mav;

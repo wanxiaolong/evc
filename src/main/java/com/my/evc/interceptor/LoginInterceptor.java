@@ -25,7 +25,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	private static Logger logger = Logger.getLogger(LoginInterceptor.class);
 	
 	/**
-	 * 检查登录是否登录。
+	 * 检查用户是否登录。
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -40,7 +40,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				String requestURI = request.getRequestURI();
 				String contextPath = request.getContextPath();
 				String relativePath = requestURI.substring(contextPath.length());
-				response.sendRedirect("/evc/login.jsp?ru=" + relativePath);
+				response.sendRedirect("/evc/admin/login.jsp?ru=" + relativePath);
 			}
 			return true;
 		} catch (Exception e) {

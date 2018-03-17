@@ -19,7 +19,7 @@
 <body>
 	<h1><i18n:message code="hello"/></h1>
 	<h1><i18n:message code="china"/></h1>
-	<a href="/evc/rest/server/lang?lang=zh">中文</a>
-	<a href="/evc/rest/server/lang?lang=en">English</a>
+	<a href="/evc/server/lang?lang=zh">中文</a>
+	<a href="/evc/server/lang?lang=en">English</a>
 </body>
 </html>
