@@ -38,25 +38,26 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws IOException {
+		String ctxPath = request.getContextPath();
+		//targetURL: 除掉项目名称后访问的路径
+		String targetURL = request.getRequestURI().substring(ctxPath.length());
+
 		//如果访问的是白名单，则不进行拦截。
 		if (excludedUrls != null && excludedUrls.size() > 0) {
 			for(String excludeUrl : excludedUrls) {
-				String ctxPath = request.getContextPath();
-				//targetURL: 除掉项目名称后访问的路径
-				String targetURL = request.getRequestURI().substring(ctxPath.length());
 				if (excludeUrl.contains(targetURL)) {
 					return true;
 				}
 			}
 		}
 		
+		//如果用户没有登录，跳转到登录页，并且带上当前URI，便于登陆之后跳转回来
 		try {
 			HttpSession session = request.getSession();
 			User user = (User)session.getAttribute(Constant.PARAM_USER);
-			//如果用户没有登录，跳转到登录页，并且带上当前URI，便于登陆之后跳转回来
 			if (user == null) {
 				String contextPath = request.getContextPath();
-				response.sendRedirect(contextPath + "/admin/login.jsp");
+				response.sendRedirect(contextPath + "/admin/login.jsp?ru=" + targetURL);
 				return false;
 			}
 			return true;

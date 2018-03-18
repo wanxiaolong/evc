@@ -35,7 +35,7 @@ public class LoginFilter implements Filter {
 		if(targetURL.startsWith("/admin/") && !LOGIN_URL.equals(targetURL)){
 			//在不为登陆页面时，再进行判断，如果不是登陆页面也没有session则跳转到登录页面，
 			if(session == null || session.getAttribute(Constant.PARAM_USER) == null){
-				response.sendRedirect(ctxPath + LOGIN_URL);
+				response.sendRedirect(ctxPath + LOGIN_URL + "?ru=" + targetURL);
 				return;
 			}
 		}
