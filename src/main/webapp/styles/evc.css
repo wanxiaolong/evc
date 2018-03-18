@@ -119,10 +119,32 @@ body {
 .evc-content .evc-login .row {
 	margin-top: 10px;
 }
+/**
+ * -------------------------------------------
+ * 管理员主页(admin/home.jsp)
+ * -------------------------------------------
+ */
+.evc-content .menu {
+	width: 24%;
+	height: 500px;
+	border: 1px solid blue;
+	display: inline-block;
+	vertical-align: top;
+}
+.evc-content .main {
+	width: 75%;
+	height: 500px;
+	display: inline-block;
+	border: 1px solid red;
+	vertical-align: top;
+}
+.evc-content .menu .menu-item {
+	list-style: none;
+}
 
 /**
  * -------------------------------------------
- * 成绩查询页面。
+ * 成绩查询页面(score.jsp)
  * -------------------------------------------
  */
 .evc-content .filter {
