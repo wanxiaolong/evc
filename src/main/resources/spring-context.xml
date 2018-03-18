@@ -30,8 +30,16 @@
 		<!-- 登录拦截器，对于某些页面，需要先登录才能执行 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**"/>
-			<mvc:exclude-mapping path="/admin/login.jsp" />
-			<bean class="com.my.evc.interceptor.LoginInterceptor"/>
+			<!-- 如果想不拦截某些请求，则需要配置一下内容 -->
+			<!-- <mvc:exclude-mapping path=""/> -->
+			<bean class="com.my.evc.interceptor.LoginInterceptor">
+				<property name="excludedUrls">
+					<list>
+						<!-- 自定义的拦截白名单 -->
+						<value>/admin/login</value>
+					</list>
+				</property>
+			</bean>
 		</mvc:interceptor>
 		
 		<!-- 权限拦截器，对于某些功能，只有管理员才能执行 -->
