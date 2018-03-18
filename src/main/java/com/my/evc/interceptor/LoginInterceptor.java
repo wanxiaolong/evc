@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -51,21 +50,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			}
 		}
 		
-		HttpSession session = request.getSession();
-		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		try {
+			HttpSession session = request.getSession();
 			User user = (User)session.getAttribute(Constant.PARAM_USER);
 			//如果用户没有登录，跳转到登录页，并且带上当前URI，便于登陆之后跳转回来
 			if (user == null) {
-				String requestURI = request.getRequestURI();
 				String contextPath = request.getContextPath();
-				String relativePath = requestURI.substring(contextPath.length());
-				response.sendRedirect(contextPath + "/admin/login.jsp?ru=" + relativePath);
+				response.sendRedirect(contextPath + "/admin/login.jsp");
+				return false;
 			}
 			return true;
 		} catch (Exception e) {
-			String restfulServiceUri = CommonUtil.extractServiceURI(handlerMethod);
-			logger.debug("Fail to check login status for resource: " + restfulServiceUri, e);
+			String uri = CommonUtil.extractRequestURI(request);
+			logger.debug("Fail to check login status for resource: " + uri, e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return false;
 		}

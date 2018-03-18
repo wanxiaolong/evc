@@ -43,8 +43,6 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
 		HttpSession session = request.getSession();
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
-		String restfulServiceUri = CommonUtil.extractServiceURI(handlerMethod);
-		
 		try {
 			//利用反射获取方法需要的权限
 			RequirePermission requirePermission = handlerMethod.getMethodAnnotation(RequirePermission.class);
@@ -59,7 +57,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			boolean hasPermission = containsAny(userPermissions, requiredPermissions);
 			if (!hasPermission) {
 				User user = (User)session.getAttribute(Constant.PARAM_USER);
-				String logMessage = String.format(ACCESS_DENY_LOG,user.getUsername(), user.getRoleId(), restfulServiceUri);
+				String logMessage = String.format(ACCESS_DENY_LOG,user.getUsername(), user.getRoleId(), CommonUtil.extractRequestURI(request));
 				logger.debug(logMessage);
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				return false;

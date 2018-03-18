@@ -1,7 +1,6 @@
 package com.my.evc.util;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.method.HandlerMethod;
+import javax.servlet.http.HttpServletRequest;
 
 public class CommonUtil {
 	/**
@@ -9,15 +8,9 @@ public class CommonUtil {
 	 * <li>POST:/file/upload</li>
 	 * <li>GET:/file/list</li>
 	 */
-	public static String extractServiceURI(HandlerMethod handlerMethod) {
-		//获取标注在Class级别的RequestMapping的value
-		String classUri = handlerMethod.getBean().getClass().getAnnotation(RequestMapping.class).value()[0];
-		
-		//获取标注在Method级别的RequestMapping的value
-		String methodUri = handlerMethod.getMethodAnnotation(RequestMapping.class).value()[0];
-		
-		//获取标注在Method级别的RequestMapping的method
-		String requestType = handlerMethod.getMethodAnnotation(RequestMapping.class).method()[0].toString();
-		return requestType + ":" + classUri + methodUri;
+	public static String extractRequestURI(HttpServletRequest request) {
+		String method = request.getMethod();
+		String uri = request.getRequestURI();
+		return method + ":" + uri;
 	}
 }

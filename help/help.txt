@@ -32,3 +32,10 @@ https://www.datatables.net/forums/discussion/22479/table-row-is-not-a-function
 
 10. Config '/' or '/*' for DispatcherServlet in web.xml
 https://www.cnblogs.com/wlf-919874006/p/5046870.html
+
+11. Interceptor does not intercept *.jsp files, it only intercept request from Controller
+https://www.cnblogs.com/Anders888/p/6073190.html
+
+12. How to implement LoginFilter:
+http://blog.csdn.net/lsx991947534/article/details/45499205
+
