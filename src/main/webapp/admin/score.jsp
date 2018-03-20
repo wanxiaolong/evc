@@ -25,7 +25,7 @@
 </head>
 <body>
 	<common:page-header/>
-	<div class="admin evc-content">
+	<div class="admin evc-content score">
 		<admin:menu/>
 		<div class="content">
 			<!-- 查询条件 -->
