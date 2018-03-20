@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -71,19 +72,6 @@ public class ScoreController extends BaseController {
 	}
 	
 	/**
-	 * 跳转到成绩查询页面。这里预先读取所有的学期信息，并返回到页面。
-	 */
-	@RequestMapping(value = "/query", method = RequestMethod.GET)
-	public ModelAndView queryScorePage(HttpServletRequest request, 
-			HttpServletResponse response) throws BaseException, Exception {
-		//成绩查询页面默认填充好第一个下拉菜单：学期
-		List<Semester> semesters = semesterService.findAll();
-		ModelAndView mav = new ModelAndView("score");
-		mav.addObject(Constant.PARAM_SEMESTERS, semesters);
-		return mav;
-	}
-	
-	/**
 	 * 执行成绩查询。本方法同时支持查询个人成绩和查询全班成绩。如果name未指定，则查询全班成绩。<br>
 	 * 注意这里返回的是Json对象，非视图对象。
 	 */
@@ -94,6 +82,7 @@ public class ScoreController extends BaseController {
 		String namePinYin = request.getParameter(Constant.PARAM_NAME_PINYIN);
 		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
+		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
 		boolean queryAll = Boolean.parseBoolean(request.getParameter(Constant.PARAM_QUERY_ALL));
 		//检验验证码（测试期间注释掉）
 //		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
@@ -101,11 +90,18 @@ public class ScoreController extends BaseController {
 //		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
 //			throw new ValidationException(ErrorEnum.ILLEGAL_REQUEST_ERROR_VERIFY_CODE);
 //		}
-		//如果是查询所有的历史成绩
-		if (queryAll) {
-			semesterId = "0"; //semesterId=0: 此条件不作为过滤条件
+
+		List<ScoreVo> scoreVos = null;
+		if (StringUtils.isEmpty(examId)) {
+			//如果是查询所有的历史成绩
+			if (queryAll) {
+				semesterId = "0"; //semesterId=0: 此条件不作为过滤条件
+			}
+			scoreVos = scoreService.queryScoreBySemester(namePinYin, birthday, Integer.parseInt(semesterId));
+		} else {
+			scoreVos = scoreService.queryScoreByClass(Integer.parseInt(examId));
 		}
-		List<ScoreVo> scoreVos = scoreService.queryScoreBySemester(namePinYin, birthday, Integer.parseInt(semesterId));
+		
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
 	}
 	

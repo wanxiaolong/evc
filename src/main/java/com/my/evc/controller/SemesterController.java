@@ -29,7 +29,7 @@ public class SemesterController extends BaseController {
 	/**
 	 * 查询所有的学期信息。
 	 */
-	@RequestMapping(value = "/findAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	@ResponseBody
 	public JsonResponse<List<Semester>> findBySemester(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {

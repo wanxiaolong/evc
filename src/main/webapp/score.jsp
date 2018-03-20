@@ -44,7 +44,7 @@
 				</div>
 				<div class="filter" id="nameFilter">
 					<label>姓名：</label>
-					<select class="form-control" id="name" data-live-search="true" required></select>
+					<select class="form-control" id="nameSelect" data-live-search="true" required></select>
 				</div>
 				<div class="filter" id="birthdayFilter">
 					<label>生日：</label>

@@ -121,25 +121,15 @@ body {
 }
 /**
  * -------------------------------------------
- * 管理员主页(admin/home.jsp)
+ * 管理员成绩查询页面(admin/score.jsp)
  * -------------------------------------------
  */
-.evc-content .menu {
-	width: 24%;
-	height: 500px;
-	border: 1px solid blue;
-	display: inline-block;
-	vertical-align: top;
-}
-.evc-content .main {
-	width: 75%;
-	height: 500px;
-	display: inline-block;
-	border: 1px solid red;
-	vertical-align: top;
-}
-.evc-content .menu .menu-item {
-	list-style: none;
+.admin.evc-content .content {
+	margin-left: 230px;
+	padding: 10px;
+	min-height: 319px;
+	border: 1px solid #e7e7e7;
+	border-right: none;
 }
 
 /**
@@ -183,7 +173,9 @@ body {
 }
 .evc-content .query-btn {
 	width: 150px;
-	background: #7d7;
+	background: #337ab7;
+	color: white;
+	border: none;
 }
 .evc-content .filter input[type=checkbox] {
 	height: 20px;
