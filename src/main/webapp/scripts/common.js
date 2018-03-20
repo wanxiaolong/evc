@@ -56,3 +56,38 @@ function checkRequiredField() {
 	});
 	return errorFields.length == 0 ? true : false;
 }
+
+//【成绩查询页面】查询所有的学期信息（用于初始化下拉列表）
+function queryAllSemesters() {
+	$.ajax({
+		type: 'GET',
+		url: webroot + '/semester/all',
+		success: function (data) {
+			var array = data.response;
+			if (data.errorMessage != null) {
+				alert(data.errorMessage);
+				return;
+			}
+			addSemesterOption(array);
+		},
+		error: function () {
+			alert("调用学生信息查询接口失败！");
+			console.log("调用查询接口失败！");
+		}
+	});
+}
+
+//【成绩查询页面】将查询到的学期信息动态增加到下拉菜单中
+function addSemesterOption(array) {
+	//先清空原来的选择项
+	$("#semesterSelect").empty();
+	$("#semesterSelect").append("<option>--请选择--</option>");
+	//再依次添加
+	for(var index in array) {
+		var semester = array[index];
+		var option = "<option value='" + semester.number+"'>" + semester.name + "</option>";
+		$("#semesterSelect").append(option);
+	}
+	$("#semesterSelect").select2();
+}
+

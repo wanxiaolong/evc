@@ -19,34 +19,9 @@ $(document).ready(function(){
 		initSemesterSelect();
 	});
 	
-	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
-	$('#semesterSelect').change(function(){
-		initExamSelect();
-	});
-	
 	queryAllSemesters();
 	queryAllStudents();
 });
-
-//改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
-function initExamSelect() {
-	var selectedSemester = $("#semesterSelect").children('option:selected').val();//获取selected的值
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/exam/findBySemester?semester_id=' + selectedSemester,
-		success: function (data) {
-			var array = data.response;
-			if (data.errorMessage != null) {
-				alert(data.errorMessage);
-				return;
-			}
-			addExamOption(array)
-		},
-		error: function () {
-			console.log("调用查询考试信息接口失败！");
-		}
-	});
-}
 
 //查询所有学生信息（用于初始化下拉列表）
 function queryAllStudents() {
@@ -68,26 +43,6 @@ function queryAllStudents() {
 	});
 }
 
-//查询所有的学期信息（用于初始化下拉列表）
-function queryAllSemesters() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/semester/all',
-		success: function (data) {
-			var array = data.response;
-			if (data.errorMessage != null) {
-				alert(data.errorMessage);
-				return;
-			}
-			addSemesterOption(array);
-		},
-		error: function () {
-			alert("调用学生信息查询接口失败！");
-			console.log("调用查询接口失败！");
-		}
-	});
-}
-
 //将查询到的学生动态增加到下拉菜单中
 function addNameOption(array) {
 	//先清空原来的选择项
@@ -100,34 +55,6 @@ function addNameOption(array) {
 		$("#nameSelect").append(option);
 	}
 	$("#nameSelect").select2();
-}
-
-//将查询到的学期信息动态增加到下拉菜单中
-function addSemesterOption(array) {
-	//先清空原来的选择项
-	$("#semesterSelect").empty();
-	$("#semesterSelect").append("<option>--请选择--</option>");
-	//再依次添加
-	for(var index in array) {
-		var semester = array[index];
-		var option = "<option value='" + semester.number+"'>" + semester.name + "</option>";
-		$("#semesterSelect").append(option);
-	}
-	$("#semesterSelect").select2();
-}
-
-//将查询到的学期信息动态增加到下拉菜单中
-function addExamOption(array) {
-	//先清空原来的选择项
-	$("#examSelect").empty();
-	$("#examSelect").append("<option>--请选择--</option>");
-	//再依次添加
-	for(var index in array) {
-		var exam = array[index];
-		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
-		$("#examSelect").append(option);
-	}
-	$("#examSelect").select2();
 }
 
 //发送请求到后台执行成绩查询

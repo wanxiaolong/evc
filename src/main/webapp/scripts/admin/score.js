@@ -14,43 +14,46 @@ $(document).ready(function(){
 		executeScoreQuery();
 	});
 	
-	queryAllStudents();
+	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
+	$('#semesterSelect').change(function(){
+		initExamSelect();
+	});
+	
+	queryAllSemesters();
 });
 
-//根据拼音首字母查询学生
-function queryAllStudents() {
+//改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
+function initExamSelect() {
+	var selectedSemester = $("#semesterSelect").children('option:selected').val();//获取selected的值
 	$.ajax({
 		type: 'GET',
-		url: webroot + '/student/all',
+		url: webroot + '/exam/findBySemester?semester_id=' + selectedSemester,
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
 				alert(data.errorMessage);
 				return;
 			}
-			addNameOption(array);
+			addExamOption(array)
 		},
 		error: function () {
-			alert("调用学生信息查询接口失败！");
-			console.log("调用查询接口失败！");
+			console.log("调用查询考试信息接口失败！");
 		}
 	});
 }
 
-//将查询到的学生动态增加到下拉菜单中
-function addNameOption(array) {
+//将查询到的学期信息动态增加到下拉菜单中
+function addExamOption(array) {
 	//先清空原来的选择项
-	$("#name").empty();
-	$("#name").append("<option>--请选择--</option>");
+	$("#examSelect").empty();
+	$("#examSelect").append("<option>--请选择--</option>");
 	//再依次添加
 	for(var index in array) {
-		var student = array[index];
-		var option = "<option value='" + student.namePinyin+"'>" + student.name + "("+student.namePinyin+")" + "</option>";
-		$("#name").append(option);
+		var exam = array[index];
+		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
+		$("#examSelect").append(option);
 	}
-	
-	$("#name").select2();
-	$("#semesterSelect").select2();
+	$("#examSelect").select2();
 }
 
 //发送请求到后台执行成绩查询
@@ -61,7 +64,8 @@ function executeScoreQuery() {
 	}
 	var isQueryAll = $("#queryAll").is(':checked');
 	var semesterId = $("#semesterSelect").children('option:selected').val();
-	var namePinyin = $("#name").val();
+	var examId = $("#examSelect").children('option:selected').val();
+	var namePinyin = $("#nameSelect").children('option:selected').val();
 	var birthday = $("#birthday").val();
 	
 	$.ajax({
@@ -70,7 +74,8 @@ function executeScoreQuery() {
 		data: 	'query_all=' + isQueryAll +
 				'&semester_id=' + semesterId + 
 				'&name_pinyin=' + namePinyin + 
-				'&birthday=' + birthday,
+				'&birthday=' + birthday +
+				(examId != null ? '&exam_id=' + examId : ''),
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
@@ -86,6 +91,7 @@ function executeScoreQuery() {
 	});
 }
 
+//初始化Datatables表格
 function initDataTable(id) {
 	return $('#' + id).DataTable({
 		language: {
@@ -104,6 +110,8 @@ function initDataTable(id) {
 		aaSorting: [[0, "asc"]] //默认的排序方式，第1列，升序排列
 	});
 }
+
+//动态的向表格中增加数据
 function addRows(array) {
 	//先删除现有的行，再动态创建并添加行。
 	//注意:
@@ -119,8 +127,6 @@ function addRows(array) {
 		var data = [
 			score.studentNumber,
 			score.studentName,
-			score.semesterName,
-			score.examName,
 			score.chinese,
 			score.math,
 			score.english,

@@ -83,6 +83,6 @@
 	<common:page-footer/>
 </body>
 <script type="text/javascript" src="<%=basePath%>/scripts/common.js"></script>
-<script type="text/javascript" src="<%=basePath%>/scripts/score.js"></script>
+<script type="text/javascript" src="<%=basePath%>/scripts/admin/score.js"></script>
 </script>
 </html>
