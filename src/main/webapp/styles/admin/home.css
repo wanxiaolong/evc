@@ -1,15 +1,10 @@
 /*==============================================
     GENERAL  STYLES    
     =============================================*/
-body {
-	font-family: 'Open Sans', sans-serif;
-	line-height: 30px;
-}
-
 #page-wrapper {
 	padding: 15px 15px;
 	min-height: 600px;
-	background: #F3F3F3;
+	background: #f8f8f8;
 }
 
 #page-inner {
@@ -40,17 +35,19 @@ body {
 
 .sidebar-collapse>.nav>li>a {
 	padding: 15px 10px;
-	color: #214761;
 	font-weight: 900;
 	font-size: 16px;
 }
-
+.sidebar-collapse>.nav>li:first-child {
+	border-top: 1px solid #e7e7e7;
+}
 .sidebar-collapse>.nav>li {
-	border-bottom: 1px solid #e1e1e1;
+	border-bottom: 1px solid #e7e7e7;
 }
 
-.sidebar-collapse .nav>li>a:hover, .sidebar-collapse .nav>li>a:focus {
-	background: #F3F3F3;
+.sidebar-collapse .nav>li>a:hover, 
+.sidebar-collapse .nav>li>a:focus {
+	background: #f8f8f8;
 	outline: 0;
 }
 
@@ -85,19 +82,22 @@ body {
 .active-link {
 	background-color: #f3f3f3;
 }
-
+.badge {
+	background-color: red;
+	margin-top: -3px;
+}
 /*==============================================
     MEDIA QUERIES     
     =============================================*/
 @media ( min-width :768px) {
 	#page-wrapper {
-		margin: 0 0 0 260px;
+		margin: 0 0 0 230px;
 		padding: 15px 15px;
 		min-height: 800px;
 	}
 	.navbar-side {
 		z-index: 1;
 		position: absolute;
-		width: 260px;
+		width: 230px;
 	}
 }

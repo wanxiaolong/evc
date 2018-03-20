@@ -17,7 +17,10 @@
 </head>
 <body>
 	<common:page-header/>
-	<div id="wrapper" class="evc-content">
+	<div class="evc-content">
+		<div>
+			<h1>管理员主页</h1>
+		</div>
 		<nav class="navbar-default navbar-side" role="navigation">
 			<div class="sidebar-collapse">
 				<ul class="nav" id="main-menu">
@@ -40,7 +43,6 @@
 		</nav>
 		<div id="page-wrapper">
 			<h2>这里是主要内容</h2>
-			<hr />
 		</div>
 	</div>
 	<common:page-footer/>
