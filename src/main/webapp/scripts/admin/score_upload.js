@@ -1,33 +1,15 @@
 /**
  * 本文件为score_upload.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
+ * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
 var webroot = getWebRoot();
 $(document).ready(function(){
+	//初始化学期下拉菜单
+	queryAllSemesters();
+	
 	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
 	$('#semesterSelect').change(function(){
-		var selectedSemester = $(this).children('option:selected').val();//获取selected的值
-		$.ajax({
-			type: 'GET',
-			url: webroot + '/exam/findBySemester?semester=' + selectedSemester,
-			success: function (data) {
-				//移除examSelect所有带有value的option
-				$("#examSelect option[value]").remove();
-				
-				var examArray = data.response;
-				if (examArray.length > 0) {
-					for(var index in examArray) {
-						var exam = examArray[index];
-						//动态创建并添加select的option
-						var option = new Option(exam.name, exam.id);
-						$("#examSelect").append(option);
-					}
-				}
-			},
-			error: function () {
-				console.log("调用查询考试信息接口失败！");
-			}
-		});
+		initExamSelect();
 	});
 	
 	$("#uploadfile").fileinput({

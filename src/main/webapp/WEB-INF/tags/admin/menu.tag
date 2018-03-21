@@ -17,7 +17,9 @@
 				</a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-table"></i>成绩上传</a>
+				<a href="<%=basePath%>/admin/score_upload.jsp">
+					<i class="fa fa-table"></i>成绩上传
+				</a>
 			</li>
 			<li>
 				<a href="#">

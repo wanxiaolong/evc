@@ -37,18 +37,12 @@
 						<label>学期：</label>
 						<select class="form-control" id="semesterSelect" name="semester" data-live-search="true" required>
 							<option>--请选择--</option>
-							<c:forEach items="${semesters}" var="semester">
-								<option value="${semester.number}">${semester.name}</option>
-							</c:forEach>
 						</select>
 					</div>
 					<div class="filter" id="semesterFilter">
 						<label>考试：</label>
 						<select class="form-control" id="examSelect" name="exam" data-live-search="true" required>
 							<option>--请选择--</option>
-							<c:forEach items="${exams}" var="exam">
-								<option value="${exam.id}">${exam.name}</option>
-							</c:forEach>
 						</select>
 					</div>
 					<button type="button" id="queryBtn" class="btn btn-default query-btn">查询</button>

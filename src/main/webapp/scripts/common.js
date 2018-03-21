@@ -57,7 +57,7 @@ function checkRequiredField() {
 	return errorFields.length == 0 ? true : false;
 }
 
-//【成绩查询页面】查询所有的学期信息（用于初始化下拉列表）
+//【成绩查询页】查询所有的学期信息（用于初始化下拉列表）
 function queryAllSemesters() {
 	$.ajax({
 		type: 'GET',
@@ -77,7 +77,7 @@ function queryAllSemesters() {
 	});
 }
 
-//【成绩查询页面】将查询到的学期信息动态增加到下拉菜单中
+//【成绩查询页】将查询到的学期信息动态增加到下拉菜单中
 function addSemesterOption(array) {
 	//先清空原来的选择项
 	$("#semesterSelect").empty();
@@ -91,3 +91,36 @@ function addSemesterOption(array) {
 	$("#semesterSelect").select2();
 }
 
+//【管理员成绩查询页】【成绩上传页】改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
+function initExamSelect() {
+	var selectedSemester = $("#semesterSelect").children('option:selected').val();//获取selected的值
+	$.ajax({
+		type: 'GET',
+		url: webroot + '/exam/findBySemester?semester_id=' + selectedSemester,
+		success: function (data) {
+			var array = data.response;
+			if (data.errorMessage != null) {
+				alert(data.errorMessage);
+				return;
+			}
+			addExamOption(array)
+		},
+		error: function () {
+			console.log("调用查询考试信息接口失败！");
+		}
+	});
+}
+
+//将查询到的学期信息动态增加到下拉菜单中
+function addExamOption(array) {
+	//先清空原来的选择项
+	$("#examSelect").empty();
+	$("#examSelect").append("<option>--请选择--</option>");
+	//再依次添加
+	for(var index in array) {
+		var exam = array[index];
+		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
+		$("#examSelect").append(option);
+	}
+	$("#examSelect").select2();
+}
