@@ -22,13 +22,17 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="<%=basePath%>/admin/file_upload.jsp">
 					<i class="fa fa-edit"></i>文件上传 <span class="badge">新增</span>
 				</a>
 			</li>
 			<li><a href="#"><i class="fa fa-qrcode"></i>考试管理</a></li>
 			<li><a href="#"><i class="fa fa-bar-chart-o"></i>成绩管理</a></li>
-			<li><a href="#"><i class="fa fa-edit"></i>密码修改</a></li>
+			<li>
+				<a href="<%=basePath%>/admin/change_pwd.jsp">
+					<i class="fa fa-edit"></i>密码修改
+				</a>
+			</li>
 		</ul>
 	</div>
 </nav>

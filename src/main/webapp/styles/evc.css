@@ -80,7 +80,7 @@ body {
  
 /**
  * -------------------------------------------
- * 文件上传页面(file_upload.jsp)
+ * 文件上传页面(admin/file_upload.jsp)
  * 对上传插件的默认样式进行微调，加上evc-content前缀以覆盖默认的样式。
  * -------------------------------------------
  */
@@ -106,10 +106,14 @@ body {
 	font-size: 9px;
 	line-height: 16px;
 }
+.evc-content .row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
 
 /**
  * -------------------------------------------
- * 登录页面(login.jsp)
+ * 登录页面(admin/login.jsp)
  * -------------------------------------------
  */
 .evc-content .evc-login {
