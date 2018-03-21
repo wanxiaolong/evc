@@ -36,7 +36,7 @@
 .sidebar-collapse>.nav>li>a {
 	padding: 15px 10px;
 	font-weight: 900;
-	font-size: 16px;
+	font-size: 15px;
 }
 .sidebar-collapse>.nav>li:first-child {
 	border-top: 1px solid #e7e7e7;
@@ -62,7 +62,7 @@
 	min-height: 80px;
 }
 
-.nav>li>a>i {
+i.fa {
 	margin-right: 10px;
 }
 

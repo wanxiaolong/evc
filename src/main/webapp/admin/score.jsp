@@ -45,7 +45,9 @@
 							<option>--请选择--</option>
 						</select>
 					</div>
-					<button type="button" id="queryBtn" class="btn btn-default query-btn">查询</button>
+					<button type="button" id="queryBtn" class="btn btn-default query-btn">
+						<i class="fa fa-search"></i>查询
+					</button>
 				</div>
 			</div>
 	
