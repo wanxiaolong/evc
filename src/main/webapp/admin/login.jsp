@@ -8,32 +8,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>中国英语村-用户登录</title>
+	<title>中国英语村-管理员登录</title>
 	<common:import/>
 </head>
 <body>
 	<common:page-header/>
-	<div class="evc-content">
+	<div class="login evc-content">
 		<form action="/evc/admin/login" method="POST">
-			<div class="evc-login">
-				<div class="text-center">
-					<h3>用户登录</h3>
+			<div id="login">
+				<div class="title">
+					<p align="center"><img src="../images/login/title.png"></p>
 				</div>
-				<div class="row">
-					<input type="text" class="form-control" name="username" placeholder="请输入账户名" required autofocus/>
-				</div>
-				<div class="row">
-					<input type="password" class="form-control" name="password" placeholder="请输入密码" required autofocus/>
-				</div>
-				<div class="row">
-					<div class="col-lg-6">
-						<input type="checkbox">记住密码</input>
+				<div class="content">
+					<div class="banner">
+						<img src="../images/login/banner.jpg">
 					</div>
-					<a class="col-lg-6 text-right" href="#">忘记密码？</a>
-				</div>
-				<div class="row">
-					<input type="hidden" name="ru" value="<%=ru%>"/>
-					<button type="submit" class="btn btn-success col-lg-12">登录</button>
+					<div class="logmain">
+						<div class="logdiv">
+							<span class="text">账 号：</span>
+							<input name="username" type="text" class="ipt">
+						</div>
+						<div class="logdiv">
+							<span class="text">密 码：</span>
+							<input name="password" type="password" class="ipt">
+						</div>
+						<div class="logdiv">
+							<p class="text">&nbsp;</p>
+							<a href="#" class="forgot-pwd">忘记密码</a>
+							<input name="remember-pwd" type="checkbox" class="remember-pwd">记住密码
+						</div>
+						<div class="logdiv">
+							<input type="submit" class="btnbg" value="点击登录">
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>

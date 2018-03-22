@@ -119,12 +119,76 @@ body {
  * 登录页面(admin/login.jsp)
  * -------------------------------------------
  */
-.evc-content .evc-login {
-	width: 300px;
-	margin: auto;
+.login.evc-content {
+	background: #ccc;
 }
-.evc-content .evc-login .row {
-	margin-top: 10px;
+#login {
+	width: 970px;
+	height: 680px;
+	background: url(../images/login/bg.png) no-repeat;
+	margin: 0px auto;
+}
+#login .title {
+	padding-top: 180px;
+	padding-bottom: 40px;
+}
+#login .content {
+	width: 670px;
+	height: 220px;
+	margin: 0px auto;
+	background: #F7F7F9;
+	border: 1px solid #ddd;
+}
+#login .content .banner {
+	width: 368px;
+	height: 218px;
+	float: left;
+}
+#login .content .logmain {
+	width: 300px;
+	float: right;
+	padding-top: 25px;
+}
+#login .content .logmain .logdiv {
+	height: 28px;
+	margin: 8px 0px;
+	padding-left: 20px;
+	line-height: 28px;
+}
+#login .content .logmain .logdiv .text {
+	width: 50px;
+	height: 28px;
+	display: block;
+	float: left;
+}
+#login .content .logmain .logdiv .ipt {
+	width: 200px;
+	height: 26px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+#login .forgot-pwd {
+	display: block;
+	float: right;
+	margin-right: 30px;
+	color: #3C8DB5;
+}
+#login input[type=checkbox].remember-pwd {
+	float: left;
+	display: block;
+	margin-top: 7px;
+	margin-right: 5px;
+}
+#login .btnbg {
+	width: 203px;
+	height: 40px;
+	background: url(../images/login/btnbg.png) no-repeat;
+	text-align: center;
+	line-height: 40px;
+	color: #FFFFFF;
+	font-weight: bold;
+	border: 0px;
+	cursor: pointer;
 }
 /**
  * -------------------------------------------
