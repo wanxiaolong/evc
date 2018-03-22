@@ -25,7 +25,6 @@
 					<li><a href="<%=basePath%>/file/list">资料下载</a></li>
 					<li><a href="<%=basePath%>/notice/list">公告栏</a></li>
 					<li><a href="<%=basePath%>/message/list">留言板</a></li>
-					<li><a href="<%=basePath%>/contact.jsp">联系我们</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							更多
@@ -33,15 +32,12 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="<%=basePath%>/history.jsp">发展历程</a></li>
-							<li><a href="#">家规</a></li>
-							<li><a href="#">文章栏</a></li>
 							<li><a href="#">教育业绩</a></li>
+							<li class="divider"></li>
 							<li><a href="<%=basePath%>/support.jsp">社会资助</a></li>
+							<li><a href="<%=basePath%>/contact.jsp">联系我们</a></li>
 							<li class="divider"></li>
-							<li><a href="<%=basePath%>/file_upload.jsp">资料上传</a></li>
-							<li><a href="<%=basePath%>/score/upload">成绩上传</a></li>
-							<li class="divider"></li>
-							<li><a href="#">测试菜单</a></li>
+							<li><a href="<%=basePath%>/admin/login.jsp">管理员登录</a></li>
 						</ul>
 					</li>
 				</ul>
