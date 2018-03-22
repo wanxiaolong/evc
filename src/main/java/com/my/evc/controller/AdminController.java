@@ -18,6 +18,9 @@ import com.my.evc.service.UserService;
 @RequestMapping("/admin")
 public class AdminController extends BaseController {
 	
+	private static final String ADMIN_HOME = "/admin/home.jsp";
+	private static final String HOME = "/home.jsp";
+	
 	@Autowired
 	private UserService userService;
 	
@@ -36,20 +39,20 @@ public class AdminController extends BaseController {
 		//更新登录日期
 		userService.updateLastLogin(user.getId());
 		
-		String target = (ru != null) ? ru : "/admin/home.jsp";
+		String target = (ru != null) ? ru : ADMIN_HOME;
 		ModelAndView mav = new ModelAndView("redirect:" + target);
 		mav.addObject(MODEL, user.getUsername());
 		return mav;
 	}
 	
 	/**
-	 * 登出。
+	 * 退出登录，之后直接回到系统的首页。
 	 */
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		request.getSession().removeAttribute(Constant.PARAM_USER);
-		ModelAndView mav = new ModelAndView("redirect:/home.jsp");
+		ModelAndView mav = new ModelAndView("redirect:" + HOME);
 		return mav;
 	}
 }

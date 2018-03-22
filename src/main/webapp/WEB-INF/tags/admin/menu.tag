@@ -5,8 +5,9 @@
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
 %>
 
-<div>
-	<h1>管理员主页</h1>
+<div class="header">
+	<div class="left">系统管理</div>
+	<div class="right"><a href="<%=basePath%>/admin/logout">注销</a></div>
 </div>
 <nav class="navbar-default navbar-side" role="navigation">
 	<div class="sidebar-collapse">

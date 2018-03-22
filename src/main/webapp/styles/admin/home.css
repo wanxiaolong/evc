@@ -29,6 +29,27 @@
 /*==============================================
     MENU STYLES    
     =============================================*/
+.header {
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #337ab7
+}
+.header .left {
+	text-align: left;
+	display: inline-block;
+	font-size: 30px;
+}
+.header .right {
+	text-align: right;
+	font-size: 20px;
+	float: right;
+	margin-top: 8px;
+}
+.header .right a:hover {
+	text-decoration: none;
+}
+
+
 .sidebar-collapse .nav {
 	padding: 0;
 }
