@@ -88,7 +88,10 @@ function addSemesterOption(array) {
 		var option = "<option value='" + semester.number+"'>" + semester.name + "</option>";
 		$("#semesterSelect").append(option);
 	}
-	$("#semesterSelect").select2();
+	//用中文渲染select2
+	$("#semesterSelect").select2({
+		language: "zh-CN"
+	});
 }
 
 //【管理员成绩查询页】【成绩上传页】改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
@@ -122,5 +125,8 @@ function addExamOption(array) {
 		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
 		$("#examSelect").append(option);
 	}
-	$("#examSelect").select2();
+	//用中文渲染select2
+	$("#examSelect").select2({
+		language: "zh-CN"
+	});
 }

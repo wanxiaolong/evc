@@ -54,7 +54,11 @@ function addNameOption(array) {
 		var option = "<option value='" + student.namePinyin+"'>" + student.name + "("+student.namePinyin+")" + "</option>";
 		$("#nameSelect").append(option);
 	}
-	$("#nameSelect").select2();
+	
+	//用中文渲染select2
+	$("#nameSelect").select2({
+		language: "zh-CN"
+	});
 }
 
 //发送请求到后台执行成绩查询

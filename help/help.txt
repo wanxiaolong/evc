@@ -39,3 +39,7 @@ https://www.cnblogs.com/Anders888/p/6073190.html
 12. How to implement LoginFilter:
 http://blog.csdn.net/lsx991947534/article/details/45499205
 
+13. How to use Chinese in select2:
+https://select2.org/i18n#message-translations
+
+
