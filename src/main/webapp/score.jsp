@@ -20,6 +20,7 @@
 	<!-- For select2 -->
 	<link href="<%=basePath%>/vendor/select2-4.0.5/css/select2.min.css" rel="stylesheet"/>
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/select2.min.js"></script>
+	<!-- Select2 language resource file -->
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/i18n/zh-CN.js"></script>
 </head>
 <body>

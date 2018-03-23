@@ -20,6 +20,10 @@ $(document).ready(function(){
 	$('#semesterSelect').change(function(){
 		initExamSelect();
 	});
+	//用select2初始化考试下拉菜单
+	$("#examSelect").select2({
+		language: "zh-CN"
+	});
 });
 
 //发送请求到后台执行成绩查询
