@@ -21,6 +21,10 @@ $(document).ready(function(){
 			//注意这里只能通过[]的方式来获取属性值
 			$(":input[name='"+field.name+"']").val(score[field.name]);
 		});
+		//初始化字段之后，对个别字段进行特殊处理：比如设置不能编辑的input
+		$("input[name='semesterName']").attr("disabled","disabled");
+		$("input[name='isShowClassRank']").val(score.isShowClassRank == 'true' ? '是' : '否');
+		$("input[name='isShowGradeRank']").val(score.isShowGradeRank == 'true' ? '是' : '否');
 	});
 	
 	//点击成绩修改模态框的提交按钮，执行表单提交
@@ -53,8 +57,8 @@ function submitExamUpdate() {
 	var name = $("#edit-form input[name='name']").val();
 	var people = $("#edit-form input[name='people']").val();
 	var date = $("#edit-form input[name='date']").val();
-	var isShowClassRank = $("#edit-form input[name='isShowClassRank']:checked").val();
-	var isShowGradeRank = $("#edit-form input[name='isShowGradeRank']:checked").val();
+	var isShowClassRank = $("#edit-form input[name='isShowClassRank']").val();
+	var isShowGradeRank = $("#edit-form input[name='isShowGradeRank']").val();
 	
 	$.ajax({
 		type: 'POST',

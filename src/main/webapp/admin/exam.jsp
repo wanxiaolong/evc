@@ -55,7 +55,6 @@
 </body>
 <script type="text/javascript" src="<%=basePath%>/scripts/common.js"></script>
 <script type="text/javascript" src="<%=basePath%>/scripts/admin/exam.js"></script>
-</script>
 
 <!-- 弹出层，用于修改数据 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -70,7 +69,7 @@
 					<input type="hidden" name="id">
 					<div class="field">
 						<span class="name">学期</span>
-						<input type="text" class="value" name="semesterName" placeholder="学期" disabled="disabled">
+						<input type="text" class="value" name="semesterName" placeholder="学期">
 					</div>
 					<div class="field">
 						<span class="name">考试名称</span>
@@ -86,13 +85,11 @@
 					</div>
 					<div class="field">
 						<span class="name">显示班级排名</span>
-						<input type="radio" class="value" name="isShowClassRank" value="true">是&nbsp;
-						<input type="radio" class="value" name="isShowClassRank" value="false">否
+						<input type="text" class="value" name="isShowClassRank" placeholder="是否显示班级排名">'是'或'否'
 					</div>
 					<div class="field">
 						<span class="name">显示年级排名</span>
-						<input type="radio" class="value" name="isShowGradeRank" value="true">是&nbsp;
-						<input type="radio" class="value" name="isShowGradeRank" value="false">否
+						<input type="text" class="value" name="isShowGradeRank" placeholder="是否显示年级排名">'是'或'否'
 					</div>
 				</form>
 			</div>

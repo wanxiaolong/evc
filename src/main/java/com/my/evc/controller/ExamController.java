@@ -88,8 +88,12 @@ public class ExamController extends BaseController {
 		exam.setDate(date);
 		exam.setName(name);
 		exam.setPeople(Integer.parseInt(people));
-		exam.setShowClassRank(Boolean.parseBoolean(isShowClassRank));
-		exam.setShowGradeRank(Boolean.parseBoolean(isShowGradeRank));
+		exam.setShowClassRank(strToBoolean(isShowClassRank.trim()));
+		exam.setShowGradeRank(strToBoolean(isShowGradeRank.trim()));
 		return exam;
+	}
+	
+	private boolean strToBoolean(String s) {
+		return "是".equals(s) ? true : false;
 	}
 }
