@@ -34,8 +34,6 @@
 	<update id="update" parameterType="com.my.evc.model.Score">
 		update score 
 		set 
-			student_number=#{studentNumber},
-			exam_id=#{examId},
 			chinese=#{chinese},
 			math=#{math},
 			english=#{english},

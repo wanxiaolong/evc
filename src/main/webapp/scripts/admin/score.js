@@ -3,6 +3,10 @@
  * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
 var webroot = getWebRoot();
+toastr.options = {
+	positionClass: "toast-top-center", //显示消息的位置
+	timeOut: "3000",//显示的时间
+};
 $(document).ready(function(){
 	table = initDataTable("scoreTable");
 	
@@ -24,7 +28,68 @@ $(document).ready(function(){
 	$("#examSelect").select2({
 		language: "zh-CN"
 	});
+	
+	//表格操作列上的“编辑”按钮的点击事件
+	$('#scoreTable tbody').on('click', 'button#editrow', function() {
+		//先将行的数据转换成数组
+		var data = table.row($(this).parents('tr')).data();
+		var score = data[0];
+		var fields = $("#edit-form").serializeArray();
+		$.each(fields, function(i, field){
+			//jquery根据name属性查找input，然后从score中获取对应的属性值，并将值设置给input
+			//注意这里只能通过[]的方式来获取属性值
+			$(":input[name='"+field.name+"']").val(score[field.name]);
+		});
+	});
+	
+	//点击成绩修改模态框的提交按钮，执行表单提交
+	$("#confirm-update").click(function(){
+		submitScoreUpdate();
+	});
 });
+
+function submitScoreUpdate() {
+	var id = $("#edit-form input[name='id']").val();
+	var chinese = $("#edit-form input[name='chinese']").val();
+	var math = $("#edit-form input[name='math']").val();
+	var english = $("#edit-form input[name='english']").val();
+	var physics = $("#edit-form input[name='physics']").val();
+	var chemistry = $("#edit-form input[name='chemistry']").val();
+	var biologic = $("#edit-form input[name='biologic']").val();
+	var politics = $("#edit-form input[name='politics']").val();
+	var history = $("#edit-form input[name='history']").val();
+	var geography = $("#edit-form input[name='geography']").val();
+	
+	$.ajax({
+		type: 'POST',
+		url: webroot + '/score/update',
+		data: 	'id=' + id +
+				'&chinese=' + chinese + 
+				'&math=' + math + 
+				'&english=' + english +
+				'&physics=' + physics +
+				'&chemistry=' + chemistry +
+				'&biologic=' + biologic +
+				'&politics=' + politics +
+				'&history=' + history +
+				'&geography=' + geography,
+		success: function (data) {
+			if (data.status != 0) {
+				alert(data.errorMessage);
+				return;
+			}
+			//隐藏模态框
+			$('#myModal').modal('hide');
+			//模拟用户点击查询，以刷新数据
+			$('#queryBtn').trigger('click');
+			//用toastr显示一个会自动消失的消息
+			toastr.success("修改成功！数据已更新。");
+		},
+		error: function () {
+			toastr.error("修改失败！请稍后再试。");
+		}
+	});
+}
 
 //发送请求到后台执行成绩查询
 function executeScoreQuery() {
@@ -63,22 +128,43 @@ function executeScoreQuery() {
 
 //初始化Datatables表格
 function initDataTable(id) {
-	return $('#' + id).DataTable({
+	var config = {
 		language: {
 			url: webroot + '/localization/chinese.json'
 		},
 		columnDefs: [
 			//--------------------------------  //前几列的名字固定，宽度固定
-			{ "sWidth": "100px", "targets": 0 },//学号
-			{ "sWidth": "70px" , "targets": 1 },//姓名
+			{"targets": 1, "sWidth": "100px"},  //学号
+			{"targets": 2, "sWidth": "70px"},   //姓名
 			//----------------------------------//后续列为成绩列，宽度自动确定
+			//----------------------------------//操作列
+			{
+				"targets": -1,//倒数第1列，编辑
+				"sortable": false,//不能排序
+				"searchable": false,//不能搜索
+				"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
+				"defaultContent": 	"<button id='editrow' class='btn btn-primary' type='button' " +
+										"data-toggle='modal' data-target='#myModal' data-backdrop='false'>" +
+										"<i class='fa fa-edit'></i>" +
+									"</button>"
+			},
+			//为了不让没值的单元格报错，需要为其他没指定target的列设置默认值，否则会弹出警告信息。
+			//注意：
+			//1.这里的_all代表所有的列，
+			//2.由于最前面的优先级最高，所以这个_all要放到最后，这样才不会对之前的定义覆盖掉（否则最后一列的编辑按钮不会显示）
+			//详见：https://datatables.net/reference/option/columnDefs
+			//Properties which are higher in the columnDefs array will take priority over those below.
+			{"targets": "_all", "defaultContent": ""}, 
 		],
+		
 		bAutoWidth: false,
 		bPaginate: true,//是否显示分页器（左上角显示 ‘每页显示x条记录’）
 		bFilter: true, //是否显示搜索框（右上角）
 		bSort: true, //是否允许列排序
 		aaSorting: [[0, "asc"]] //默认的排序方式，第1列，升序排列
-	});
+	};
+	config.columnDefs
+	return $('#' + id).DataTable(config);
 }
 
 //动态的向表格中增加数据
@@ -95,6 +181,7 @@ function addRows(array) {
 	for(var index in array) {
 		var score = array[index];
 		var data = [
+			score,
 			score.studentNumber,
 			score.studentName,
 			score.chinese,
@@ -109,17 +196,13 @@ function addRows(array) {
 			score.total
 		];
 		//TODO: 根据考试的配置，决定是否显示班级排名和年级排名
-		if (score.isShowClassRank) {
-			data.push(1);
-		} else {
-			data.push('-');
-		}
-		if (score.isShowGradeRank) {
-			data.push(10);
-		} else {
-			data.push('-');
-		}
+		data.push(score.isShowClassRank ? '1' : '-');
+		data.push(score.isShowGradeRank ? '1' : '-');
 		
+		//操作列
+		data.push('');
 		table.row.add(data).draw(false);
 	}
+	table.column(0).visible(false);//隐藏ID列（第1列），用于更新的时候的主键
+	table.columns.adjust().draw(false);//调整宽度，然后重画表格
 }

@@ -5,7 +5,7 @@ package com.my.evc.model;
  */
 public class Subject extends BaseModel {
 	
-	private String name;		//学生的主键
+	private String name;		//科目名称
 	private int adminId;		//管理员（创建者）
 	
 	public String getName() {

@@ -42,4 +42,13 @@ http://blog.csdn.net/lsx991947534/article/details/45499205
 13. How to use Chinese in select2:
 https://select2.org/i18n#message-translations
 
+14. Config default value for columns to prevent js alert message by datatables:
+https://datatables.net/reference/option/columns.defaultContent
+
+15. Resolve definition conflict for columnDefs(Conflict resolution section):
+https://datatables.net/reference/option/columnDefs
+
+16. How to use a beautiful js message plugin to toast message:
+https://blog.csdn.net/cyh1111/article/details/53141037
+
 

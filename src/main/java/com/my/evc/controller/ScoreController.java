@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
+import com.my.evc.model.Score;
 import com.my.evc.model.Semester;
 import com.my.evc.security.Permission;
 import com.my.evc.security.RequirePermission;
@@ -103,6 +104,52 @@ public class ScoreController extends BaseController {
 		}
 		
 		return new JsonResponse<List<ScoreVo>>(SUCCESS, scoreVos);
+	}
+	
+	/**
+	 * 管理员修改个别成绩。
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> updateScore(HttpServletRequest request, 
+		HttpServletResponse response) throws BaseException, Exception {
+		String scoreId = request.getParameter(Constant.PARAM_ID);				//主键ID
+		String chinese = request.getParameter(Constant.PARAM_CHINESE);			//语文
+		String math = request.getParameter(Constant.PARAM_MATH);				//数学
+		String english = request.getParameter(Constant.PARAM_ENGLISH);			//英语
+		String physics = request.getParameter(Constant.PARAM_PHYSICS);			//物理
+		String chemistry = request.getParameter(Constant.PARAM_CHEMISTRY);		//化学
+		String biologic = request.getParameter(Constant.PARAM_BIOLOGIC);		//生物
+		String politics = request.getParameter(Constant.PARAM_POLITICS);		//政治
+		String history = request.getParameter(Constant.PARAM_HISTORY);			//历史
+		String geography = request.getParameter(Constant.PARAM_GEOGRAPHY);		//地理
+		String physical = request.getParameter(Constant.PARAM_PHYSICAL);		//体育
+		String experiment = request.getParameter(Constant.PARAM_EXPERIMENT);	//实验
+		
+		Score score = createScoreObject(scoreId, chinese, math, english, physics, chemistry, 
+				biologic, politics, history, geography, physical, experiment);
+		
+		scoreService.update(score);
+		return new JsonResponse<Object>(SUCCESS, null);
+	}
+
+	private Score createScoreObject(String scoreId, String chinese, String math, 
+			String english, String physics, String chemistry, String biologic, 
+			String politics, String history, String geography, String physical, String experiment) {
+		Score score = new Score();
+		score.setId(Integer.parseInt(scoreId));
+		score.setChinese(chinese);
+		score.setMath(math);
+		score.setEnglish(english);
+		score.setPhysics(physics);
+		score.setChemistry(chemistry);
+		score.setBiologic(biologic);
+		score.setPolitics(politics);
+		score.setHistory(history);
+		score.setGeography(geography);
+		score.setPhysical(physical);
+		score.setExperiment(experiment);
+		return score;
 	}
 	
 	/**

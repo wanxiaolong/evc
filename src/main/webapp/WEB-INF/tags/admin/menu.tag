@@ -14,7 +14,7 @@
 		<ul class="nav" id="main-menu">
 			<li>
 				<a href="<%=basePath%>/admin/score.jsp">
-					<i class="fa fa-search"></i>成绩查询（全班）
+					<i class="fa fa-search"></i>成绩查询（修改）
 				</a>
 			</li>
 			<li>

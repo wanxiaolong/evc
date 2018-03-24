@@ -202,7 +202,43 @@ body {
 	border-top: 1px solid #e7e7e7;
 	border-left: 1px solid #e7e7e7;
 }
-
+.admin.evc-content #scoreTable td .btn {
+	padding: 6px 10px;
+}
+.admin.evc-content .mask {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right:0px;
+	bottom:0px;
+	opacity:0.5;
+	z-index: 100;
+	background: black;
+}
+.admin.evc-content .modal-dialog {
+	width: 500px;
+	margin-top: 200px;
+}
+.admin.evc-content .modal-body {
+	font-size: 18px;
+}
+.admin.evc-content .modal-body .row {
+	padding: 6px;
+}
+.admin.evc-content .modal-body .row .subject {
+	display: inline;
+	margin-left: 10px;
+}
+.admin.evc-content .modal-body .close {
+	font-size: 30px;
+	opacity: 1;
+}
+.admin.evc-content .modal-body #edit-form .value{
+	width: 80px;
+}
+body #toast-container>div {
+	opacity: 1;
+}
 /**
  * -------------------------------------------
  * 成绩查询页面(score.jsp)
@@ -282,7 +318,7 @@ body {
 }
 table.table.dataTable thead th, table.table.dataTable thead td,
 table.table.dataTable tbody th, table.table.dataTable tbody td {
-	padding: 10px 0px;
+	padding: 8px 0px;
 	vertical-align: middle;
 }
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, 
