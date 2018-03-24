@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Exam" keyProperty="id" useGeneratedKeys="true">
 		insert into exam
-			(admin_id,name,people,date,semester_number,is_half,is_final,note) 
+			(name,people,date,semester_number,note) 
 		values
-			(#{adminId},#{name},#{people},#{date},#{semesterNumber},#{isHalf},#{isFinal},#{note})
+			(#{name},#{people},#{date},#{semesterNumber},#{note})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,13 +16,9 @@
 	<update id="update" parameterType="com.my.evc.model.Exam">
 		update exam 
 		set 
-			admin_id=#{adminId},
 			name=#{name},
 			people=#{people},
 			date=#{date},
-			semester_number=#{semesterNumber},
-			is_half=#{isHalf},
-			is_final=#{isFinal},
 			is_show_grade_rank=#{isShowGradeRank},
 			is_show_class_rank=#{isShowClassRank},
 			note=#{note}
@@ -32,13 +28,10 @@
 	
 	<sql id="all_fields">
 		exam.id as id,
-		exam.admin_id as adminId,
 		exam.name as name,
 		exam.people as people,
 		exam.date as date,
 		exam.semester_number as semesterNumber,
-		exam.is_half as isHalf,
-		exam.is_final as isFinal,
 		exam.is_show_grade_rank as isShowGradeRank,
 		exam.is_show_class_rank as isShowClassRank,
 		exam.note as note,
@@ -51,10 +44,12 @@
 		from exam where id=#{id}
 	</select>
 	
-	<select id="findAll" resultType="com.my.evc.model.Exam">
+	<select id="findAll" resultType="com.my.evc.vo.ExamVo">
 		select
-			<include refid="all_fields"/>
-		from exam
+			<include refid="all_fields"/>,
+		semester.name as semesterName
+		from exam join semester 
+		on semester.number = exam.semester_number 
 	</select>
 	
 	<select id="findBySemester" parameterType="int" resultType="com.my.evc.model.Exam">

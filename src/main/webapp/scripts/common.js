@@ -130,8 +130,3 @@ function addExamOption(array) {
 		language: "zh-CN"
 	});
 }
-
-toastr.options = {
-	positionClass: "toast-top-center", //显示消息的位置
-	timeOut: "3000",//显示的时间
-};

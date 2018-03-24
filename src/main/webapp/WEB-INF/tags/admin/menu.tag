@@ -24,7 +24,11 @@
 			</li>
 			<li><a href="#"><i class="fa fa-bar-chart"></i>成绩管理</a></li>
 			<li><a href="#"><i class="fa fa-bar-chart"></i>科目管理</a></li>
-			<li><a href="#"><i class="fa fa-bar-chart"></i>考试管理</a></li>
+			<li>
+				<a href="<%=basePath%>/admin/exam.jsp">
+					<i class="fa fa-bar-chart"></i>考试管理
+				</a>
+			</li>
 			<li>
 				<a href="<%=basePath%>/admin/file_upload.jsp">
 					<i class="fa fa-upload"></i>文件上传 <span class="badge">新增</span>

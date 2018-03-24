@@ -34,6 +34,12 @@ public class Constant {
 	public static final String PARAM_PHYSICAL = "physical";
 	public static final String PARAM_EXPERIMENT = "experiment";
 	
+	public static final String PARAM_NAME = "name";
+	public static final String PARAM_PEOPLE = "people";
+	public static final String PARAM_DATE = "date";
+	public static final String PARAM_SHOW_CLASS_RANK = "isShowClassRank";
+	public static final String PARAM_SHOW_GRADE_RANK = "isShowGradeRank";
+	
 	
 	
 	public static final List<String> ALLOWED_FILE_EXTENSION = Arrays.asList(new String[]{".xlsx", ".xls"});

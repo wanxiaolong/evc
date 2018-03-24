@@ -14,10 +14,18 @@
 	<title>中国英语村-成绩上传</title>
 	<common:import/>
 	<admin:import/>
+	
+	<!-- For fileinput -->
 	<link rel="stylesheet" href="<%=basePath%>/vendor/bootstrap-fileinput-4.4.7/css/fileinput.min.css">
 	<script src="<%=basePath%>/vendor/bootstrap-fileinput-4.4.7/js/fileinput.min.js"></script>
 	<!-- FileInput插件的本地化设置，使用时需提前引入\locales文件夹下对应的语言文件，中文zh，引入语言文件必须放在fileinput.js之后 -->
 	<script src="<%=basePath%>/vendor/bootstrap-fileinput-4.4.7/js/locales/zh.js"></script>
+	
+	<!-- For select2 -->
+	<link href="<%=basePath%>/vendor/select2-4.0.5/css/select2.min.css" rel="stylesheet"/>
+	<script src="<%=basePath%>/vendor/select2-4.0.5/js/select2.min.js"></script>
+	<!-- Select2 language resource file -->
+	<script src="<%=basePath%>/vendor/select2-4.0.5/js/i18n/zh-CN.js"></script>
 </head>
 <body>
 	<common:page-header/>

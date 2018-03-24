@@ -26,8 +26,8 @@ public class ExamService implements BaseService<Exam>{
 		examMapper.delete(id);
 	}
 
-	public void update(Exam file) throws BaseException {
-		examMapper.update(file);
+	public void update(Exam exam) throws BaseException {
+		examMapper.update(exam);
 	}
 
 	public Exam findByID(int id) throws BaseException {
@@ -37,8 +37,8 @@ public class ExamService implements BaseService<Exam>{
 	/**
 	 * 获取所有的考试。
 	 */
-	public List<Exam> findAll() throws BaseException {
-		List<Exam> exams = examMapper.findAll();
+	public List<ExamVo> findAll() throws BaseException {
+		List<ExamVo> exams = examMapper.findAll();
 		return exams;
 	}
 	

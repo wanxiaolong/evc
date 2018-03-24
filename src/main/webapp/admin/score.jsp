@@ -91,7 +91,7 @@
 						<h4 class="modal-title" id="myModalLabel">修改成绩</h4>
 					</div>
 					<div class="modal-body">
-						<form id="edit-form" method="post" action="<%=basePath%>/score/update">
+						<form id="edit-form">
 							<input type="hidden" name="id">
 							<div class="row">
 								<div class="subject">

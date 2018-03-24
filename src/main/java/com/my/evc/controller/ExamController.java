@@ -51,4 +51,45 @@ public class ExamController extends BaseController {
 		return new JsonResponse<ExamVo>(SUCCESS, exam);
 	}
 	
+	/**
+	 * 查找所有考试。
+	 */
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse<List<ExamVo>> findAll(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		List<ExamVo> exams = examService.findAll();
+		return new JsonResponse<List<ExamVo>>(SUCCESS, exams);
+	}
+
+	/**
+	 * 查找所有考试。
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> updateExam(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String examId = request.getParameter(Constant.PARAM_ID);
+		String name = request.getParameter(Constant.PARAM_NAME);
+		String people = request.getParameter(Constant.PARAM_PEOPLE);
+		String date = request.getParameter(Constant.PARAM_DATE);
+		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
+		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
+		
+		Exam exam = createExamObj(examId, name, people, date, isShowClassRank, isShowGradeRank);
+		examService.update(exam);
+		
+		return new JsonResponse<Object>(SUCCESS, null);
+	}
+	
+	private Exam createExamObj(String examId, String name, String people, String date, String isShowClassRank, String isShowGradeRank) {
+		Exam exam = new Exam();
+		exam.setId(Integer.parseInt(examId));
+		exam.setDate(date);
+		exam.setName(name);
+		exam.setPeople(Integer.parseInt(people));
+		exam.setShowClassRank(Boolean.parseBoolean(isShowClassRank));
+		exam.setShowGradeRank(Boolean.parseBoolean(isShowGradeRank));
+		return exam;
+	}
 }

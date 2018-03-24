@@ -40,4 +40,9 @@ $(document).ready(function(){
 		//上传成功后的回调
 		console.log("上传成功！event=" + event + ", data=" + data + ", previewId=" + previewId + ", index=" + index);
 	});
+	
+	//初始化考试下拉菜单
+	$("#examSelect").select2({
+		language: "zh-CN"
+	});
 });

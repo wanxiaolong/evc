@@ -13,7 +13,7 @@ public interface ExamMapper extends BaseMapper<Exam> {
 	/**
 	 * 读取所有的考试信息。
 	 */
-	public List<Exam> findAll();
+	public List<ExamVo> findAll();
 	
 	/**
 	 * 查询某个学期的所有考试信息。

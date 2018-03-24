@@ -241,6 +241,25 @@ body #toast-container>div {
 }
 /**
  * -------------------------------------------
+ * 管理员考试管理页面(admin/exam.jsp)
+ * -------------------------------------------
+ */
+#edit-form .field {
+	padding: 8px;
+	font-size: 16px;
+}
+#edit-form .field span {
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+	margin-right: 10px;
+}
+#edit-form .field input[type=text] {
+	padding-left: 10px;
+}
+
+/**
+ * -------------------------------------------
  * 成绩查询页面(score.jsp)
  * -------------------------------------------
  */
@@ -262,8 +281,8 @@ body #toast-container>div {
 .evc-content.score .title {
 	font-size: 25px;
 }
-.evc-content #scoreTable th,
-.evc-content #scoreTable td {
+.evc-content .table th,
+.evc-content .table td {
 	text-align: center;
 }
 .evc-content .verify-code-img {

@@ -2,6 +2,10 @@
  * 本文件为score.jsp使用的初始化脚本。
  * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
+toastr.options = {
+	positionClass: "toast-top-center", //显示消息的位置
+	timeOut: "3000",//显示的时间
+};
 var webroot = getWebRoot();
 $(document).ready(function(){
 	table = initDataTable("scoreTable");
@@ -161,7 +165,6 @@ function initDataTable(id) {
 		bSort: true, //是否允许列排序
 		aaSorting: [[0, "asc"]] //默认的排序方式，第1列，升序排列
 	};
-	config.columnDefs
 	return $('#' + id).DataTable(config);
 }
 
