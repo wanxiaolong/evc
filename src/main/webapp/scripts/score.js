@@ -21,7 +21,34 @@ $(document).ready(function(){
 	
 	queryAllSemesters();
 	queryAllStudents();
+	queryLastExam();
 });
+
+//查询最近一次考试信息
+function queryLastExam() {
+	$.ajax({
+		type: 'GET',
+		url: webroot + '/exam/findLast',
+		success: function (data) {
+			if (data.status == 0) {
+				//success
+				var data = data.response;
+				$("#examSemester").html(data.semesterName);
+				$("#examName").html(data.name);
+				$("#examPeople").html(data.people);
+				$(".score.evc-content .message").show();
+			} else {
+				//failure
+				$(".score.evc-content .message").hide();
+			}
+		},
+		error: function () {
+			$(".score.evc-content .message").hide();
+			alert("调用学生信息查询接口失败！");
+			console.log("调用查询接口失败！");
+		}
+	});
+}
 
 //查询所有学生信息（用于初始化下拉列表）
 function queryAllStudents() {
@@ -30,14 +57,10 @@ function queryAllStudents() {
 		url: webroot + '/student/all',
 		success: function (data) {
 			var array = data.response;
-			if (data.errorMessage != null) {
-				alert(data.errorMessage);
-				return;
-			}
 			addNameOption(array);
 		},
 		error: function () {
-			alert("调用学生信息查询接口失败！");
+			alert("获取学生信息失败！");
 			console.log("调用查询接口失败！");
 		}
 	});
@@ -83,10 +106,6 @@ function executeScoreQuery() {
 				(examId != null ? '&exam_id=' + examId : ''),
 		success: function (data) {
 			var array = data.response;
-			if (data.errorMessage != null) {
-				alert(data.errorMessage);
-				return;
-			}
 			addRows(array);
 		},
 		error: function () {

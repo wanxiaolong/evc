@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.my.evc.exception.BaseException;
 import com.my.evc.mapper.ExamMapper;
 import com.my.evc.model.Exam;
+import com.my.evc.vo.ExamVo;
 
 @Service
 @Transactional
@@ -47,6 +48,13 @@ public class ExamService implements BaseService<Exam>{
 	public List<Exam> findBySemester(int semesterNumber) throws BaseException {
 		List<Exam> exams = examMapper.findBySemester(semesterNumber);
 		return exams;
+	}
+
+	/**
+	 * 查找最近一次考试信息。
+	 */
+	public ExamVo findLastExam() throws BaseException {
+		return examMapper.findLastExam();
 	}
 	
 }

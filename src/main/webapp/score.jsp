@@ -22,14 +22,22 @@
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/select2.min.js"></script>
 	<!-- Select2 language resource file -->
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/i18n/zh-CN.js"></script>
+	
+	<!-- For toastr(a message notifier plugin) -->
+	<link href="<%=basePath%>/vendor/toastr-2.1.3/css/toastr.min.css" rel="stylesheet"/>
+	<script src="<%=basePath%>/vendor/toastr-2.1.3/js/toastr.min.js"></script>
 </head>
 <body>
 	<common:page-header/>
 	<div class="evc-content score">
 		<!-- 查询条件 -->
 		<div class="form-inline filter-block">
+			<div class="message">
+				最近一次考试：<span id="examSemester"></span>
+				-<span id="examName"></span>，
+				参考人数：<span id="examPeople"></span>。
+			</div>
 			<div class="title">查询条件</div>
-			
 			<div class="filter-row">
 				<div class="filter">
 					<input type="checkbox" id="queryAll">

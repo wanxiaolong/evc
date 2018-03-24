@@ -10,6 +10,8 @@ public class Exam extends BaseModel {
 	
 	private int adminId;				//管理员ID（谁创建的这次考试）
 	private String name;				//考试名称
+	private int people;					//参考人数
+	private String date;				//考试日期（格式：yyyy-MM-dd）
 	private int semesterNumber;			//学期。比如20171代表2017年上学期
 	private boolean isHalf;				//是否是半期考试
 	private boolean isFinal;			//是否是期末考试
@@ -17,6 +19,18 @@ public class Exam extends BaseModel {
 	private boolean isShowClassRank;	//是否显示班级排名
 	private String note;				//备注
 	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public int getPeople() {
+		return people;
+	}
+	public void setPeople(int people) {
+		this.people = people;
+	}
 	public boolean isShowClassRank() {
 		return isShowClassRank;
 	}

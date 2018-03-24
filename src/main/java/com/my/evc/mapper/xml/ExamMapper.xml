@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Exam" keyProperty="id" useGeneratedKeys="true">
 		insert into exam
-			(admin_id,name,semester_number,is_half,is_final,note) 
+			(admin_id,name,people,date,semester_number,is_half,is_final,note) 
 		values
-			(#{adminId},#{name},#{semesterNumber},#{isHalf},#{isFinal},#{note})
+			(#{adminId},#{name},#{people},#{date},#{semesterNumber},#{isHalf},#{isFinal},#{note})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -17,10 +17,12 @@
 		update exam 
 		set 
 			admin_id=#{adminId},
-			name=#{name}, 
-			semester_number=#{semesterNumber}, 
-			is_half=#{isHalf}, 
-			is_final=#{isFinal}, 
+			name=#{name},
+			people=#{people},
+			date=#{date},
+			semester_number=#{semesterNumber},
+			is_half=#{isHalf},
+			is_final=#{isFinal},
 			is_show_grade_rank=#{isShowGradeRank},
 			is_show_class_rank=#{isShowClassRank},
 			note=#{note}
@@ -29,16 +31,18 @@
 	</update>
 	
 	<sql id="all_fields">
-		id as id,
-		admin_id as adminId,
-		name as name, 
-		semester_number as semesterNumber, 
-		is_half as isHalf, 
-		is_final as isFinal, 
-		is_show_grade_rank as isShowGradeRank,
-		is_show_class_rank as isShowClassRank,
-		note as note,
-		creation_date as creationDate
+		exam.id as id,
+		exam.admin_id as adminId,
+		exam.name as name,
+		exam.people as people,
+		exam.date as date,
+		exam.semester_number as semesterNumber,
+		exam.is_half as isHalf,
+		exam.is_final as isFinal,
+		exam.is_show_grade_rank as isShowGradeRank,
+		exam.is_show_class_rank as isShowClassRank,
+		exam.note as note,
+		exam.creation_date as creationDate
 	</sql>
 	
 	<select id="find" parameterType="int" resultType="com.my.evc.model.Exam">
@@ -57,5 +61,14 @@
 		select
 			<include refid="all_fields"/>
 		from exam where semester_number=#{semesterNumber}
+	</select>
+	
+	<select id="findLastExam" resultType="com.my.evc.vo.ExamVo">
+		select
+			<include refid="all_fields"/>,
+			semester.name as semesterName
+		from exam join semester 
+		on semester.number = exam.semester_number 
+		order by exam.date desc limit 1
 	</select>
 </mapper>

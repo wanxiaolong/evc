@@ -3,10 +3,6 @@
  * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
 var webroot = getWebRoot();
-toastr.options = {
-	positionClass: "toast-top-center", //显示消息的位置
-	timeOut: "3000",//显示的时间
-};
 $(document).ready(function(){
 	table = initDataTable("scoreTable");
 	
@@ -48,6 +44,8 @@ $(document).ready(function(){
 	});
 });
 
+
+//提交数据，执行成绩更新。成功或失败都会在页面上显示消息。
 function submitScoreUpdate() {
 	var id = $("#edit-form input[name='id']").val();
 	var chinese = $("#edit-form input[name='chinese']").val();

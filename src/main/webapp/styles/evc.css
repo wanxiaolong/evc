@@ -292,6 +292,16 @@ body #toast-container>div {
 .evc-content .filter #queryAll {
 	vertical-align: middle;
 }
+.score.evc-content .message {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-size: 16px;
+	color: green;
+	line-height: 40px;
+	text-align: center;
+	display: none;
+	margin-bottom: 10px;
+}
 .select2-container--default .selection .select2-selection--single .select2-selection__rendered {
 	height: 34px;
 	padding: 6px 12px;

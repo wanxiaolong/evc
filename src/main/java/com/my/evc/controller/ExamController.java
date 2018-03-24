@@ -16,6 +16,7 @@ import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Exam;
 import com.my.evc.service.ExamService;
+import com.my.evc.vo.ExamVo;
 
 /**
  * 本类处理考试相关的请求。
@@ -38,4 +39,16 @@ public class ExamController extends BaseController {
 		List<Exam> exams = examService.findBySemester(Integer.parseInt(semesterId));
 		return new JsonResponse<List<Exam>>(SUCCESS, exams);
 	}
+
+	/**
+	 * 查找最近一次考试。
+	 */
+	@RequestMapping(value = "/findLast", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse<ExamVo> findLastExam(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		ExamVo exam = examService.findLastExam();
+		return new JsonResponse<ExamVo>(SUCCESS, exam);
+	}
+	
 }
