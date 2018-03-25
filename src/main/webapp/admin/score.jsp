@@ -102,39 +102,56 @@
 					<input type="hidden" name="id">
 					<div class="field">
 						<span class="name">语文</span>
-						<input type="text" class="value" name="chinese" placeholder="语文">
+						<div class="value">
+							<input type="text" name="chinese">
 					</div>
 					<div class="field">
 						<span class="name">数学</span>
-						<input type="text" class="value" name="math" placeholder="数学">
+						<div class="value">
+							<input type="text" name="math">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">英语</span>
-						<input type="text" class="value" name="english" placeholder="英语">
+						<div class="value">
+							<input type="text" name="english">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">物理</span>
-						<input type="text" class="value" name="physics" placeholder="物理">
+						<div class="value">
+							<input type="text" name="physics">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">化学</span>
-						<input type="text" class="value" name="chemistry" placeholder="化学">
+						<div class="value">
+							<input type="text" name="chemistry">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">生物</span>
-						<input type="text" class="value" name="biologic" placeholder="生物">
+						<div class="value">
+							<input type="text" name="biologic">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">政治</span>
-						<input type="text" class="value" name="politics" placeholder="政治">
+						<div class="value">
+							<input type="text" name="politics">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">历史</span>
-						<input type="text" class="value" name="history" placeholder="历史">
+						<div class="value">
+							<input type="text" name="history">
+						</div>
 					</div>
 					<div class="field">
 						<span class="name">地理</span>
-						<input type="text" class="value" name="geography" placeholder="地理">
+						<div class="value">
+							<input type="text" name="geography">
+						</div>
 					</div>
 				</form>
 			</div>

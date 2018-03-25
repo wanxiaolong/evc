@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Exam" keyProperty="id" useGeneratedKeys="true">
 		insert into exam
-			(name,people,date,semester_number,note) 
+			(name,subject_ids,people,date,semester_number,note) 
 		values
-			(#{name},#{people},#{date},#{semesterNumber},#{note})
+			(#{name},#{subjectIds},#{people},#{date},#{semesterNumber},#{note})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -17,6 +17,7 @@
 		update exam 
 		set 
 			name=#{name},
+			subject_ids=#{subjectIds},
 			people=#{people},
 			date=#{date},
 			is_show_grade_rank=#{isShowGradeRank},
@@ -29,6 +30,7 @@
 	<sql id="all_fields">
 		exam.id as id,
 		exam.name as name,
+		exam.subject_ids as subjectIds,
 		exam.people as people,
 		exam.date as date,
 		exam.semester_number as semesterNumber,

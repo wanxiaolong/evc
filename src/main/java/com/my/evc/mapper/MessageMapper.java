@@ -11,5 +11,5 @@ public interface MessageMapper extends BaseMapper<Message> {
 	/**
 	 * 查询所有的留言。
 	 */
-	public List<Message> listMessages();
+	public List<Message> findAll();
 }

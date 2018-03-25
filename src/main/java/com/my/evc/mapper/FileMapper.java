@@ -11,7 +11,7 @@ public interface FileMapper extends BaseMapper<File> {
 	/**
 	 * 列出所有文件。
 	 */
-	public List<File> listFiles();
+	public List<File> findAll();
 	
 	/**
 	 * 按文件名称查找文件。

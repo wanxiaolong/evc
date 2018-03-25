@@ -42,6 +42,6 @@ public class SubjectService implements BaseService<Subject>{
 	}
 	
 	public List<Subject> findAll() throws BaseException {
-		return subjectMapper.listSubjects();
+		return subjectMapper.findAll();
 	}
 }

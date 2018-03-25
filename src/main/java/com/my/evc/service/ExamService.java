@@ -41,7 +41,7 @@ public class ExamService implements BaseService<Exam>{
 		List<ExamVo> exams = examMapper.findAll();
 		return exams;
 	}
-	
+
 	/**
 	 * 通过学期号，查询该学期的所有考试。
 	 */

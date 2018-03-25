@@ -9,6 +9,7 @@ package com.my.evc.model;
 public class Exam extends BaseModel {
 	
 	private String name;				//考试名称
+	private String subjectIds;			//参考科目ID，数组：[1,2,3]
 	private int people;					//参考人数
 	private String date;				//考试日期（格式：yyyy-MM-dd）
 	private int semesterNumber;			//学期。比如20171代表2017年上学期
@@ -16,6 +17,12 @@ public class Exam extends BaseModel {
 	private boolean isShowClassRank;	//是否显示班级排名
 	private String note;				//备注
 	
+	public String getSubjectIds() {
+		return subjectIds;
+	}
+	public void setSubjectIds(String subjectIds) {
+		this.subjectIds = subjectIds;
+	}
 	public String getDate() {
 		return date;
 	}

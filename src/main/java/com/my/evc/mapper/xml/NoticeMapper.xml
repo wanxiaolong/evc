@@ -40,7 +40,7 @@
 		where n.id=#{id}
 	</select>
 	
-	<select id="listNotices" resultType="com.my.evc.model.Notice">
+	<select id="findAll" resultType="com.my.evc.model.Notice">
 		select
 			<include refid="all_fields"/>, u.username as userName
 		from notice n join user u on n.user_id=u.id

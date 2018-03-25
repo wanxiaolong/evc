@@ -56,8 +56,8 @@
 
 .sidebar-collapse>.nav>li>a {
 	padding: 15px 10px;
-	font-weight: 900;
-	font-size: 15px;
+	font-weight: 400;
+	font-size: 16px;
 }
 .sidebar-collapse>.nav>li>a i.fa {
 	margin-right: 10px;
@@ -111,13 +111,13 @@
     =============================================*/
 @media ( min-width :768px) {
 	#page-wrapper {
-		margin: 0 0 0 230px;
+		margin: 0 0 0 200px;
 		padding: 15px 15px;
 		min-height: 800px;
 	}
 	.navbar-side {
 		z-index: 1;
 		position: absolute;
-		width: 230px;
+		width: 200px;
 	}
 }

@@ -71,7 +71,7 @@ public class MessageController extends BaseController {
 	}
 	
 	private ModelAndView getListView() throws BaseException {
-		List<Message> messages = messageService.listNotices();
+		List<Message> messages = messageService.findAll();
 		ModelAndView mav = new ModelAndView("message");
 		mav.addObject(MODEL, messages);
 		return mav;

@@ -196,7 +196,7 @@ body {
  * -------------------------------------------
  */
 .admin.evc-content .content {
-	margin-left: 230px;
+	margin-left: 200px;
 	padding: 10px;
 	min-height: 500px;
 	border-top: 1px solid #e7e7e7;
@@ -238,16 +238,24 @@ body #toast-container>div {
 	padding: 8px;
 	font-size: 16px;
 }
-#edit-form .field span {
+#edit-form .field .name {
 	display: inline-block;
 	width: 150px;
 	text-align: right;
-	margin-right: 10px;
+	line-height: 25px;
+}
+#edit-form .field .value {
+	display: inline-block;
+	max-width: 280px;
+	vertical-align: top;
+	line-height: 25px;
 }
 #edit-form .field input[type=text] {
-	padding-left: 10px;
+	padding-left: 5px;
 }
-
+.admin.evc-content .filter-block .title {
+	font-size: 25px;
+}
 /**
  * -------------------------------------------
  * 成绩查询页面(score.jsp)

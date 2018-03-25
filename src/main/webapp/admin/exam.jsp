@@ -34,6 +34,10 @@
 	<div class="admin evc-content">
 		<admin:menu/>
 		<div class="content">
+			<div class="form-inline filter-block">
+				<div class="title">系统中的所有考试信息</div>
+			</div>
+			
 			<table id="examTable" class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -43,8 +47,8 @@
 						<th>参考科目</th>
 						<th>人数</th>
 						<th>考试日期</th>
-						<th>班级排名</th>
-						<th>年级排名</th>
+						<th>班名</th>
+						<th>级名</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -69,28 +73,44 @@
 				<form id="edit-form">
 					<input type="hidden" name="id">
 					<div class="field">
-						<span class="name">学期</span>
-						<input type="text" class="value" name="semesterName" placeholder="学期">
+						<div class="name">学期：</div>
+						<div class="value">
+							<input type="text" name="semesterName" placeholder="学期">
+						</div>
 					</div>
 					<div class="field">
-						<span class="name">考试名称</span>
-						<input type="text" class="value" name="name" placeholder="考试名称">
+						<div class="name">考试名称：</div>
+						<div class="value">
+							<input type="text" name="name">
+						</div>
 					</div>
 					<div class="field">
-						<span class="name">参考人数</span>
-						<input type="text" class="value" name="people" placeholder="参考人数">
+						<div class="name">参考人数：</div>
+						<div class="value">
+							<input type="text" name="people">
+						</div>
 					</div>
 					<div class="field">
-						<span class="name">考试日期</span>
-						<input type="text" class="value" name="date" placeholder="考试日期">
+						<div class="name">考试日期：</div>
+						<div class="value">
+							<input type="text" name="date">
+						</div>
 					</div>
 					<div class="field">
-						<span class="name">显示班级排名</span>
-						<input type="text" class="value" name="isShowClassRank" placeholder="是否显示班级排名">'是'或'否'
+						<div class="name">显示班级排名：</div>
+						<div class="value">
+							<input type="text" name="isShowClassRank">'是'或'否'
+						</div>
 					</div>
 					<div class="field">
-						<span class="name">显示年级排名</span>
-						<input type="text" class="value" name="isShowGradeRank" placeholder="是否显示年级排名">'是'或'否'
+						<div class="name">显示年级排名：</div>
+						<div class="value">
+							<input type="text" name="isShowGradeRank">'是'或'否'
+						</div>
+					</div>
+					<div class="field" >
+						<div class="name">参考科目：</div>
+						<div class="value" id="subjects"></div>
 					</div>
 				</form>
 			</div>

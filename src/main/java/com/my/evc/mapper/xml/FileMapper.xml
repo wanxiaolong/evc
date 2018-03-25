@@ -50,7 +50,7 @@
 		from file where name=#{name}
 	</select>
 	
-	<select id="listFiles" resultType="com.my.evc.model.File">
+	<select id="findAll" resultType="com.my.evc.model.File">
 		select
 			<include refid="all_fields"/>
 		from file 

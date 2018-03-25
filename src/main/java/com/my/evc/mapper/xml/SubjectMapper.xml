@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.SubjectMapper">
+
+	<insert id="create" parameterType="com.my.evc.model.Subject" keyProperty="id" useGeneratedKeys="true">
+		insert into subject
+			(name) 
+		values
+			(#{name})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from subject where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Subject">
+		update subject 
+		set 
+			name=#{name}
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		id as id,
+		name as name,
+		creation_date as creationDate
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Subject">
+		select
+			<include refid="all_fields"/>
+		from subject where id=#{id}
+	</select>
+	
+	<select id="findAll" resultType="com.my.evc.model.Subject">
+		select
+			<include refid="all_fields"/>
+		from subject;
+	</select>
+</mapper>

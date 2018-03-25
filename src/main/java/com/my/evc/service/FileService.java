@@ -70,8 +70,8 @@ public class FileService implements BaseService<File>{
 	/**
 	 * 供文件列表页面展示。
 	 */
-	public List<File> listFiles() throws BaseException {
-		return fileMapper.listFiles();
+	public List<File> findAll() throws BaseException {
+		return fileMapper.findAll();
 	}
 
 }

@@ -65,7 +65,7 @@ public class FileController extends BaseController {
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public ModelAndView listFiles(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		List<File> files = fileService.listFiles();
+		List<File> files = fileService.findAll();
 		ModelAndView mav = new ModelAndView("file");
 		mav.addObject(MODEL, files);
 		return mav;

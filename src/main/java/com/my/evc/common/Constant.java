@@ -35,10 +35,11 @@ public class Constant {
 	public static final String PARAM_EXPERIMENT = "experiment";
 	
 	public static final String PARAM_NAME = "name";
+	public static final String PARAM_SUBJECT_IDS = "subject_ids";
 	public static final String PARAM_PEOPLE = "people";
 	public static final String PARAM_DATE = "date";
-	public static final String PARAM_SHOW_CLASS_RANK = "isShowClassRank";
-	public static final String PARAM_SHOW_GRADE_RANK = "isShowGradeRank";
+	public static final String PARAM_SHOW_CLASS_RANK = "is_show_class_rank";
+	public static final String PARAM_SHOW_GRADE_RANK = "is_show_grade_rank";
 	
 	
 	

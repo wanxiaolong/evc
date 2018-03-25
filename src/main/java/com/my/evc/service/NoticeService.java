@@ -38,8 +38,8 @@ public class NoticeService implements BaseService<Notice>{
 	/**
 	 * 显示公告列表。
 	 */
-	public List<Notice> listNotices() throws BaseException {
-		List<Notice> notices = noticeMapper.listNotices();
+	public List<Notice> findAll() throws BaseException {
+		List<Notice> notices = noticeMapper.findAll();
 		for (Notice notice : notices) {
 			convertImportantLevel(notice);
 		}

@@ -40,7 +40,7 @@
 		where id=#{id}
 	</select>
 	
-	<select id="listMessages" resultType="com.my.evc.model.Message">
+	<select id="findAll" resultType="com.my.evc.model.Message">
 		select
 			<include refid="all_fields"/>
 		from message

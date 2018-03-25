@@ -15,7 +15,11 @@ import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Exam;
+import com.my.evc.model.Subject;
+import com.my.evc.response.ExamResponse;
 import com.my.evc.service.ExamService;
+import com.my.evc.service.SubjectService;
+import com.my.evc.util.DataUtil;
 import com.my.evc.vo.ExamVo;
 
 /**
@@ -27,6 +31,9 @@ public class ExamController extends BaseController {
 	
 	@Autowired
 	private ExamService examService;
+	
+	@Autowired
+	private SubjectService subjectService;
 	
 	/**
 	 * 通过一个学期号，查询这个学期下的所有考试。
@@ -56,10 +63,13 @@ public class ExamController extends BaseController {
 	 */
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse<List<ExamVo>> findAll(HttpServletRequest request, 
+	public JsonResponse<ExamResponse> findAll(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
+		List<Subject> subjects = subjectService.findAll();
 		List<ExamVo> exams = examService.findAll();
-		return new JsonResponse<List<ExamVo>>(SUCCESS, exams);
+		DataUtil.setSubjectNames(exams, subjects);
+		ExamResponse data = new ExamResponse(exams, subjects);
+		return new JsonResponse<ExamResponse>(SUCCESS, data);
 	}
 
 	/**
@@ -71,22 +81,24 @@ public class ExamController extends BaseController {
 			HttpServletResponse response) throws BaseException, Exception {
 		String examId = request.getParameter(Constant.PARAM_ID);
 		String name = request.getParameter(Constant.PARAM_NAME);
+		String subjectIds = request.getParameter(Constant.PARAM_SUBJECT_IDS);
 		String people = request.getParameter(Constant.PARAM_PEOPLE);
 		String date = request.getParameter(Constant.PARAM_DATE);
 		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
 		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
-		
-		Exam exam = createExamObj(examId, name, people, date, isShowClassRank, isShowGradeRank);
+		Exam exam = createExamObj(examId, name, subjectIds, people, date, isShowClassRank, isShowGradeRank);
 		examService.update(exam);
 		
 		return new JsonResponse<Object>(SUCCESS, null);
 	}
 	
-	private Exam createExamObj(String examId, String name, String people, String date, String isShowClassRank, String isShowGradeRank) {
+	private Exam createExamObj(String examId, String name, String subjectIds, String people, 
+			String date, String isShowClassRank, String isShowGradeRank) {
 		Exam exam = new Exam();
 		exam.setId(Integer.parseInt(examId));
 		exam.setDate(date);
 		exam.setName(name);
+		exam.setSubjectIds(subjectIds);
 		exam.setPeople(Integer.parseInt(people));
 		exam.setShowClassRank(strToBoolean(isShowClassRank.trim()));
 		exam.setShowGradeRank(strToBoolean(isShowGradeRank.trim()));

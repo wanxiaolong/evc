@@ -38,8 +38,8 @@ public class MessageService implements BaseService<Message>{
 	/**
 	 * 显示公告列表。
 	 */
-	public List<Message> listNotices() throws BaseException {
-		List<Message> messages = messageMapper.listMessages();
+	public List<Message> findAll() throws BaseException {
+		List<Message> messages = messageMapper.findAll();
 		for (Message message : messages) {
 			convertType(message);
 		}

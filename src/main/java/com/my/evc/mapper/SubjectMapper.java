@@ -16,5 +16,5 @@ public interface SubjectMapper extends BaseMapper<Subject> {
 	/**
 	 * 查找所有科目（用于配置考试的科目的时候）。
 	 */
-	public List<Subject> listSubjects();
+	public List<Subject> findAll();
 }
