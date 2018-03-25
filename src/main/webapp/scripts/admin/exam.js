@@ -23,8 +23,8 @@ $(document).ready(function(){
 		});
 		//初始化字段之后，对个别字段进行特殊处理：比如设置不能编辑的input
 		$("input[name='semesterName']").attr("disabled","disabled");
-		$("input[name='isShowClassRank']").val(score.isShowClassRank == 'true' ? '是' : '否');
-		$("input[name='isShowGradeRank']").val(score.isShowGradeRank == 'true' ? '是' : '否');
+		$("input[name='isShowClassRank']").val(score.isShowClassRank ? '是' : '否');
+		$("input[name='isShowGradeRank']").val(score.isShowGradeRank ? '是' : '否');
 	});
 	
 	//点击成绩修改模态框的提交按钮，执行表单提交
@@ -95,11 +95,21 @@ function initDataTable(id) {
 		},
 		columnDefs: [
 			//--------------------------------      //前几列的名字固定，宽度固定
-			{"targets": [1,2], "sWidth": "150px"},  //学期
+			{"targets": 1, "sWidth": "150px"},  //学期
+			{"targets": 2, "sWidth": "100px"},  //考试
 			//----------------------------------//后续列为成绩列，宽度自动确定
 			//----------------------------------//操作列
+			//{"targets": 3, "sWidth": "250px"},  //参考科目
+			{"targets": 4, "sWidth": "50px"},   //参考人数
+			{"targets": 5, "sWidth": "100px"},  //考试日期
+			{
+				"targets": [6,7], 
+				"sWidth": "70px", //班级、年级排名
+				"sortable": false,
+			},
 			{
 				"targets": -1,//倒数第1列，编辑
+				"sWidth": "80px",
 				"sortable": false,//不能排序
 				"searchable": false,//不能搜索
 				"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
@@ -135,12 +145,12 @@ function addRows(array) {
 			exam,
 			exam.semesterName,
 			exam.name,
+			exam.semesterName,//参考科目
 			exam.people,
 			exam.date,
 		];
 		data.push(exam.isShowClassRank ? '是' : '否');
 		data.push(exam.isShowGradeRank ? '是' : '否');
-		
 		//操作列
 		data.push('');
 		table.row.add(data).draw(false);
