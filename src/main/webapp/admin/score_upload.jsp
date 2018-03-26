@@ -32,25 +32,28 @@
 	<div class="admin evc-content">
 		<admin:menu/>
 		<div class="content">
-			<div class="">
-				<p>请选择你要为哪次考试上传成绩（仅支持一次上传一个文件，支持预览）：</p>
-			</div>
-			<div class="filter-row">
-				<div class="filter">
-					<label>学期：</label>
-					<select class="form-control" id="semesterSelect" name="semester" required>
-						<option>--请选择--</option>
-					</select>
+			<div class="form-inline filter-block">
+				<div class="title">请先选择你要为哪次考试上传成绩：</div>
+				<div class="filter-row">
+					<div class="filter">
+						<label>学期：</label>
+						<select class="form-control" id="semesterSelect" name="semester" required>
+							<option>--请选择--</option>
+						</select>
+					</div>
+					<div class="filter">
+						<label>考试：</label>
+						<select class="form-control" id="examSelect" required>
+							<option>--请选择--</option>
+						</select>
+					</div>
 				</div>
-				<div class="filter">
-					<label>考试：</label>
-					<select class="form-control" id="examSelect" required>
-						<option>--请选择--</option>
-					</select>
+				<div class="subject-msg-div">
+					请确保文件中<b>科目</b>和<b>顺序</b>按照如下顺序：<div id="subjectmsg"></div>
 				</div>
-			</div>
-			<div class="">
-				<input id="uploadfile" name="input-b1" type="file" class="file">
+				<div class="upload-div">
+					<input id="uploadfile" name="input-b1" type="file" class="file">
+				</div>
 			</div>
 		</div>
 	</div>

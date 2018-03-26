@@ -2,14 +2,19 @@
  * 本文件为score_upload.jsp使用的初始化脚本。
  * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
+var subjectMap = new Map();//保存所有的科目信息
+var examMap = new Map();//保存一学期的所有考试，key=id, value=Exam以避免重复查询
 var webroot = getWebRoot();
 $(document).ready(function(){
 	//初始化学期下拉菜单
 	queryAllSemesters();
+	//获取所有的科目。用于当考试信息变化时，需要显示该考试的所有考试科目名字。
+	queryAllSubjects();
 	
 	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
 	$('#semesterSelect').change(function(){
-		initExamSelect();
+		//在common.js中定义
+		initExamSelect(getExamCallback);
 	});
 	
 	$("#uploadfile").fileinput({
@@ -45,4 +50,49 @@ $(document).ready(function(){
 	$("#examSelect").select2({
 		language: "zh-CN"
 	});
+	$("#examSelect").change(function(){
+		displayUploadInfo();
+	});
 });
+
+//回调函数，当获取到一个学期的所有考试信息的时候，重新初始化examMap
+function getExamCallback(exams) {
+	examMap.clear();
+	for(var index in exams) {
+		var exam = exams[index];
+		examMap.set(exam.id, exam);
+	}
+}
+
+function displayUploadInfo() {
+	var examId = $("#examSelect").children('option:selected').val();//获取selected的值
+	//从examMap中可以直接获取到Exam的详细信息，就不用再次查询数据库了
+	var exam = examMap.get(parseInt(examId));
+	//把所有的考试ID都转换成考试名字
+	var info = '';
+	var ids = exam.subjectIds.split(',');
+	for(var j in ids) {
+		info += subjectMap.get(parseInt(ids[j])).name + '，';
+	}
+	//将消息显示到页面上
+	$("#subjectmsg").html(info);
+}
+
+//查询所有的学期信息（用于初始化下拉列表）
+function queryAllSubjects() {
+	$.ajax({
+		type: 'GET',
+		url: webroot + '/subject/all',
+		success: function (data) {
+			var subjects = data.response;
+			//把科目放到Map中，key为id
+			for (var i in subjects) {
+				subjectMap.set(subjects[i].id, subjects[i]);
+			}
+		},
+		error: function () {
+			alert("调用学生信息查询接口失败！");
+			console.log("调用查询接口失败！");
+		}
+	});
+}

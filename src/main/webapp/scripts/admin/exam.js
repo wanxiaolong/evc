@@ -23,7 +23,7 @@ $(document).ready(function(){
 	queryAllExams();
 });
 
-//【成绩查询页】查询所有的学期信息（用于初始化下拉列表）
+//查询所有的学期信息（用于初始化下拉列表）
 function queryAllExams() {
 	$.ajax({
 		type: 'GET',

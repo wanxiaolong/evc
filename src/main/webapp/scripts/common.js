@@ -95,7 +95,7 @@ function addSemesterOption(array) {
 }
 
 //【管理员成绩查询页】【成绩上传页】改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
-function initExamSelect() {
+function initExamSelect(callback) {
 	var selectedSemester = $("#semesterSelect").children('option:selected').val();//获取selected的值
 	$.ajax({
 		type: 'GET',
@@ -104,12 +104,17 @@ function initExamSelect() {
 			var array = data.response;
 			if (data.errorMessage != null) {
 				alert(data.errorMessage);
-				return;
+				return null;
 			}
 			addExamOption(array)
+			if (callback != null && typeof callback == 'function') {
+				//返回所有的考试信息，供外部使用
+				callback(array);
+			}
 		},
 		error: function () {
 			console.log("调用查询考试信息接口失败！");
+			return null;
 		}
 	});
 }

@@ -215,7 +215,7 @@ body {
 .admin.evc-content .content {
 	margin-left: 200px;
 	padding: 10px;
-	min-height: 500px;
+	min-height: 600px;
 	border-top: 1px solid #e7e7e7;
 	border-left: 1px solid #e7e7e7;
 }
@@ -380,6 +380,29 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 .select2-container--default .selection .select2-selection--single .select2-selection__rendered.err-bdr {
 	border: 1px solid red;
 }
+/**
+ * -------------------------------------------
+ * 成绩上传页面(admin/score_upload.jsp)
+ * -------------------------------------------
+ */
+.admin.evc-content .content .subject-msg-div {
+	font-size: 20px;
+	line-height: 35px;
+	margin-top: 50px;
+}
+.admin.evc-content .content .subject-msg-div #subjectmsg {
+	color: red;
+	font-weight: bold;
+	line-height: 50px;
+	height: 50px;
+}
+.admin.evc-content .content .upload-div {
+	margin-top: 30px;
+	width: 700px;
+}
+
+
+
 /**
  * -------------------------------------------
  * 留言列表页面
