@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.LocaleResolver;
 
+import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
+import com.my.evc.util.ValidateCodeUtil;
 
 /**
  * 和业务没有直接关系的请求。
@@ -50,5 +52,17 @@ public class ServerController extends BaseController {
 			localeResolver.setLocale(request, response, Locale.CHINA);
 		}
 		return "index";
+	}
+	
+	/**
+	 * 获取验证码，图片宽高为80x35。
+	 */
+	@RequestMapping(value = "/getcode", method = RequestMethod.GET)
+	@ResponseBody
+	public byte[] getValidationCode(HttpServletRequest request, 
+		HttpServletResponse response) throws BaseException, Exception {
+		char[] chars = ValidateCodeUtil.getCode();
+		request.getSession().setAttribute(Constant.PARAM_VERIFY_CODE, String.copyValueOf(chars));
+		return ValidateCodeUtil.getImage(chars);
 	}
 }

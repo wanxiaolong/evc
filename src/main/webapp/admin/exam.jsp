@@ -24,10 +24,6 @@
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/select2.min.js"></script>
 	<!-- Select2 language resource file -->
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/i18n/zh-CN.js"></script>
-	
-	<!-- For toastr(a message notifier plugin) -->
-	<link href="<%=basePath%>/vendor/toastr-2.1.3/css/toastr.min.css" rel="stylesheet"/>
-	<script src="<%=basePath%>/vendor/toastr-2.1.3/js/toastr.min.js"></script>
 </head>
 <body>
 	<common:page-header/>
@@ -58,7 +54,6 @@
 	</div>
 	<common:page-footer/>
 </body>
-<script type="text/javascript" src="<%=basePath%>/scripts/common.js"></script>
 <script type="text/javascript" src="<%=basePath%>/scripts/admin/exam.js"></script>
 
 <!-- 弹出层，用于修改数据 -->

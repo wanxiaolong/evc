@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
+import com.my.evc.common.ErrorEnum;
+import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
+import com.my.evc.exception.ValidationException;
 import com.my.evc.model.User;
 import com.my.evc.service.UserService;
 
@@ -54,5 +58,32 @@ public class AdminController extends BaseController {
 		request.getSession().removeAttribute(Constant.PARAM_USER);
 		ModelAndView mav = new ModelAndView("redirect:" + HOME);
 		return mav;
+	}
+
+	/**
+	 * 修改密码，之后直接回到系统的首页。
+	 */
+	@RequestMapping(value="/change_pwd", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> changePassword(HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		User user = (User)request.getSession().getAttribute(Constant.PARAM_USER);
+		String oldPassword = request.getParameter(Constant.PARAM_PASSWORD);
+		String newPassword = request.getParameter(Constant.PARAM_PASSWORD_NEW);
+		String newPasswordConfirm = request.getParameter(Constant.PARAM_PASSWORD_CONFIRM);
+		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
+		
+		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
+		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
+			//验证码不通过
+			throw new ValidationException(ErrorEnum.INVALID_VERIFY_CODE);
+		}
+		if (!newPassword.equals(newPasswordConfirm)) {
+			//确认密码不通过
+			throw new ValidationException(ErrorEnum.INVALID_PASSWORD_CONFIRM);
+		}
+		
+		userService.changePassword(user, oldPassword, newPassword);
+		return new JsonResponse<Object>(SUCCESS);
 	}
 }

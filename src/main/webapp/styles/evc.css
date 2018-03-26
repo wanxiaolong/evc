@@ -116,7 +116,7 @@ body {
 
 /**
  * -------------------------------------------
- * 登录页面(admin/login.jsp)
+ * 登录页面、重置密码页面(admin/login.jsp, admin/change_pwd.jsp)
  * -------------------------------------------
  */
 .login.evc-content {
@@ -129,43 +129,59 @@ body {
 	margin: 0px auto;
 }
 #login .title {
-	padding-top: 180px;
+	padding-top: 140px;
 	padding-bottom: 40px;
+	font-size: 23px;
+	font-weight: 900;
 }
-#login .content {
+#login .content,
+#login .main {
 	width: 670px;
 	height: 220px;
 	margin: 0px auto;
 	background: #F7F7F9;
 	border: 1px solid #ddd;
 }
-#login .content .banner {
+#login .banner {
 	width: 368px;
 	height: 218px;
 	float: left;
 }
-#login .content .logmain {
+#login .logmain {
 	width: 300px;
 	float: right;
 	padding-top: 25px;
 }
-#login .content .logmain .logdiv {
+#login .main .logmain {
+	padding-top: 10px;
+}
+#login .logmain .logdiv {
 	height: 28px;
 	margin: 8px 0px;
 	padding-left: 20px;
 	line-height: 28px;
 }
-#login .content .logmain .logdiv .text {
-	width: 50px;
+#login .logmain .logdiv .ipt.verify_code {
+	width: 90px;
+	margin-right: 5px;
+}
+#login .logmain .logdiv .verify_code_img {
+	width: 80px;
+	height: 26px;
+	cursor: pointer;
+}
+
+#login .logmain .logdiv .text {
+	width: 70px;
 	height: 28px;
 	display: block;
 	float: left;
 }
-#login .content .logmain .logdiv .ipt {
-	width: 200px;
+#login .logmain .logdiv .ipt {
+	width: 180px;
 	height: 26px;
 	border: 1px solid #ddd;
-	padding-left: 10px;
+	padding-left: 5px;
 }
 #login .forgot-pwd {
 	display: block;
@@ -180,7 +196,7 @@ body {
 	margin-right: 5px;
 }
 #login .btnbg {
-	width: 203px;
+	width: 180px;
 	height: 40px;
 	background: url(../images/login/btnbg.png) no-repeat;
 	text-align: center;
@@ -189,6 +205,7 @@ body {
 	font-weight: bold;
 	border: 0px;
 	cursor: pointer;
+	border-radius: 4px;
 }
 /**
  * -------------------------------------------

@@ -130,3 +130,9 @@ function addExamOption(array) {
 		language: "zh-CN"
 	});
 }
+
+//用于配置消息提示插件toastr
+toastr.options = {
+	positionClass: "toast-top-center", //显示消息的位置
+	timeOut: "3000",//显示的时间
+};

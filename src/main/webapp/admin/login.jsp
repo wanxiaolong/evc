@@ -17,7 +17,7 @@
 		<form action="/evc/admin/login" method="POST">
 			<div id="login">
 				<div class="title">
-					<p align="center"><img src="../images/login/title.png"></p>
+					<p align="center">系统登录</p>
 				</div>
 				<div class="content">
 					<div class="banner">

@@ -33,6 +33,16 @@
 				</a>
 			</li>
 			<li>
+				<a href="#">
+					<i class="fa fa-cog"></i>公告管理<span class="badge">二期</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class="fa fa-cog"></i>留言管理<span class="badge">二期</span>
+				</a>
+			</li>
+			<li>
 				<a href="<%=basePath%>/admin/file_upload.jsp">
 					<i class="fa fa-upload"></i>文件上传 <span class="badge">新增</span>
 				</a>

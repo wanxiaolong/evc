@@ -19,4 +19,9 @@ public interface UserMapper extends BaseMapper<User> {
 	 * 登录的时候需要更新上次登录时间。
 	 */
 	public void updateLastLogin(int id);
+	
+	/**
+	 * 用户修改啊密码（本方法只会修改密码字段）。
+	 */
+	public void changePassword(User user);
 }

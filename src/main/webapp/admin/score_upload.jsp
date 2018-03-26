@@ -56,7 +56,6 @@
 	</div>
 	<common:page-footer/>
 <!-- FileInput插件的初始化脚本 -->
-<script type="text/javascript" src="<%=basePath%>/scripts/common.js"></script>
 <script type="text/javascript" src="<%=basePath%>/scripts/admin/score_upload.js"></script>
 </body>
 </html>

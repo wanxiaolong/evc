@@ -102,8 +102,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	/**
 	 * 获取当前用户的所有权限。
 	 */
-	private List<Integer> getCurrentUserPermissions(HttpSession session)
-			throws BusinessException {
+	private List<Integer> getCurrentUserPermissions(HttpSession session) throws BusinessException {
 		//先从session里面取，提高响应速度
 		@SuppressWarnings("unchecked")
 		List<Integer> permissions = (List<Integer>) session.getAttribute(Constant.PARAM_PERMISSIONS);

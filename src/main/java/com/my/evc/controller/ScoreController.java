@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,6 @@ import com.my.evc.security.RequirePermission;
 import com.my.evc.service.ScoreService;
 import com.my.evc.service.SemesterService;
 import com.my.evc.util.FileUtil;
-import com.my.evc.util.ValidateCodeUtil;
 import com.my.evc.vo.ScoreVo;
 
 /**
@@ -133,19 +131,6 @@ public class ScoreController extends BaseController {
 		return new JsonResponse<Object>(SUCCESS, null);
 	}
 
-	/**
-	 * 查询成绩时获取验证码。
-	 */
-	@RequestMapping(value = "/getcode", method = RequestMethod.GET)
-	@ResponseBody
-	public byte[] getValidationCode(HttpServletRequest request, 
-		HttpServletResponse response) throws BaseException, Exception {
-		HttpSession session = request.getSession();
-		char[] chars = ValidateCodeUtil.getCode();
-		session.setAttribute(Constant.PARAM_VERIFY_CODE, String.copyValueOf(chars));
-		return ValidateCodeUtil.getImage(chars);
-	}
-	
 	private Score createScoreObject(String scoreId, String chinese, String math, 
 			String english, String physics, String chemistry, String biologic, 
 			String politics, String history, String geography, String physical, String experiment) {

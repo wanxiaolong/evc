@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.my.evc.common.ErrorEnum;
 import com.my.evc.exception.BaseException;
-import com.my.evc.exception.BusinessException;
+import com.my.evc.exception.ValidationException;
 import com.my.evc.mapper.UserMapper;
 import com.my.evc.model.User;
 import com.my.evc.util.EncryptUtil;
@@ -48,7 +48,7 @@ public class UserService implements BaseService<User> {
 		password = EncryptUtil.md5(password);
 		User user = getUserByNameAndPass(username, password);
 		if (user == null) {
-			throw new BusinessException(ErrorEnum.USER_NOT_FOUND);
+			throw new ValidationException(ErrorEnum.USER_NOT_FOUND);
 		}
 		return user;
 	}
@@ -67,5 +67,19 @@ public class UserService implements BaseService<User> {
 	 */
 	public void updateLastLogin(int id) {
 		userMapper.updateLastLogin(id);
+	}
+
+	/**
+	 * 管理员修改密码。
+	 */
+	public void changePassword(User sessionUser, String oldPassword, String newPassword) throws ValidationException {
+		String encryptedOldPwd = EncryptUtil.md5(oldPassword);
+		if (!sessionUser.getPassword().equals(encryptedOldPwd)) {
+			//旧密码不匹配
+			throw new ValidationException(ErrorEnum.INVALID_PASSWORD);
+		}
+		//将新密码加密后放到User对象中，用来更新密码。
+		sessionUser.setPassword(EncryptUtil.md5(newPassword));
+		userMapper.changePassword(sessionUser);
 	}
 }

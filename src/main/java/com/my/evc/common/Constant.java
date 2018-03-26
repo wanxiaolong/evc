@@ -10,6 +10,8 @@ public class Constant {
 	public static final String PARAM_EXAM_ID = "exam_id";
 	public static final String PARAM_USERNAME = "username";
 	public static final String PARAM_PASSWORD = "password";
+	public static final String PARAM_PASSWORD_NEW = "password_new";
+	public static final String PARAM_PASSWORD_CONFIRM = "password_confirm";
 	public static final String PARAM_NAME_PINYIN = "name_pinyin";
 	public static final String PARAM_BIRTHDAY = "birthday";
 	public static final String PARAM_SEMESTER_ID = "semester_id";

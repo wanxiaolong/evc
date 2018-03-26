@@ -17,8 +17,14 @@
 		update user set 
 			user_id=#{userId},
 			username=#{username}, 
-			password=#{password}, 
 			email=#{email}, 
+		where 
+			id=#{id}
+	</update>
+
+	<update id="changePassword" parameterType="com.my.evc.model.User">
+		update user set 
+			password=#{password}
 		where 
 			id=#{id}
 	</update>
