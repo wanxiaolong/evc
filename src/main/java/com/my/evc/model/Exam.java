@@ -17,6 +17,26 @@ public class Exam extends BaseModel {
 	private boolean isShowClassRank;	//是否显示班级排名
 	private String note;				//备注
 	
+	/**
+	 * 构造函数
+	 */
+	public Exam(int id, String name, String subjectIds, int people, String date, 
+			int semesterNumber, boolean isShowGradeRank, boolean isShowClassRank) {
+		setId(id);
+		this.name = name;
+		this.subjectIds = subjectIds;
+		this.people = people;
+		this.date = date;
+		this.semesterNumber = semesterNumber;
+		this.isShowGradeRank = isShowGradeRank;
+		this.isShowClassRank = isShowClassRank;
+	}
+
+	/**
+	 * 默认构造函数
+	 */
+	public Exam() {}
+	
 	public String getSubjectIds() {
 		return subjectIds;
 	}

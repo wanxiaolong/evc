@@ -8,6 +8,14 @@ public abstract class BaseModel {
 	private int id;
 	private String creationDate;
 
+	public BaseModel(int id, String creationDate) {
+		super();
+		this.id = id;
+		this.creationDate = creationDate;
+	}
+	
+	public BaseModel() {}
+
 	public int getId() {
 		return id;
 	}

@@ -81,7 +81,7 @@ function queryAllSemesters() {
 function addSemesterOption(array) {
 	//先清空原来的选择项
 	$("#semesterSelect").empty();
-	$("#semesterSelect").append("<option>--请选择--</option>");
+	$("#semesterSelect").append("<option value='none'>--请选择--</option>");
 	//再依次添加
 	for(var index in array) {
 		var semester = array[index];
@@ -123,7 +123,7 @@ function initExamSelect(callback) {
 function addExamOption(array) {
 	//先清空原来的选择项
 	$("#examSelect").empty();
-	$("#examSelect").append("<option>--请选择--</option>");
+	$("#examSelect").append("<option value='none'>--请选择--</option>");
 	//再依次添加
 	for(var index in array) {
 		var exam = array[index];
@@ -136,8 +136,21 @@ function addExamOption(array) {
 	});
 }
 
+//给select2包装的select设置选中项
+function setSelect2SelectedOption(elementId, selectedValue) {
+	var select2 = $("#" + elementId).select2({
+		language: "zh-CN"
+	});
+	select2.val(selectedValue).trigger("change");
+	select2.change();
+}
+
 //用于配置消息提示插件toastr
 toastr.options = {
 	positionClass: "toast-top-center", //显示消息的位置
 	timeOut: "3000",//显示的时间
 };
+
+//解决模态框中的select2不能搜索（不能获取焦点）的问题
+//https://blog.csdn.net/john1337/article/details/53315969
+$.fn.modal.Constructor.prototype.enforceFocus = function () {}

@@ -51,4 +51,8 @@ https://datatables.net/reference/option/columnDefs
 16. How to use a beautiful js message plugin to toast message:
 https://blog.csdn.net/cyh1111/article/details/53141037
 
+17. Select2 canont get focus in modal dialog:
+https://blog.csdn.net/john1337/article/details/53315969
 
+18. Select2 set option selected:
+https://blog.csdn.net/u012374381/article/details/72629233

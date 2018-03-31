@@ -73,7 +73,7 @@ public class ExamController extends BaseController {
 	}
 
 	/**
-	 * 查找所有考试。
+	 * 修改考试信息。
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
@@ -86,23 +86,34 @@ public class ExamController extends BaseController {
 		String date = request.getParameter(Constant.PARAM_DATE);
 		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
 		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
-		Exam exam = createExamObj(examId, name, subjectIds, people, date, isShowClassRank, isShowGradeRank);
+		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
+		Exam exam = new Exam(Integer.parseInt(examId), name, subjectIds, 
+				Integer.parseInt(people), date, Integer.parseInt(semesterId), 
+				strToBoolean(isShowGradeRank), strToBoolean(isShowClassRank));
 		examService.update(exam);
-		
 		return new JsonResponse<Object>(SUCCESS, null);
 	}
 	
-	private Exam createExamObj(String examId, String name, String subjectIds, String people, 
-			String date, String isShowClassRank, String isShowGradeRank) {
-		Exam exam = new Exam();
-		exam.setId(Integer.parseInt(examId));
-		exam.setDate(date);
-		exam.setName(name);
-		exam.setSubjectIds(subjectIds);
-		exam.setPeople(Integer.parseInt(people));
-		exam.setShowClassRank(strToBoolean(isShowClassRank.trim()));
-		exam.setShowGradeRank(strToBoolean(isShowGradeRank.trim()));
-		return exam;
+	/**
+	 * 创建考试。
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> createExam(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String name = request.getParameter(Constant.PARAM_NAME);
+		String subjectIds = request.getParameter(Constant.PARAM_SUBJECT_IDS);
+		String people = request.getParameter(Constant.PARAM_PEOPLE);
+		String date = request.getParameter(Constant.PARAM_DATE);
+		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
+		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
+		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
+		//Create不需要ID，所以第一个参数默认为0
+		Exam exam = new Exam(0, name, subjectIds, Integer.parseInt(people), date, Integer.parseInt(semesterId), 
+				strToBoolean(isShowGradeRank), strToBoolean(isShowClassRank));
+		examService.create(exam);
+		
+		return new JsonResponse<Object>(SUCCESS, null);
 	}
 	
 	private boolean strToBoolean(String s) {

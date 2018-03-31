@@ -33,7 +33,7 @@
 			<div class="form-inline filter-block">
 				<div class="title">系统中的所有考试信息</div>
 				<div class="right">
-					<button class="btn btn-primary" onclick="javascript:window.location.href='<%=basePath%>/admin/exam_add.jsp'">
+					<button class="btn btn-primary" id="addExamBtn" data-toggle='modal' data-target='#myModal'>
 						<i class="fa fa-plus-circle"></i>添加考试
 					</button>
 				</div>
@@ -68,7 +68,9 @@
 		<div class="field">
 			<div class="name">学期：</div>
 			<div class="value">
-				<input type="text" name="semesterName" placeholder="学期">
+				<select class="form-control" id="semesterSelect" name="semester" required>
+					<option>--请选择--</option>
+				</select>
 			</div>
 		</div>
 		<div class="field">
@@ -86,7 +88,7 @@
 		<div class="field">
 			<div class="name">考试日期：</div>
 			<div class="value">
-				<input type="text" name="date">
+				<input type="text" name="date">yyyy-MM-dd
 			</div>
 		</div>
 		<div class="field">

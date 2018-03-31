@@ -15,12 +15,20 @@ $(document).ready(function(){
 		editExam(data[0]);
 	});
 	
-	//点击成绩修改模态框的提交按钮，执行表单提交
+	//点击模态框的提交按钮，执行表单提交
 	$("#confirm-update").click(function(){
 		submitExamUpdate();
 	});
 	
+	//“增加考试”按钮的点击事件
+	$("#addExamBtn").click(function(){
+		addExam();
+	});
+	
 	queryAllExams();
+	
+	//初始化学期下拉菜单
+	queryAllSemesters();
 });
 
 //查询所有的学期信息（用于初始化下拉列表）
@@ -40,6 +48,21 @@ function queryAllExams() {
 	});
 }
 
+//点击“增加考试”按钮后的操作
+function addExam() {
+	//清除表单中所有的值（点击“编辑”后，表单的值会被初始化掉，之后若点击“新增考试”，则此时表单中的值必须先清除掉）
+	var fields = $("#edit-form").serializeArray();
+	$.each(fields, function(i, field){
+		$(":input[name='"+field.name+"']").val('');
+	});
+	
+	//对于select2，需要设置其选中项
+	setSelect2SelectedOption("semesterSelect", "none");
+	
+	//重新创建所有的checkbox
+	createAllSubjectCheckbox("subjects");
+}
+
 //点击“编辑”按钮后的操作
 function editExam(exam) {
 	var fields = $("#edit-form").serializeArray();
@@ -48,54 +71,68 @@ function editExam(exam) {
 		//注意这里只能通过[]的方式来获取属性值
 		$(":input[name='"+field.name+"']").val(exam[field.name]);
 	});
-	//初始化字段之后，对个别字段进行特殊处理：比如设置不能编辑的input
-	$("input[name='semesterName']").attr("disabled","disabled");
+	//初始化字段之后，对个别字段进行特殊处理
 	$("input[name='isShowClassRank']").val(exam.isShowClassRank ? '是' : '否');
 	$("input[name='isShowGradeRank']").val(exam.isShowGradeRank ? '是' : '否');
 	
-	//初始化参考科目
-	$("#subjects").empty();
+	//给select2包装的select设置选中项
+	setSelect2SelectedOption("semesterSelect", exam.semesterNumber);
+	
+	//初始化参考科目，并添加到页面中
+	createAllSubjectCheckbox("subjects");
+	
+	//设置参考科目选中
 	var ids = exam.subjectIds.split(',');
-	for(var i in allSubjects) {
-		//创建所有的科目
-		var _part1 = "<input type='checkbox' value='" + allSubjects[i].id + "' name='subjects'";
-		var _part2 = " checked='checked'";
-		var _part3 = " />";
-		var checkbox = _part1;
+	$("#subjects input[type='checkbox']").each(function(){
+		var optionValue = $(this).attr('value');
 		for(var j in ids) {
-			if (allSubjects[i].id == ids[j]) {
-				checkbox += _part2;
+			if (optionValue == ids[j]) {
+				$(this).attr('checked','checked');
+				break;
 			}
 		}
-		checkbox += _part3 + allSubjects[i].name;
-		$("#subjects").append(checkbox + "&nbsp;&nbsp;");
+	});
+}
+
+//为所有的科目创建都没有选中的复选框
+function createAllSubjectCheckbox(elementId) {
+	$("#" + elementId).empty();
+	for(var i in allSubjects) {
+		var checkbox = "<input type='checkbox' value='" + allSubjects[i].id + "' name='subjects'/>" + allSubjects[i].name;
+		$("#" + elementId).append(checkbox + "&nbsp;&nbsp;");
 	}
 }
 
-//提交数据，执行成绩更新。成功或失败都会在页面上显示消息。
+//提交数据，执行更新。成功或失败都会在页面上显示消息。
 function submitExamUpdate() {
+	//如果id为空，则是创建（因为创建的时候会清除掉这个input中的值）
 	var id = $("#edit-form input[name='id']").val();
 	var name = $("#edit-form input[name='name']").val();
 	var people = $("#edit-form input[name='people']").val();
 	var date = $("#edit-form input[name='date']").val();
 	var isShowClassRank = $("#edit-form input[name='isShowClassRank']").val();
 	var isShowGradeRank = $("#edit-form input[name='isShowGradeRank']").val();
+	var semesterNumber = $("#semesterSelect").children('option:selected').val();
 	
 	//由于科目是个数组，所以这里需要用foreach
 	var subjectIds = [];
 	$.each($("#edit-form input[name='subjects']:checked"), function(){
 		subjectIds.push($(this).val());
 	});
+	
+	var isCreate = id == '';
+	console.log("isCreate=" + isCreate);
 	$.ajax({
 		type: 'POST',
-		url: webroot + '/exam/update',
+		url: webroot + (isCreate ? '/exam/create' : '/exam/update'),
 		data: 	'id=' + id +
 				'&name=' + name + 
 				'&subject_ids=' + subjectIds + 
 				'&people=' + people +
 				'&date=' + date +
 				'&is_show_class_rank=' + isShowClassRank +
-				'&is_show_grade_rank=' + isShowGradeRank,
+				'&is_show_grade_rank=' + isShowGradeRank +
+				'&semester_id=' + semesterNumber,
 		success: function (data) {
 			if (data.status != 0) {
 				alert(data.errorMessage);
