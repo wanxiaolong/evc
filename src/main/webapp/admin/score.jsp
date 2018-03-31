@@ -85,77 +85,63 @@
 <script type="text/javascript" src="<%=basePath%>/scripts/admin/score.js"></script>
 
 <!-- 弹出层，用于修改数据 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">修改成绩</h4>
+<admin:modal-dialog action="提交更改" title="修改成绩">
+	<form id="edit-form">
+		<input type="hidden" name="id">
+		<div class="field">
+			<span class="name">语文</span>
+			<div class="value">
+				<input type="text" name="chinese">
 			</div>
-			<div class="modal-body">
-				<form id="edit-form">
-					<input type="hidden" name="id">
-					<div class="field">
-						<span class="name">语文</span>
-						<div class="value">
-							<input type="text" name="chinese">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">数学</span>
-						<div class="value">
-							<input type="text" name="math">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">英语</span>
-						<div class="value">
-							<input type="text" name="english">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">物理</span>
-						<div class="value">
-							<input type="text" name="physics">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">化学</span>
-						<div class="value">
-							<input type="text" name="chemistry">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">生物</span>
-						<div class="value">
-							<input type="text" name="biologic">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">政治</span>
-						<div class="value">
-							<input type="text" name="politics">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">历史</span>
-						<div class="value">
-							<input type="text" name="history">
-						</div>
-					</div>
-					<div class="field">
-						<span class="name">地理</span>
-						<div class="value">
-							<input type="text" name="geography">
-						</div>
-					</div>
-				</form>
+		</div>
+		<div class="field">
+			<span class="name">数学</span>
+			<div class="value">
+				<input type="text" name="math">
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" id="confirm-update">提交更改</button>
+		</div>
+		<div class="field">
+			<span class="name">英语</span>
+			<div class="value">
+				<input type="text" name="english">
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
+		</div>
+		<div class="field">
+			<span class="name">物理</span>
+			<div class="value">
+				<input type="text" name="physics">
+			</div>
+		</div>
+		<div class="field">
+			<span class="name">化学</span>
+			<div class="value">
+				<input type="text" name="chemistry">
+			</div>
+		</div>
+		<div class="field">
+			<span class="name">生物</span>
+			<div class="value">
+				<input type="text" name="biologic">
+			</div>
+		</div>
+		<div class="field">
+			<span class="name">政治</span>
+			<div class="value">
+				<input type="text" name="politics">
+			</div>
+		</div>
+		<div class="field">
+			<span class="name">历史</span>
+			<div class="value">
+				<input type="text" name="history">
+			</div>
+		</div>
+		<div class="field">
+			<span class="name">地理</span>
+			<div class="value">
+				<input type="text" name="geography">
+			</div>
+		</div>
+	</form>
+</admin:modal-dialog>
 </html>

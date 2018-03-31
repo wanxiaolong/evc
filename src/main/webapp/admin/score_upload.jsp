@@ -47,6 +47,12 @@
 							<option>--请选择--</option>
 						</select>
 					</div>
+					<div class="filter">
+						没有找到考试？&nbsp;&nbsp;
+						<button class="btn btn-primary" onclick="javascript:window.location.href='<%=basePath%>/admin/exam.jsp'">
+							<i class="fa fa-plus-circle"></i>考试管理
+						</button>
+					</div>
 				</div>
 				<div class="subject-msg-div">
 					请确保文件中<b>科目</b>和<b>顺序</b>按照如下顺序：<div id="subjectmsg"></div>

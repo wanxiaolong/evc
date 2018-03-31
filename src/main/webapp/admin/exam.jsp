@@ -32,6 +32,11 @@
 		<div class="content">
 			<div class="form-inline filter-block">
 				<div class="title">系统中的所有考试信息</div>
+				<div class="right">
+					<button class="btn btn-primary" onclick="javascript:window.location.href='<%=basePath%>/admin/exam_add.jsp'">
+						<i class="fa fa-plus-circle"></i>添加考试
+					</button>
+				</div>
 			</div>
 			
 			<table id="examTable" class="table table-striped table-bordered">
@@ -57,63 +62,49 @@
 <script type="text/javascript" src="<%=basePath%>/scripts/admin/exam.js"></script>
 
 <!-- 弹出层，用于修改数据 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">修改考试信息</h4>
+<admin:modal-dialog action="提交更改" title="修改考试信息">
+	<form id="edit-form">
+		<input type="hidden" name="id">
+		<div class="field">
+			<div class="name">学期：</div>
+			<div class="value">
+				<input type="text" name="semesterName" placeholder="学期">
 			</div>
-			<div class="modal-body">
-				<form id="edit-form">
-					<input type="hidden" name="id">
-					<div class="field">
-						<div class="name">学期：</div>
-						<div class="value">
-							<input type="text" name="semesterName" placeholder="学期">
-						</div>
-					</div>
-					<div class="field">
-						<div class="name">考试名称：</div>
-						<div class="value">
-							<input type="text" name="name">
-						</div>
-					</div>
-					<div class="field">
-						<div class="name">参考人数：</div>
-						<div class="value">
-							<input type="text" name="people">
-						</div>
-					</div>
-					<div class="field">
-						<div class="name">考试日期：</div>
-						<div class="value">
-							<input type="text" name="date">
-						</div>
-					</div>
-					<div class="field">
-						<div class="name">显示班级排名：</div>
-						<div class="value">
-							<input type="text" name="isShowClassRank">'是'或'否'
-						</div>
-					</div>
-					<div class="field">
-						<div class="name">显示年级排名：</div>
-						<div class="value">
-							<input type="text" name="isShowGradeRank">'是'或'否'
-						</div>
-					</div>
-					<div class="field" >
-						<div class="name">参考科目：</div>
-						<div class="value" id="subjects"></div>
-					</div>
-				</form>
+		</div>
+		<div class="field">
+			<div class="name">考试名称：</div>
+			<div class="value">
+				<input type="text" name="name">
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" id="confirm-update">提交更改</button>
+		</div>
+		<div class="field">
+			<div class="name">参考人数：</div>
+			<div class="value">
+				<input type="text" name="people">
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
+		</div>
+		<div class="field">
+			<div class="name">考试日期：</div>
+			<div class="value">
+				<input type="text" name="date">
+			</div>
+		</div>
+		<div class="field">
+			<div class="name">显示班级排名：</div>
+			<div class="value">
+				<input type="text" name="isShowClassRank">'是'或'否'
+			</div>
+		</div>
+		<div class="field">
+			<div class="name">显示年级排名：</div>
+			<div class="value">
+				<input type="text" name="isShowGradeRank">'是'或'否'
+			</div>
+		</div>
+		<div class="field" >
+			<div class="name">参考科目：</div>
+			<div class="value" id="subjects"></div>
+		</div>
+	</form>
+</admin:modal-dialog>
 </html>

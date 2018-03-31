@@ -272,6 +272,12 @@ body #toast-container>div {
 }
 .admin.evc-content .filter-block .title {
 	font-size: 25px;
+	display: inline-block;
+}
+.admin.evc-content .filter-block .right {
+	float: right;
+	font-size: 16px;
+	line-height: 30px;
 }
 /**
  * -------------------------------------------
@@ -282,6 +288,7 @@ body #toast-container>div {
 	display: inline-block;
 	vertical-align: middle;
 	margin-right: 20px;
+	font-size: 16px;
 }
 .evc-content .filter-row {
 	margin: 10px 0px;
