@@ -31,20 +31,42 @@
 	<common:page-header/>
 	<div class="admin evc-content">
 		<admin:menu/>
-		<div class="content">
-			<div class="form-inline filter-block">
-				<div class="title">请先选择你要为哪次考试上传成绩：</div>
+		<div class="content tab-content">
+			<!-- 标签页 -->
+			<ul id="myTab" class="nav nav-tabs">
+				<li class="active">
+					<a href="#uploadByExam" data-toggle="tab">按考试上传</a>
+				</li>
+				<li>
+					<a href="#uploadBatch" data-toggle="tab">批量上传</a>
+				</li>
+			</ul>
+			
+			<!-- 按考试上传成绩 -->
+			<div id="uploadByExam" class="form-inline filter-block tab-pane fade in active">
+				<div class="description">
+					<p class="strong">注意：</p>
+					<p>1. 仅支持.xls或.xlsx格式的Excel文件</p>
+					<p>2. 科目信息和顺序必须和显示的考试信息一致</p>
+					<p>3. 文件中的行数应等于考试人数，否则报错</p>
+					
+					<p class="strong">举例说明：</p>
+					<p>上传的是2016年下学期的第一学月考试，则</p>
+					<p>先选择学期为“2016~2017下学期”，再选择考试为“第一学月考试”，</p>
+					<p>确保系统显示的科目及顺序和Excel中的列及顺序一致，最后点击“上传”</p>
+				</div>
+				<div class="title">请先选择要为哪次考试上传成绩：</div>
 				<div class="filter-row">
 					<div class="filter">
 						<label>学期：</label>
 						<select class="form-control" id="semesterSelect" name="semester" required>
-							<option>--请选择--</option>
+							<option value="none">--请选择--</option>
 						</select>
 					</div>
 					<div class="filter">
 						<label>考试：</label>
 						<select class="form-control" id="examSelect" required>
-							<option>--请选择--</option>
+							<option value="none">--请选择--</option>
 						</select>
 					</div>
 					<div class="filter">
@@ -55,10 +77,31 @@
 					</div>
 				</div>
 				<div class="subject-msg-div">
-					请确保文件中<b>科目</b>和<b>顺序</b>按照如下顺序：<div id="subjectmsg"></div>
+					请确保文件中<b>科目</b>和<b>顺序</b>按照如下顺序（仅支持.xls和.xlsx格式的文件）：<div id="subjectmsg"></div>
 				</div>
 				<div class="upload-div">
-					<input id="uploadfile" name="input-b1" type="file" class="file">
+					<input id="upload-file" name="input-b1" type="file">
+				</div>
+			</div>
+			
+			<!-- 批量上传成绩 -->
+			<div id="uploadBatch" class="form-inline filter-block tab-pane fade">
+				<div class="description">
+					<p>支持上传文件夹，同一个学期的考试放在一个以学期命名的文件夹中。系统将根据文件夹名字创建学期，将根据文件名字创建考试信息，并自动上传成绩。</p>
+					<p class="strong">注意：</p>
+					<p>1. 仅支持.xls或.xlsx格式的Excel文件</p>
+					<p>2. 文件夹名字必须按照“2016~2017上学期”规范</p>
+					<p>3. 文件名字即为考试名字，比如：第一学月考试.xls</p>
+					<p>4. 文件中的列即为考试的科目信息</p>
+					<p>5. 文件中的行数即为考试总人数</p>
+					
+					<p class="strong">举例说明：</p>
+					<p>上传的是2016年下学期的第一学月、第二学月、期末考试，和2017年上学期的半期考试、期末考试，则</p>
+					<p>在“2016~2017下学期”文件夹中包含第一学月.xls，第二学月.xls，期末考试.xls，</p>
+					<p>在“2017~2018上学期”文件夹中包含半期考试.xls，期末考试.xls，然后选择这两个文件夹的父文件夹即可</p>
+				</div>
+				<div class="upload-div">
+					<input id="upload-batch" name="input-b1" type="file">
 				</div>
 			</div>
 		</div>

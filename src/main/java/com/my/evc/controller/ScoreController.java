@@ -12,17 +12,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Score;
-import com.my.evc.model.Semester;
 import com.my.evc.security.Permission;
 import com.my.evc.security.RequirePermission;
 import com.my.evc.service.ScoreService;
-import com.my.evc.service.SemesterService;
 import com.my.evc.util.FileUtil;
 import com.my.evc.vo.ScoreVo;
 
@@ -35,22 +32,6 @@ public class ScoreController extends BaseController {
 	
 	@Autowired
 	private ScoreService scoreService;
-	
-	@Autowired
-	private SemesterService semesterService;
-	
-	/**
-	 * 成绩上传页面。这里预先读取所有的学期信息，并返回到页面。
-	 */
-	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public ModelAndView uploadScorePage(HttpServletRequest request, 
-			HttpServletResponse response) throws BaseException, Exception {
-		//成绩上传页面默认填充好第一个下拉菜单：学期
-		List<Semester> semesters = semesterService.findAll();
-		ModelAndView mav = new ModelAndView("score_upload");
-		mav.addObject(Constant.PARAM_SEMESTERS, semesters);
-		return mav;
-	}
 	
 	/**
 	 * 成绩上传。这里上传的是一个Excel文件，后台需要读取这个文件，并把成绩插入到score表中。

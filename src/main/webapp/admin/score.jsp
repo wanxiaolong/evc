@@ -38,13 +38,13 @@
 					<div class="filter" id="semesterFilter">
 						<label>学期：</label>
 						<select class="form-control" id="semesterSelect" name="semester" data-live-search="true" required>
-							<option>--请选择--</option>
+							<option value="none">--请选择--</option>
 						</select>
 					</div>
 					<div class="filter" id="semesterFilter">
 						<label>考试：</label>
 						<select class="form-control" id="examSelect" name="exam" data-live-search="true" required>
-							<option>--请选择--</option>
+							<option value="none">--请选择--</option>
 						</select>
 					</div>
 					<button type="button" id="queryBtn" class="btn btn-default query-btn">

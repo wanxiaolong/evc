@@ -87,6 +87,12 @@ public class FileUtil {
 		if (examId == null) {
 			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_NO_EXAM_ID);
 		}
+		//如果examId不是数字，直接报错
+		try {
+			Integer.parseInt(examId);
+		} catch(Exception e) {
+			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_NO_EXAM_ID);
+		}
 		//把另外的参数exam_id也放到Map中并添加到List里，以便调用者使用。
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put(Constant.PARAM_EXAM_ID, examId);

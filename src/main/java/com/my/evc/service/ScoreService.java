@@ -62,8 +62,8 @@ public class ScoreService implements BaseService<Score> {
 			for(String key : map.keySet()) {
 				ScoreTitle title = ScoreTitle.fromString(key.toUpperCase());
 				if (title != null) {
-					String value = map.get(key);
-					saveValueToScore(title, value, score);
+					String scoreValue = map.get(key);
+					saveScoreToSubject(title, scoreValue, score);
 				}
 			}
 			scores.add(score);
@@ -83,7 +83,7 @@ public class ScoreService implements BaseService<Score> {
 	/**
 	 * 根据科目，将分值保存到Score对象上。
 	 */
-	private void saveValueToScore(ScoreTitle subjectType, String value, Score score) {
+	private void saveScoreToSubject(ScoreTitle subjectType, String value, Score score) {
 		switch (subjectType) {
 			case ID_NUMBER:
 				score.setStudentNumber(Integer.parseInt(value));

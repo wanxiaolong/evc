@@ -69,7 +69,7 @@
 			<div class="name">学期：</div>
 			<div class="value">
 				<select class="form-control" id="semesterSelect" name="semester" required>
-					<option>--请选择--</option>
+					<option value="none">--请选择--</option>
 				</select>
 			</div>
 		</div>

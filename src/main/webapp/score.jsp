@@ -46,7 +46,7 @@
 				<div class="filter" id="semesterFilter">
 					<label>学期：</label>
 					<select class="form-control" id="semesterSelect" name="semester" data-live-search="true" required>
-						<option>--请选择--</option>
+						<option value="none">--请选择--</option>
 						<c:forEach items="${semesters}" var="semester">
 							<option value="${semester.number}">${semester.name}</option>
 						</c:forEach>

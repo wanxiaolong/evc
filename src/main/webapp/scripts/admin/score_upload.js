@@ -15,45 +15,72 @@ $(document).ready(function(){
 	$('#semesterSelect').change(function(){
 		//在common.js中定义
 		initExamSelect(getExamCallback);
-	});
-	
-	$("#uploadfile").fileinput({
-		language: 'zh', //设置语言
-		uploadUrl: "<%=basePath%>/score/upload", //上传的地址
-		allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
-		uploadExtraData:{"exam_id": $("#exam option:selected").val()},
-		uploadAsync: true, //默认异步上传
-		showUpload: true, //是否显示上传按钮
-		showRemove: true, //显示移除按钮
-		showPreview: true, //是否显示预览
-		showCaption: true,//是否显示标题
-		browseClass: "btn btn-primary", //按钮样式
-		dropZoneEnabled: false,//是否显示拖拽区域
-		//minImageWidth: 50, //图片的最小宽度
-		//minImageHeight: 50,//图片的最小高度
-		//maxImageWidth: 1000,//图片的最大宽度
-		//maxImageHeight: 1000,//图片的最大高度
-		minFileSize: 1,
-		maxFileSize: 10240,//单位为kb，如果为0表示不限制文件大小
-		//minFileCount: 1,
-		maxFileCount: 1, //表示允许同时上传的最大文件个数
-		enctype:'multipart/form-data',
-		validateInitialCount:true,
-		previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-	}).on("fileuploaded", function (event, data, previewId, index){
-		//上传成功后的回调
-		console.log("上传成功！event=" + event + ", data=" + data + ", previewId=" + previewId + ", index=" + index);
+		
+		//在common.js中定义。设置考试下拉菜单的选中项为“--请选择--”
+		setSelect2SelectedOption("examSelect", "none");
+		//学期变化会带来考试变化，考试变化又有相应的函数
+		handleExamChange();
 	});
 	
 	//初始化考试下拉菜单
 	$("#examSelect").select2({
 		language: "zh-CN"
 	});
+	
+	//考试下拉菜单变化的事件
 	$("#examSelect").change(function(){
-		displayUploadInfo();
+		handleExamChange();
 	});
 });
+
+function handleExamChange() {
+	//获取selected的值
+	var examId = $("#examSelect option:selected").val();
+	//如果选择的是“--请选择--”，则隐藏科目信息，并隐藏上传div
+	if (examId == "none") {
+		$(".subject-msg-div").hide();
+		$(".upload-div").hide();
+		return;
+	}
+	
+	//根据选择的考试，显示该考试的科目信息
+	displaySubjectInfo(examId);
+	
+	//重新初始化上传控件。因为下拉菜单变化会引起examId变化，
+	//而这个在上传文件的时候需要作为附加参数（uploadExtraData属性）上传的值需要在初始化控件的时候获取
+	initUploadConfig(examId);
+}
+
+//当前选择的是有效的考试，所以显示上传控件(upload-div)
+function initUploadConfig(examId) {
+	$(".upload-div").show();
+	var config = {
+		language: 'zh', //设置语言
+		uploadUrl: webroot + "/score/upload", //上传的地址
+		allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
+		uploadExtraData:{"exam_id": examId},
+		uploadAsync: true, //默认异步上传
+		showUpload: true, //是否显示上传按钮
+		showRemove: true, //显示移除按钮
+		showPreview: true, //是否显示预览
+		showCaption: true,//是否显示标题
+		browseClass: "btn btn-primary", //按钮样式
+		dropZoneEnabled: true,//是否显示拖拽区域
+		minFileSize: 1,
+		maxFileSize: 10240,//单位为kb，如果为0表示不限制文件大小
+		minFileCount: 1,
+		maxFileCount: 1, //表示允许同时上传的最大文件个数
+		enctype:'multipart/form-data',
+		validateInitialCount:true,
+		previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+	};
+	
+	$("#upload-file").fileinput(config).on("fileuploaded", function (event, data, previewId, index){
+		//上传成功后的回调
+		console.log("上传成功！event=" + event + ", data=" + data + ", previewId=" + previewId + ", index=" + index);
+	});
+}
 
 //回调函数，当获取到一个学期的所有考试信息的时候，重新初始化examMap
 function getExamCallback(exams) {
@@ -64,8 +91,8 @@ function getExamCallback(exams) {
 	}
 }
 
-function displayUploadInfo() {
-	var examId = $("#examSelect").children('option:selected').val();//获取selected的值
+//在上传之前显示该考试的科目信息。
+function displaySubjectInfo(examId) {
 	//从examMap中可以直接获取到Exam的详细信息，就不用再次查询数据库了
 	var exam = examMap.get(parseInt(examId));
 	//把所有的考试ID都转换成考试名字
@@ -76,6 +103,7 @@ function displayUploadInfo() {
 	}
 	//将消息显示到页面上
 	$("#subjectmsg").html(info);
+	$(".subject-msg-div").show();
 }
 
 //查询所有的学期信息（用于初始化下拉列表）

@@ -402,7 +402,8 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 .admin.evc-content .content .subject-msg-div {
 	font-size: 20px;
 	line-height: 35px;
-	margin-top: 50px;
+	margin-top: 20px;
+	display: none;
 }
 .admin.evc-content .content .subject-msg-div #subjectmsg {
 	color: red;
@@ -411,12 +412,24 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 	height: 50px;
 }
 .admin.evc-content .content .upload-div {
-	margin-top: 30px;
-	width: 700px;
+	margin-top: 20px;
+	width: 800px;
+	display: none;
 }
-
-
-
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	font-size: 16px;
+	font-weight: bold;
+}
+.nav-tabs>li>a {
+	font-size: 16px;
+}
+.admin.evc-content .nav-tabs {
+	margin-bottom: 20px;
+}
+.admin.evc-content .tab-content .strong {
+	font-weight: bold;
+	font-size: 16px;
+}
 /**
  * -------------------------------------------
  * 留言列表页面
