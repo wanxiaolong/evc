@@ -1,11 +1,12 @@
 package com.my.evc.controller;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -41,9 +42,23 @@ public class ScoreController extends BaseController {
 	@ResponseBody
 	public String uploadScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		//调用工具类处理文件上传请求
-		List<Map<String,String>> scoreList = FileUtil.handleUploadScore(request);
-		scoreService.uploadScore(scoreList);
+		Iterator<FileItem> itr = FileUtil.parseFromRequest(request);
+		
+		String examId = null;
+		FileItem fileItem = null;
+		while (itr.hasNext()) {
+			FileItem item = (FileItem) itr.next();
+			if (item.isFormField()) {
+				if (Constant.PARAM_EXAM_ID.equalsIgnoreCase(item.getFieldName())) {
+					examId = item.getString();
+				}
+			}
+			if (!item.isFormField()) {
+				fileItem = item;
+			}
+		}
+		
+		scoreService.uploadScore(examId, fileItem);
 		
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，

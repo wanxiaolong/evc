@@ -21,7 +21,14 @@ public class Score extends BaseModel {
 	private String experiment;		//实验
 	private String score1;			//预留字段1
 	private String score2;			//预留字段2
+	private String total;			//总分
 	
+	public String getTotal() {
+		return total;
+	}
+	public void setTotal(String total) {
+		this.total = total;
+	}
 	public int getStudentNumber() {
 		return studentNumber;
 	}

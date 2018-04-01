@@ -9,7 +9,6 @@ public class ScoreVo extends Score {
 	private String semesterName;		//考试名称
 	private String examName;			//考试名称
 	private String studentName;			//学生姓名
-	private double total;				//总分
 	private boolean isShowClassRank;	//是否显示班级排名
 	private boolean isShowGradeRank;	//是否显示年级排名
 	
@@ -42,11 +41,5 @@ public class ScoreVo extends Score {
 	}
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
-	}
-	public double getTotal() {
-		return total;
-	}
-	public void setTotal(double total) {
-		this.total = total;
 	}
 }

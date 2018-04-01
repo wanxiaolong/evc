@@ -16,7 +16,9 @@ public enum ScoreTitle {
 	GEOGRAPHY("地理"),
 	PHYSICAL("体育"),
 	EXPERIMENT("实验"),
-	SAFE("安法");
+	TOTAL("总分"),
+	SCORE1("成绩1"),
+	SCORE2("成绩2");
 	
 	private String title;
 	private ScoreTitle(String title) {

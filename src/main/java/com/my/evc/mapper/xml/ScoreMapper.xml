@@ -5,25 +5,25 @@
 	<insert id="create" parameterType="com.my.evc.model.Score" keyProperty="id" useGeneratedKeys="true">
 		insert into score
 			(student_number,exam_id,chinese,math,english,physics,chemistry,
-			biologic,politics,history,geography,physical,experiment,score1,score2) 
+			biologic,politics,history,geography,physical,experiment,score1,score2,total) 
 		values
 			(#{studentNumber},#{examId},#{chinese},#{math},
 			#{english},#{physics},#{chemistry},
 			#{biologic},#{politics},#{history},#{geography},
-			#{physical},#{experiment},#{score1},#{score2})
+			#{physical},#{experiment},#{score1},#{score2},#{total})
 	</insert>
 	
 	<insert id="createBatch" parameterType="java.util.List">
 		insert into score
 			(student_number,exam_id,chinese,math,english,physics,chemistry,
-			biologic,politics,history,geography,physical,experiment,score1,score2) 
+			biologic,politics,history,geography,physical,experiment,score1,score2,total) 
 		values
 		<!-- 对于List类型的参数，这里的collection直接写list就好 -->
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.studentNumber},#{item.examId},#{item.chinese},#{item.math},
-			#{item.english},#{item.physics},#{item.chemistry},
-			#{item.biologic},#{item.politics},#{item.history},#{item.geography},
-			#{item.physical},#{item.experiment},#{item.score1},#{item.score2})
+			(#{item.studentNumber},#{item.examId},#{item.chinese},#{item.math},#{item.english},
+			#{item.physics},#{item.chemistry},#{item.biologic},
+			#{item.politics},#{item.history},#{item.geography},#{item.physical},
+			#{item.experiment},#{item.score1},#{item.score2},#{item.total})
 		</foreach>
 	</insert>
 	
@@ -46,7 +46,8 @@
 			physical=#{physical},
 			experiment=#{experiment},
 			score1=#{score1},
-			score2=#{score2}
+			score2=#{score2},
+			total=#{total}
 		where 
 			id=#{id}
 	</update>
@@ -68,6 +69,7 @@
 		score.experiment as experiment,
 		score.score1 as score1,
 		score.score2 as score2,
+		score.total as total,
 		score.creation_date as creationDate
 	</sql>
 	

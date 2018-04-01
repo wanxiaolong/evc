@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -33,34 +34,28 @@ public class ExcelUtil {
 	 * 读取成绩表的Excel，第一行为表头，剩下的行数为成绩。结果将包含在一个List&lt;Map&gt;中，
 	 * List中的每一个Map表示一个学生一次考试的所有科目的成绩。
 	 */
-	public static List<Map<String, String>> loadExcel(InputStream is, String fileName) 
+	public static List<Map<String, String>> loadExcel(FileItem item) 
 			throws BusinessException, IOException {
 		//把读取到的成绩保存到这个List<Map>中，每一行用一个Map装
 		List<Map<String, String>> scoreList = new ArrayList<Map<String, String>>();
-		
 		//创建工作簿
-		Workbook workbook = createWorkbook(is, fileName);
-		//创建公式计算器
-		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+		Workbook workbook = createWorkbook(item.getInputStream(), item.getName());
 		//获取工作表
 		Sheet sheet = workbook.getSheetAt(0);
+		//创建公式计算器
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 		//获取行数
 		int rows = sheet.getPhysicalNumberOfRows();
 		//读取前先检查有效行数。第一行为表头，所以此处的行数应>=2
 		if (rows < 2) {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_NO_SCORE);
 		}
+		
+		//处理表头
+		Map<Integer, String> headerMap = getExcelHeaderRow(sheet);
+		
 		//获取表头单元格个数
 		int cells = sheet.getRow(0).getPhysicalNumberOfCells();
-		
-		//处理表头，把表头的数据按照索引放在Map中，便于以后使用
-		Row headerRow = sheet.getRow(0);
-		Map<Integer, String> headerMap = new HashMap<Integer, String>();
-		for (int j=0; j<cells; j++) {
-			Cell cell = headerRow.getCell(j);
-			headerMap.put(cell.getColumnIndex(), cell.getStringCellValue());
-		}
-		
 		//成绩的行数从1开始
 		for (int i=1; i<rows; i++) {
 			Map<String, String> scoreMap = new HashMap<String, String>();
@@ -75,19 +70,20 @@ public class ExcelUtil {
 					switch (cellType) {
 						case NUMERIC:
 							value = Double.toString(cell.getNumericCellValue());
-							if (value.endsWith(".0")) {
-								value = value.substring(0, value.length() - 2);
-							}
 							break;
 						case STRING:
 							value = cell.getStringCellValue();
 							break;
-						case FORMULA:
+						case FORMULA://Excel中有的单元格是公式
 							value = evaluateFormulaCell(evaluator, cell);
 							break;
 						default:
 							break;
 					}
+				}
+				//去掉成绩末尾的".0"（如果有）
+				if (value.endsWith(".0")) {
+					value = value.substring(0, value.length() - 2);
 				}
 				
 				//把成绩保存到Score对象中
@@ -103,6 +99,36 @@ public class ExcelUtil {
 		
 		LOGGER.info("读取Excel完成！读取到的成绩：" + scoreList.size());
 		return scoreList;
+	}
+	
+	/**
+	 * 获取Excel中的第一行。用于校验该Excel中的科目名称和顺序是否和数据库中的“考试”对象一致。
+	 * @return Map Key是列的索引（从0开始），Value是列名字
+	 * @see #getExcelHeaderRow(InputStream, String)
+	 */
+	public static Map<Integer, String> getExcelHeaderRow(Sheet sheet) {
+		//获取表头单元格个数
+		int cells = sheet.getRow(0).getPhysicalNumberOfCells();
+		//处理表头，把表头的数据按照索引放在Map中，便于以后使用
+		Row headerRow = sheet.getRow(0);
+		Map<Integer, String> headerMap = new HashMap<Integer, String>();
+		for (int j=0; j<cells; j++) {
+			Cell cell = headerRow.getCell(j);
+			headerMap.put(cell.getColumnIndex(), cell.getStringCellValue());
+		}
+		return headerMap;
+	}
+	
+	/**
+	 * 获取Excel中的第一行。用于校验该Excel中的科目名称和顺序是否和数据库中的“考试”对象一致。
+	 * @return Map Key是列的索引（从0开始），Value是列名字
+	 */
+	public static Map<Integer, String> getHeaderRow(InputStream is, String fileName) throws IOException {
+		//创建工作簿
+		Workbook workbook = createWorkbook(is, fileName);
+		//获取工作表
+		Sheet sheet = workbook.getSheetAt(0);
+		return getExcelHeaderRow(sheet);
 	}
 	
 	/**
