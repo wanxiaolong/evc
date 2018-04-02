@@ -62,7 +62,7 @@ public class ScoreService implements BaseService<Score> {
 	 * 处理成绩上传请求。上传的文件只能是.xls或.xlsx结尾的（只能是Excel文件），否则会报异常。<br>
 	 * 系统会读取Excel中的数据，并返回一个成绩对象的列表。
 	 * 
-	 * @return List对象。 List里面是多个Map，每一个Map代表每个学生在某次考试的各科的成绩。
+	 * @return 插入的行数。
 	 */
 	public int uploadScore(String examId, FileItem fileItem) throws DaoException, BusinessException, IOException {
 		//如果没有读取到考试信息，直接报错
@@ -109,6 +109,36 @@ public class ScoreService implements BaseService<Score> {
 		}
 		LOGGER.info("插入数据库完成！已插入：" + rows);
 		return rows;
+	}
+	
+	/**
+	 * 处理批量成绩上传请求。上传的文件只能是.zip，否则会报异常。<br>
+	 * 系统会执行以下操作：
+	 * 1. 解压zip文件
+	 * 2. 根据文件夹名创建学期（如果学期不存在）
+	 * 3. 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数
+	 * 4. 读取Excel中的数据并插入数据库
+	 * 5. 返回插入的行数
+	 * 
+	 * @return 插入的行数。
+	 */
+	public int uploadBatchScore(FileItem fileItem) throws Exception {
+		
+		//1. 解压zip文件
+		FileUtil.unzip(fileItem);
+		
+		
+		//2. 根据文件夹名创建学期（如果学期不存在）
+		
+		
+		//3. 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数
+		
+		
+		//4. 读取Excel中的数据并插入数据库
+		
+		
+		//5. 返回插入的行数
+		return 0;
 	}
 	
 	/**

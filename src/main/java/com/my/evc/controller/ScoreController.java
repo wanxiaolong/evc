@@ -67,6 +67,32 @@ public class ScoreController extends BaseController {
 	}
 	
 	/**
+	 * 批量成绩上传。这里上传的是一个包含Excel的文件夹。
+	 */
+	@RequirePermission(permissions = {Permission.SCORE_ADD})
+	@RequestMapping(value = "/uploadbatch", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadBatchScore(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		Iterator<FileItem> itr = FileUtil.parseFromRequest(request);
+		
+		FileItem fileItem = null;
+		while (itr.hasNext()) {
+			FileItem item = (FileItem) itr.next();
+			if (!item.isFormField()) {
+				fileItem = item;
+			}
+		}
+		
+		scoreService.uploadBatchScore(fileItem);
+		
+		response.setStatus(HttpServletResponse.SC_CREATED);
+		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
+		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
+		return EMPTY_JSON;
+	}
+	
+	/**
 	 * 执行成绩查询。本方法同时支持查询个人成绩和查询全班成绩。如果name未指定，则查询全班成绩。<br>
 	 * 注意这里返回的是Json对象，非视图对象。
 	 */

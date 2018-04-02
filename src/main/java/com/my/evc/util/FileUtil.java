@@ -1,5 +1,7 @@
 package com.my.evc.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +10,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipInputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +30,11 @@ import com.my.evc.exception.BusinessException;
  * 文件工具类。
  */
 public class FileUtil {
+	
+	/**
+	 * 解压的临时目录 
+	 */
+	private static final String UPZIP_PATH = "C:\\Users\\万小龙\\Desktop\\upload\\tmp";
 	
 	/**
 	 * 处理文件上传的请求。
@@ -93,4 +101,45 @@ public class FileUtil {
 		return itr;
 	}
 
+	/**
+	 * 解压缩zip包
+	 * @param zipFilePath zip文件的全路径
+	 * @param unzipFilePath 解压后的文件保存的路径
+	 * @param includeZipFileName 解压后的文件保存的路径是否包含压缩文件的文件名。true-包含；false-不包含
+	 */
+	public static void unzip(FileItem fileItem) throws Exception {
+		String fileName = fileItem.getName();
+		InputStream inputStream = fileItem.getInputStream();
+		
+		// 创建解压缩文件保存的路径
+		File unzipFileDir = new File(UPZIP_PATH);
+		if (!unzipFileDir.exists() || !unzipFileDir.isDirectory()) {
+			unzipFileDir.mkdirs();
+		}
+
+		// 构建压缩包中一个文件解压后保存的文件全路径
+		String subFolder = fileName.substring(0, fileName.lastIndexOf(".zip"));
+		String entryFilePath = UPZIP_PATH + File.separator + subFolder;
+		
+		// 创建解压文件
+		File entryFile = new File(entryFilePath);
+		if (entryFile.exists()) {
+			// 检测文件是否允许删除，如果不允许删除，将会抛出SecurityException
+			SecurityManager securityManager = new SecurityManager();
+			securityManager.checkDelete(entryFilePath);
+			// 删除已存在的目标文件
+			entryFile.delete();
+		}
+
+		// 写入文件
+		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(entryFile));
+		BufferedInputStream bis = new BufferedInputStream(new ZipInputStream(inputStream));
+		byte[] buffer = new byte[1024];
+		int count = 0;
+		while ((count = bis.read(buffer, 0, buffer.length)) != -1) {
+			bos.write(buffer, 0, count);
+		}
+		bos.flush();
+		bos.close();
+	}
 }

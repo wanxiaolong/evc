@@ -100,7 +100,7 @@
 					<p>在“2016~2017下学期”文件夹中包含第一学月.xls，第二学月.xls，期末考试.xls，</p>
 					<p>在“2017~2018上学期”文件夹中包含半期考试.xls，期末考试.xls，然后选择这两个文件夹的父文件夹即可</p>
 				</div>
-				<div class="upload-div">
+				<div class="upload-batch-div">
 					<input id="upload-batch" name="input-b1" type="file">
 				</div>
 			</div>
