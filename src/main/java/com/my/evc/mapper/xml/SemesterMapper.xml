@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Semester" keyProperty="id" useGeneratedKeys="true">
 		insert into semester
-			(admin_id,name,year,number) 
+			(name,year,number) 
 		values
-			(#{adminId},#{name},#{year},#{number})
+			(#{name},#{year},#{number})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,7 +16,6 @@
 	<update id="update" parameterType="com.my.evc.model.Semester">
 		update semester 
 		set 
-			admin_id=#{adminId},
 			name=#{name}, 
 			year=#{year}, 
 			number=#{number}
@@ -26,7 +25,6 @@
 	
 	<sql id="all_fields">
 		id as id,
-		admin_id as adminId,
 		name as name, 
 		year as year, 
 		number as number,

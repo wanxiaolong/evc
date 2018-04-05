@@ -60,4 +60,8 @@ https://blog.csdn.net/u012374381/article/details/72629233
 19. Resolve fileinput plugin cannot localize to Chinese and cannot send upload request.
 https://segmentfault.com/q/1010000007297759
 
+20. Cannot unzip with default UTF-8 charset: java.lang.IllegalArgumentException: MALFORMED
+https://stackoverflow.com/questions/20013091/java-unzip-error-malformed
+
+
 

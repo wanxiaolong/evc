@@ -3,14 +3,18 @@ package com.my.evc.util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +38,7 @@ public class FileUtil {
 	/**
 	 * 解压的临时目录 
 	 */
-	private static final String UPZIP_PATH = "C:\\Users\\万小龙\\Desktop\\upload\\tmp";
+	private static final String UNZIP_PATH = "C:\\Users\\万小龙\\Desktop\\upload\\tmp";
 	
 	/**
 	 * 处理文件上传的请求。
@@ -66,7 +70,7 @@ public class FileUtil {
 			if (Constant.ALLOWED_FILE_EXTENSION.contains(fileExtension)) {
 				InputStream in = fileItem.getInputStream();
 				//先检查该Excel的表头是否符合要求
-				Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(in, fileName);
+				Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(ExcelUtil.getSheet0(in, fileName));
 				return headerMap;
 			} else {
 				throw new BusinessException(ErrorEnum.INVALID_EXCEL_UNSUPPORTED_TYPE);
@@ -100,46 +104,70 @@ public class FileUtil {
 		Iterator<FileItem> itr = items.iterator();
 		return itr;
 	}
-
+	
 	/**
-	 * 解压缩zip包
-	 * @param zipFilePath zip文件的全路径
-	 * @param unzipFilePath 解压后的文件保存的路径
-	 * @param includeZipFileName 解压后的文件保存的路径是否包含压缩文件的文件名。true-包含；false-不包含
+	 * 先把上传的文件保存在临时文件夹里。
 	 */
-	public static void unzip(FileItem fileItem) throws Exception {
-		String fileName = fileItem.getName();
-		InputStream inputStream = fileItem.getInputStream();
-		
-		// 创建解压缩文件保存的路径
-		File unzipFileDir = new File(UPZIP_PATH);
-		if (!unzipFileDir.exists() || !unzipFileDir.isDirectory()) {
-			unzipFileDir.mkdirs();
+	public static File saveStreamToFile(FileItem item) throws FileNotFoundException, IOException {
+		File file = new File(UNZIP_PATH + File.separator + item.getName());
+		if(file.exists()) {
+			file.delete();
 		}
+		copyStream(item.getInputStream(), new FileOutputStream(file));
+		return file;
+	}
+	
 
-		// 构建压缩包中一个文件解压后保存的文件全路径
-		String subFolder = fileName.substring(0, fileName.lastIndexOf(".zip"));
-		String entryFilePath = UPZIP_PATH + File.separator + subFolder;
+	public static void main(String[] args) throws Exception {
+		File file = new File(UNZIP_PATH + File.separator + "2018~2019上学期.zip");
+		unzip(file);
+	}
+	
+	/**
+	 * 解压文件。
+	 * 需要注意的是，创建ZipFile对象的时候需要制定Charset，否则会使用默认的UTF-8编码，此时如果文件夹中有中文字符，
+	 * 则会出现<pre>java.lang.IllegalArgumentException: MALFORMED</pre>的错误。详情参见help.txt文档的#20。<br>
+	 * 这里要求解压后的文件夹是基于“学期”命名的，比如“2018~2019上学期”，而里面包含了该学期的所有考试成绩的Excel，
+	 * 文件的名字即为考试名字，比如“第一学月考试.xlsx”
+	 */
+	public static void unzip(File file) throws IOException {
+		ZipFile zip = new ZipFile(file, Charset.forName("GBK"));
+		//确保目标文件夹存在
+		new File(UNZIP_PATH).mkdir();
+		Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
 		
-		// 创建解压文件
-		File entryFile = new File(entryFilePath);
-		if (entryFile.exists()) {
-			// 检测文件是否允许删除，如果不允许删除，将会抛出SecurityException
-			SecurityManager securityManager = new SecurityManager();
-			securityManager.checkDelete(entryFilePath);
-			// 删除已存在的目标文件
-			entryFile.delete();
-		}
+		while (zipFileEntries.hasMoreElements()) {
+			ZipEntry entry = zipFileEntries.nextElement();
+			String entryName = entry.getName();
+			System.out.println("正在提取：" + entryName);
 
-		// 写入文件
-		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(entryFile));
-		BufferedInputStream bis = new BufferedInputStream(new ZipInputStream(inputStream));
-		byte[] buffer = new byte[1024];
-		int count = 0;
-		while ((count = bis.read(buffer, 0, buffer.length)) != -1) {
-			bos.write(buffer, 0, count);
+			//entryName是基于压缩文件的路径，可能包含多层子目录。比如，
+			//压缩文件的根目录为path，那么entryName可以为path/sub1/sub2/file1.txt
+			File destFile = new File(UNZIP_PATH, entryName);
+			
+			//这里需要确保文件不存在，而且父目录存在
+			if(destFile.exists()) {
+				destFile.delete();
+			}
+			destFile.getParentFile().mkdirs();
+
+			if (entry.isDirectory()) {
+				//如果该entry是文件夹
+				destFile.mkdir();
+			} else {
+				//如果该entry是文件
+				int currentByte;
+				byte buffer[] = new byte[2048];
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(destFile));
+				BufferedInputStream bis = new BufferedInputStream(zip.getInputStream(entry));
+				while ((currentByte = bis.read(buffer)) != -1) {
+					bos.write(buffer, 0, currentByte);
+				}
+				bos.flush();
+				bos.close();
+				bis.close();
+			}
 		}
-		bos.flush();
-		bos.close();
+		zip.close();
 	}
 }

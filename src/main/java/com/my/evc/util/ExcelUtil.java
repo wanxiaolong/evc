@@ -34,12 +34,12 @@ public class ExcelUtil {
 	 * 读取成绩表的Excel，第一行为表头，剩下的行数为成绩。结果将包含在一个List&lt;Map&gt;中，
 	 * List中的每一个Map表示一个学生一次考试的所有科目的成绩。
 	 */
-	public static List<Map<String, String>> loadExcel(FileItem item) 
+	public static List<Map<String, String>> loadExcel(InputStream stream, String name) 
 			throws BusinessException, IOException {
 		//把读取到的成绩保存到这个List<Map>中，每一行用一个Map装
 		List<Map<String, String>> scoreList = new ArrayList<Map<String, String>>();
 		//创建工作簿
-		Workbook workbook = createWorkbook(item.getInputStream(), item.getName());
+		Workbook workbook = createWorkbook(stream, isNewVersionExcel(name));
 		//获取工作表
 		Sheet sheet = workbook.getSheetAt(0);
 		//创建公式计算器
@@ -52,7 +52,7 @@ public class ExcelUtil {
 		}
 		
 		//处理表头
-		Map<Integer, String> headerMap = getExcelHeaderRow(sheet);
+		Map<Integer, String> headerMap = getHeaderRow(sheet);
 		
 		//获取表头单元格个数
 		int cells = sheet.getRow(0).getPhysicalNumberOfCells();
@@ -102,11 +102,19 @@ public class ExcelUtil {
 	}
 	
 	/**
+	 * @see #loadExcel(InputStream, String)
+	 */
+	public static List<Map<String, String>> loadExcel(FileItem item) 
+			throws BusinessException, IOException {
+		return loadExcel(item.getInputStream(), item.getName());
+	}
+	
+	/**
 	 * 获取Excel中的第一行。用于校验该Excel中的科目名称和顺序是否和数据库中的“考试”对象一致。
 	 * @return Map Key是列的索引（从0开始），Value是列名字
 	 * @see #getExcelHeaderRow(InputStream, String)
 	 */
-	public static Map<Integer, String> getExcelHeaderRow(Sheet sheet) {
+	public static Map<Integer, String> getHeaderRow(Sheet sheet) {
 		//获取表头单元格个数
 		int cells = sheet.getRow(0).getPhysicalNumberOfCells();
 		//处理表头，把表头的数据按照索引放在Map中，便于以后使用
@@ -120,15 +128,14 @@ public class ExcelUtil {
 	}
 	
 	/**
-	 * 获取Excel中的第一行。用于校验该Excel中的科目名称和顺序是否和数据库中的“考试”对象一致。
-	 * @return Map Key是列的索引（从0开始），Value是列名字
+	 * 获取该流代表的Excel的第一个Sheet。
 	 */
-	public static Map<Integer, String> getHeaderRow(InputStream is, String fileName) throws IOException {
+	public static Sheet getSheet0(InputStream is, String fileName) throws IOException {
 		//创建工作簿
-		Workbook workbook = createWorkbook(is, fileName);
+		Workbook workbook = createWorkbook(is, isNewVersionExcel(fileName));
 		//获取工作表
 		Sheet sheet = workbook.getSheetAt(0);
-		return getExcelHeaderRow(sheet);
+		return sheet;
 	}
 	
 	/**
@@ -156,13 +163,19 @@ public class ExcelUtil {
 	 * <li>.xlsx -> from Excel new versions</li>
 	 * </ul>
 	 */
-	private static Workbook createWorkbook(InputStream is, String fileName) throws IOException {
-		if (fileName.endsWith(".xls")) {
-			return new HSSFWorkbook(is);
-		}else if (fileName.endsWith(".xlsx")) {
+	private static Workbook createWorkbook(InputStream is, boolean isNewVersionExcel) throws IOException {
+		if (isNewVersionExcel) {
 			return new XSSFWorkbook(is);
 		}
-		return null;
+		return new HSSFWorkbook(is);
+	}
+	
+	/**
+	 * 判定一个文件是否是新版的Excel，系统将根据不同的Excel后缀进行不同的处理。
+	 */
+	private static boolean isNewVersionExcel(String fileName) {
+		String fileNameSuffix = fileName.substring(fileName.lastIndexOf("."));
+		return ".xlsx".equalsIgnoreCase(fileNameSuffix);
 	}
 }
 
