@@ -65,7 +65,13 @@ function uploadBatchConfig() {
 	uploadConfig.maxFileCount = 20; //表示允许同时上传的最大文件个数;
 	$("#upload-batch").fileinput(uploadConfig).on("fileuploaded", function (event, data, previewId, index){
 		//上传成功后的回调
-		console.log("批量上传成功！event=" + event + ", data=" + data + ", previewId=" + previewId + ", index=" + index);
+		if (data.jqXHR.responseJSON.status == 0) {
+			toastr.success("批量上传成功！");
+		} else {
+			var msg = "上传失败的文件：" + data.jqXHR.responseJSON.response;
+			toastr.success(msg);
+			console.log(msg);
+		}
 	});
 }
 
