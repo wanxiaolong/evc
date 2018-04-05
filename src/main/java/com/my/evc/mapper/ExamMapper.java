@@ -24,4 +24,11 @@ public interface ExamMapper extends BaseMapper<Exam> {
 	 * 查找最近一次考试信息
 	 */
 	public ExamVo findLastExam();
+	
+	/**
+	 * 根据学期和考试名字查找，结果只有一个。
+	 */
+	public Exam findBySemesterAndName(
+			@Param("semesterNumber") int semesterNumber,
+			@Param("examName") String examName);
 }

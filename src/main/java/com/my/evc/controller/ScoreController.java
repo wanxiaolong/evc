@@ -72,7 +72,7 @@ public class ScoreController extends BaseController {
 	@RequirePermission(permissions = {Permission.SCORE_ADD})
 	@RequestMapping(value = "/uploadbatch", method = RequestMethod.POST)
 	@ResponseBody
-	public String uploadBatchScore(HttpServletRequest request, 
+	public JsonResponse<List<String>> uploadBatchScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
 		Iterator<FileItem> itr = FileUtil.parseFromRequest(request);
 		
@@ -84,12 +84,12 @@ public class ScoreController extends BaseController {
 			}
 		}
 		
-		scoreService.uploadBatchScore(fileItem);
+		List<String> failedFiles = scoreService.uploadBatchScore(fileItem);
 		
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
-		return EMPTY_JSON;
+		return new JsonResponse<List<String>>(SUCCESS, failedFiles);
 	}
 	
 	/**

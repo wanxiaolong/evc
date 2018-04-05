@@ -1,5 +1,7 @@
 package com.my.evc.util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -108,6 +110,13 @@ public class ExcelUtil {
 			throws BusinessException, IOException {
 		return loadExcel(item.getInputStream(), item.getName());
 	}
+	/**
+	 * @see #loadExcel(InputStream, String)
+	 */
+	public static List<Map<String, String>> loadExcel(File file) 
+			throws BusinessException, IOException {
+		return loadExcel(new FileInputStream(file), file.getName());
+	}
 	
 	/**
 	 * 获取Excel中的第一行。用于校验该Excel中的科目名称和顺序是否和数据库中的“考试”对象一致。
@@ -136,6 +145,13 @@ public class ExcelUtil {
 		//获取工作表
 		Sheet sheet = workbook.getSheetAt(0);
 		return sheet;
+	}
+	
+	/**
+	 * @see #getSheet0(InputStream, String)
+	 */
+	public static Sheet getSheet0(File file) throws IOException {
+		return getSheet0(new FileInputStream(file), file.getName());
 	}
 	
 	/**

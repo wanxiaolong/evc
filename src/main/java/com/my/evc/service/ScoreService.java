@@ -1,7 +1,6 @@
 package com.my.evc.service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,7 +93,7 @@ public class ScoreService implements BaseService<Score> {
 		//检查Excel文件中的科目是否和系统一致
 		Map<Integer, String> headerMap = FileUtil.handleFileItem(fileItem);
 		if (!isExcelHeaderLegal(headerMap, examId)) {
-			throw new BusinessException(ErrorEnum.INVALID_EXCEL_EXAM_NOT_MATCH);
+			throw new BusinessException(ErrorEnum.INVALID_EXCEL_SUBJECT_NOT_MATCH);
 		}
 		
 		//读取Excel中的成绩
@@ -106,35 +105,55 @@ public class ScoreService implements BaseService<Score> {
 	/**
 	 * 处理批量成绩上传请求。上传的文件只能是.zip，否则会报异常。<br>
 	 * 系统会执行以下操作：
-	 * 1. 解压zip文件
-	 * 2. 根据文件夹名创建学期（如果学期不存在）
-	 * 3. 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数
-	 * 4. 读取Excel中的数据并插入数据库
-	 * 5. 返回插入的行数
+	 * 1. 把zip文件保存在临时目录
+	 * 2. 解压zip文件
+	 * 3. 根据文件夹名创建学期（如果学期不存在）
+	 * 4. 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数
+	 * 5. 读取Excel中的数据并插入数据库
+	 * 6. 返回插入失败的文件
 	 * 
 	 * @return 插入的行数。
 	 */
-	public int uploadBatchScore(FileItem item) throws Exception {
-		//1. 解压zip文件
-		File file = FileUtil.saveStreamToFile(item);
+	public List<String> uploadBatchScore(FileItem item) throws Exception {
+		//1. 把zip文件保存在临时目录
+		File zipFile = FileUtil.saveStreamToFile(item);
 		
-		FileUtil.unzip(file);
+		//2. 解压zip文件
+		FileUtil.unzip(zipFile);
+		//zipPath: path/to/2018~2019上学期.zip
+		String zipPath = zipFile.getPath();
 		
-		//2. 根据文件夹名创建学期（如果学期不存在）
-		Semester semester = createSemester("2018~2019上学期");
-		initSubjects();
-		String[] examNames = {"期末考试.xlsx"};
-		for (String examName : examNames) {
-			//3. 根据Excel文件名创建考试
-			Exam exam = createExam(semester, examName);
-			
-			//4. 读取Excel中的数据并插入数据库
-			List<Map<String, String>> scoreList = ExcelUtil.loadExcel(new FileInputStream(examName), examName);
-			saveScoreForExam(String.valueOf(exam.getId()), scoreList);
+		//extractedFolder代表解压后的文件夹，这是一个按“学期”命名的文件夹
+		File extractedFolder = new File(zipPath.substring(0, zipPath.lastIndexOf(".zip")));
+		
+		//3. 根据文件夹名创建学期（如果学期不存在）
+		String semesterName = extractedFolder.getName();
+		Semester semester = semesterMapper.findByName(semesterName);
+		if (semester == null) {
+			semester = createSemester(semesterName);
 		}
 		
-		//5. 返回插入的行数
-		return 0;
+		//4. 根据Excel文件名创建考试。每一个scoreFile应该是一个Excel文件。
+		initSubjects();
+		List<String> failedFiles = new ArrayList<String>();
+		for (File examScoreFile : extractedFolder.listFiles()) {
+			if (examScoreFile.isFile()) {
+				String examName = examScoreFile.getName();
+				Exam exam = createExam(semester, examScoreFile);
+				
+				//5. 读取Excel中的数据并插入数据库。这里如果出错，也继续上传后续文件。不中断。
+				List<Map<String, String>> scoreList = ExcelUtil.loadExcel(examScoreFile);
+				try {
+					saveScoreForExam(String.valueOf(exam.getId()), scoreList);
+				} catch (BusinessException e) {
+					LOGGER.error("上传成绩失败，文件名：" + examName, e);
+					failedFiles.add(semesterName + File.separator + examName);
+				}
+			}
+		}
+		
+		//5. 返回上传失败的文件列表
+		return failedFiles;
 	}
 	
 	/**
@@ -169,16 +188,28 @@ public class ScoreService implements BaseService<Score> {
 
 	/**
 	 * 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数。
+	 * @param examName 带后缀的Excel文件名，例如：abc.xlsx。
 	 */
-	private Exam createExam(Semester semester, String examName) throws DaoException, FileNotFoundException, IOException {
-		Sheet sheet = ExcelUtil.getSheet0(new FileInputStream(examName), examName);
+	private Exam createExam(Semester semester, File examScoreFile) throws DaoException, 
+		FileNotFoundException, IOException, BusinessException {
+		String examName = examScoreFile.getName();
+		String dbExamName = examName.substring(0, examName.lastIndexOf(".xls"));
 		
+		//如果数据库中共有这个考试，则无需创建。管理员可在考试管理页面修改该考试的信息。
+		Exam exam = examMapper.findBySemesterAndName(semester.getNumber(), dbExamName);
+		if (exam != null) {
+			return exam;
+		} else {
+			exam = new Exam();
+		}
+		
+		Sheet sheet = ExcelUtil.getSheet0(examScoreFile);
 		//读取Excel中的列数
 		String subjectIds = getSubjectIdsByExam(sheet);
 		
-		Exam exam = new Exam();
-		exam.setName(examName.substring(0, examName.lastIndexOf(".")));
-		exam.setPeople(sheet.getPhysicalNumberOfRows());//读取Excel中的数据行数
+		exam.setName(dbExamName);
+		//读取Excel中的数据行数，第一行为表头，不是成绩。所以有效行数要-1
+		exam.setPeople(sheet.getPhysicalNumberOfRows() - 1);
 		exam.setSemesterNumber(semester.getNumber());
 		exam.setShowClassRank(false);//默认不显示排名
 		exam.setShowGradeRank(false);
@@ -191,17 +222,23 @@ public class ScoreService implements BaseService<Score> {
 	 * 通过Excel文件的名字，获取准备创建的考试的科目ID集合。
 	 * @return 代表该考试的科目ID的字符串：比如：1,2,3
 	 */
-	private String getSubjectIdsByExam(Sheet sheet) throws IOException, FileNotFoundException {
+	private String getSubjectIdsByExam(Sheet sheet) throws IOException, FileNotFoundException, BusinessException {
 		String subjectIds = "";
 		Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(sheet);
 		for (int i = 5; i < headerMap.size(); i++) {
 			String subjectName = headerMap.get(i);
+			if ("总分".equals(subjectName.trim())){
+				continue;
+			}
 			String subjectId = subjectMap.inverse().get(subjectName);
+			if (subjectId == null) {
+				throw new BusinessException(ErrorEnum.INVALID_EXCEL_SUBJECT_NOT_EXIST);
+			}
 			subjectIds += subjectId + ",";
 		}
 		//去掉最后一个逗号
 		if (subjectIds.length() > 1) {
-			subjectIds = subjectIds.substring(subjectIds.length() - 1);
+			subjectIds = subjectIds.substring(0, subjectIds.length() - 1);
 		}
 		return subjectIds;
 	}

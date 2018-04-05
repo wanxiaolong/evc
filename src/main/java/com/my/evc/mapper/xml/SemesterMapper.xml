@@ -37,6 +37,12 @@
 		from semester where id=#{id}
 	</select>
 	
+	<select id="findByName" parameterType="String" resultType="com.my.evc.model.Semester">
+		select
+			<include refid="all_fields"/>
+		from semester where name=#{semesterName}
+	</select>
+	
 	<select id="findAll" resultType="com.my.evc.model.Semester">
 		select
 			<include refid="all_fields"/>

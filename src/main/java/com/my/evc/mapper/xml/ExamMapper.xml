@@ -61,6 +61,12 @@
 		from exam where semester_number=#{semesterNumber}
 	</select>
 	
+	<select id="findBySemesterAndName" parameterType="map" resultType="com.my.evc.model.Exam">
+		select
+			<include refid="all_fields"/>
+		from exam where semester_number=#{semesterNumber} and name=#{examName}
+	</select>
+	
 	<select id="findLastExam" resultType="com.my.evc.vo.ExamVo">
 		select
 			<include refid="all_fields"/>,

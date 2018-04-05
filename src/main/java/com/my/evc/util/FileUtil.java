@@ -23,6 +23,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import com.my.evc.common.Constant;
@@ -39,6 +40,7 @@ public class FileUtil {
 	 * 解压的临时目录 
 	 */
 	private static final String UNZIP_PATH = "C:\\Users\\万小龙\\Desktop\\upload\\tmp";
+	private static final Logger LOGGER = Logger.getLogger(FileUtil.class);
 	
 	/**
 	 * 处理文件上传的请求。
@@ -116,7 +118,6 @@ public class FileUtil {
 		copyStream(item.getInputStream(), new FileOutputStream(file));
 		return file;
 	}
-	
 
 	public static void main(String[] args) throws Exception {
 		File file = new File(UNZIP_PATH + File.separator + "2018~2019上学期.zip");
@@ -127,19 +128,19 @@ public class FileUtil {
 	 * 解压文件。
 	 * 需要注意的是，创建ZipFile对象的时候需要制定Charset，否则会使用默认的UTF-8编码，此时如果文件夹中有中文字符，
 	 * 则会出现<pre>java.lang.IllegalArgumentException: MALFORMED</pre>的错误。详情参见help.txt文档的#20。<br>
-	 * 这里要求解压后的文件夹是基于“学期”命名的，比如“2018~2019上学期”，而里面包含了该学期的所有考试成绩的Excel，
-	 * 文件的名字即为考试名字，比如“第一学月考试.xlsx”
+	 * <p>这里要求解压后的文件夹是基于“学期”命名的，比如“2018~2019上学期”，而里面包含了该学期的所有考试成绩的Excel，
+	 * 文件的名字即为考试名字，比如“第一学月考试.xlsx”。</p>
 	 */
 	public static void unzip(File file) throws IOException {
 		ZipFile zip = new ZipFile(file, Charset.forName("GBK"));
 		//确保目标文件夹存在
 		new File(UNZIP_PATH).mkdir();
 		Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
-		
+		LOGGER.info("当前文件：" + file.getPath());
 		while (zipFileEntries.hasMoreElements()) {
 			ZipEntry entry = zipFileEntries.nextElement();
 			String entryName = entry.getName();
-			System.out.println("正在提取：" + entryName);
+			LOGGER.info("正在提取：" + entryName);
 
 			//entryName是基于压缩文件的路径，可能包含多层子目录。比如，
 			//压缩文件的根目录为path，那么entryName可以为path/sub1/sub2/file1.txt
