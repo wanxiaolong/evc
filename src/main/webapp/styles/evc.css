@@ -396,7 +396,7 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 }
 /**
  * -------------------------------------------
- * 成绩上传页面(admin/score_upload.jsp)
+ * 管理员成绩上传页面(admin/score_upload.jsp)
  * -------------------------------------------
  */
 .admin.evc-content .content .subject-msg-div {
@@ -430,6 +430,17 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 	font-weight: bold;
 	font-size: 16px;
 }
+/**
+ * -------------------------------------------
+ * 管理员科目管理页面(admin/subject.jsp)
+ * -------------------------------------------
+ */
+tbody td button {
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+ 
 /**
  * -------------------------------------------
  * 留言列表页面

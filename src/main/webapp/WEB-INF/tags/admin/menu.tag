@@ -23,8 +23,13 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="<%=basePath%>/admin/subject.jsp">
 					<i class="fa fa-bar-chart"></i>科目管理
+				</a>
+			</li>
+			<li>
+				<a href="<%=basePath%>/admin/semester.jsp">
+					<i class="fa fa-bar-chart"></i>学期管理
 				</a>
 			</li>
 			<li>

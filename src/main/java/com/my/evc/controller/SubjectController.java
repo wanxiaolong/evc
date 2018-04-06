@@ -49,5 +49,47 @@ public class SubjectController extends BaseController {
 		List<Subject> subjects = subjectService.findAll();
 		return new JsonResponse<List<Subject>>(SUCCESS, subjects);
 	}
+
+	/**
+	 * 删除科目。
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> deleteById(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		subjectService.deleteByID(Integer.parseInt(id));
+		return new JsonResponse<Object>(SUCCESS, new Object());
+	}
+
+	/**
+	 * 新增科目。
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> create(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String name = request.getParameter(Constant.PARAM_NAME);
+		Subject subject = new Subject();
+		subject.setName(name);
+		subjectService.create(subject);
+		return new JsonResponse<Object>(SUCCESS, new Object());
+	}
 	
+	/**
+	 * 修改科目。
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> update(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		String name = request.getParameter(Constant.PARAM_NAME);
+		
+		Subject subject = new Subject();
+		subject.setId(Integer.parseInt(id));
+		subject.setName(name);
+		subjectService.update(subject);
+		return new JsonResponse<Object>(SUCCESS, new Object());
+	}
 }

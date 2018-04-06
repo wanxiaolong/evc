@@ -1,5 +1,5 @@
 /**
- * 本文件为score.jsp使用的初始化脚本。
+ * 本文件为admin/exam.jsp使用的初始化脚本。
  * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
 var allSubjects;//保存所有的科目信息
@@ -42,7 +42,6 @@ function queryAllExams() {
 			addRows(array);
 		},
 		error: function () {
-			alert("调用学生信息查询接口失败！");
 			console.log("调用查询接口失败！");
 		}
 	});

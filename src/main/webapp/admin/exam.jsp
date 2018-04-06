@@ -33,7 +33,7 @@
 			<div class="form-inline filter-block">
 				<div class="title">系统中的所有考试信息</div>
 				<div class="right">
-					<button class="btn btn-primary" id="addExamBtn" data-toggle='modal' data-target='#myModal'>
+					<button class="btn btn-primary btn-success" id="addExamBtn" data-toggle='modal' data-target='#myModal'>
 						<i class="fa fa-plus-circle"></i>添加考试
 					</button>
 				</div>
