@@ -21,7 +21,7 @@ $(document).ready(function(){
 	});
 	
 	//“增加考试”按钮的点击事件
-	$("#addExamBtn").click(function(){
+	$("#addBtn").click(function(){
 		addExam();
 	});
 	

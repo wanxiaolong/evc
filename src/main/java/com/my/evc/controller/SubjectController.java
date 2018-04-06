@@ -73,7 +73,7 @@ public class SubjectController extends BaseController {
 		Subject subject = new Subject();
 		subject.setName(name);
 		subjectService.create(subject);
-		return new JsonResponse<Object>(SUCCESS, new Object());
+		return new JsonResponse<Object>(SUCCESS, null);
 	}
 	
 	/**
@@ -90,6 +90,6 @@ public class SubjectController extends BaseController {
 		subject.setId(Integer.parseInt(id));
 		subject.setName(name);
 		subjectService.update(subject);
-		return new JsonResponse<Object>(SUCCESS, new Object());
+		return new JsonResponse<Object>(SUCCESS, null);
 	}
 }

@@ -13,6 +13,7 @@ public enum ErrorEnum {
 	INVALID_EXCEL_SUBJECT_NOT_MATCH(303, "无效Excel文件。科目和系统不符。"),
 	INVALID_EXCEL_SUBJECT_NOT_EXIST(303, "无效Excel文件。Excel中该科目不存在。"),
 	INVALID_ROLE(304, "无效的角色"),
+	INVALID_SEMESTER_NAME(304, "无效学期名字"),
 	
 	ILLEGAL_REQUEST_NO_EXAM_ID(401, "无效请求。参数中缺少exam_id"),
 	INVALID_VERIFY_CODE(402, "无效验证码"),
