@@ -144,6 +144,7 @@ function initDataTable(id) {
 			{ "sWidth": "150px", "targets": 2 },//学期
 			{ "sWidth": "150px", "targets": 3 },//考试
 			//----------------------------------//后续列为成绩列，宽度自动确定
+			{"targets": "_all", "defaultContent": ""}, 
 		],
 		bAutoWidth: false,
 		bPaginate: true,//是否显示分页器（左上角显示 ‘每页显示x条记录’）
