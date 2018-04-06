@@ -29,6 +29,6 @@ $(document).ready(function(){
 		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 	}).on("fileuploaded", function (event, data, previewId, index){
 		//上传成功后的回调
-		console.log("上传成功！event=" + event + ", data=" + data + ", previewId=" + previewId + ", index=" + index);
+		toastr.success("上传成功！data=" + data);
 	});
 });

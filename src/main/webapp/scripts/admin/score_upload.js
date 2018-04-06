@@ -70,7 +70,6 @@ function uploadBatchConfig() {
 		} else {
 			var msg = "上传失败的文件：" + data.jqXHR.responseJSON.response;
 			toastr.success(msg);
-			console.log(msg);
 		}
 	});
 }
@@ -88,7 +87,7 @@ function initUploadConfig(examId) {
 	
 	$("#upload-file").fileinput(uploadConfig).on("fileuploaded", function (event, data, previewId, index){
 		//上传成功后的回调
-		console.log("单文件上传成功！event=" + event + ", data=" + data + ", previewId=" + previewId + ", index=" + index);
+		toastr.success("单文件上传成功！data=" + data);
 	});
 }
 
@@ -148,8 +147,7 @@ function queryAllSubjects() {
 			}
 		},
 		error: function () {
-			alert("调用学生信息查询接口失败！");
-			console.log("调用查询接口失败！");
+			toastr.error("查询科目列表失败！");
 		}
 	});
 }

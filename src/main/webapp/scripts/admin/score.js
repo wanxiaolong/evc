@@ -72,7 +72,7 @@ function submitScoreUpdate() {
 				'&geography=' + geography,
 		success: function (data) {
 			if (data.status != 0) {
-				alert(data.errorMessage);
+				toastr.error(data.errorMessage);
 				return;
 			}
 			//隐藏模态框
@@ -111,14 +111,13 @@ function executeScoreQuery() {
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
-				alert(data.errorMessage);
+				toastr.error(data.errorMessage);
 				return;
 			}
 			addRows(array);
 		},
 		error: function () {
-			alert("调用成绩查询接口失败！");
-			console.log("调用查询接口失败！");
+			toastr.error("查询成绩失败！");
 		}
 	});
 }

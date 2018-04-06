@@ -42,7 +42,7 @@ function queryAllExams() {
 			addRows(array);
 		},
 		error: function () {
-			console.log("调用查询接口失败！");
+			toastr.error("查询所有学期列表失败！");
 		}
 	});
 }
@@ -120,7 +120,6 @@ function submitExamUpdate() {
 	});
 	
 	var isCreate = id == '';
-	console.log("isCreate=" + isCreate);
 	$.ajax({
 		type: 'POST',
 		url: webroot + (isCreate ? '/exam/create' : '/exam/update'),
@@ -134,7 +133,7 @@ function submitExamUpdate() {
 				'&semester_id=' + semesterNumber,
 		success: function (data) {
 			if (data.status != 0) {
-				alert(data.errorMessage);
+				toastr.error(data.errorMessage);
 				return;
 			}
 			//隐藏模态框

@@ -1,5 +1,11 @@
 //本文件定义了非常常用的公共方法。
 
+//用于配置消息提示插件toastr。nenxitong zhong suoyou d xiaoti tishi dou yong zhege chajian .
+toastr.options = {
+	positionClass: "toast-top-center", //显示消息的位置
+	timeOut: "3000",//显示的时间
+};
+
 /**
  * 获取App的根目录
  */
@@ -65,14 +71,13 @@ function queryAllSemesters() {
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
-				alert(data.errorMessage);
+				toastr.error(data.errorMessage);
 				return;
 			}
 			addSemesterOption(array);
 		},
 		error: function () {
-			alert("调用学生信息查询接口失败！");
-			console.log("调用查询接口失败！");
+			toastr.error("调用查询接口失败！");
 		}
 	});
 }
@@ -103,7 +108,7 @@ function initExamSelect(callback) {
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
-				alert(data.errorMessage);
+				toastr.error(data.errorMessage);
 				return null;
 			}
 			addExamOption(array)
@@ -113,7 +118,7 @@ function initExamSelect(callback) {
 			}
 		},
 		error: function () {
-			console.log("调用查询考试信息接口失败！");
+			toastr.error("调用查询考试信息接口失败！");
 			return null;
 		}
 	});
@@ -144,12 +149,6 @@ function setSelect2SelectedOption(elementId, selectedValue) {
 	select2.val(selectedValue).trigger("change");
 	select2.change();
 }
-
-//用于配置消息提示插件toastr
-toastr.options = {
-	positionClass: "toast-top-center", //显示消息的位置
-	timeOut: "3000",//显示的时间
-};
 
 //解决模态框中的select2不能搜索（不能获取焦点）的问题
 //https://blog.csdn.net/john1337/article/details/53315969

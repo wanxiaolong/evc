@@ -44,8 +44,7 @@ function queryLastExam() {
 		},
 		error: function () {
 			$(".score.evc-content .message").hide();
-			alert("调用学生信息查询接口失败！");
-			console.log("调用查询接口失败！");
+			toastr.error("查询最近一次考试失败！");
 		}
 	});
 }
@@ -60,8 +59,7 @@ function queryAllStudents() {
 			addNameOption(array);
 		},
 		error: function () {
-			alert("获取学生信息失败！");
-			console.log("调用查询接口失败！");
+			toastr.error("查询学生列表失败！");
 		}
 	});
 }
@@ -109,8 +107,7 @@ function executeScoreQuery() {
 			addRows(array);
 		},
 		error: function () {
-			alert("调用成绩查询接口失败！");
-			console.log("调用查询接口失败！");
+			toastr.error("查询成绩失败！");
 		}
 	});
 }

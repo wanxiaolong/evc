@@ -22,10 +22,6 @@
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/select2.min.js"></script>
 	<!-- Select2 language resource file -->
 	<script src="<%=basePath%>/vendor/select2-4.0.5/js/i18n/zh-CN.js"></script>
-	
-	<!-- For toastr(a message notifier plugin) -->
-	<link href="<%=basePath%>/vendor/toastr-2.1.3/css/toastr.min.css" rel="stylesheet"/>
-	<script src="<%=basePath%>/vendor/toastr-2.1.3/js/toastr.min.js"></script>
 </head>
 <body>
 	<common:page-header/>

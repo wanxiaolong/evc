@@ -46,7 +46,7 @@ function queryAllSubjects() {
 			addRows(array);
 		},
 		error: function () {
-			console.log("调用查询接口失败！");
+			toastr.error("调用查询接口失败！");
 		}
 	});
 }
@@ -94,8 +94,6 @@ function submitUpdate() {
 	var name = $("#edit-form input[name='name']").val();
 	
 	var isCreate = id == '';
-	console.log("isCreate=" + isCreate);
-	
 	$.ajax({
 		type: 'POST',
 		url: webroot + (isCreate ? '/subject/create' : '/subject/update'),
@@ -103,7 +101,7 @@ function submitUpdate() {
 				'&name=' + name,
 		success: function (data) {
 			if (data.status != 0) {
-				alert(data.errorMessage);
+				toastr.error(data.errorMessage);
 				return;
 			}
 			//隐藏模态框
