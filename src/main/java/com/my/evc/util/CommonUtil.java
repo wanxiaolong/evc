@@ -13,4 +13,13 @@ public class CommonUtil {
 		String uri = request.getRequestURI();
 		return method + ":" + uri;
 	}
+	
+	/**
+	 * 用于将客户端显示的“是”或“否”转换成boolean类型的值。是=true，否=false
+	 * @param s
+	 * @return
+	 */
+	public static boolean strToBool(String s) {
+		return "是".equals(s) ? true : false;
+	}
 }

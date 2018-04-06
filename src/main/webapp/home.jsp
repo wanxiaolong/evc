@@ -30,33 +30,11 @@
 			</p>
 		</div>
 		<div id="home_carousel" class="carousel slide">
-			<!-- 轮播（Carousel）指标 -->
-			<ol class="carousel-indicators">
-				<li data-target="#home_carousel" data-slide-to="0" class="active"></li>
-				<li data-target="#home_carousel" data-slide-to="1"></li>
-				<li data-target="#home_carousel" data-slide-to="2"></li>
-				<li data-target="#home_carousel" data-slide-to="3"></li>
-				<li data-target="#home_carousel" data-slide-to="4"></li>
-			</ol>
-			<!-- 轮播（Carousel）项目 -->
-			<div class="carousel-inner">
-				<div class="item active">
-					<img src="<%=basePath%>/images/slides/slide1.jpg" alt="打篮球">
-				</div>
-				<div class="item">
-					<img src="<%=basePath%>/images/slides/slide2.jpg" alt="乒乓球">
-				</div>
-				<div class="item">
-					<img src="<%=basePath%>/images/slides/slide3.jpg" alt="学生作品">
-				</div>
-				<div class="item">
-					<img src="<%=basePath%>/images/slides/slide5.jpg" alt="圣诞晚会">
-				</div>
-				<div class="item">
-					<img src="<%=basePath%>/images/slides/slide6.jpg" alt="一起学习">
-				</div>
-			</div>
-			<!-- 轮播（Carousel）控制按钮 -->
+			<!-- 轮播指示器，将会根据后端配置动态显示 -->
+			<ol class="carousel-indicators"></ol>
+			<!-- 轮播内容，将会根据后端配置动态显示 -->
+			<div class="carousel-inner"></div>
+			<!-- 轮播左右控制按钮 -->
 			<a class="carousel-control left" href="#home_carousel" data-slide="prev">&lsaquo;</a>
 			<a class="carousel-control right" href="#home_carousel" data-slide="next">&rsaquo;</a>
 		</div> 
@@ -84,5 +62,6 @@
 		</div>
 	</div>
 	<common:page-footer/>
+	<script type="text/javascript" src="<%=basePath%>/scripts/home.js"></script>
 </body>
 </html>

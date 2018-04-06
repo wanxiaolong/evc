@@ -53,7 +53,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="<%=basePath%>/admin/carousel.jsp">
 					<i class="fa fa-cog"></i>首页轮播设置
 				</a>
 			</li>

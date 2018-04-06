@@ -19,6 +19,7 @@ import com.my.evc.model.Subject;
 import com.my.evc.response.ExamResponse;
 import com.my.evc.service.ExamService;
 import com.my.evc.service.SubjectService;
+import com.my.evc.util.CommonUtil;
 import com.my.evc.util.DataUtil;
 import com.my.evc.vo.ExamVo;
 
@@ -89,7 +90,7 @@ public class ExamController extends BaseController {
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		Exam exam = new Exam(Integer.parseInt(examId), name, subjectIds, 
 				Integer.parseInt(people), date, Integer.parseInt(semesterId), 
-				strToBoolean(isShowGradeRank), strToBoolean(isShowClassRank));
+				CommonUtil.strToBool(isShowGradeRank), CommonUtil.strToBool(isShowClassRank));
 		examService.update(exam);
 		return new JsonResponse<Object>(SUCCESS, null);
 	}
@@ -110,13 +111,9 @@ public class ExamController extends BaseController {
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		//Create不需要ID，所以第一个参数默认为0
 		Exam exam = new Exam(0, name, subjectIds, Integer.parseInt(people), date, Integer.parseInt(semesterId), 
-				strToBoolean(isShowGradeRank), strToBoolean(isShowClassRank));
+				CommonUtil.strToBool(isShowGradeRank), CommonUtil.strToBool(isShowClassRank));
 		examService.create(exam);
 		
 		return new JsonResponse<Object>(SUCCESS, null);
-	}
-	
-	private boolean strToBoolean(String s) {
-		return "是".equals(s) ? true : false;
 	}
 }

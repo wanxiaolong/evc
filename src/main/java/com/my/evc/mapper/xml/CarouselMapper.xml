@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.evc.mapper.CarouselMapper">
+
+	<insert id="create" parameterType="com.my.evc.model.Carousel" keyProperty="id" useGeneratedKeys="true">
+		insert into carousel
+			(img_url,link_url,alt_text, `order`, enabled) 
+		values
+			(#{imgUrl},#{linkUrl},#{altText},#{order},#{enabled})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from carousel where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.my.evc.model.Carousel">
+		update carousel set 
+			img_url=#{imgUrl}, 
+			link_url=#{linkUrl}, 
+			alt_text=#{altText},
+			`order`=#{order},
+			enabled=#{enabled}
+		where 
+			id=#{id}
+	</update>
+	
+	<sql id="all_fields">
+		id as id,
+		img_url as imgUrl,
+		link_url as linkUrl,
+		alt_text as altText,
+		`order` as `order`,
+		enabled as enabled,
+		creation_date as creationDate
+	</sql>
+	
+	<select id="find" parameterType="int" resultType="com.my.evc.model.Carousel">
+		select 
+			<include refid="all_fields"/>
+		from carousel where id=#{id}
+	</select>
+	
+	<select id="findAll" resultType="com.my.evc.model.Carousel">
+		select
+			<include refid="all_fields"/>
+		from carousel order by `order` asc
+	</select>
+</mapper>

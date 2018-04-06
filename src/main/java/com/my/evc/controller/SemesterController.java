@@ -53,7 +53,7 @@ public class SemesterController extends BaseController {
 			HttpServletResponse response) throws BaseException, Exception {
 		String id = request.getParameter(Constant.PARAM_ID);
 		semesterService.deleteByID(Integer.parseInt(id));
-		return new JsonResponse<Object>(SUCCESS, new Object());
+		return new JsonResponse<Object>(SUCCESS, null);
 	}
 
 	/**
