@@ -14,7 +14,7 @@
 		<ul class="nav" id="main-menu">
 			<li>
 				<a href="<%=basePath%>/admin/score.jsp">
-					<i class="fa fa-search"></i>成绩查询（修改）
+					<i class="fa fa-search"></i>成绩查询[修改]
 				</a>
 			</li>
 			<li>
@@ -48,13 +48,8 @@
 				</a>
 			</li>
 			<li>
-				<a href="<%=basePath%>/admin/file_upload.jsp">
-					<i class="fa fa-upload"></i>文件上传 <span class="badge">新增</span>
-				</a>
-			</li>
-			<li>
 				<a href="<%=basePath%>/admin/file.jsp">
-					<i class="fa fa-upload"></i>文件管理 <span class="badge">新增</span>
+					<i class="fa fa-upload"></i>文件管理[上传]<span class="badge">新增</span>
 				</a>
 			</li>
 			<li>

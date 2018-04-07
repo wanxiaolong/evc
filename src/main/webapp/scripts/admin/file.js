@@ -19,7 +19,11 @@ $(document).ready(function(){
 		window.location.href = webroot + "/admin/file_upload.jsp";
 	});
 	
+	//显示文件信息列表
 	queryAllFiles();
+	
+	//文件上传模块也在这个页面中，这里需要初始化
+	initFileUpload();
 });
 
 //查询所有的文件信息
@@ -110,4 +114,38 @@ function addRows(array) {
 	}
 	table.column(0).visible(false);//隐藏ID列（第1列），用于更新的时候的主键
 	table.columns.adjust().draw(false);//调整宽度，然后重画表格
+}
+
+//初始化文件上传模块
+function initFileUpload() {
+	$("#uploadfile").fileinput({
+		language: 'zh', //设置语言
+		uploadUrl: webroot + "/file/upload", //上传的地址
+		//allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+		//uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+		uploadAsync: true, //默认异步上传
+		showUpload: true, //是否显示上传按钮
+		showRemove: true, //显示移除按钮
+		showPreview: true, //是否显示预览
+		showCaption: true,//是否显示标题
+		browseClass: "btn btn-primary", //按钮样式
+		dropZoneEnabled: false,//是否显示拖拽区域
+		//minImageWidth: 50, //图片的最小宽度
+		//minImageHeight: 50,//图片的最小高度
+		//maxImageWidth: 1000,//图片的最大宽度
+		//maxImageHeight: 1000,//图片的最大高度
+		minFileSize: 1,
+		maxFileSize: 102400,//单位为kb，如果为0表示不限制文件大小
+		//minFileCount: 1,
+		maxFileCount: 10, //表示允许同时上传的最大文件个数
+		enctype:'multipart/form-data',
+		validateInitialCount:true,
+		previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+	}).on("fileuploaded", function (event, data, previewId, index){
+		//上传成功后的回调
+		toastr.success("文件【" + data.jqXHR.responseJSON.response[0] + "】上传成功！");
+		//刷新文件信息列表
+		queryAllFiles();
+	});
 }
