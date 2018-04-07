@@ -19,7 +19,6 @@ public class BaseController {
 
 	protected static final int SUCCESS = 0;
 	protected static final int FAILED = -1;
-	protected static final String EMPTY_JSON = "{}";
 	protected static final String MODEL = "model";
 
 	/**

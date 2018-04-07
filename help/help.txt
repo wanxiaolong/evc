@@ -66,3 +66,6 @@ https://stackoverflow.com/questions/20013091/java-unzip-error-malformed
 21. How to extract files from zip file:
 https://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-unzip-files
 
+22. Render cell using customized html:
+https://www.datatables.net/examples/advanced_init/column_render.html
+

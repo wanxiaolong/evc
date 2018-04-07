@@ -4,6 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <%@ page isELIgnored="false" %>
 
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,46 +21,20 @@
 	<common:page-header />
 	<div class="evc-content">
 		<div class="evc-file">
-			<table id="_table" class="table table-striped">
+			<table id="fileTable" class="table table-striped table-bordered column1-left">
 				<thead>
-					<tr class="row">
-						<th class="col-md-8">文件名</th>
-						<th class="col-md-2">下载量</th>
-						<th class="col-md-2">创建日期</th>
+					<tr>
+						<th>ID</th>
+						<th>文件名</th>
+						<th>下载量</th>
+						<th>创建日期</th>
 					</tr>
 				</thead>
-				<tbody>
-					<c:forEach items="${model}" var="file">
-						<tr class="row">
-							<td class="col-md-8">
-								<a href="/evc${file.path}/${file.name}">${file.name}</a>
-							</td>
-							<td class="col-md-2">${file.downloadCount}</td>
-							<td class="col-md-2">${file.creationDate}</td>
-						</tr>
-					</c:forEach>
-					<c:if test="${empty model || fn:length(model) == 0}">
-						<tr class="row">
-							<td class="col-md-8">没有记录！</td>
-							<td class="col-md-2"></td>
-							<td class="col-md-2"></td>
-						</tr>
-					</c:if>
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</div>
 	</div>
 	<common:page-footer />
-<script type="text/javascript">
-$(document).ready(function(){
-	//Use DataTable plugin to provide sort/search/pagination feature for table.
-	//By default, this plugin uses English, provide this URL to do localization for this plugin.
-	$('#_table').DataTable({
-		language: {
-			url: '/evc/localization/chinese.json'
-		}
-	});
-});
-</script>
 </body>
+<script type="text/javascript" src="<%=basePath%>/scripts/file.js"></script>
 </html>

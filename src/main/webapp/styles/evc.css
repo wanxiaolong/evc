@@ -439,6 +439,16 @@ tbody td button {
 	margin-right: 5px;
 	margin-left: 5px;
 }
+/**
+ * -------------------------------------------
+ * 管理员科目管理页面(admin/subject.jsp)
+ * -------------------------------------------
+ */
+.evc-content table.column1-left tr td:nth-child(1),
+.evc-content table.column1-left tr th:nth-child(1) {
+	text-align: left;
+	padding-left: 10px;
+}
 
  
 /**

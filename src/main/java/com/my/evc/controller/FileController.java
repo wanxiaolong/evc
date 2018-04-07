@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
@@ -37,13 +36,12 @@ public class FileController extends BaseController {
 	@RequirePermission(permissions = {Permission.FILE_ADD})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public String uploadFile(HttpServletRequest request, 
+	public JsonResponse<String> uploadFile(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
 		FileUtil.handleUploadFile(request);
-		response.setStatus(HttpServletResponse.SC_OK);
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
-		return EMPTY_JSON;
+		return new JsonResponse<String>(SUCCESS, null);
 	}
 	
 	/**
@@ -56,18 +54,17 @@ public class FileController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		//fileService.deleteByID(id);
-		return new JsonResponse<String>(HttpServletResponse.SC_OK, "Deleted.");
+		return new JsonResponse<String>(SUCCESS, null);
 	}
 	
 	/**
 	 * 文件列表。
 	 */
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView listFiles(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value="/all", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse<List<File>> listFiles(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		List<File> files = fileService.findAll();
-		ModelAndView mav = new ModelAndView("file");
-		mav.addObject(MODEL, files);
-		return mav;
+		return new JsonResponse<List<File>>(SUCCESS, files);
 	}
 }
