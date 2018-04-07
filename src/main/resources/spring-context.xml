@@ -100,5 +100,6 @@
 	
 	<bean id="systemConfig" class="com.my.evc.common.SystemConfig">
 		<property name="fileUploadPath" value="${file.upload.path}"/>
+		<property name="scoreUploadPath" value="${score.upload.path}"/>
 	</bean>
 </beans>

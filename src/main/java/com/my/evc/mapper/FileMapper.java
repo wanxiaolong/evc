@@ -18,4 +18,10 @@ public interface FileMapper extends BaseMapper<File> {
 	 * @param name 要查找的文件名。
 	 */
 	public File findByName(String name);
+	
+	/**
+	 * 批量插入文件数据以提高数据库性能。<br>
+	 * @param fileList 待插入的成绩列表。
+	 */
+	public int createBatch(List<File> fileList);
 }

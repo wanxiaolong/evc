@@ -18,11 +18,11 @@
 			<div class="right">
 				<a href="/evc/message_detail.jsp">我要留言>>></a>
 			</div>
-			<table id="_table" class="table table-striped">
+			<table id="_table" class="table table-striped column1-left">
 				<thead>
 					<tr class="row">
-						<th class="col-md-2">类型</th>
 						<th class="col-md-7">标题</th>
+						<th class="col-md-2">类型</th>
 						<th class="col-md-1">发布者</th>
 						<th class="col-md-2">创建日期</th>
 					</tr>
@@ -30,10 +30,10 @@
 				<tbody>
 					<c:forEach items="${model}" var="message">
 						<tr class="row">
-							<td class="col-md-1">${message.type}</td>
 							<td class="col-md-8">
 								<a href="${message.id}">${message.title}</a>
 							</td>
+							<td class="col-md-1">${message.type}</td>
 							<td class="col-md-1">${message.contact}</td>
 							<td class="col-md-2">${message.creationDate}</td>
 						</tr>

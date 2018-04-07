@@ -15,7 +15,7 @@
 	<common:page-header />
 	<div class="evc-content">
 		<div class="evc-notice">
-			<table id="_table" class="table table-striped">
+			<table id="_table" class="table table-striped column1-left">
 				<thead>
 					<tr class="row">
 						<th class="col-md-7">标题</th>

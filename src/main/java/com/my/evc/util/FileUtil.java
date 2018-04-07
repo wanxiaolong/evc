@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -36,29 +37,28 @@ import com.my.evc.exception.BusinessException;
  */
 public class FileUtil {
 	
-	/**
-	 * 解压的临时目录 
-	 */
-	private static final String UNZIP_PATH = "C:\\Users\\万小龙\\Desktop\\upload\\tmp";
 	private static final Logger LOGGER = Logger.getLogger(FileUtil.class);
 	
 	/**
 	 * 处理文件上传的请求。
 	 */
-	public static void handleUploadFile(HttpServletRequest request)
+	public static List<String> handleUploadFile(HttpServletRequest request)
 			throws ServletException, IOException, FileUploadException {
 		Iterator<FileItem> itr = parseFromRequest(request);
 		
+		List<String> files = new ArrayList<String>();
 		while (itr.hasNext()) {
 			FileItem item = (FileItem) itr.next();
 			if (!item.isFormField()) {
 				String fileName = item.getName();
 				if (!StringUtils.isEmpty(fileName)) {//判断是否选择了文件
-					File file = new File(SystemConfig.FILE_RELATIVE_PATH, fileName);//获取根目录对应的真实物理路径
+					File file = new File(SystemConfig.FILE_UPLOAD_PATH, fileName);//获取根目录对应的真实物理路径
 					copyStream(item.getInputStream(), new FileOutputStream(file));
+					files.add(file.getName());
 				}
 			}
 		}
+		return files;
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class FileUtil {
 	 * 先把上传的文件保存在临时文件夹里。
 	 */
 	public static File saveStreamToFile(FileItem item) throws FileNotFoundException, IOException {
-		File file = new File(UNZIP_PATH + File.separator + item.getName());
+		File file = new File(SystemConfig.UNZIP_PATH + File.separator + item.getName());
 		if(file.exists()) {
 			file.delete();
 		}
@@ -120,7 +120,7 @@ public class FileUtil {
 	}
 
 	public static void main(String[] args) throws Exception {
-		File file = new File(UNZIP_PATH + File.separator + "2018~2019上学期.zip");
+		File file = new File(SystemConfig.UNZIP_PATH + File.separator + "2018~2019上学期.zip");
 		unzip(file);
 	}
 	
@@ -134,7 +134,7 @@ public class FileUtil {
 	public static void unzip(File file) throws IOException {
 		ZipFile zip = new ZipFile(file, Charset.forName("GBK"));
 		//确保目标文件夹存在
-		new File(UNZIP_PATH).mkdir();
+		new File(SystemConfig.UNZIP_PATH).mkdir();
 		Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
 		LOGGER.info("当前文件：" + file.getPath());
 		while (zipFileEntries.hasMoreElements()) {
@@ -144,7 +144,7 @@ public class FileUtil {
 
 			//entryName是基于压缩文件的路径，可能包含多层子目录。比如，
 			//压缩文件的根目录为path，那么entryName可以为path/sub1/sub2/file1.txt
-			File destFile = new File(UNZIP_PATH, entryName);
+			File destFile = new File(SystemConfig.UNZIP_PATH, entryName);
 			
 			//这里需要确保文件不存在，而且父目录存在
 			if(destFile.exists()) {

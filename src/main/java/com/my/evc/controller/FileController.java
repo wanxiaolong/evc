@@ -33,15 +33,18 @@ public class FileController extends BaseController {
 	/**
 	 * 文件上传。
 	 */
-	@RequirePermission(permissions = {Permission.FILE_ADD})
+	//@RequirePermission(permissions = {Permission.FILE_ADD})
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse<String> uploadFile(HttpServletRequest request, 
+	public JsonResponse<Integer> uploadFile(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		FileUtil.handleUploadFile(request);
+		List<String> fileNames = FileUtil.handleUploadFile(request);
+		
+		int count = fileService.createFiles(fileNames);
+		
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
-		return new JsonResponse<String>(SUCCESS, null);
+		return new JsonResponse<Integer>(SUCCESS, count);
 	}
 	
 	/**

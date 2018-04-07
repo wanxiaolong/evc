@@ -1,5 +1,6 @@
 package com.my.evc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,4 +75,22 @@ public class FileService implements BaseService<File>{
 		return fileMapper.findAll();
 	}
 
+	/**
+	 * 根据上传好的文件名，批量上传到数据库中供查询
+	 * @param fileNames 文件名列表
+	 */
+	public int createFiles(List<String> fileNames) {
+		if (fileNames.isEmpty()) {
+			return 0;
+		}
+		List<File> files = new ArrayList<File>();
+		for (String name : fileNames) {
+			File file = new File();
+			file.setName(name);
+			file.setPath("/");
+			file.setType(name.substring(name.lastIndexOf(".") + 1).toLowerCase());
+			files.add(file);
+		}
+		return fileMapper.createBatch(files);
+	}
 }

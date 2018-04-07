@@ -4,9 +4,19 @@
 
 	<insert id="create" parameterType="com.my.evc.model.File" keyProperty="id" useGeneratedKeys="true">
 		insert into file
-			(subject_id,type,name,path,description)
+			(type,name,path,description)
 		values
-			(#{subjectId},#{type},#{name},#{path},#{description})
+			(#{type},#{name},#{path},#{description})
+	</insert>
+	
+	<insert id="createBatch" parameterType="java.util.List">
+		insert into file
+			(type,name,path,description)
+		values
+		<!-- 对于List类型的参数，这里的collection直接写list就好 -->
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.type},#{item.name},#{item.path},#{item.description})
+		</foreach>
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -16,10 +26,9 @@
 	<update id="update" parameterType="com.my.evc.model.File">
 		update file 
 		set 
-			subject_id=#{subjectId}, 
-			type=#{type}, 
-			name=#{name}, 
-			path=#{path}, 
+			type=#{type},
+			name=#{name},
+			path=#{path},
 			description=#{description},
 			download_count=#{downloadCount}
 		where 
@@ -28,7 +37,6 @@
 	
 	<sql id="all_fields">
 		id as id,
-		subject_id as subjectId,
 		type as type,
 		name as name,
 		path as path,

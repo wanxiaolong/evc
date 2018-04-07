@@ -1,5 +1,7 @@
 package com.my.evc.common;
 
+import java.io.File;
+
 /**
  * 这个类持有所有的系统配置。<br>
  * 为了更好的管理配置项，请将配置的名字以模块的名字开头，并且使用全大写。<br>
@@ -13,13 +15,31 @@ public class SystemConfig {
 	/**
 	 * 文件上传路径
 	 */
-	public static String FILE_RELATIVE_PATH = "";
+	public static String FILE_UPLOAD_PATH = "";
+	/**
+	 * 成绩上传路径（包括解压路径）
+	 */
+	public static String SCORE_UPLOAD_PATH = "";
+	/**
+	 * 解压的临时目录 
+	 */
+	public static String UNZIP_PATH = "";
+	
 	
 	/**
 	 * 这个方法由Spring调用，用来注入配置信息。
 	 * @see spring-context.xml
 	 */
 	public static void setFileUploadPath(String fileUploadPath) {
-		FILE_RELATIVE_PATH = fileUploadPath;
+		FILE_UPLOAD_PATH = fileUploadPath;
+	}
+	
+	/**
+	 * 这个方法由Spring调用，用来注入配置信息。
+	 * @see spring-context.xml
+	 */
+	public static void setScoreUploadPath(String scoreUploadPath) {
+		SCORE_UPLOAD_PATH = scoreUploadPath;
+		UNZIP_PATH = scoreUploadPath + File.separator + "extracted";
 	}
 }

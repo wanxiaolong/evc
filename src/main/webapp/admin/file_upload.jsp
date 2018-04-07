@@ -26,7 +26,7 @@
 				<p>支持一次上传多个文件，支持预览：</p>
 			</div>
 			<div class="row">
-				<input id="uploadfile" name="input-b1" type="file" class="file" multiple>
+				<input id="uploadfile" name="input-b1" type="file" multiple>
 			</div>
 		</div>
 	</div>

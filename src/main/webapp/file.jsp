@@ -21,12 +21,12 @@
 	<common:page-header />
 	<div class="evc-content">
 		<div class="evc-file">
-			<table id="fileTable" class="table table-striped table-bordered column1-left">
+			<table id="fileTable" class="table table-striped column1-left">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>文件名</th>
-						<th>下载量</th>
+						<th>下载次数</th>
 						<th>创建日期</th>
 					</tr>
 				</thead>
