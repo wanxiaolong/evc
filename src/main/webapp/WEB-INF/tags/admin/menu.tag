@@ -14,7 +14,7 @@
 		<ul class="nav" id="main-menu">
 			<li>
 				<a href="<%=basePath%>/admin/score.jsp">
-					<i class="fa fa-search"></i>成绩查询[修改]
+					<i class="fa fa-search"></i>成绩查询
 				</a>
 			</li>
 			<li>
@@ -38,23 +38,23 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
-					<i class="fa fa-cog"></i>公告管理<span class="badge">二期</span>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<i class="fa fa-cog"></i>留言管理<span class="badge">二期</span>
-				</a>
-			</li>
-			<li>
 				<a href="<%=basePath%>/admin/file.jsp">
-					<i class="fa fa-upload"></i>文件管理[上传]<span class="badge">新增</span>
+					<i class="fa fa-bar-chart"></i>文件管理<span class="badge">新增</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class="fa fa-bar-chart"></i>公告管理<span class="badge">二期</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class="fa fa-bar-chart"></i>留言管理<span class="badge">二期</span>
 				</a>
 			</li>
 			<li>
 				<a href="<%=basePath%>/admin/carousel.jsp">
-					<i class="fa fa-cog"></i>首页轮播设置
+					<i class="fa fa-cog"></i>轮播设置
 				</a>
 			</li>
 			<li>
