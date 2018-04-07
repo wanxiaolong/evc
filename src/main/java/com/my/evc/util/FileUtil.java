@@ -171,4 +171,14 @@ public class FileUtil {
 		}
 		zip.close();
 	}
+
+	/**
+	 * 根据文件名，从文件上传的文件夹中删除文件。
+	 */
+	public static void deleteFile(String name) {
+		File file  = new File(SystemConfig.FILE_UPLOAD_PATH + File.separator + name);
+		if (file.exists()) {
+			file.delete();
+		}
+	}
 }

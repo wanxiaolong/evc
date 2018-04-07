@@ -53,6 +53,11 @@
 				</a>
 			</li>
 			<li>
+				<a href="<%=basePath%>/admin/file.jsp">
+					<i class="fa fa-upload"></i>文件管理 <span class="badge">新增</span>
+				</a>
+			</li>
+			<li>
 				<a href="<%=basePath%>/admin/carousel.jsp">
 					<i class="fa fa-cog"></i>首页轮播设置
 				</a>

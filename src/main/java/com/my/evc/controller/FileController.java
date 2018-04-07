@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.File;
-import com.my.evc.security.Permission;
-import com.my.evc.security.RequirePermission;
 import com.my.evc.service.FileService;
 import com.my.evc.util.FileUtil;
 
@@ -50,14 +48,19 @@ public class FileController extends BaseController {
 	/**
 	 * 删除文件。
 	 */
-	@RequirePermission(permissions = {Permission.FILE_DELETE})
-	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse<String> deleteFile(@RequestParam("id") int id,
-			HttpServletRequest request, HttpServletResponse response)
-			throws BaseException, Exception {
-		//fileService.deleteByID(id);
-		return new JsonResponse<String>(SUCCESS, null);
+	public JsonResponse<Object> deleteById(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		String name = request.getParameter(Constant.PARAM_NAME);//文件名
+		
+		//从数据库中删除记录
+		fileService.deleteByID(Integer.parseInt(id));
+		
+		//从文件夹中删除文件
+		FileUtil.deleteFile(name);
+		return new JsonResponse<Object>(SUCCESS, null);
 	}
 	
 	/**
