@@ -11,8 +11,8 @@ public class Student extends BaseModel {
 	private String sex;				//性别
 	private String grade;			//年级
 	private String clazz;			//班级
-	private int birthYear;			//出生年份（用于计算年龄）
-	private int birthDay;			//出生日期（用于查询成绩）
+	private String birthYear;			//出生年份（用于计算年龄）
+	private String birthDay;			//出生日期（用于查询成绩）
 	private String description;		//备注
 	
 	public int getNumber() {
@@ -51,17 +51,17 @@ public class Student extends BaseModel {
 	public void setClazz(String clazz) {
 		this.clazz = clazz;
 	}
-	public int getBirthYear() {
-		return birthYear;
-	}
-	public void setBirthYear(int birthYear) {
-		this.birthYear = birthYear;
-	}
-	public int getBirthDay() {
+	public String getBirthDay() {
 		return birthDay;
 	}
-	public void setBirthDay(int birthDay) {
+	public String getBirthYear() {
+		return birthYear;
+	}
+	public void setBirthDay(String birthDay) {
 		this.birthDay = birthDay;
+	}
+	public void setBirthYear(String birthYear) {
+		this.birthYear = birthYear;
 	}
 	public String getDescription() {
 		return description;

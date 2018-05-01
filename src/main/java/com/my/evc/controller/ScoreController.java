@@ -100,7 +100,7 @@ public class ScoreController extends BaseController {
 	public JsonResponse<List<ScoreVo>> queryScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
 		String namePinYin = request.getParameter(Constant.PARAM_NAME_PINYIN);
-		String birthday = request.getParameter(Constant.PARAM_BIRTHDAY);
+		String birthday = request.getParameter(Constant.PARAM_BIRTH_DAY);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
 		boolean queryAll = Boolean.parseBoolean(request.getParameter(Constant.PARAM_QUERY_ALL));

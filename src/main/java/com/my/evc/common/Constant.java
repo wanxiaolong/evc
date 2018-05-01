@@ -5,9 +5,11 @@ import java.util.List;
 
 public class Constant {
 	public static final String PARAM_BIOLOGIC = "biologic";
-	public static final String PARAM_BIRTHDAY = "birthday";
+	public static final String PARAM_BIRTH_DAY = "birth_day";
+	public static final String PARAM_BIRTH_YEAR = "birth_year";
 	public static final String PARAM_CHEMISTRY = "chemistry";
 	public static final String PARAM_CHINESE = "chinese";
+	public static final String PARAM_CLASS = "class";
 	public static final String PARAM_CONTACT = "contact";
 	public static final String PARAM_CONTENT = "content";
 	public static final String PARAM_DATE = "date";
@@ -15,6 +17,7 @@ public class Constant {
 	public static final String PARAM_ENABLED = "enabled";
 	public static final String PARAM_EXAM_ID = "exam_id";
 	public static final String PARAM_EXPERIMENT = "experiment";
+	public static final String PARAM_GRADE = "grade";
 	public static final String PARAM_GEOGRAPHY = "geography";
 	public static final String PARAM_HISTORY = "history";
 	public static final String PARAM_ID = "id";
@@ -23,6 +26,7 @@ public class Constant {
 	public static final String PARAM_MATH = "math";
 	public static final String PARAM_NAME = "name";
 	public static final String PARAM_NAME_PINYIN = "name_pinyin";
+	public static final String PARAM_NUMBER = "number";
 	public static final String PARAM_ORDER = "order";
 	public static final String PARAM_PASSWORD = "password";
 	public static final String PARAM_PASSWORD_NEW = "password_new";
@@ -36,6 +40,7 @@ public class Constant {
 	public static final String PARAM_RU = "ru";
 	public static final String PARAM_SEMESTER_ID = "semester_id";
 	public static final String PARAM_SEMESTERS = "semesters";
+	public static final String PARAM_SEX = "sex";
 	public static final String PARAM_SHOW_CLASS_RANK = "is_show_class_rank";
 	public static final String PARAM_SHOW_GRADE_RANK = "is_show_grade_rank";
 	public static final String PARAM_SUBJECT_ID = "subject_id";

@@ -30,6 +30,7 @@
 	</update>
 	
 	<sql id="all_fields">
+		id as id,
 		number as number,
 		name as name, 
 		name_pinyin as namePinyin, 

@@ -38,6 +38,11 @@
 				</a>
 			</li>
 			<li>
+				<a href="<%=basePath%>/admin/student.jsp">
+					<i class="fa fa-bar-chart"></i>学生管理
+				</a>
+			</li>
+			<li>
 				<a href="<%=basePath%>/admin/file.jsp">
 					<i class="fa fa-bar-chart"></i>文件管理<span class="badge">新增</span>
 				</a>

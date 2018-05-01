@@ -106,7 +106,7 @@ function executeScoreQuery() {
 		data: 	'query_all=' + isQueryAll +
 				'&semester_id=' + semesterId + 
 				'&name_pinyin=' + namePinyin + 
-				'&birthday=' + birthday +
+				'&birth_day=' + birthday +
 				(examId != null ? '&exam_id=' + examId : ''),
 		success: function (data) {
 			var array = data.response;

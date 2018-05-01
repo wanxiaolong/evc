@@ -69,3 +69,5 @@ https://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-u
 22. Render cell using customized html:
 https://www.datatables.net/examples/advanced_init/column_render.html
 
+23. JQuery 'each' break and continue:
+http://rmn190.iteye.com/blog/791605
