@@ -77,7 +77,11 @@
 					</div>
 				</div>
 				<div class="subject-msg-div">
-					请确保文件中<b>科目</b>和<b>顺序</b>按照如下顺序（仅支持.xls和.xlsx格式的文件）：<div id="subjectmsg"></div>
+					请确保Excel第一列<b>学生信息</b>和<b class="red">科目信息</b>按照如下顺序（仅支持.xls和.xlsx格式的文件）：
+					<div>
+						<span id="studentmsg">学号，姓名，生日，年级，班级，</span>
+						<span id="subjectmsg"></span>
+					</div>
 				</div>
 				<div class="upload-div">
 					<input id="upload-file" name="input-b1" type="file">

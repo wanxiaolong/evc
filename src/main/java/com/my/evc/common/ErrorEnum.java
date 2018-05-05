@@ -12,6 +12,7 @@ public enum ErrorEnum {
 	INVALID_EXCEL_EMPTY_FILE_NAME(303, "无效Excel文件。文件名为空。"),
 	INVALID_EXCEL_SUBJECT_NOT_MATCH(303, "无效Excel文件。科目和系统不符。"),
 	INVALID_EXCEL_SUBJECT_NOT_EXIST(303, "无效Excel文件。Excel中该科目不存在。"),
+	INVALID_EXCEL_INVALID_COLUMN(302, "无效Excel文件。无效的列名。"),
 	INVALID_ROLE(304, "无效的角色"),
 	INVALID_SEMESTER_NAME(304, "无效学期名字"),
 	

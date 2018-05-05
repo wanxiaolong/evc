@@ -23,14 +23,18 @@ import com.my.evc.exception.DaoException;
 import com.my.evc.mapper.ExamMapper;
 import com.my.evc.mapper.ScoreMapper;
 import com.my.evc.mapper.SemesterMapper;
+import com.my.evc.mapper.StudentMapper;
 import com.my.evc.mapper.SubjectMapper;
 import com.my.evc.model.Exam;
 import com.my.evc.model.Score;
 import com.my.evc.model.Semester;
+import com.my.evc.model.Student;
 import com.my.evc.model.Subject;
+import com.my.evc.type.FixedColumn;
 import com.my.evc.type.ScoreTitle;
 import com.my.evc.util.ExcelUtil;
 import com.my.evc.util.FileUtil;
+import com.my.evc.util.PinyinUtil;
 import com.my.evc.vo.ScoreVo;
 
 @Service
@@ -55,6 +59,9 @@ public class ScoreService implements BaseService<Score> {
 	
 	@Autowired
 	private SemesterMapper semesterMapper;
+	
+	@Autowired
+	private StudentMapper studentMapper;
 	
 	public void create(Score score) throws BaseException {
 		scoreMapper.create(score);
@@ -92,13 +99,20 @@ public class ScoreService implements BaseService<Score> {
 		
 		//检查Excel文件中的科目是否和系统一致
 		Map<Integer, String> headerMap = FileUtil.handleFileItem(fileItem);
-		if (!isExcelHeaderLegal(headerMap, examId)) {
+		if (!isValidExcelHeader(headerMap, examId)) {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_SUBJECT_NOT_MATCH);
 		}
+		//读取Excel中的数据，Excel中的一行就是这里的一个Map
+		List<Map<String, String>> data = ExcelUtil.loadData(fileItem);
 		
-		//读取Excel中的成绩
-		List<Map<String, String>> scoreList = ExcelUtil.loadExcel(fileItem);
-		int rows = saveScoreForExam(examId, scoreList);
+		//读取学生信息并插入到数据库中
+		boolean saveStudent = true;
+		if (saveStudent) {
+			saveStudentForExam(data);
+		}
+		
+		//读取成绩信息并插入到数据库中
+		int rows = saveScoreForExam(examId, data);
 		return rows;
 	}
 
@@ -142,7 +156,7 @@ public class ScoreService implements BaseService<Score> {
 				Exam exam = createExam(semester, examScoreFile);
 				
 				//5. 读取Excel中的数据并插入数据库。这里如果出错，也继续上传后续文件。不中断。
-				List<Map<String, String>> scoreList = ExcelUtil.loadExcel(examScoreFile);
+				List<Map<String, String>> scoreList = ExcelUtil.loadData(examScoreFile);
 				try {
 					saveScoreForExam(String.valueOf(exam.getId()), scoreList);
 				} catch (BusinessException e) {
@@ -154,6 +168,34 @@ public class ScoreService implements BaseService<Score> {
 		
 		//5. 返回上传失败的文件列表
 		return failedFiles;
+	}
+	
+	/**
+	 * 把读取好的成绩保存到数据库中，并返回相应的行数。
+	 */
+	private int saveStudentForExam(List<Map<String, String>> data) throws BusinessException {
+		List<Student> students = new ArrayList<Student>();
+		for(Map<String, String> map : data) {
+			Student student = new Student();
+			student.setNumber(Integer.parseInt(map.get("学号")));
+			String name = map.get("姓名");
+			student.setName(name);
+			student.setNamePinyin(PinyinUtil.getFirstLetterInLowerCase(name));
+			student.setBirthDay(map.get("生日"));
+			student.setGrade(map.get("年级"));
+			student.setClazz(map.get("班级"));
+			students.add(student);
+		}
+		
+		//把学生List保存在数据库中
+		int rows = studentMapper.createBatch(students);
+		//插入完成后验证插入的行数
+		if (rows != students.size()) {
+			LOGGER.error("插入成绩数不完全。待插入：" + students.size() + ", 实际插入：" + rows);
+			throw new BusinessException(ErrorEnum.DAO_PARTIAL_INSERT);
+		}
+		LOGGER.info("学生信息插入完成！已插入：" + rows);
+		return rows;
 	}
 	
 	/**
@@ -266,7 +308,7 @@ public class ScoreService implements BaseService<Score> {
 	 * 检查该Excel的表头是否符合要求（只检查配置的科目是否都按顺序在Excel中存在，Excel中多余的列并不检查）。
 	 * @param headerMap Key=Excel的列索引，Value=Excel列名字
 	 */
-	private boolean isExcelHeaderLegal(Map<Integer, String> headerMap, String examId) throws BusinessException {
+	private boolean isValidExcelHeader(Map<Integer, String> headerMap, String examId) throws BusinessException {
 		//查找所有的科目信息，并将List转换成Map以便查找
 		initSubjects();
 		
@@ -281,14 +323,21 @@ public class ScoreService implements BaseService<Score> {
 			throw new BusinessException(ErrorEnum.EXAM_NOT_FOUND);
 		}
 		
+		//成绩表前面都有几个固定的列，先检查它们是否存在，是否匹配
+		int fixedColNum = FixedColumn.values().length;
+		for (int i = 0; i < fixedColNum; i++) {
+			String fixedColName = FixedColumn.fromOrder(i).getTitle();
+			if (!fixedColName.equals(headerMap.get(i))) {
+				throw new BusinessException(ErrorEnum.INVALID_EXCEL_INVALID_COLUMN);
+			}
+		}
+		
 		//将该考试的科目ID转换成科目名字，然后挨个比较
 		String[] subjectIdArray = exam.getSubjectIds().split(",");
-		for (int i = 0; i < subjectIdArray.length; i++) {
-			int configuredId = Integer.parseInt(subjectIdArray[i]);
-			String configuredName = subjectMap.get(configuredId);
-			
+		for (int j = 0; j < subjectIdArray.length; j++) {
+			String configuredName = subjectMap.get(subjectIdArray[j]);
 			//Excel中前几列不是成绩，所以这里需要排除几个列
-			String excelSubjectName = headerMap.get(i + 5);
+			String excelSubjectName = headerMap.get(j + fixedColNum);
 			if (!configuredName.equalsIgnoreCase(excelSubjectName)) {
 				return false;
 			}

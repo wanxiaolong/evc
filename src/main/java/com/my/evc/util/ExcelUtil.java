@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,12 +32,13 @@ import com.my.evc.exception.BusinessException;
 public class ExcelUtil {
 	
 	private static final Logger LOGGER = Logger.getLogger(ExcelUtil.class);
+	private static final DecimalFormat FORMATTER = new DecimalFormat("0");
 	
 	/**
 	 * 读取成绩表的Excel，第一行为表头，剩下的行数为成绩。结果将包含在一个List&lt;Map&gt;中，
 	 * List中的每一个Map表示一个学生一次考试的所有科目的成绩。
 	 */
-	public static List<Map<String, String>> loadExcel(InputStream stream, String name) 
+	public static List<Map<String, String>> loadData(InputStream stream, String name) 
 			throws BusinessException, IOException {
 		//把读取到的成绩保存到这个List<Map>中，每一行用一个Map装
 		List<Map<String, String>> scoreList = new ArrayList<Map<String, String>>();
@@ -53,16 +55,16 @@ public class ExcelUtil {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_NO_SCORE);
 		}
 		
-		//处理表头
+		//处理表头，即第1行
 		Map<Integer, String> headerMap = getHeaderRow(sheet);
 		
 		//获取表头单元格个数
 		int cells = sheet.getRow(0).getPhysicalNumberOfCells();
-		//成绩的行数从1开始
-		for (int i=1; i<rows; i++) {
+		//成绩的行数从1开始，即第2行
+		for (int i = 1; i < rows; i++) {
 			Map<String, String> scoreMap = new HashMap<String, String>();
 			Row row = sheet.getRow(i);
-			for (int j=0; j<cells; j++) {
+			for (int j = 0; j < cells; j++) {
 				String value = "";
 				//如果单元格没有值，则这里的getCell(j)会返回null
 				Cell cell = row.getCell(j);
@@ -71,7 +73,7 @@ public class ExcelUtil {
 					//根据不同的单元格类型，获取值
 					switch (cellType) {
 						case NUMERIC:
-							value = Double.toString(cell.getNumericCellValue());
+							value = FORMATTER.format(cell.getNumericCellValue());
 							break;
 						case STRING:
 							value = cell.getStringCellValue();
@@ -106,16 +108,17 @@ public class ExcelUtil {
 	/**
 	 * @see #loadExcel(InputStream, String)
 	 */
-	public static List<Map<String, String>> loadExcel(FileItem item) 
+	public static List<Map<String, String>> loadData(FileItem item) 
 			throws BusinessException, IOException {
-		return loadExcel(item.getInputStream(), item.getName());
+		return loadData(item.getInputStream(), item.getName());
 	}
+	
 	/**
 	 * @see #loadExcel(InputStream, String)
 	 */
-	public static List<Map<String, String>> loadExcel(File file) 
+	public static List<Map<String, String>> loadData(File file) 
 			throws BusinessException, IOException {
-		return loadExcel(new FileInputStream(file), file.getName());
+		return loadData(new FileInputStream(file), file.getName());
 	}
 	
 	/**

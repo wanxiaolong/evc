@@ -11,8 +11,8 @@ public class Student extends BaseModel {
 	private String sex;				//性别
 	private String grade;			//年级
 	private String clazz;			//班级
-	private String birthYear;			//出生年份（用于计算年龄）
-	private String birthDay;			//出生日期（用于查询成绩）
+	private String birthYear;		//出生年份（用于计算年龄）
+	private String birthDay;		//出生日期（用于查询成绩）
 	private String description;		//备注
 	
 	public int getNumber() {

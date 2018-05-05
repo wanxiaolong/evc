@@ -9,6 +9,17 @@
 			(#{number},#{name},#{namePinyin},#{sex},#{grade},#{clazz},#{birthYear},#{birthDay},#{description})
 	</insert>
 	
+	<insert id="createBatch" parameterType="java.util.List">
+		insert into student
+			(number,name,name_pinyin,grade,class,birth_day,description) 
+		values
+		<!-- 对于List类型的参数，这里的collection直接写list就好 -->
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.number},#{item.name},#{item.namePinyin},#{item.grade},#{item.clazz},
+			#{item.birthDay},#{item.description})
+		</foreach>
+	</insert>
+	
 	<delete id="delete" parameterType="int">
 		delete from student where id=#{id}
 	</delete>

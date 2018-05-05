@@ -16,7 +16,9 @@ body {
 .err-bdr {
 	border: 1px solid red;
 }
-
+.red {
+	color: red;
+}
 /**
  * -------------------------------------------
  * 主页(home.jsp)
@@ -376,7 +378,7 @@ body #toast-container>div {
 }
 table.table.dataTable thead th, table.table.dataTable thead td,
 table.table.dataTable tbody th, table.table.dataTable tbody td {
-	padding: 8px 0px;
+	padding: 5px 0px;
 	vertical-align: middle;
 }
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, 
@@ -405,11 +407,15 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 	margin-top: 20px;
 	display: none;
 }
-.admin.evc-content .content .subject-msg-div #subjectmsg {
+.admin.evc-content .content .subject-msg-div #subjectmsg,
+.admin.evc-content .content .subject-msg-div #studentmsg {
 	color: red;
 	font-weight: bold;
 	line-height: 50px;
 	height: 50px;
+}
+.admin.evc-content .content .subject-msg-div #studentmsg {
+	color: black;
 }
 .admin.evc-content .content .upload-div {
 	margin-top: 20px;
