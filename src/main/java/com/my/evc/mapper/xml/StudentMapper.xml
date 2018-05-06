@@ -19,7 +19,7 @@
 			#{item.birthDay},#{item.description})
 		</foreach>
 	</insert>
-	
+
 	<delete id="delete" parameterType="int">
 		delete from student where id=#{id}
 	</delete>
@@ -38,6 +38,31 @@
 			description=#{description}
 		where 
 			id=#{id}
+	</update>
+	
+	<!-- 批量更新。见help.txt #25 -->
+	<!-- 
+		此过程将拼出以下用于批量修改的SQL：
+		update student
+		set number=
+		case id
+			when 1 then xxx  //特别注意：这里没有逗号，否则SQL会报错。因此下方在第一个<foreach>中separator为空格' '而不是','。
+			when 2 then xxx
+		end
+		where id in
+		(1,2,...)
+	 -->
+	<update id="updateBatch" parameterType="java.util.List">
+		update student
+		set number=
+		<!-- 对于List类型的参数，这里的collection直接写list就好 -->
+		<foreach collection="list" item="item" index="index" separator=" " open="case id" close="end">
+			when #{item.id} then #{item.number}
+		</foreach>
+		where id in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item.id}
+		</foreach>
 	</update>
 	
 	<sql id="all_fields">
@@ -75,5 +100,11 @@
 		select
 			<include refid="all_fields"/>
 		from student;
+	</select>
+
+	<select id="findByNameAndBirthday" parameterType="map" resultType="com.my.evc.model.Student">
+		select
+			<include refid="all_fields"/>
+		from student where name=#{name} and birth_day=#{birthday};
 	</select>
 </mapper>

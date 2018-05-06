@@ -29,8 +29,19 @@ body {
  */
 .evc-page-header .navbar {
 	margin-bottom: 20px;
+	font-size: 16px;
 }
-.evc-page-header .header, .evc-content, .evc-page-footer {
+.evc-page-header .navbar-logo {
+	font-size: 20px;
+	margin-right: 20px;
+	line-height: 50px;
+}
+.evc-page-header .navbar-text {
+	line-height: 50px;
+	margin: 0;
+}
+.evc-page-header .header, 
+.evc-content, .evc-page-footer {
 	width: 1200px;
 	margin: 0 auto;
 	font-weight: 200;
@@ -46,6 +57,8 @@ body {
 
 .evc-page-header .container-fluid {
 	width: 1200px;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .evc-page-header .header .logo {
@@ -308,6 +321,13 @@ body #toast-container>div {
 .evc-content .filter-row select,
 .evc-content .filter-row input[type=text] {
 	width: 200px;
+}
+.evc-content.score .desc {
+	padding: 15px 0px;
+}
+.evc-content.score .desc .highlight {
+	font-weight: bold;
+	color: blue;
 }
 .evc-content .filter-block {
 	margin-bottom: 20px;

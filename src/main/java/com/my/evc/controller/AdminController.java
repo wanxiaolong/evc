@@ -45,7 +45,6 @@ public class AdminController extends BaseController {
 		
 		String target = (ru != null) ? ru : ADMIN_HOME;
 		ModelAndView mav = new ModelAndView("redirect:" + target);
-		mav.addObject(MODEL, user.getUsername());
 		return mav;
 	}
 	

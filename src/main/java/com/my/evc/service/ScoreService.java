@@ -106,10 +106,7 @@ public class ScoreService implements BaseService<Score> {
 		List<Map<String, String>> data = ExcelUtil.loadData(fileItem);
 		
 		//读取学生信息并插入到数据库中
-		boolean saveStudent = true;
-		if (saveStudent) {
-			saveStudentForExam(data);
-		}
+		autoSaveStudentForExam(data);
 		
 		//读取成绩信息并插入到数据库中
 		int rows = saveScoreForExam(examId, data);
@@ -172,30 +169,56 @@ public class ScoreService implements BaseService<Score> {
 	
 	/**
 	 * 把读取好的成绩保存到数据库中，并返回相应的行数。
+	 * 本方法会依次检查每个学生信息是否已经在数据库中，如果数据库中已经存在，则不创建
 	 */
-	private int saveStudentForExam(List<Map<String, String>> data) throws BusinessException {
-		List<Student> students = new ArrayList<Student>();
+	private int autoSaveStudentForExam(List<Map<String, String>> data) throws BusinessException {
+		List<Student> insertList = new ArrayList<Student>();
+		List<Student> updateList = new ArrayList<Student>();
+		
+		//用于本次上传时已在数据库中的学生个数
+		int count = 0;
 		for(Map<String, String> map : data) {
-			Student student = new Student();
-			student.setNumber(Integer.parseInt(map.get("学号")));
 			String name = map.get("姓名");
+			String birthday = map.get("生日");
+			int number = Integer.parseInt(map.get("学号"));
+			
+			Student student = new Student();
+			student.setNumber(number);
 			student.setName(name);
 			student.setNamePinyin(PinyinUtil.getFirstLetterInLowerCase(name));
-			student.setBirthDay(map.get("生日"));
+			student.setBirthDay(birthday);
 			student.setGrade(map.get("年级"));
 			student.setClazz(map.get("班级"));
-			students.add(student);
+
+			//先通过姓名和生日查找该学生是否已经在数据库中了
+			Student stuInDB = studentMapper.findByNameAndBirthday(name, birthday);
+			
+			//如果学生存在，而且学号没改变，则认为该学生的数据不需要更新或插入，直接跳过
+			if (stuInDB != null) {
+				student.setId(stuInDB.getId());
+				if (stuInDB.getNumber() == number) {
+					//学号为改变，则无需更新
+					count++;
+					continue;
+				} else {
+					//学号已经改变，需要更新
+					updateList.add(student);
+				}
+			} else {
+				//学生在数据库中不存在，需要插入
+				insertList.add(student);
+			}
 		}
+		LOGGER.info("学生信息无需更新的个数：" + count);
+		
+		//执行更新
+		int updateRows = studentMapper.updateBatch(updateList);
+		LOGGER.info("学生信息更新完成！已更新：" + updateRows);
 		
 		//把学生List保存在数据库中
-		int rows = studentMapper.createBatch(students);
-		//插入完成后验证插入的行数
-		if (rows != students.size()) {
-			LOGGER.error("插入成绩数不完全。待插入：" + students.size() + ", 实际插入：" + rows);
-			throw new BusinessException(ErrorEnum.DAO_PARTIAL_INSERT);
-		}
-		LOGGER.info("学生信息插入完成！已插入：" + rows);
-		return rows;
+		int insertRows = studentMapper.createBatch(insertList);
+		LOGGER.info("学生信息插入完成！已插入：" + insertRows);
+		return updateRows + insertRows;
 	}
 	
 	/**
@@ -219,12 +242,7 @@ public class ScoreService implements BaseService<Score> {
 		
 		//把成绩List保存在数据库中
 		int rows = scoreMapper.createBatch(scores);
-		//插入完成后验证插入的行数
-		if (rows != scores.size()) {
-			LOGGER.error("插入成绩数不完全。待插入：" + scores.size() + ", 实际插入：" + rows);
-			throw new BusinessException(ErrorEnum.DAO_PARTIAL_INSERT);
-		}
-		LOGGER.info("插入数据库完成！已插入：" + rows);
+		LOGGER.info("成绩信息插入完成！已插入：" + rows);
 		return rows;
 	}
 

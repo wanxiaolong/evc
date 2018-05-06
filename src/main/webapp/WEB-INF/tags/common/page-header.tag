@@ -4,6 +4,7 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
 	String username = request.getParameter("username");
+	com.my.evc.model.User user = (com.my.evc.model.User)request.getSession().getAttribute("user");
 %>
 
 <div class="evc-page-header">
@@ -15,7 +16,7 @@
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="<%=basePath%>/home.jsp">中国英语村</a>
+				<a class="navbar-logo" href="<%=basePath%>/home.jsp">中国英语村</a>
 			</div>
 			<div>
 				<!--向左对齐-->
@@ -41,7 +42,12 @@
 						</ul>
 					</li>
 				</ul>
-				<p class="navbar-text navbar-right">2017年12月5日</p>
+				<c:if test="<%=(user != null)%>">
+					<p class="navbar-text navbar-right">
+						<span>当前用户：<%=user.getUsername()%></span>
+						<a href="<%=basePath%>/admin/logout">[注销]</a>
+					</p>
+				</c:if>
 			</div>
 		</div>
 	</nav>

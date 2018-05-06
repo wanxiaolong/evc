@@ -33,6 +33,13 @@
 				-<span id="examName"></span>，
 				参考人数：<span id="examPeople"></span>。
 			</div>
+			<div class="title">查询说明</div>
+			<div class="desc">
+				<p>1. <span class="highlight">学期、姓名和生日为必选项</span>。</p>
+				<p>2. 勾选“<b>查询所有历史成绩</b>”，则“学期”不可选，查询该学生所有的历史成绩，否则查询指定学期所有考试的成绩
+				<p>3. 生日为<span class="highlight">4位数字</span>，比如生日是3月8日，则输入0308</p>
+				<p>4. 姓名支持中文或<span class="highlight">拼音首字母查询</span>。比如姓名是“张三”，则可输入“张三”或“zs”</p>
+			</div>
 			<div class="title">查询条件</div>
 			<div class="filter-row">
 				<div class="filter">
@@ -54,7 +61,7 @@
 				</div>
 				<div class="filter" id="birthdayFilter">
 					<label>生日：</label>
-					<input type="tel" class="form-control" id="birthday" placeholder="学生生日" value="${birthday}" maxlength="4" required>
+					<input type="tel" class="form-control" id="birthday" placeholder="4位数字，比如0308" value="${birthday}" maxlength="4" required>
 				</div>
 				<button type="button" id="queryBtn" class="btn btn-default query-btn">查询</button>
 			</div>
@@ -70,7 +77,6 @@
 					<th>姓名</th>
 					<th>学期</th>
 					<th>考试</th>
-					
 					<!-- 这里是动态列，将在JS中初始化 -->
 				</tr>
 			</thead>

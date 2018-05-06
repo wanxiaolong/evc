@@ -40,10 +40,10 @@
 						<th>学号</th>
 						<th>姓名</th>
 						<th>姓名拼音</th>
-						<th>性别</th>
+						<!-- <th>性别</th> -->
 						<th>年级</th>
 						<th>班级</th>
-						<th>出生年份</th>
+						<!-- <th>出生年份</th> -->
 						<th>生日</th>
 						<th>操作</th>
 					</tr>
@@ -78,12 +78,12 @@
 				<input type="text" name="namePinyin">
 			</div>
 		</div>
-		<div class="field">
+		<!-- <div class="field">
 			<div class="name">性别：</div>
 			<div class="value">
 				<input type="text" name="sex">'男'或'女'
 			</div>
-		</div>
+		</div> -->
 		<div class="field">
 			<div class="name">年级：</div>
 			<div class="value">

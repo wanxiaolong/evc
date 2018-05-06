@@ -7,7 +7,9 @@
 
 <div class="header">
 	<div class="left">系统管理</div>
-	<div class="right"><a href="<%=basePath%>/admin/logout">注销</a></div>
+	<div class="right">
+		
+	</div>
 </div>
 <nav class="navbar-default navbar-side" role="navigation">
 	<div class="sidebar-collapse">

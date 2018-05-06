@@ -74,3 +74,7 @@ http://rmn190.iteye.com/blog/791605
 
 24. PinYin Util class:
 https://www.cnblogs.com/DreamDrive/p/5762078.html
+
+25. Update batch using mybatis:
+https://blog.csdn.net/xyjawq1/article/details/74129316
+

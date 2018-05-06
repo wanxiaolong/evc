@@ -38,6 +38,7 @@
 							<input name="remember-pwd" type="checkbox" class="remember-pwd">记住密码
 						</div>
 						<div class="logdiv">
+							<input type="hidden" name="ru" value="<%=ru%>">
 							<input type="submit" class="btnbg" value="点击登录">
 						</div>
 					</div>

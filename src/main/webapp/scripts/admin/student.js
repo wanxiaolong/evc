@@ -189,10 +189,10 @@ function addRows(array) {
 			student.number,
 			student.name,
 			student.namePinyin,
-			student.sex == 1 ? '男' : '女',
+			//student.sex == 1 ? '男' : '女',
 			student.grade,
 			student.clazz,
-			student.birthYear,
+			//student.birthYear,
 			student.birthDay,
 		];
 		//操作列

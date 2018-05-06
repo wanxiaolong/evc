@@ -18,7 +18,6 @@ public enum ErrorEnum {
 	
 	ILLEGAL_REQUEST_NO_EXAM_ID(401, "无效请求。参数中缺少exam_id"),
 	INVALID_VERIFY_CODE(402, "无效验证码"),
-	DAO_PARTIAL_INSERT(601, "只插入了部分数据"),
 	
 	INVALID_PASSWORD(105, "密码错误"),
 	INVALID_PASSWORD_CONFIRM(106, "确认密码错误"),
