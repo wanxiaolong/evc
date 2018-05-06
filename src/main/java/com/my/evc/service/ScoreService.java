@@ -150,12 +150,17 @@ public class ScoreService implements BaseService<Score> {
 		for (File examScoreFile : extractedFolder.listFiles()) {
 			if (examScoreFile.isFile()) {
 				String examName = examScoreFile.getName();
-				Exam exam = createExam(semester, examScoreFile);
+				
+				//查找该学期有没有这个考试，若有则返回，没有则创建再返回。
+				Exam exam = createOrReturnExam(semester, examScoreFile);
 				
 				//5. 读取Excel中的数据并插入数据库。这里如果出错，也继续上传后续文件。不中断。
-				List<Map<String, String>> scoreList = ExcelUtil.loadData(examScoreFile);
+				List<Map<String, String>> data = ExcelUtil.loadData(examScoreFile);
 				try {
-					saveScoreForExam(String.valueOf(exam.getId()), scoreList);
+					//读取学生信息并插入到数据库中
+					autoSaveStudentForExam(data);
+					//插入成绩信息
+					saveScoreForExam(String.valueOf(exam.getId()), data);
 				} catch (BusinessException e) {
 					LOGGER.error("上传成绩失败，文件名：" + examName, e);
 					failedFiles.add(semesterName + File.separator + examName);
@@ -212,12 +217,18 @@ public class ScoreService implements BaseService<Score> {
 		LOGGER.info("学生信息无需更新的个数：" + count);
 		
 		//执行更新
-		int updateRows = studentMapper.updateBatch(updateList);
-		LOGGER.info("学生信息更新完成！已更新：" + updateRows);
+		int updateRows = 0;
+		if (updateList.size() > 0) {
+			updateRows = studentMapper.updateBatch(updateList);
+			LOGGER.info("学生信息更新完成！已更新：" + updateRows);
+		}
 		
 		//把学生List保存在数据库中
-		int insertRows = studentMapper.createBatch(insertList);
-		LOGGER.info("学生信息插入完成！已插入：" + insertRows);
+		int insertRows = 0;
+		if (insertList.size() > 0) {
+			insertRows = studentMapper.createBatch(insertList);
+			LOGGER.info("学生信息插入完成！已插入：" + insertRows);
+		}
 		return updateRows + insertRows;
 	}
 	
@@ -250,7 +261,7 @@ public class ScoreService implements BaseService<Score> {
 	 * 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数。
 	 * @param examName 带后缀的Excel文件名，例如：abc.xlsx。
 	 */
-	private Exam createExam(Semester semester, File examScoreFile) throws DaoException, 
+	private Exam createOrReturnExam(Semester semester, File examScoreFile) throws DaoException, 
 		FileNotFoundException, IOException, BusinessException {
 		String examName = examScoreFile.getName();
 		String dbExamName = examName.substring(0, examName.lastIndexOf(".xls"));

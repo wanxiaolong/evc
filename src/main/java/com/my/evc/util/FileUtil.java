@@ -115,6 +115,8 @@ public class FileUtil {
 		if(file.exists()) {
 			file.delete();
 		}
+		file.getParentFile().mkdirs();
+		file.createNewFile();
 		copyStream(item.getInputStream(), new FileOutputStream(file));
 		return file;
 	}

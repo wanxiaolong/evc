@@ -15,7 +15,7 @@ var uploadConfig = {
 	showPreview: true, //是否显示预览
 	showCaption: true,//是否显示标题
 	browseClass: "btn btn-primary", //按钮样式
-	dropZoneEnabled: true,//是否显示拖拽区域
+	dropZoneEnabled: false,//是否显示拖拽区域
 	minFileSize: 1,
 	maxFileSize: 10240,//单位为kb，如果为0表示不限制文件大小
 	minFileCount: 1,
@@ -62,14 +62,18 @@ function uploadBatchConfig() {
 	uploadConfig.allowedFileExtensions = ['zip'];//接收的文件后缀，这里只支持.zip格式的压缩文件
 	uploadConfig.uploadUrl = webroot + "/score/uploadbatch"; //上传的地址
 	uploadConfig.uploadExtraData = {}; //附加信息
-	uploadConfig.maxFileCount = 20; //表示允许同时上传的最大文件个数;
+	uploadConfig.maxFileCount = 10; //表示允许同时上传的最大文件个数;
 	$("#upload-batch").fileinput(uploadConfig).on("fileuploaded", function (event, data, previewId, index){
 		//上传成功后的回调
 		if (data.jqXHR.responseJSON.status == 0) {
-			toastr.success("批量上传成功！");
+			var msg = "";
+			data.filenames.forEach(function(fileName){
+				msg += fileName + ", ";
+			});
+			toastr.success("批量上传成功！文件名：" + msg);
 		} else {
 			var msg = "上传失败的文件：" + data.jqXHR.responseJSON.response;
-			toastr.success(msg);
+			toastr.error(msg);
 		}
 	});
 }
@@ -86,8 +90,9 @@ function initUploadConfig(examId) {
 	uploadConfig.maxFileCount = 1; //表示允许同时上传的最大文件个数;
 	
 	$("#upload-file").fileinput(uploadConfig).on("fileuploaded", function (event, data, previewId, index){
+		var fileName = data.filenames[0];
 		//上传成功后的回调
-		toastr.success("单文件上传成功！data=" + data);
+		toastr.success("文件" + fileName + "上传成功！");
 	});
 }
 

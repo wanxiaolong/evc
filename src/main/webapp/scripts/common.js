@@ -101,7 +101,13 @@ function addSemesterOption(array) {
 
 //【管理员成绩查询页】【成绩上传页】改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
 function initExamSelect(callback) {
-	var selectedSemester = $("#semesterSelect").children('option:selected').val();//获取selected的值
+	//获取selected的值
+	var selectedSemester = $("#semesterSelect").children('option:selected').val();
+	//如果没有选择有效的，则直接返回
+	if (selectedSemester == 'none') {
+		reInitSelectOption("#examSelect");
+		return;
+	}
 	$.ajax({
 		type: 'GET',
 		url: webroot + '/exam/findBySemester?semester_id=' + selectedSemester,
@@ -124,11 +130,16 @@ function initExamSelect(callback) {
 	});
 }
 
+//删除下拉菜单选项，只留下默认的选项
+function reInitSelectOption(selector) {
+	//先清空原来的选择项
+	$(selector).empty();
+	$(selector).append("<option value='none'>--请选择--</option>");
+}
+
 //将查询到的学期信息动态增加到下拉菜单中
 function addExamOption(array) {
-	//先清空原来的选择项
-	$("#examSelect").empty();
-	$("#examSelect").append("<option value='none'>--请选择--</option>");
+	reInitSelectOption("#examSelect")
 	//再依次添加
 	for(var index in array) {
 		var exam = array[index];

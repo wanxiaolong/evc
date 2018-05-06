@@ -264,6 +264,9 @@ body {
 body #toast-container>div {
 	opacity: 1;
 }
+#toast-container.toast-top-center>div {
+	width: 700px;
+}
 /**
  * -------------------------------------------
  * 管理员考试管理页面(admin/exam.jsp)

@@ -69,12 +69,12 @@
 							<option value="none">--请选择--</option>
 						</select>
 					</div>
-					<div class="filter">
+					<%-- <div class="filter">
 						没有找到考试？&nbsp;&nbsp;
 						<button class="btn btn-primary" onclick="javascript:window.location.href='<%=basePath%>/admin/exam.jsp'">
 							<i class="fa fa-plus-circle"></i>考试管理
 						</button>
-					</div>
+					</div> --%>
 				</div>
 				<div class="subject-msg-div">
 					请确保Excel第一列<b>学生信息</b>和<b class="red">科目信息</b>按照如下顺序（仅支持.xls和.xlsx格式的文件）：
