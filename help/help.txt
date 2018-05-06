@@ -71,3 +71,6 @@ https://www.datatables.net/examples/advanced_init/column_render.html
 
 23. JQuery 'each' break and continue:
 http://rmn190.iteye.com/blog/791605
+
+24. PinYin Util class:
+https://www.cnblogs.com/DreamDrive/p/5762078.html

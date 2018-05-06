@@ -32,6 +32,7 @@ import com.my.evc.exception.BusinessException;
 public class ExcelUtil {
 	
 	private static final Logger LOGGER = Logger.getLogger(ExcelUtil.class);
+	//数字格式，防止长数字成为科学计数法形式，或者int变为double形式
 	private static final DecimalFormat FORMATTER = new DecimalFormat("0");
 	
 	/**

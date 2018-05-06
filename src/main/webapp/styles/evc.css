@@ -19,6 +19,9 @@ body {
 .red {
 	color: red;
 }
+.hide {
+	display: none;
+}
 /**
  * -------------------------------------------
  * 主页(home.jsp)
@@ -378,7 +381,7 @@ body #toast-container>div {
 }
 table.table.dataTable thead th, table.table.dataTable thead td,
 table.table.dataTable tbody th, table.table.dataTable tbody td {
-	padding: 5px 0px;
+	padding: 8px 0px;
 	vertical-align: middle;
 }
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, 
@@ -396,6 +399,7 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 .select2-container--default .selection .select2-selection--single .select2-selection__rendered.err-bdr {
 	border: 1px solid red;
 }
+
 /**
  * -------------------------------------------
  * 管理员成绩上传页面(admin/score_upload.jsp)
