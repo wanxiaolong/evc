@@ -2,9 +2,8 @@
  * 本文件为score.jsp使用的初始化脚本。 * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
 var webroot = getWebRoot();
+var table;
 $(document).ready(function(){
-	table = initDataTable("scoreTable");
-	
 	//移除select2下拉菜单的title属性，没用
 	$("#select2-semesterSelect-container").removeAttr("title");
 	
@@ -164,15 +163,27 @@ function initDataTable(id) {
 
 //动态的向表格中增加数据
 function addRows(array) {
-	//先删除现有的行，再动态创建并添加行。
-	//注意:
-	//1. 这里使用的是rows(selector)方法而不是row(selector)方法，这里用于选择多行
-	//2. 从表格中移除之后，需要重新调用draw()方法
-	table.rows("tr").remove().draw();
 	if (array.length == 0) {
+		toastr.info("没有查到成绩！");
 		return;
 	}
 	
+	//如果表格已被初始化（页面上非第一次查询），先删除现有的行，再重新初始化表格后重新添加行（因为列有可能已经改变）。
+	if (table) {
+		//注意:
+		//1. 这里使用的是rows(selector)方法而不是row(selector)方法，这里用于选择多行
+		//2. 从表格中移除之后，需要重新调用draw()方法
+		table.rows("tr").remove().draw();
+		table.destroy();
+		$("#scoreTable thead tr th[dynamic-field]").remove();
+	}
+	
+	//先处理表头，根据第一行数据的初始化表头
+	initDynamicColumns(array[0]);
+	table = initDataTable("scoreTable");
+	$("#scoreTable").removeClass('hide');
+	
+	//准备数据
 	for(var index in array) {
 		var score = array[index];
 		var data = [
@@ -190,6 +201,10 @@ function addRows(array) {
 			score.geography,
 			score.total
 		];
+		//移除掉undefined或者是空字符串
+		data = data.filter(function(val){
+			return !(typeof(val) == 'undefined' || val === "");
+		});
 		//TODO: 根据考试的配置，决定是否显示班级排名和年级排名
 		data.push(score.isShowClassRank ? '1' : '-');
 		data.push(score.isShowGradeRank ? '1' : '-');
@@ -200,4 +215,48 @@ function addRows(array) {
 	}
 	table.column(0).visible(false);//隐藏ID列（第1列），用于更新的时候的主键
 	table.columns.adjust().draw(false);//调整宽度，然后重画表格
+}
+
+//根据成绩数据的值隐藏没有值的列
+function initDynamicColumns(score) {
+	if (score.chinese) {
+		addField('chinese','语文');
+	}
+	if (score.math) {
+		addField('math','数学');
+	}
+	if (score.english) {
+		addField('english','英语');
+	}
+	if (score.physics) {
+		addField('physics','物理');
+	}
+	if (score.chemistry) {
+		addField('chemistry','化学');
+	}
+	if (score.biologic) {
+		addField('biologic','生物');
+	}
+	if (score.politics) {
+		addField('politics','政治');
+	}
+	if (score.history) {
+		addField('history','历史');
+	}
+	if (score.geography) {
+		addField('geography','地理');
+	}
+	if (score.total) {
+		addField('total','总分');
+	}
+	
+	//是否显示班级排名和年级排名
+	addField('clazzrank','班名');
+	addField('graderank','级名');
+	addField('action','操作');
+}
+
+function addField(field, name) {
+	var th = '<th dynamic-field="' + field + '">' + name + '</th>';
+	$("#scoreTable thead tr").append(th);
 }

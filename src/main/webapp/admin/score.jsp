@@ -55,25 +55,12 @@
 	
 			<!-- 表格布局 -->
 			<div class="title">查询结果</div>
-			<table id="scoreTable" class="table table-striped table-bordered">
+			<table id="scoreTable" class="table table-striped table-bordered hide">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>学号</th>
 						<th>姓名</th>
-						<th>语文</th>
-						<th>数学</th>
-						<th>英语</th>
-						<th>物理</th>
-						<th>化学</th>
-						<th>生物</th>
-						<th>政治</th>
-						<th>历史</th>
-						<th>地理</th>
-						<th>总分</th>
-						<th>班名</th>
-						<th>级名</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
