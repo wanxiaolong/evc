@@ -26,16 +26,16 @@ public enum ErrorEnum {
 	
 	
 	
-	private String message;
+	private String description;
 	private int code;
 	
-	private ErrorEnum(int code, String message) {
-		this.message=message;
+	private ErrorEnum(int code, String description) {
+		this.description=description;
 		this.code=code;
 	}
 	
-	public String getMessage() {
-		return message;
+	public String getDescription() {
+		return description;
 	}
 	public int getCode() {
 		return code;

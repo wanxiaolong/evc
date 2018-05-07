@@ -17,6 +17,7 @@ import com.my.evc.exception.BaseException;
 import com.my.evc.exception.ValidationException;
 import com.my.evc.model.User;
 import com.my.evc.service.UserService;
+import com.my.evc.util.StringUtil;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,7 +44,7 @@ public class AdminController extends BaseController {
 		//更新登录日期
 		userService.updateLastLogin(user.getId());
 		
-		String target = (ru != null) ? ru : ADMIN_HOME;
+		String target = (StringUtil.isEmpty(ru)) ? ru : ADMIN_HOME;
 		ModelAndView mav = new ModelAndView("redirect:" + target);
 		return mav;
 	}

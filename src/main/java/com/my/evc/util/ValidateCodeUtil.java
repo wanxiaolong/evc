@@ -1,4 +1,4 @@
-﻿package com.my.evc.util;
+package com.my.evc.util;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServlet;
+
 public class ValidateCodeUtil extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;

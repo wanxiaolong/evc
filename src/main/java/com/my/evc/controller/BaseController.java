@@ -1,5 +1,6 @@
 package com.my.evc.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ public class BaseController {
 	protected static final int SUCCESS = 0;
 	protected static final int FAILED = -1;
 	protected static final String MODEL = "model";
+	private static final Logger LOGGER = Logger.getLogger(BaseController.class);
 
 	/**
 	 * Get the property of the FailedResponse object.
@@ -35,7 +37,7 @@ public class BaseController {
 	}
 	
 	public FailedResponse getFailedResponse(ErrorEnum errorEnum) {
-		return getFailedResponse(errorEnum.getCode(), errorEnum.getMessage());
+		return getFailedResponse(errorEnum.getCode(), errorEnum.getDescription());
 	}
 
 	/**
@@ -47,9 +49,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = DuplicateException.class)
 	@ResponseBody
-	public FailedResponse duplicateExceptionHandler(
-			DuplicateException duplicateException) {
-		return getFailedResponse(duplicateException.getErrorEnum());
+	public FailedResponse duplicateExceptionHandler(DuplicateException exception) {
+		LOGGER.error(exception.getErrorEnum().getDescription());
+		return getFailedResponse(exception.getErrorEnum());
 	}
 
 	/**
@@ -60,7 +62,8 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = BaseException.class)
 	@ResponseBody
-	public FailedResponse baseExceptionHandler() {
+	public FailedResponse baseExceptionHandler(BaseException exception) {
+		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
 		return getFailedResponse(ErrorEnum.DATABASE_ACCESS_FAILED);
 	}
 
@@ -72,9 +75,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = ValidationException.class)
 	@ResponseBody
-	public FailedResponse validationExceptionHandler(
-			ValidationException validationException) {
-		return getFailedResponse(validationException.getErrorEnum());
+	public FailedResponse validationExceptionHandler(ValidationException exception) {
+		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		return getFailedResponse(exception.getErrorEnum());
 	}
 
 	/**
@@ -85,9 +88,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = ReferenceException.class)
 	@ResponseBody
-	public FailedResponse referenceExceptionHandler(
-			ReferenceException referenceException) {
-		return getFailedResponse(referenceException.getErrorEnum());
+	public FailedResponse referenceExceptionHandler(ReferenceException exception) {
+		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		return getFailedResponse(exception.getErrorEnum());
 	}
 
 	/**
@@ -99,6 +102,7 @@ public class BaseController {
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
 	public FailedResponse exceptionHandler(Exception exception) {
+		LOGGER.error(exception.getMessage(), exception);
 		return getFailedResponse(ErrorEnum.SYSTEM_ERROR);
 	}
 }

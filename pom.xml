@@ -175,6 +175,6 @@
 		
 	</dependencies>
 	<build>
-		<finalName>EVC</finalName>
+		<finalName>evc</finalName>
 	</build>
 </project>
