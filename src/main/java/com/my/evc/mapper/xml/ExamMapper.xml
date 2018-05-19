@@ -21,6 +21,8 @@
 			people=#{people},
 			date=#{date},
 			semester_number=#{semesterNumber},
+			is_score_uploaded=#{isScoreUploaded},
+			is_show_rank=#{isShowRank},
 			is_show_grade_rank=#{isShowGradeRank},
 			is_show_class_rank=#{isShowClassRank},
 			note=#{note}
@@ -35,6 +37,8 @@
 		exam.people as people,
 		exam.date as date,
 		exam.semester_number as semesterNumber,
+		exam.is_show_rank as isShowRank,
+		exam.is_score_uploaded as isScoreUploaded,
 		exam.is_show_grade_rank as isShowGradeRank,
 		exam.is_show_class_rank as isShowClassRank,
 		exam.note as note,

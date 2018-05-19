@@ -85,11 +85,13 @@ public class ExamController extends BaseController {
 		String subjectIds = request.getParameter(Constant.PARAM_SUBJECT_IDS);
 		String people = request.getParameter(Constant.PARAM_PEOPLE);
 		String date = request.getParameter(Constant.PARAM_DATE);
+		String isShowRank = request.getParameter(Constant.PARAM_SHOW_RANK);
 		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
 		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		Exam exam = new Exam(Integer.parseInt(examId), name, subjectIds, 
 				Integer.parseInt(people), date, Integer.parseInt(semesterId), 
+				CommonUtil.strToBool(isShowRank),
 				CommonUtil.strToBool(isShowGradeRank), CommonUtil.strToBool(isShowClassRank));
 		examService.update(exam);
 		return new JsonResponse<Object>(SUCCESS, null);
@@ -106,11 +108,13 @@ public class ExamController extends BaseController {
 		String subjectIds = request.getParameter(Constant.PARAM_SUBJECT_IDS);
 		String people = request.getParameter(Constant.PARAM_PEOPLE);
 		String date = request.getParameter(Constant.PARAM_DATE);
+		String isShowRank = request.getParameter(Constant.PARAM_SHOW_RANK);
 		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
 		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		//Create不需要ID，所以第一个参数默认为0
 		Exam exam = new Exam(0, name, subjectIds, Integer.parseInt(people), date, Integer.parseInt(semesterId), 
+				CommonUtil.strToBool(isShowRank),
 				CommonUtil.strToBool(isShowGradeRank), CommonUtil.strToBool(isShowClassRank));
 		examService.create(exam);
 		

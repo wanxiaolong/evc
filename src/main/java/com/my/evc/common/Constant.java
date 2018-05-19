@@ -43,6 +43,7 @@ public class Constant {
 	public static final String PARAM_SEX = "sex";
 	public static final String PARAM_SHOW_CLASS_RANK = "is_show_class_rank";
 	public static final String PARAM_SHOW_GRADE_RANK = "is_show_grade_rank";
+	public static final String PARAM_SHOW_RANK = "is_show_rank";
 	public static final String PARAM_SUBJECT_ID = "subject_id";
 	public static final String PARAM_SUBJECT_IDS = "subject_ids";
 	public static final String PARAM_TYPE = "type";

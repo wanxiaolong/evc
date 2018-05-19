@@ -46,10 +46,12 @@
 						<th>学期</th>
 						<th>考试名称</th>
 						<th>参考科目</th>
-						<th>人数</th>
 						<th>考试日期</th>
-						<th>班名</th>
-						<th>级名</th>
+						<th>参考人数</th>
+						<th>成绩状态</th>
+						<th>单科排名</th>
+						<th>班级排名</th>
+						<th>年级排名</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -89,6 +91,12 @@
 			<div class="name">考试日期：</div>
 			<div class="value">
 				<input type="text" name="date">yyyy-MM-dd
+			</div>
+		</div>
+		<div class="field">
+			<div class="name">显示单科排名：</div>
+			<div class="value">
+				<input type="text" name="isShowRank">'是'或'否'
 			</div>
 		</div>
 		<div class="field">

@@ -43,8 +43,8 @@ public class AdminController extends BaseController {
 		request.getSession().setAttribute(Constant.PARAM_USER, user);
 		//更新登录日期
 		userService.updateLastLogin(user.getId());
-		
-		String target = (StringUtil.isEmpty(ru)) ? ru : ADMIN_HOME;
+		//默认跳转到admin/home.jsp，如果ru不为空，则跳转到ru
+		String target = (StringUtil.isEmpty(ru)) ? ADMIN_HOME : ru;
 		ModelAndView mav = new ModelAndView("redirect:" + target);
 		return mav;
 	}

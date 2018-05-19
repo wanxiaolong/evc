@@ -13,6 +13,8 @@ public class Exam extends BaseModel {
 	private int people;					//参考人数
 	private String date;				//考试日期（格式：yyyy-MM-dd）
 	private int semesterNumber;			//学期。比如20171代表2017年上学期
+	private boolean isScoreUploaded;	//是否已经上传成绩
+	private boolean isShowRank;			//是否显示单科排名
 	private boolean isShowGradeRank;	//是否显示年级排名
 	private boolean isShowClassRank;	//是否显示班级排名
 	private String note;				//备注
@@ -21,13 +23,14 @@ public class Exam extends BaseModel {
 	 * 构造函数
 	 */
 	public Exam(int id, String name, String subjectIds, int people, String date, 
-			int semesterNumber, boolean isShowGradeRank, boolean isShowClassRank) {
+			int semesterNumber, boolean isShowRank, boolean isShowGradeRank, boolean isShowClassRank) {
 		setId(id);
 		this.name = name;
 		this.subjectIds = subjectIds;
 		this.people = people;
 		this.date = date;
 		this.semesterNumber = semesterNumber;
+		this.isShowRank = isShowRank;
 		this.isShowGradeRank = isShowGradeRank;
 		this.isShowClassRank = isShowClassRank;
 	}
@@ -36,7 +39,18 @@ public class Exam extends BaseModel {
 	 * 默认构造函数
 	 */
 	public Exam() {}
-	
+	public boolean isScoreUploaded() {
+		return isScoreUploaded;
+	}
+	public void setScoreUploaded(boolean isScoreUploaded) {
+		this.isScoreUploaded = isScoreUploaded;
+	}
+	public boolean isShowRank() {
+		return isShowRank;
+	}
+	public void setShowRank(boolean isShowRank) {
+		this.isShowRank = isShowRank;
+	}
 	public String getSubjectIds() {
 		return subjectIds;
 	}

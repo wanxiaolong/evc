@@ -36,6 +36,13 @@ body {
 	margin-right: 20px;
 	line-height: 50px;
 }
+.evc-page-header .navbar-logo:hover {
+	text-decoration: none;
+}
+.evc-page-header .navbar-logo:focus {
+	text-decoration: none;
+	outline: none;
+}
 .evc-page-header .navbar-text {
 	line-height: 50px;
 	margin: 0;

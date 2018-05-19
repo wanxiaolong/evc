@@ -54,6 +54,7 @@ function checkRequiredField() {
 			//检查输入：如果select的值是'--请选择--'，那等于没选
 			if (val == '--请选择--') {
 				select2Span.addClass('err-bdr');
+				errorFields.push($(this).attr('id'));
 			} else {
 				select2Span.removeClass('err-bdr');
 			}

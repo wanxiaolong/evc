@@ -151,6 +151,18 @@ public class ScoreController extends BaseController {
 		scoreService.update(score);
 		return new JsonResponse<Object>(SUCCESS, null);
 	}
+	
+	/**
+	 * 管理员删除某次考试的所有成绩。
+	 */
+	@RequestMapping(value = "/deletebyexam", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> deleteScoreByExam(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
+		scoreService.deleteScoreByExam(Integer.parseInt(examId));
+		return new JsonResponse<Object>(SUCCESS, null);
+	}
 
 	private Score createScoreObject(String scoreId, String chinese, String math, 
 			String english, String physics, String chemistry, String biologic, 

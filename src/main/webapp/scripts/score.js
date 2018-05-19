@@ -156,6 +156,9 @@ function initDataTable(id) {
 //动态的向表格中增加数据
 function addRows(array) {
 	if (array.length == 0) {
+		if (table) {
+			table.rows("tr").remove().draw();
+		}
 		toastr.info("没有查到成绩！");
 		return;
 	}

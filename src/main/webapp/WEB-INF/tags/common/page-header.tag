@@ -45,7 +45,7 @@
 				<c:if test="<%=(user != null)%>">
 					<p class="navbar-text navbar-right">
 						<span>当前用户：<%=user.getUsername()%></span>
-						<a href="<%=basePath%>/admin/logout">[注销]</a>
+						<a href="<%=basePath%>/admin/logout">[退出]</a>
 					</p>
 				</c:if>
 			</div>

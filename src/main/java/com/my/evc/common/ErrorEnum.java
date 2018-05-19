@@ -17,6 +17,7 @@ public enum ErrorEnum {
 	INVALID_SEMESTER_NAME(304, "无效学期名字"),
 	
 	ILLEGAL_REQUEST_NO_EXAM_ID(401, "无效请求。参数中缺少exam_id"),
+	ILLEGAL_REQUEST_INVALID_EXAM_ID(401, "无效请求。错误的exam_id"),
 	INVALID_VERIFY_CODE(402, "无效验证码"),
 	
 	INVALID_PASSWORD(105, "密码错误"),

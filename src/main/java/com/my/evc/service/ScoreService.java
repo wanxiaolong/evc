@@ -90,11 +90,11 @@ public class ScoreService implements BaseService<Score> {
 		if (examId == null) {
 			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_NO_EXAM_ID);
 		}
-		//如果examId不是数字，直接报错
+		//如果examId不是数字，或考试在数据库中不存在，直接报错
 		try {
 			Integer.parseInt(examId);
 		} catch(Exception e) {
-			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_NO_EXAM_ID);
+			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_INVALID_EXAM_ID);
 		}
 		
 		//检查Excel文件中的科目是否和系统一致
@@ -108,7 +108,7 @@ public class ScoreService implements BaseService<Score> {
 		//读取学生信息并插入到数据库中
 		autoSaveStudentForExam(data);
 		
-		//读取成绩信息并插入到数据库中
+		//读取成绩信息并插入到数据库中，并更新Exam的isScoreUploaded状态
 		int rows = saveScoreForExam(examId, data);
 		return rows;
 	}
@@ -233,14 +233,22 @@ public class ScoreService implements BaseService<Score> {
 	}
 	
 	/**
-	 * 把读取好的成绩保存到数据库中，并返回相应的行数。
+	 * 把读取好的成绩保存到数据库中，并更新Exam的isScoreUploaded状态，最后返回插入的行数。
+	 * @throws DaoException 
 	 */
-	private int saveScoreForExam(String examId, List<Map<String, String>> scoreList) throws BusinessException {
+	private int saveScoreForExam(String examId, List<Map<String, String>> scoreList) throws BusinessException, DaoException {
+		//先检查考试信息是否存在，不存在直接报错
+		int intId = Integer.parseInt(examId);
+		Exam exam = examMapper.find(intId);
+		if (exam == null) {
+			throw new BusinessException(ErrorEnum.EXAM_NOT_FOUND);
+		}
+		
 		//将读取到的成绩转换成Score对象并保存到List中
 		List<Score> scores = new ArrayList<Score>();
 		for(Map<String, String> map : scoreList) {
 			Score score = new Score();
-			score.setExamId(Integer.parseInt(examId));
+			score.setExamId(intId);
 			for(String key : map.keySet()) {
 				ScoreTitle title = ScoreTitle.fromString(key.toUpperCase());
 				if (title != null) {
@@ -254,6 +262,11 @@ public class ScoreService implements BaseService<Score> {
 		//把成绩List保存在数据库中
 		int rows = scoreMapper.createBatch(scores);
 		LOGGER.info("成绩信息插入完成！已插入：" + rows);
+		
+		//更新exam的isScoreUploaded状态
+		exam.setScoreUploaded(true);
+		examMapper.update(exam);
+		
 		return rows;
 	}
 
@@ -447,7 +460,7 @@ public class ScoreService implements BaseService<Score> {
 	}
 	
 	/**
-	 * 按姓名查询学生某次考试的成绩。
+	 * 查询全班某次考试的成绩。
 	 */
 	public List<ScoreVo> queryScoreByClass(int examId) {
 		List<ScoreVo> scoreVos = scoreMapper.findByClass(examId);
@@ -455,11 +468,9 @@ public class ScoreService implements BaseService<Score> {
 	}
 	
 	/**
-	 * 按学号查询学生某次考试的成绩。
-	 * @param number 学号
-	 * @param examId 考试
+	 * 按考试ID删除某次成绩。
 	 */
-	public void queryScoreByNumber(int number, int examId) {
-		
+	public void deleteScoreByExam(int examId) {
+		scoreMapper.deleteByExam(examId);
 	}
 }

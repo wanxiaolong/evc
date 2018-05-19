@@ -30,6 +30,10 @@
 	<delete id="delete" parameterType="int">
 		delete from score where id=#{id}
 	</delete>
+
+	<delete id="deleteByExam" parameterType="int">
+		delete from score where exam_id=#{examId}
+	</delete>
 	
 	<update id="update" parameterType="com.my.evc.model.Score">
 		update score 

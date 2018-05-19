@@ -15,6 +15,22 @@ $(document).ready(function(){
 		editExam(data[0]);
 	});
 	
+	//表格操作列上的“删除”按钮的点击事件
+	$('#subjectTable tbody').on('click', 'button#deleterow', function() {
+		//先将行的数据转换成数组
+		var data = table.row($(this).parents('tr')).data();
+		//第一列（页面上不显示）里保存的是完整的数据对象
+		deleteExam(data[0]);
+	});
+	
+	//表格操作列上的“删除成绩”按钮的点击事件
+	$('#examTable tbody').on('click', 'button#deletescore', function() {
+		//先将行的数据转换成数组
+		var data = table.row($(this).parents('tr')).data();
+		//第一列（页面上不显示）里保存的是完整的数据对象
+		deleteScoreByExam(data[0]);
+	});
+	
 	//点击模态框的提交按钮，执行表单提交
 	$("#confirm-update").click(function(){
 		submitExamUpdate();
@@ -30,6 +46,39 @@ $(document).ready(function(){
 	//初始化学期下拉菜单
 	queryAllSemesters();
 });
+
+//根据考试ID，删除该考试下的所有成绩
+function deleteScoreByExam(exam) {
+	$.ajax({
+		type: 'POST',
+		url: webroot + '/score/deletebyexam',
+		data: 	'exam_id=' + exam.id,
+		success: function (data) {
+			console.log(data);
+			toastr.error("删除成绩成功！");
+		},
+		error: function () {
+			toastr.error("删除成绩失败！");
+		}
+	});
+}
+
+//点击“删除”按钮后的操作
+function deleteExam(exam) {
+	$.ajax({
+		type: 'POST',
+		url: webroot + '/exam/delete',
+		data: 	'id=' + exam.id,
+		success: function (data) {
+			//删除成功后，重新查询数据
+			queryAllExams();
+			toastr.success("删除成功！数据已刷新。");
+		},
+		error: function () {
+			toastr.error("删除失败！");
+		}
+	});
+}
 
 //查询所有的学期信息（用于初始化下拉列表）
 function queryAllExams() {
@@ -71,6 +120,7 @@ function editExam(exam) {
 		$(":input[name='"+field.name+"']").val(exam[field.name]);
 	});
 	//初始化字段之后，对个别字段进行特殊处理
+	$("input[name='isShowRank']").val(exam.isShowRank ? '是' : '否');
 	$("input[name='isShowClassRank']").val(exam.isShowClassRank ? '是' : '否');
 	$("input[name='isShowGradeRank']").val(exam.isShowGradeRank ? '是' : '否');
 	
@@ -109,6 +159,7 @@ function submitExamUpdate() {
 	var name = $("#edit-form input[name='name']").val();
 	var people = $("#edit-form input[name='people']").val();
 	var date = $("#edit-form input[name='date']").val();
+	var isShowRank = $("#edit-form input[name='isShowRank']").val();
 	var isShowClassRank = $("#edit-form input[name='isShowClassRank']").val();
 	var isShowGradeRank = $("#edit-form input[name='isShowGradeRank']").val();
 	var semesterNumber = $("#semesterSelect").children('option:selected').val();
@@ -128,6 +179,7 @@ function submitExamUpdate() {
 				'&subject_ids=' + subjectIds + 
 				'&people=' + people +
 				'&date=' + date +
+				'&is_show_rank=' + isShowRank +
 				'&is_show_class_rank=' + isShowClassRank +
 				'&is_show_grade_rank=' + isShowGradeRank +
 				'&semester_id=' + semesterNumber,
@@ -157,27 +209,32 @@ function initDataTable(id) {
 		},
 		columnDefs: [
 			//--------------------------------      //前几列的名字固定，宽度固定
-			{"targets": 1, "sWidth": "130px"},  //学期
-			{"targets": 2, "sWidth": "150px"},  //考试名称
+			{"targets": 1, "sWidth": "80px"},  //学期
+			{"targets": 2, "sWidth": "100px"},  //考试名称
 			//----------------------------------//后续列为成绩列，宽度自动确定
 			//----------------------------------//操作列
 			//{"targets": 3, "sWidth": "250px"},  //参考科目
-			{"targets": 4, "sWidth": "50px"},   //参考人数
-			{"targets": 5, "sWidth": "90px"},   //考试日期
+			{"targets": 4, "sWidth": "80px"},   //考试日期
 			{
-				"targets": [6,7], 
-				"sWidth": "40px", //班级、年级排名
+				"targets": [5,6,7,8,9], 
+				"sWidth": "40px", //参考人数、是否已上传成绩、单科排名、班级排名、年级排名
 				"sortable": false,
 			},
 			{
 				"targets": -1,//倒数第1列，编辑
-				"sWidth": "60px",
+				"sWidth": "260px",
 				"sortable": false,//不能排序
 				"searchable": false,//不能搜索
 				"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
 				"defaultContent": 	"<button id='editrow' class='btn btn-primary' type='button' " +
 										"data-toggle='modal' data-target='#myModal' data-backdrop='false'>" +
-										"<i class='fa fa-edit'></i>" +
+										"<i class='fa fa-edit'></i>编辑" +
+									"</button>" +
+									"<button id='deleterow' class='btn btn-primary btn-danger' type='button'>" +
+										"<i class='fa fa-trash'></i>删除" +
+									"</button>" +
+									"<button id='deletescore' class='btn btn-primary btn-danger' type='button'>" +
+										"<i class='fa fa-trash'></i>删除成绩" +
 									"</button>"
 			},
 			//为了不让没值的单元格报错，需要为其他没指定target的列设置默认值，否则会弹出警告信息。
@@ -208,9 +265,11 @@ function addRows(array) {
 			exam.semesterName,
 			exam.name,
 			exam.subjectNames,//参考科目
-			exam.people,
 			exam.date,
+			exam.people,
 		];
+		data.push(exam.isScoreUploaded ? '是' : '否');
+		data.push(exam.isShowRank ? '是' : '否');
 		data.push(exam.isShowClassRank ? '是' : '否');
 		data.push(exam.isShowGradeRank ? '是' : '否');
 		//操作列

@@ -27,5 +27,12 @@ public interface ScoreMapper extends BaseMapper<Score> {
 	/**
 	 * 根据考试ID，查询所有的成绩（全班成绩）。
 	 */
-	public List<ScoreVo> findByClass(int examId);
+	public List<ScoreVo> findByClass(
+			@Param("examId") int examId);
+
+	/**
+	 * 根据考试ID，删除所有的成绩。
+	 */
+	public void deleteByExam(
+			@Param("examId") int examId);
 }
