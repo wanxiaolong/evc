@@ -30,6 +30,11 @@
 	<div class="admin evc-content">
 		<admin:menu/>
 		<div class="content">
+			<div class="description">
+				<p class="strong">说明：</p>
+				<p>1. 如果该考试已经上传了成绩，系统会显示“删除成绩”按钮，如果该考试没有上传成绩，则会显示“删除考试”按钮</p>
+				<p>2. 只有在该考试没有成绩的时候才能删除该考试。就是说，可能需要先删除该考试的成绩，才能删除该考试信息</p>
+			</div>
 			<div class="form-inline filter-block">
 				<div class="title">系统中的所有考试信息</div>
 				<div class="right">

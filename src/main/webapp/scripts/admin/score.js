@@ -140,7 +140,7 @@ function initDataTable(id) {
 				"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
 				"defaultContent": 	"<button id='editrow' class='btn btn-primary' type='button' " +
 										"data-toggle='modal' data-target='#myModal' data-backdrop='false'>" +
-										"<i class='fa fa-edit'></i>" +
+										"<i class='fa fa-edit'></i>编辑" +
 									"</button>"
 			},
 			//为了不让没值的单元格报错，需要为其他没指定target的列设置默认值，否则会弹出警告信息。

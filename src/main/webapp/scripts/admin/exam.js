@@ -16,7 +16,7 @@ $(document).ready(function(){
 	});
 	
 	//表格操作列上的“删除”按钮的点击事件
-	$('#subjectTable tbody').on('click', 'button#deleterow', function() {
+	$('#examTable tbody').on('click', 'button#deleterow', function() {
 		//先将行的数据转换成数组
 		var data = table.row($(this).parents('tr')).data();
 		//第一列（页面上不显示）里保存的是完整的数据对象
@@ -49,18 +49,24 @@ $(document).ready(function(){
 
 //根据考试ID，删除该考试下的所有成绩
 function deleteScoreByExam(exam) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/score/deletebyexam',
-		data: 	'exam_id=' + exam.id,
-		success: function (data) {
-			console.log(data);
-			toastr.error("删除成绩成功！");
-		},
-		error: function () {
-			toastr.error("删除成绩失败！");
-		}
-	});
+	var input = confirm("确定删除 [" + exam.name + "] 的所有成绩吗？");
+	if (input) {
+		$.ajax({
+			type: 'POST',
+			url: webroot + '/score/deletebyexam',
+			data: 	'exam_id=' + exam.id,
+			success: function (data) {
+				console.log(data);
+				queryAllExams();
+				toastr.success("删除成绩成功！");
+			},
+			error: function () {
+				toastr.error("删除成绩失败！");
+			}
+		});
+	}
+	
+	
 }
 
 //点击“删除”按钮后的操作
@@ -209,7 +215,7 @@ function initDataTable(id) {
 		},
 		columnDefs: [
 			//--------------------------------      //前几列的名字固定，宽度固定
-			{"targets": 1, "sWidth": "80px"},  //学期
+			{"targets": 1, "sWidth": "120px"},  //学期
 			{"targets": 2, "sWidth": "100px"},  //考试名称
 			//----------------------------------//后续列为成绩列，宽度自动确定
 			//----------------------------------//操作列
@@ -222,20 +228,11 @@ function initDataTable(id) {
 			},
 			{
 				"targets": -1,//倒数第1列，编辑
-				"sWidth": "260px",
+				"sWidth": "200px",
 				"sortable": false,//不能排序
 				"searchable": false,//不能搜索
-				"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
-				"defaultContent": 	"<button id='editrow' class='btn btn-primary' type='button' " +
-										"data-toggle='modal' data-target='#myModal' data-backdrop='false'>" +
-										"<i class='fa fa-edit'></i>编辑" +
-									"</button>" +
-									"<button id='deleterow' class='btn btn-primary btn-danger' type='button'>" +
-										"<i class='fa fa-trash'></i>删除" +
-									"</button>" +
-									"<button id='deletescore' class='btn btn-primary btn-danger' type='button'>" +
-										"<i class='fa fa-trash'></i>删除成绩" +
-									"</button>"
+				//"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
+				//"defaultContent": ""
 			},
 			//为了不让没值的单元格报错，需要为其他没指定target的列设置默认值，否则会弹出警告信息。
 			{"targets": "_all", "defaultContent": ""}, 
@@ -258,6 +255,21 @@ function addRows(array) {
 		return;
 	}
 	
+	//每一行都有这两个操作
+	var editBtn = 	"<button id='editrow' class='btn btn-primary' type='button' " +
+						"data-toggle='modal' data-target='#myModal' data-backdrop='false'>" +
+						"<i class='fa fa-edit'></i>编辑" +
+					"</button>";
+	var deleteBtn = "<button id='deleterow' class='btn btn-primary btn-danger' type='button'>" +
+						"<i class='fa fa-trash'></i>删除考试" +
+					"</button>";
+	
+	//有成绩的行，才显示“删除成绩”按钮
+	var deleteScoreBtn = 	"<button id='deletescore' class='btn btn-primary btn-danger' type='button'>" +
+								"<i class='fa fa-trash'></i>删除成绩" +
+							"</button>";
+	
+	
 	for(var index in array) {
 		var exam = array[index];
 		var data = [
@@ -273,7 +285,13 @@ function addRows(array) {
 		data.push(exam.isShowClassRank ? '是' : '否');
 		data.push(exam.isShowGradeRank ? '是' : '否');
 		//操作列
-		data.push('');
+		if (exam.isScoreUploaded) {
+			//如果该考试已经上传成绩，则“删除”按钮不可用，“删除成绩”按钮可用
+			data.push(editBtn + deleteScoreBtn);
+		} else {
+			//如果该考试没有上传成绩，则“删除”按钮可用，“删除成绩”按钮不可用
+			data.push(editBtn + deleteBtn);
+		}
 		table.row.add(data).draw(false);
 	}
 	table.column(0).visible(false);//隐藏ID列（第1列），用于更新的时候的主键

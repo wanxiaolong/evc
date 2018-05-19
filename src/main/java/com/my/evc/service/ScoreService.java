@@ -469,8 +469,14 @@ public class ScoreService implements BaseService<Score> {
 	
 	/**
 	 * 按考试ID删除某次成绩。
+	 * @throws DaoException 
 	 */
-	public void deleteScoreByExam(int examId) {
+	public void deleteScoreByExam(int examId) throws DaoException {
 		scoreMapper.deleteByExam(examId);
+		
+		//删除成绩后，更新Exam的isScoreUploaded状态
+		Exam exam = examMapper.find(examId);
+		exam.setScoreUploaded(false);
+		examMapper.update(exam);
 	}
 }

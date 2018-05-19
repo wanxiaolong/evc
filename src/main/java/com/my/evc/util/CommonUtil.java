@@ -22,4 +22,17 @@ public class CommonUtil {
 	public static boolean strToBool(String s) {
 		return "是".equals(s) ? true : false;
 	}
+	
+	/**
+	 * 用于将各类ID从String转换成int，如果转换失败，则返回0。
+	 * @param s
+	 * @return
+	 */
+	public static int strToInt(String s) {
+		try {
+			return Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
 }

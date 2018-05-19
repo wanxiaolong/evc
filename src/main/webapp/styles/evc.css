@@ -466,9 +466,12 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 .admin.evc-content .nav-tabs {
 	margin-bottom: 20px;
 }
-.admin.evc-content .tab-content .strong {
+.admin.evc-content .strong {
 	font-weight: bold;
 	font-size: 16px;
+}
+.admin.evc-content .description {
+	margin-bottom: 40px;
 }
 /**
  * -------------------------------------------

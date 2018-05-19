@@ -1,5 +1,7 @@
 package com.my.evc.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import com.my.evc.service.ExamService;
 import com.my.evc.service.SubjectService;
 import com.my.evc.util.CommonUtil;
 import com.my.evc.util.DataUtil;
+import com.my.evc.util.StringUtil;
 import com.my.evc.vo.ExamVo;
 
 /**
@@ -29,6 +32,8 @@ import com.my.evc.vo.ExamVo;
 @Controller
 @RequestMapping("/exam")
 public class ExamController extends BaseController {
+	
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
 	
 	@Autowired
 	private ExamService examService;
@@ -112,12 +117,29 @@ public class ExamController extends BaseController {
 		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
 		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
+		
+		if (StringUtil.isEmpty(date)) {
+			date = new SimpleDateFormat(DATE_FORMAT).format(new Date());
+		}
+		
 		//Create不需要ID，所以第一个参数默认为0
-		Exam exam = new Exam(0, name, subjectIds, Integer.parseInt(people), date, Integer.parseInt(semesterId), 
+		Exam exam = new Exam(0, name, subjectIds, CommonUtil.strToInt(people), date, Integer.parseInt(semesterId), 
 				CommonUtil.strToBool(isShowRank),
 				CommonUtil.strToBool(isShowGradeRank), CommonUtil.strToBool(isShowClassRank));
 		examService.create(exam);
 		
 		return new JsonResponse<Object>(SUCCESS, null);
+	}
+	
+	/**
+	 * 删除考试。
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> deleteById(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		examService.deleteByID(Integer.parseInt(id));
+		return new JsonResponse<Object>(SUCCESS, new Object());
 	}
 }
