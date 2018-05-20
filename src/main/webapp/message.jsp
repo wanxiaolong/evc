@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false" %>
 
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,41 +23,21 @@
 			<div class="right">
 				<a href="/evc/message_detail.jsp">我要留言>>></a>
 			</div>
-			<table id="_table" class="table table-striped column1-left">
+			<table id="messageTable" class="table table-striped column1-left">
 				<thead>
-					<tr class="row">
-						<th class="col-md-7">标题</th>
-						<th class="col-md-2">类型</th>
-						<th class="col-md-1">发布者</th>
-						<th class="col-md-2">创建日期</th>
+					<tr>
+						<th>ID</th>
+						<th>标题</th>
+						<th>类型</th>
+						<th>发布者</th>
+						<th>创建日期</th>
 					</tr>
 				</thead>
-				<tbody>
-					<c:forEach items="${model}" var="message">
-						<tr class="row">
-							<td class="col-md-8">
-								<a href="${message.id}">${message.title}</a>
-							</td>
-							<td class="col-md-1">${message.type}</td>
-							<td class="col-md-1">${message.contact}</td>
-							<td class="col-md-2">${message.creationDate}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</div>
 	</div>
 	<common:page-footer />
-<script type="text/javascript">
-$(document).ready(function(){
-	//Use DataTable plugin to provide sort/search/pagination feature for table.
-	//By default, this plugin uses English, provide this URL to do localization for this plugin.
-	$('#_table').DataTable({
-		language: {
-			url: '/evc/localization/chinese.json'
-		}
-	});
-});
-</script>
 </body>
+<script type="text/javascript" src="<%=basePath%>/scripts/message.js"></script>
 </html>

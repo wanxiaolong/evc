@@ -4,11 +4,11 @@
 var webroot = getWebRoot();
 $(document).ready(function(){
 	table = initDataTable("noticeTable");
-	queryAllFiles();
+	queryAll();
 });
 
 //查询所有的公告信息
-function queryAllFiles() {
+function queryAll() {
 	ajax('GET', '/notice/all', null, null, addRows);
 }
 

@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.evc.common.Constant;
+import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Message;
 import com.my.evc.security.Permission;
@@ -45,13 +47,16 @@ public class MessageController extends BaseController {
 		Message message = new Message(type,title, contact, content);
 		
 		messageService.create(message);
-		return getListView();
+		List<Message> messages = messageService.findAll();
+		ModelAndView mav = new ModelAndView("message");
+		mav.addObject(MODEL, messages);
+		return mav;
 	}
 	
 	/**
 	 * 留言详情。
 	 */
-	@RequestMapping(value="/{id}")
+	@RequestMapping(value="/view/{id}")
 	public ModelAndView messageDetail(@PathVariable("id") int id, 
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
@@ -62,18 +67,27 @@ public class MessageController extends BaseController {
 	}
 	
 	/**
-	 * 留言列表。
+	 * 删除留言。
 	 */
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
-			throws BaseException, Exception {
-		return getListView();
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> deleteById(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		//从数据库中删除记录
+		messageService.deleteByID(Integer.parseInt(id));
+		return new JsonResponse<Object>(SUCCESS, null);
 	}
 	
-	private ModelAndView getListView() throws BaseException {
+	/**
+	 * 留言列表。
+	 */
+	@RequestMapping(value="/all", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse<List<Message>> listNotices(HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
 		List<Message> messages = messageService.findAll();
-		ModelAndView mav = new ModelAndView("message");
-		mav.addObject(MODEL, messages);
-		return mav;
+		return new JsonResponse<List<Message>>(SUCCESS, messages);
 	}
+	
 }
