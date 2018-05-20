@@ -46,6 +46,7 @@
 			<div id="uploadByExam" class="form-inline filter-block tab-pane fade in active">
 				<div class="description">
 					<p class="strong">注意：</p>
+					<p>1. 考试下拉菜单中只显示没有上传成绩的考试，<b>不显示已上传成绩的考试</b>。如需重新为考试上传成绩，可先到“考试管理”里面删掉考试成绩</p>
 					<p>1. 仅支持.xls或.xlsx格式的Excel文件</p>
 					<p>2. 科目信息和顺序必须和显示的考试信息一致</p>
 					<p>3. 文件中的行数应等于考试人数，否则报错</p>

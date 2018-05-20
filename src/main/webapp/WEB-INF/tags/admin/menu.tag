@@ -49,7 +49,7 @@
 					<i class="fa fa-bar-chart"></i>文件管理<span class="badge">新增</span>
 				</a>
 			</li>
-			<!-- <li>
+			<li>
 				<a href="#">
 					<i class="fa fa-bar-chart"></i>公告管理<span class="badge">二期</span>
 				</a>
@@ -58,7 +58,7 @@
 				<a href="#">
 					<i class="fa fa-bar-chart"></i>留言管理<span class="badge">二期</span>
 				</a>
-			</li> -->
+			</li>
 			<li>
 				<a href="<%=basePath%>/admin/carousel.jsp">
 					<i class="fa fa-cog"></i>轮播设置

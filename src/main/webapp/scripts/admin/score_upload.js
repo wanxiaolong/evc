@@ -148,6 +148,12 @@ function addExamOption(array) {
 	//再依次添加
 	for(var index in array) {
 		var exam = array[index];
+		
+		//这里只添加没有上传成绩的考试，已上传的直接过滤。如需重新为考试上传成绩，可以到“考试管理”里面删掉成绩
+		if (exam.isScoreUploaded) {
+			continue;
+		}
+		
 		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
 		$("#examSelect").append(option);
 	}
