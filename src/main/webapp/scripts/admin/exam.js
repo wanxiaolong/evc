@@ -1,6 +1,6 @@
 /**
  * 本文件为admin/exam.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
+ * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
  */
 var allSubjects;//保存所有的科目信息
 var webroot = getWebRoot();

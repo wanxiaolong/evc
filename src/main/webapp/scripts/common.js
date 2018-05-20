@@ -115,7 +115,7 @@ function initExamSelect(callback) {
 		success: function (data) {
 			var array = data.response;
 			if (data.errorMessage != null) {
-				toastr.error(data.errorMessage);
+				toastr.error("调用查询考试信息接口失败！" + data.errorMessage);
 				return null;
 			}
 			addExamOption(array)
