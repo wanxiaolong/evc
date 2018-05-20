@@ -22,7 +22,7 @@ function initDataTable(id) {
 			{
 				"targets": 1,//这里是第二列（第1列是json对象，没显示）
 				"render": function(data, type, row) { //row是一个数组，代表这一行的所有数据
-					return "<a href='" + webroot + "/notice/" + row[0].name + "'>" + data + "</a>";
+					return "<a href='" + webroot + "/notice/view/" + row[0].id + "'>" + data + "</a>";
 				}
 			},
 			{"targets": -1, "sWidth": "200px"},

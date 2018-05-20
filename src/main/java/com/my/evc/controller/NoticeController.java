@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Notice;
@@ -47,7 +48,7 @@ public class NoticeController extends BaseController {
 	/**
 	 * 公告详情。
 	 */
-	@RequestMapping(value="/{id}")
+	@RequestMapping(value="/view/{id}")
 	public ModelAndView noticeDetail(@PathVariable("id") int id, 
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
@@ -58,9 +59,23 @@ public class NoticeController extends BaseController {
 	}
 	
 	/**
+	 * 删除公告。
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> deleteById(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		//从数据库中删除记录
+		noticeService.deleteByID(Integer.parseInt(id));
+		return new JsonResponse<Object>(SUCCESS, null);
+	}
+	
+	/**
 	 * 公告列表。
 	 */
 	@RequestMapping(value="/all", method = RequestMethod.GET)
+	@ResponseBody
 	public JsonResponse<List<Notice>> listNotices(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		List<Notice> notices = noticeService.findAll();
