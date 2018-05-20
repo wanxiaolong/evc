@@ -50,7 +50,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="<%=basePath%>/admin/notice.jsp">
 					<i class="fa fa-bar-chart"></i>公告管理<span class="badge">二期</span>
 				</a>
 			</li>

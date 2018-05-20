@@ -18,6 +18,7 @@ import com.my.evc.common.Constant;
 import com.my.evc.common.JsonResponse;
 import com.my.evc.exception.BaseException;
 import com.my.evc.model.Notice;
+import com.my.evc.model.User;
 import com.my.evc.security.Permission;
 import com.my.evc.security.RequirePermission;
 import com.my.evc.service.NoticeService;
@@ -58,6 +59,31 @@ public class NoticeController extends BaseController {
 		return mav;
 	}
 	
+	/**
+	 * 更新公告。
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<String> update(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		User loginUser = (User)request.getSession().getAttribute(Constant.PARAM_USER);
+		
+		String id = request.getParameter(Constant.PARAM_ID);
+		String title = request.getParameter(Constant.PARAM_TITLE);
+		String importantLevel = request.getParameter(Constant.PARAM_IMPORTANT_LEVEL);
+		String content = request.getParameter(Constant.PARAM_CONTENT);
+		Notice notice = new Notice();
+		notice.setId(Integer.parseInt(id));
+		notice.setImportantLevel(importantLevel);
+		notice.setContent(content);
+		notice.setTitle(title);
+		//这里用当前登录的用户更新公告
+		notice.setUserId(String.valueOf(loginUser.getId()));
+		
+		noticeService.update(notice);
+		return new JsonResponse<String>(SUCCESS, "Update succeed!");
+	}
+
 	/**
 	 * 删除公告。
 	 */

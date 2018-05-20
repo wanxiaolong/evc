@@ -22,6 +22,7 @@ public class Constant {
 	public static final String PARAM_HISTORY = "history";
 	public static final String PARAM_ID = "id";
 	public static final String PARAM_IMG_URL = "img_url";
+	public static final String PARAM_IMPORTANT_LEVEL = "important_level";
 	public static final String PARAM_LINK_URL = "link_url";
 	public static final String PARAM_MATH = "math";
 	public static final String PARAM_NAME = "name";

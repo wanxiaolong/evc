@@ -16,7 +16,7 @@
 	<update id="update" parameterType="com.my.evc.model.Notice">
 		update notice 
 		set 
-			user_id=#{usersId}, 
+			user_id=#{userId}, 
 			title=#{title}, 
 			important_level=#{importantLevel}, 
 			content=#{content} 
