@@ -1,6 +1,5 @@
 /**
  * 本文件为score_upload.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
  */
 var subjectMap = new Map();//保存所有的科目信息
 var examMap = new Map();//保存一学期的所有考试，key=id, value=Exam以避免重复查询
@@ -34,8 +33,15 @@ $(document).ready(function(){
 	
 	//如果学期下拉菜单变化，则查询该学期下的所有考试信息。成绩查询将根据这个选中的考试信息进行。
 	$('#semesterSelect').change(function(){
-		//在common.js中定义
-		initExamSelect(getExamCallback);
+		//获取selected的值
+		var selectedSemester = $("#semesterSelect").children('option:selected').val();
+		//如果没有选择有效的，则直接返回
+		if (selectedSemester == 'none') {
+			reInitSelectOption("#examSelect");
+			return;
+		}
+		var url = '/exam/findBySemester?semester_id=' + selectedSemester;
+		ajax('GET', url, null, null, addExamOption);
 		
 		//在common.js中定义。设置考试下拉菜单的选中项为“--请选择--”
 		setSelect2SelectedOption("examSelect", "none");
@@ -115,15 +121,6 @@ function handleExamChange() {
 	initUploadConfig(examId);
 }
 
-//回调函数，当获取到一个学期的所有考试信息的时候，重新初始化examMap
-function getExamCallback(exams) {
-	examMap.clear();
-	for(var index in exams) {
-		var exam = exams[index];
-		examMap.set(exam.id, exam);
-	}
-}
-
 //在上传之前显示该考试的科目信息。
 function displaySubjectInfo(examId) {
 	//从examMap中可以直接获取到Exam的详细信息，就不用再次查询数据库了
@@ -141,18 +138,35 @@ function displaySubjectInfo(examId) {
 
 //查询所有的学期信息（用于初始化下拉列表）
 function queryAllSubjects() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/subject/all',
-		success: function (data) {
-			var subjects = data.response;
-			//把科目放到Map中，key为id
-			for (var i in subjects) {
-				subjectMap.set(subjects[i].id, subjects[i]);
-			}
-		},
-		error: function () {
-			toastr.error("查询科目列表失败！");
-		}
+	ajax('GET', '/subject/all', null, null, querySuccessCallback);
+}
+
+//将查询到的学期信息动态增加到下拉菜单中
+function addExamOption(array) {
+	//该方法在common.js中
+	clearSelectOption("#examSelect");
+	//再依次添加
+	for(var index in array) {
+		var exam = array[index];
+		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
+		$("#examSelect").append(option);
+	}
+	//用中文渲染select2
+	$("#examSelect").select2({
+		language: "zh-CN"
 	});
+	
+	//当获取到一个学期的所有考试信息的时候，重新初始化examMap。当然也可以重新去请求一次，这是为了减少网络请求。
+	examMap.clear();
+	for(var index in array) {
+		var exam = array[index];
+		examMap.set(exam.id, exam);
+	}
+}
+
+function querySuccessCallback(subjects) {
+	//把科目放到Map中，key为id
+	for (var i in subjects) {
+		subjectMap.set(subjects[i].id, subjects[i]);
+	}
 }

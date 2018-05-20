@@ -1,5 +1,5 @@
 /**
- * 本文件为score.jsp使用的初始化脚本。 * 脚本中需要用到common.js的getWebRoot()和initExamSelect()函数，所以需要同时导入common.js文件。
+ * 本文件为admin/score.jsp使用的初始化脚本。
  */
 var webroot = getWebRoot();
 var table;
@@ -9,7 +9,7 @@ $(document).ready(function(){
 	
 	//监听查询按钮点击事件
 	$('#queryBtn').click(function(){
-		executeScoreQuery();
+		executeQuery();
 	});
 	
 	//初始化学期下拉菜单
@@ -38,13 +38,13 @@ $(document).ready(function(){
 	
 	//点击成绩修改模态框的提交按钮，执行表单提交
 	$("#confirm-update").click(function(){
-		submitScoreUpdate();
+		submitUpdate();
 	});
 });
 
 
 //提交数据，执行成绩更新。成功或失败都会在页面上显示消息。
-function submitScoreUpdate() {
+function submitUpdate() {
 	var id = $("#edit-form input[name='id']").val();
 	var chinese = $("#edit-form input[name='chinese']").val();
 	var math = $("#edit-form input[name='math']").val();
@@ -56,10 +56,7 @@ function submitScoreUpdate() {
 	var history = $("#edit-form input[name='history']").val();
 	var geography = $("#edit-form input[name='geography']").val();
 	
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/score/update',
-		data: 	'id=' + id +
+	var data =	'id=' + id +
 				'&chinese=' + chinese + 
 				'&math=' + math + 
 				'&english=' + english +
@@ -68,27 +65,12 @@ function submitScoreUpdate() {
 				'&biologic=' + biologic +
 				'&politics=' + politics +
 				'&history=' + history +
-				'&geography=' + geography,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			//隐藏模态框
-			$('#myModal').modal('hide');
-			//模拟用户点击查询，以刷新数据
-			$('#queryBtn').trigger('click');
-			//用toastr显示一个会自动消失的消息
-			toastr.success("修改成功！数据已更新。");
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-		}
-	});
+				'&geography=' + geography;
+	ajax('POST', '/score/update', data, null, updateSuccessCallback);
 }
 
 //发送请求到后台执行成绩查询
-function executeScoreQuery() {
+function executeQuery() {
 	//先执行必要的字段检查
 	if(!checkRequiredField()) {
 		return;
@@ -99,26 +81,12 @@ function executeScoreQuery() {
 	var namePinyin = $("#nameSelect").children('option:selected').val();
 	var birthday = $("#birthday").val();
 	
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/score/query',
-		data: 	'query_all=' + isQueryAll +
+	var data =	'query_all=' + isQueryAll +
 				'&semester_id=' + semesterId + 
 				'&name_pinyin=' + namePinyin + 
 				'&birth_day=' + birthday +
-				(examId != null ? '&exam_id=' + examId : ''),
-		success: function (data) {
-			var array = data.response;
-			if (data.errorMessage != null) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("查询成绩失败！");
-		}
-	});
+				(examId != null ? '&exam_id=' + examId : '');
+	ajax('POST', '/score/query', data, null, addRows);
 }
 
 //初始化Datatables表格
@@ -262,4 +230,41 @@ function initDynamicColumns(score) {
 function addField(field, name) {
 	var th = '<th dynamic-field="' + field + '">' + name + '</th>';
 	$("#scoreTable thead tr").append(th);
+}
+
+//【管理员成绩查询页】【成绩上传页】改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
+function initExamSelect() {
+	//获取selected的值
+	var selectedSemester = $("#semesterSelect").children('option:selected').val();
+	//如果没有选择有效的，则直接返回
+	if (selectedSemester == 'none') {
+		clearSelectOption("#examSelect");
+		return;
+	}
+	var url = '/exam/findBySemester?semester_id=' + selectedSemester;
+	ajax('GET', url, null, null, addExamOption);
+}
+
+//将查询到的学期信息动态增加到下拉菜单中
+function addExamOption(array) {
+	clearSelectOption("#examSelect");
+	//再依次添加
+	for(var index in array) {
+		var exam = array[index];
+		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
+		$("#examSelect").append(option);
+	}
+	//用中文渲染select2
+	$("#examSelect").select2({
+		language: "zh-CN"
+	});
+}
+
+function updateSuccessCallback() {
+	//隐藏模态框
+	$('#myModal').modal('hide');
+	//模拟用户点击查询，以刷新数据
+	$('#queryBtn').trigger('click');
+	//用toastr显示一个会自动消失的消息
+	toastr.success("修改成功！数据已更新。");
 }

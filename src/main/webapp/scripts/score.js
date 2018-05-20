@@ -25,42 +25,12 @@ $(document).ready(function(){
 
 //查询最近一次考试信息
 function queryLastExam() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/exam/findLast',
-		success: function (data) {
-			if (data.status == 0) {
-				//success
-				var data = data.response;
-				$("#examSemester").html(data.semesterName);
-				$("#examName").html(data.name);
-				$("#examPeople").html(data.people);
-				$(".score.evc-content .message").show();
-			} else {
-				//failure
-				$(".score.evc-content .message").hide();
-			}
-		},
-		error: function () {
-			$(".score.evc-content .message").hide();
-			toastr.error("查询最近一次考试失败！");
-		}
-	});
+	ajax('GET', '/exam/findLast', null, null, findLastExamSuccessCallback, findLastExamErrorCallback);
 }
 
 //查询所有学生信息（用于初始化下拉列表）
 function queryAllStudents() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/student/all',
-		success: function (data) {
-			var array = data.response;
-			addNameOption(array);
-		},
-		error: function () {
-			toastr.error("查询学生列表失败！");
-		}
-	});
+	ajax('GET', '/student/all', null, null, addNameOption);
 }
 
 //将查询到的学生动态增加到下拉菜单中
@@ -93,22 +63,13 @@ function executeScoreQuery() {
 	var namePinyin = $("#nameSelect").children('option:selected').val();
 	var birthday = $("#birthday").val();
 	
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/score/query',
-		data: 	'query_all=' + isQueryAll +
+	var data =	'query_all=' + isQueryAll +
 				'&semester_id=' + semesterId + 
 				'&name_pinyin=' + namePinyin + 
 				'&birth_day=' + birthday +
-				(examId != null ? '&exam_id=' + examId : ''),
-		success: function (data) {
-			var array = data.response;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("查询成绩失败！");
-		}
-	});
+				(examId != null ? '&exam_id=' + examId : '');
+	
+	ajax('POST', '/score/query', data, null, addRows);
 }
 
 //根据是否选中“查询所有历史成绩”初始化各个控件的状态
@@ -260,4 +221,16 @@ function initDynamicColumns(score) {
 function addField(field, name) {
 	var th = '<th dynamic-field="' + field + '">' + name + '</th>';
 	$("#scoreTable thead tr").append(th);
+}
+
+//查找最后一次考试信息，成功时的回调
+function findLastExamSuccessCallback(data) {
+	$("#examSemester").html(data.semesterName);
+	$("#examName").html(data.name);
+	$("#examPeople").html(data.people);
+	$(".score.evc-content .message").show();
+}
+//查找最后一次考试信息，失败时的回调
+function findLastExamErrorCallback() {
+	$(".score.evc-content .message").hide();
 }

@@ -1,8 +1,6 @@
 /**
- * 本文件为score.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
+ * 本文件为admin/change_pwd.jsp使用的初始化脚本。
  */
-
 var webroot = getWebRoot();
 $(document).ready(function(){
 	//设置验证码图片
@@ -25,31 +23,28 @@ function changePassword() {
 	var pwd_confirm = $("input[name='password_confirm']").val();
 	var verify_code = $("input[name='verify_code']").val();
 	
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/admin/change_pwd',
-		data: 	'password=' + pwd + 
+	var data =	'password=' + pwd + 
 				'&password_new=' + pwd_new + 
 				'&password_confirm=' + pwd_confirm +
 				'&verify_code=' + verify_code,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				//失败的时候也刷新验证码。
-				setVerifyCodeImg();
-				return;
-			}
-			//执行成功之后，跳转到主页
-			location.href=webroot + "/admin/home.jsp";
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-			setVerifyCodeImg();
-		}
-	});
+				
+	ajax('POST', '/admin/change_pwd', data, null, changePwdSuccessCallback, changePwdErrorCallback);
 }
 
 //设置验证码图片
 function setVerifyCodeImg() {
 	$('#verify_code_img').attr('src', webroot + '/server/getcode?t=' + Math.random());
+}
+
+//ajax调用成功的回调
+function changePwdSuccessCallback() {
+	setVerifyCodeImg();
+	//执行成功之后，跳转到主页
+	location.href=webroot + "/admin/home.jsp";
+}
+
+//ajax调用失败的回调
+function changePwdErrorCallback() {
+	setVerifyCodeImg();
+	toastr.error("登录失败！请稍后再试。");
 }

@@ -9,20 +9,7 @@ $(document).ready(function(){
 
 //查询所有的轮播信息
 function queryAllCarousels() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/carousel/all',
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-			}
-			var array = data.response;
-			initCarousel(array);
-		},
-		error: function () {
-			toastr.error("查询轮播列表失败！");
-		}
-	});
+	ajax('GET', '/carousel/all', null, null, initCarousel);
 }
 
 

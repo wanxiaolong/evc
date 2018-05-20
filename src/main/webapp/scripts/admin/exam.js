@@ -1,6 +1,5 @@
 /**
  * 本文件为admin/exam.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
  */
 var allSubjects;//保存所有的科目信息
 var webroot = getWebRoot();
@@ -12,7 +11,7 @@ $(document).ready(function(){
 		//先将行的数据转换成数组
 		var data = table.row($(this).parents('tr')).data();
 		//第一列（页面上不显示）里保存的是完整的数据对象
-		editExam(data[0]);
+		edit(data[0]);
 	});
 	
 	//表格操作列上的“删除”按钮的点击事件
@@ -20,7 +19,7 @@ $(document).ready(function(){
 		//先将行的数据转换成数组
 		var data = table.row($(this).parents('tr')).data();
 		//第一列（页面上不显示）里保存的是完整的数据对象
-		deleteExam(data[0]);
+		del(data[0]);
 	});
 	
 	//表格操作列上的“删除成绩”按钮的点击事件
@@ -33,77 +32,41 @@ $(document).ready(function(){
 	
 	//点击模态框的提交按钮，执行表单提交
 	$("#confirm-update").click(function(){
-		submitExamUpdate();
+		submitUpdate();
 	});
 	
 	//“增加考试”按钮的点击事件
 	$("#addBtn").click(function(){
-		addExam();
+		add();
 	});
 	
-	queryAllExams();
+	queryAll();
 	
-	//初始化学期下拉菜单
+	//初始化学期下拉菜单（common.js中）
 	queryAllSemesters();
 });
 
 //根据考试ID，删除该考试下的所有成绩
 function deleteScoreByExam(exam) {
 	var input = confirm("确定删除 [" + exam.name + "] 的所有成绩吗？");
+	
 	if (input) {
-		$.ajax({
-			type: 'POST',
-			url: webroot + '/score/deletebyexam',
-			data: 	'exam_id=' + exam.id,
-			success: function (data) {
-				console.log(data);
-				queryAllExams();
-				toastr.success("删除成绩成功！");
-			},
-			error: function () {
-				toastr.error("删除成绩失败！");
-			}
-		});
+		ajax('POST', '/score/deletebyexam', 'exam_id=' + exam.id, null, deleteSuccessCallback);
 	}
-	
-	
 }
 
 //点击“删除”按钮后的操作
-function deleteExam(exam) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/exam/delete',
-		data: 	'id=' + exam.id,
-		success: function (data) {
-			//删除成功后，重新查询数据
-			queryAllExams();
-			toastr.success("删除成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("删除失败！");
-		}
-	});
+function del(exam) {
+	ajax('POST', '/exam/delete', 'id=' + exam.id, null, deleteSuccessCallback);
 }
 
 //查询所有的学期信息（用于初始化下拉列表）
-function queryAllExams() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/exam/all',
-		success: function (data) {
-			var array = data.response.exams;
-			allSubjects = data.response.subjects;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("查询所有学期列表失败！");
-		}
-	});
+function queryAll() {
+	ajax('GET', '/exam/all', null, null, queryExamSuccessCallback);
 }
 
 //点击“增加考试”按钮后的操作
-function addExam() {
+function add() {
 	//清除表单中所有的值（点击“编辑”后，表单的值会被初始化掉，之后若点击“新增考试”，则此时表单中的值必须先清除掉）
 	var fields = $("#edit-form").serializeArray();
 	$.each(fields, function(i, field){
@@ -118,7 +81,7 @@ function addExam() {
 }
 
 //点击“编辑”按钮后的操作
-function editExam(exam) {
+function edit(exam) {
 	var fields = $("#edit-form").serializeArray();
 	$.each(fields, function(i, field){
 		//jquery根据name属性查找input，然后从score中获取对应的属性值，并将值设置给input
@@ -159,7 +122,7 @@ function createAllSubjectCheckbox(elementId) {
 }
 
 //提交数据，执行更新。成功或失败都会在页面上显示消息。
-function submitExamUpdate() {
+function submitUpdate() {
 	//如果id为空，则是创建（因为创建的时候会清除掉这个input中的值）
 	var id = $("#edit-form input[name='id']").val();
 	var name = $("#edit-form input[name='name']").val();
@@ -177,10 +140,8 @@ function submitExamUpdate() {
 	});
 	
 	var isCreate = id == '';
-	$.ajax({
-		type: 'POST',
-		url: webroot + (isCreate ? '/exam/create' : '/exam/update'),
-		data: 	'id=' + id +
+	var url = isCreate ? '/exam/create' : '/exam/update';
+	var data =	'id=' + id +
 				'&name=' + name + 
 				'&subject_ids=' + subjectIds + 
 				'&people=' + people +
@@ -188,23 +149,9 @@ function submitExamUpdate() {
 				'&is_show_rank=' + isShowRank +
 				'&is_show_class_rank=' + isShowClassRank +
 				'&is_show_grade_rank=' + isShowGradeRank +
-				'&semester_id=' + semesterNumber,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			//隐藏模态框
-			$('#myModal').modal('hide');
-			//再次查询，以刷新数据
-			queryAllExams();
-			//用toastr显示一个会自动消失的消息
-			toastr.success("修改成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-		}
-	});
+				'&semester_id=' + semesterNumber;
+	
+	ajax('POST', url, data, null, updateSuccessCallback);
 }
 
 //初始化Datatables表格
@@ -296,4 +243,11 @@ function addRows(array) {
 	}
 	table.column(0).visible(false);//隐藏ID列（第1列），用于更新的时候的主键
 	table.columns.adjust().draw(false);//调整宽度，然后重画表格
+}
+
+//ajax查询成功的回调
+function queryExamSuccessCallback(data) {
+	allSubjects = data.subjects;
+	var array = data.exams;
+	addRows(array);
 }

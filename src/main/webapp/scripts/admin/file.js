@@ -1,6 +1,5 @@
 /**
  * 本文件为admin/file.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
  */
 var webroot = getWebRoot();
 $(document).ready(function(){
@@ -20,43 +19,22 @@ $(document).ready(function(){
 	});
 	
 	//显示文件信息列表
-	queryAllFiles();
+	queryAll();
 	
 	//文件上传模块也在这个页面中，这里需要初始化
 	initFileUpload();
 });
 
 //查询所有的文件信息
-function queryAllFiles() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/file/all',
-		success: function (data) {
-			var array = data.response;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("调用查询接口失败！");
-		}
-	});
+function queryAll() {
+	ajax('GET', '/file/all', data, null, addRows);
 }
 
 //点击“删除”按钮后的操作
 function del(file) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/file/delete',
-		data: 	'id=' + file.id + 
-				'&name=' + file.name,
-		success: function (data) {
-			//删除成功后，重新查询数据
-			queryAllFiles();
-			toastr.success("删除成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("删除失败！");
-		}
-	});
+	var data =	'id=' + file.id + 
+				'&name=' + file.name;
+	ajax('POST', '/file/delete', data, null, deleteSuccessCallback);
 }
 
 //初始化Datatables表格

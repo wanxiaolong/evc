@@ -33,22 +33,12 @@ $(document).ready(function(){
 		add();
 	});
 	
-	queryAllStudents();
+	queryAll();
 });
 
 //查询所有的学期信息
-function queryAllStudents() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/student/all',
-		success: function (data) {
-			var array = data.response;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("调用查询接口失败！");
-		}
-	});
+function queryAll() {
+	ajax('GET', '/student/all', null, null, addRows);
 }
 
 //点击“增加学生”按钮后的操作
@@ -62,19 +52,7 @@ function add() {
 
 //点击“删除”按钮后的操作
 function del(student) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/student/delete',
-		data: 	'id=' + student.id,
-		success: function (data) {
-			//删除成功后，重新查询数据
-			queryAllStudents();
-			toastr.success("删除成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("删除失败！");
-		}
-	});
+	ajax('POST', '/student/delete', 'id=' + student.id, null, deleteSuccessCallback);
 }
 
 //点击“编辑”按钮后的操作
@@ -107,10 +85,8 @@ function submitUpdate() {
 	var birthDay = $("#edit-form input[name='birthDay']").val();
 	
 	var isCreate = id == '';
-	$.ajax({
-		type: 'POST',
-		url: webroot + (isCreate ? '/student/create' : '/student/update'),
-		data: 	'id=' + id +
+	var url = isCreate ? '/student/create' : '/student/update';
+	var data =	'id=' + id +
 				'&number=' + number +
 				'&name=' + name +
 				'&name_pinyin=' + namePinyin +
@@ -118,23 +94,8 @@ function submitUpdate() {
 				'&grade=' + grade +
 				'&class=' + clazz +
 				'&birth_year=' + birthYear +
-				'&birth_day=' + birthDay,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			//隐藏模态框
-			$('#myModal').modal('hide');
-			//再次查询，以刷新数据
-			queryAllStudents();
-			//用toastr显示一个会自动消失的消息
-			toastr.success((isCreate ? "创建" : "修改") + "成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-		}
-	});
+				'&birth_day=' + birthDay;
+	ajax('POST', url, data, null, updateSuccessCallback);
 }
 
 //初始化Datatables表格

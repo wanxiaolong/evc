@@ -64,23 +64,78 @@ function checkRequiredField() {
 	return errorFields.length == 0 ? true : false;
 }
 
-//【成绩查询页】查询所有的学期信息（用于初始化下拉列表）
-function queryAllSemesters() {
+
+/**
+ * 工具类，用于发送ajax请求。超时时间为5s。
+ * @param type 请求类型，如GET,POST
+ * @param url 请求地址，如/file/upload，注意这里不需要加host和port和appName
+ * @param data 要发送的数据
+ * @param dataType 数据类型，通常为json
+ * @param successCallback 请求成功后的回调函数
+ * @param errorCallback 请求失败后的回调函数
+ */
+function ajax(type, url, data, dataType, successCallback, errorCallback) {
+	var log = "[" + type + "] URL=" + url + ", Data=" + JSON.stringify(data);
+	printLog("请求： --> " + log);
 	$.ajax({
-		type: 'GET',
-		url: webroot + '/semester/all',
+		type: type,
+		url: webroot + url,
+		data: data,
+		dataType: dataType,
+		timeout: 5000, //超时时间
 		success: function (data) {
-			var array = data.response;
+			printLog("成功！ <-- [" + url + "] "+ JSON.stringify(data))
 			if (data.errorMessage != null) {
 				toastr.error(data.errorMessage);
 				return;
 			}
-			addSemesterOption(array);
+			if (successCallback != null && typeof(successCallback) == 'function') {
+				//如果提供了成功回调，则调用
+				successCallback(data.response);
+			} else {
+				//如果没提供成功回调，这里只是弹出一个错误消息提示
+				toast.error("操作成功！");
+			}
 		},
-		error: function () {
-			toastr.error("调用查询接口失败！");
+		error: function (jqXHR, status, error) {
+			printLog("失败！ <-- [" + url + "] ，状态：" + status + "，异常：" + error);
+			if (errorCallback != null && typeof(errorCallback) == 'function') {
+				//如果提供了失败回调，则调用
+				errorCallback();
+			} else {
+				//如果没提供失败回调，这里只是弹出一个错误消息提示
+				toastr.error("请求失败！" + "状态：" + status + "，异常：" + error);
+			}
 		}
 	});
+}
+
+//按照指定格式输出日志
+function printLog(msg) {
+	console.log(getCurrTime() + ' - ' + msg);
+}
+//按照指定格式输出错误日志
+function printError(msg) {
+	console.error(getCurrTime() + ' - ' + msg);
+}
+
+//获取当前时间，以[HH:mm:ss.sss]表示。主要用于日志记录。
+function getCurrTime() {
+	var dt = new Date();
+	var hh = dt.getHours();
+	hh = hh < 10 ? '0' + hh : hh;
+	var mm = dt.getMinutes();
+	mm = mm < 10 ? '0' + mm : mm;
+	var ss = dt.getSeconds();
+	ss = ss < 10 ? '0' + ss : ss;
+	var sss = dt.getMilliseconds();
+	sss = sss < 10 ? '00' + sss : (sss < 100 ? '0' + sss : sss);
+	return "[" + hh + ":" + mm + ":" + ss + "." + sss + "]";
+}
+
+//【成绩查询页】查询所有的学期信息（用于初始化下拉列表）
+function queryAllSemesters() {
+	ajax('GET', '/semester/all', null, null, addSemesterOption);
 }
 
 //【成绩查询页】将查询到的学期信息动态增加到下拉菜单中
@@ -100,57 +155,11 @@ function addSemesterOption(array) {
 	});
 }
 
-//【管理员成绩查询页】【成绩上传页】改变学期下拉菜单的时候，重新获取该学期的考试信息，并初始化考试下拉菜单
-function initExamSelect(callback) {
-	//获取selected的值
-	var selectedSemester = $("#semesterSelect").children('option:selected').val();
-	//如果没有选择有效的，则直接返回
-	if (selectedSemester == 'none') {
-		reInitSelectOption("#examSelect");
-		return;
-	}
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/exam/findBySemester?semester_id=' + selectedSemester,
-		success: function (data) {
-			var array = data.response;
-			if (data.errorMessage != null) {
-				toastr.error("调用查询考试信息接口失败！" + data.errorMessage);
-				return null;
-			}
-			addExamOption(array)
-			if (callback != null && typeof callback == 'function') {
-				//返回所有的考试信息，供外部使用
-				callback(array);
-			}
-		},
-		error: function () {
-			toastr.error("调用查询考试信息接口失败！");
-			return null;
-		}
-	});
-}
-
 //删除下拉菜单选项，只留下默认的选项
-function reInitSelectOption(selector) {
+function clearSelectOption(selector) {
 	//先清空原来的选择项
 	$(selector).empty();
 	$(selector).append("<option value='none'>--请选择--</option>");
-}
-
-//将查询到的学期信息动态增加到下拉菜单中
-function addExamOption(array) {
-	reInitSelectOption("#examSelect")
-	//再依次添加
-	for(var index in array) {
-		var exam = array[index];
-		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
-		$("#examSelect").append(option);
-	}
-	//用中文渲染select2
-	$("#examSelect").select2({
-		language: "zh-CN"
-	});
 }
 
 //给select2包装的select设置选中项
@@ -162,6 +171,20 @@ function setSelect2SelectedOption(elementId, selectedValue) {
 	select2.change();
 }
 
-//解决模态框中的select2不能搜索（不能获取焦点）的问题
-//https://blog.csdn.net/john1337/article/details/53315969
+//带有对话框的ajax调用成功的回调（更新或创建，需要关闭对话框）
+function updateSuccessCallback() {
+	//隐藏模态框
+	$('#myModal').modal('hide');
+	deleteSuccessCallback();
+}
+
+//删除操作的回调
+function deleteSuccessCallback() {
+	//再次查询，以刷新数据
+	queryAll();
+	//用toastr显示一个会自动消失的消息
+	toastr.success("操作成功！数据已刷新。");
+}
+
+//解决模态框中的select2不能搜索（不能获取焦点）的问题。见help.txt#17
 $.fn.modal.Constructor.prototype.enforceFocus = function () {}

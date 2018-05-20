@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false" %>
 
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,41 +20,21 @@
 	<common:page-header />
 	<div class="evc-content">
 		<div class="evc-notice">
-			<table id="_table" class="table table-striped column1-left">
+			<table id="noticeTable" class="table table-striped column1-left">
 				<thead>
-					<tr class="row">
-						<th class="col-md-7">标题</th>
-						<th class="col-md-1">重要性</th>
-						<th class="col-md-2">发布者</th>
-						<th class="col-md-2">创建日期</th>
+					<tr>
+						<th>ID</th>
+						<th>标题</th>
+						<th>重要性</th>
+						<th>发布者</th>
+						<th>创建日期</th>
 					</tr>
 				</thead>
-				<tbody>
-					<c:forEach items="${model}" var="notice">
-						<tr class="row">
-							<td class="col-md-7">
-								<a href="${notice.id}">${notice.title}</a>
-							</td>
-							<td class="col-md-1">${notice.importantLevel}</td>
-							<td class="col-md-2">${notice.userName}</td>
-							<td class="col-md-2">${notice.creationDate}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</div>
 	</div>
 	<common:page-footer />
-<script type="text/javascript">
-$(document).ready(function(){
-	//Use DataTable plugin to provide sort/search/pagination feature for table.
-	//By default, this plugin uses English, provide this URL to do localization for this plugin.
-	$('#_table').DataTable({
-		language: {
-			url: '/evc/localization/chinese.json'
-		}
-	});
-});
-</script>
 </body>
+<script type="text/javascript" src="<%=basePath%>/scripts/notice.js"></script>
 </html>

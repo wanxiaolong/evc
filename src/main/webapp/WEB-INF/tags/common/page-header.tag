@@ -24,8 +24,8 @@
 					<li><a href="<%=basePath%>/home.jsp">首页</a></li>
 					<li><a href="<%=basePath%>/score.jsp">成绩查询</a></li>
 					<li><a href="<%=basePath%>/file.jsp">资料下载</a></li>
-					<li><a href="<%=basePath%>/notice/list">公告栏</a></li>
-					<li><a href="<%=basePath%>/message/list">留言板</a></li>
+					<li><a href="<%=basePath%>/notice.jsp">公告栏</a></li>
+					<li><a href="<%=basePath%>/message.jsp">留言板</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							更多

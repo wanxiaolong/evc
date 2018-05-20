@@ -60,12 +60,10 @@ public class NoticeController extends BaseController {
 	/**
 	 * 公告列表。
 	 */
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView listNotices(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value="/all", method = RequestMethod.GET)
+	public JsonResponse<List<Notice>> listNotices(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		List<Notice> notices = noticeService.findAll();
-		ModelAndView mav = new ModelAndView("notice");
-		mav.addObject(MODEL, notices);
-		return mav;
+		return new JsonResponse<List<Notice>>(SUCCESS, notices);
 	}
 }

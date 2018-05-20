@@ -33,22 +33,12 @@ $(document).ready(function(){
 		add();
 	});
 	
-	queryAllSubjects();
+	queryAll();
 });
 
 //查询所有的科目信息
-function queryAllSubjects() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/subject/all',
-		success: function (data) {
-			var array = data.response;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("调用查询接口失败！");
-		}
-	});
+function queryAll() {
+	ajax('GET', '/subject/all', null, null, addRows);
 }
 
 //点击“增加科目”按钮后的操作
@@ -62,19 +52,7 @@ function add() {
 
 //点击“删除”按钮后的操作
 function del(subject) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/subject/delete',
-		data: 	'id=' + subject.id,
-		success: function (data) {
-			//删除成功后，重新查询数据
-			queryAllSubjects();
-			toastr.success("删除成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("删除失败！");
-		}
-	});
+	ajax('POST', '/subject/delete', 'id=' + subject.id, null, deleteSuccessCallback);
 }
 
 //点击“编辑”按钮后的操作
@@ -94,27 +72,10 @@ function submitUpdate() {
 	var name = $("#edit-form input[name='name']").val();
 	
 	var isCreate = id == '';
-	$.ajax({
-		type: 'POST',
-		url: webroot + (isCreate ? '/subject/create' : '/subject/update'),
-		data: 	'id=' + id +
-				'&name=' + name,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			//隐藏模态框
-			$('#myModal').modal('hide');
-			//再次查询，以刷新数据
-			queryAllSubjects();
-			//用toastr显示一个会自动消失的消息
-			toastr.success((isCreate ? "创建" : "修改") + "成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-		}
-	});
+	var url = isCreate ? '/subject/create' : '/subject/update';
+	var data =	'id=' + id +
+				'&name=' + name;
+	ajax('POST', url, data, null, updateSuccessCallback);
 }
 
 //初始化Datatables表格

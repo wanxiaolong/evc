@@ -1,15 +1,15 @@
 /**
- * 本文件为file.jsp使用的初始化脚本。
+ * 本文件为notice.jsp使用的初始化脚本。
  */
 var webroot = getWebRoot();
 $(document).ready(function(){
-	table = initDataTable("fileTable");
+	table = initDataTable("noticeTable");
 	queryAllFiles();
 });
 
-//查询所有的资料信息
+//查询所有的公告信息
 function queryAllFiles() {
-	ajax('GET', '/file/all', null, null, addRows);
+	ajax('GET', '/notice/all', null, null, addRows);
 }
 
 //初始化Datatables表格
@@ -22,7 +22,7 @@ function initDataTable(id) {
 			{
 				"targets": 1,//这里是第二列（第1列是json对象，没显示）
 				"render": function(data, type, row) { //row是一个数组，代表这一行的所有数据
-					return "<a href='" + webroot + "/file/" + row[0].name + "'>" + data + "</a>";
+					return "<a href='" + webroot + "/notice/" + row[0].name + "'>" + data + "</a>";
 				}
 			},
 			{"targets": -1, "sWidth": "200px"},
@@ -48,12 +48,13 @@ function addRows(array) {
 	}
 	
 	for(var index in array) {
-		var file = array[index];
+		var notice = array[index];
 		var data = [
-			file,
-			file.name,
-			file.downloadCount,
-			file.creationDate
+			notice,
+			notice.title,
+			notice.importantLevel,
+			notice.userName,
+			notice.creationDate
 		];
 		table.row.add(data).draw(false);
 	}

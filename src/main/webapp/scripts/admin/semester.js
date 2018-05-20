@@ -1,6 +1,5 @@
 /**
  * 本文件为admin/semester.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
  */
 var allSubjects;//保存所有的科目信息
 var webroot = getWebRoot();
@@ -33,22 +32,12 @@ $(document).ready(function(){
 		add();
 	});
 	
-	queryAllSemesters();
+	queryAll();
 });
 
 //查询所有的学期信息
-function queryAllSemesters() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/semester/all',
-		success: function (data) {
-			var array = data.response;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("调用查询接口失败！");
-		}
-	});
+function queryAll() {
+	ajax('GET', '/semester/all', null, null, addRows);
 }
 
 //点击“增加科目”按钮后的操作
@@ -62,19 +51,7 @@ function add() {
 
 //点击“删除”按钮后的操作
 function del(semester) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/semester/delete',
-		data: 	'id=' + semester.id,
-		success: function (data) {
-			//删除成功后，重新查询数据
-			queryAllSemesters();
-			toastr.success("删除成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("删除失败！");
-		}
-	});
+	ajax('POST', '/semester/delete', 'id=' + semester.id, null, deleteSuccessCallback);
 }
 
 //点击“编辑”按钮后的操作
@@ -94,27 +71,10 @@ function submitUpdate() {
 	var name = $("#edit-form input[name='name']").val();
 	
 	var isCreate = id == '';
-	$.ajax({
-		type: 'POST',
-		url: webroot + (isCreate ? '/semester/create' : '/semester/update'),
-		data: 	'id=' + id +
-				'&name=' + name,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			//隐藏模态框
-			$('#myModal').modal('hide');
-			//再次查询，以刷新数据
-			queryAllSemesters();
-			//用toastr显示一个会自动消失的消息
-			toastr.success((isCreate ? "创建" : "修改") + "成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-		}
-	});
+	var url = isCreate ? '/semester/create' : '/semester/update';
+	var data =	'id=' + id +
+				'&name=' + name;
+	ajax('POST', url, data, null, updateSuccessCallback);
 }
 
 //初始化Datatables表格

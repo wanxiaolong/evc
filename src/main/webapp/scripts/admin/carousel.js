@@ -1,6 +1,5 @@
 /**
  * 本文件为admin/carousel.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
  */
 var allSubjects;//保存所有的科目信息
 var webroot = getWebRoot();
@@ -38,17 +37,7 @@ $(document).ready(function(){
 
 //查询所有的列表信息
 function queryAll() {
-	$.ajax({
-		type: 'GET',
-		url: webroot + '/carousel/all',
-		success: function (data) {
-			var array = data.response;
-			addRows(array);
-		},
-		error: function () {
-			toastr.error("调用查询接口失败！");
-		}
-	});
+	ajax('GET', '/carousel/all', null, null, addRows);
 }
 
 //点击“增加xx”按钮后的操作
@@ -62,19 +51,7 @@ function add() {
 
 //点击“删除”按钮后的操作
 function del(subject) {
-	$.ajax({
-		type: 'POST',
-		url: webroot + '/carousel/delete',
-		data: 	'id=' + subject.id,
-		success: function (data) {
-			//删除成功后，重新查询数据
-			queryAll();
-			toastr.success("删除成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("删除失败！");
-		}
-	});
+	ajax('POST', '/carousel/delete', 'id=' + subject.id, null, deleteSuccessCallback, errorCallback);
 }
 
 //点击“编辑”按钮后的操作
@@ -100,31 +77,15 @@ function submitUpdate() {
 	var enabled = $("#edit-form input[name='enabled']").val();
 	
 	var isCreate = id == '';
-	$.ajax({
-		type: 'POST',
-		url: webroot + (isCreate ? '/carousel/create' : '/carousel/update'),
-		data: 	'id=' + id +
+	var url = isCreate ? '/carousel/create' : '/carousel/update';
+	var data =	'id=' + id +
 				'&img_url=' + imgUrl +
 				'&link_url=' + linkUrl +
 				'&alt_text=' + altText +
 				'&order=' + order +
-				'&enabled=' + enabled,
-		success: function (data) {
-			if (data.status != 0) {
-				toastr.error(data.errorMessage);
-				return;
-			}
-			//隐藏模态框
-			$('#myModal').modal('hide');
-			//再次查询，以刷新数据
-			queryAll();
-			//用toastr显示一个会自动消失的消息
-			toastr.success((isCreate ? "创建" : "修改") + "成功！数据已刷新。");
-		},
-		error: function () {
-			toastr.error("修改失败！请稍后再试。");
-		}
-	});
+				'&enabled=' + enabled;
+	
+	ajax('POST', url, data, null, updateSuccessCallback, errorCallback);
 }
 
 //初始化Datatables表格
