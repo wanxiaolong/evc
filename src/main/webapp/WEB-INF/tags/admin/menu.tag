@@ -55,7 +55,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="<%=basePath%>/admin/message.jsp">
 					<i class="fa fa-bar-chart"></i>留言管理<span class="badge">二期</span>
 				</a>
 			</li>

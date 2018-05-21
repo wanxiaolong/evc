@@ -67,6 +67,26 @@ public class MessageController extends BaseController {
 	}
 	
 	/**
+	 * 更新留言。
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse<Object> update(HttpServletRequest request, 
+			HttpServletResponse response) throws BaseException, Exception {
+		String id = request.getParameter(Constant.PARAM_ID);
+		String type = request.getParameter(Constant.PARAM_TYPE);
+		String title = request.getParameter(Constant.PARAM_TITLE);
+		String contact = request.getParameter(Constant.PARAM_CONTACT);
+		String content = request.getParameter(Constant.PARAM_CONTENT);
+		
+		Message message = new Message(type,title, contact, content);
+		message.setId(Integer.parseInt(id));
+		//从数据库中删除记录
+		messageService.update(message);
+		return new JsonResponse<Object>(SUCCESS, null);
+	}
+
+	/**
 	 * 删除留言。
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
