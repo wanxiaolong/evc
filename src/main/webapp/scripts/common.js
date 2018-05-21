@@ -1,6 +1,4 @@
 //本文件定义了非常常用的公共方法。
-
-//用于配置消息提示插件toastr。nenxitong zhong suoyou d xiaoti tishi dou yong zhege chajian .
 toastr.options = {
 	positionClass: "toast-top-center", //显示消息的位置
 	timeOut: "3000",//显示的时间
@@ -104,7 +102,7 @@ function ajax(type, url, data, dataType, successCallback, errorCallback) {
 				errorCallback();
 			} else {
 				//如果没提供失败回调，这里只是弹出一个错误消息提示
-				toastr.error("请求失败！" + "状态：" + status + "，异常：" + error);
+				toastr.error("操作失败！" + "状态：" + status + "，异常：" + error);
 			}
 		}
 	});
@@ -143,14 +141,53 @@ function addSemesterOption(array) {
 	//先清空原来的选择项
 	$("#semesterSelect").empty();
 	$("#semesterSelect").append("<option value='none'>--请选择--</option>");
+
+	
 	//再依次添加
 	for(var index in array) {
 		var semester = array[index];
 		var option = "<option value='" + semester.number+"'>" + semester.name + "</option>";
 		$("#semesterSelect").append(option);
 	}
+
+	//如果是从“考试管理”页面跳转过来的，则还需要初始化选中的学期和考试
+	var examId = $("input[name='examId']").val();
+	var semesterNumber = $("input[name='semesterNumber']").val();
+	if (semesterNumber != undefined && semesterNumber != 'null' && 
+			examId != undefined && examId != 'null') {
+		setSelect2SelectedOption('semesterSelect', semesterNumber);
+		var url = '/exam/findBySemester?semester_id=' + semesterNumber;
+		ajax('GET', url, null, null, preSelectExam);
+	}
+	
 	//用中文渲染select2
 	$("#semesterSelect").select2({
+		language: "zh-CN"
+	});
+	
+}
+
+function preSelectExam(array) {
+	var examId = $("input[name='examId']").val();
+	//将查询到的学期信息动态增加到下拉菜单中
+	clearSelectOption("#examSelect");
+	//再依次添加
+	for(var index in array) {
+		var exam = array[index];
+		
+		//这里只添加没有上传成绩的考试，已上传的直接过滤。如需重新为考试上传成绩，可以到“考试管理”里面删掉成绩
+		if (exam.isScoreUploaded) {
+			continue;
+		}
+		
+		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
+		$("#examSelect").append(option);
+	}
+	
+	setSelect2SelectedOption('examSelect', examId);
+	
+	//用中文渲染select2
+	$("#examSelect").select2({
 		language: "zh-CN"
 	});
 }

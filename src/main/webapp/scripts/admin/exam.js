@@ -29,6 +29,14 @@ $(document).ready(function(){
 		//第一列（页面上不显示）里保存的是完整的数据对象
 		deleteScoreByExam(data[0]);
 	});
+
+	//表格操作列上的“删除成绩”按钮的点击事件
+	$('#examTable tbody').on('click', 'button#uploadscore', function() {
+		//先将行的数据转换成数组
+		var data = table.row($(this).parents('tr')).data();
+		//第一列（页面上不显示）里保存的是完整的数据对象
+		uploadScoreForExam(data[0]);
+	});
 	
 	//点击模态框的提交按钮，执行表单提交
 	$("#confirm-update").click(function(){
@@ -166,7 +174,7 @@ function initDataTable(id) {
 			{"targets": 2, "sWidth": "100px"},  //考试名称
 			//----------------------------------//后续列为成绩列，宽度自动确定
 			//----------------------------------//操作列
-			//{"targets": 3, "sWidth": "250px"},  //参考科目
+			//{"targets": 3, "sWidth": "80px"},  //参考科目
 			{"targets": 4, "sWidth": "80px"},   //考试日期
 			{
 				"targets": [5,6,7,8,9], 
@@ -175,7 +183,7 @@ function initDataTable(id) {
 			},
 			{
 				"targets": -1,//倒数第1列，编辑
-				"sWidth": "200px",
+				"sWidth": "300px",
 				"sortable": false,//不能排序
 				"searchable": false,//不能搜索
 				//"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
@@ -194,6 +202,12 @@ function initDataTable(id) {
 	return $('#' + id).DataTable(config);
 }
 
+//跳转到score_upload.jsp并传入参数，那边直接用这两个参数初始化
+function uploadScoreForExam(exam) {
+	var data = 'exam_id=' + exam.id + '&semester_number=' + exam.semesterNumber;
+	location.href = webroot + '/admin/score_upload.jsp?' + data;
+}
+
 //动态的向表格中增加数据
 function addRows(array) {
 	//先删除现有的行，再动态创建并添加行。
@@ -209,6 +223,10 @@ function addRows(array) {
 					"</button>";
 	var deleteBtn = "<button id='deleterow' class='btn btn-primary btn-danger' type='button'>" +
 						"<i class='fa fa-trash'></i>删除考试" +
+					"</button>";
+	
+	var uploadBtn = "<button id='uploadscore' class='btn btn-primary btn-success' type='button'>" +
+						"<i class='fa fa-upload'></i>上传成绩" +
 					"</button>";
 	
 	//有成绩的行，才显示“删除成绩”按钮
@@ -237,7 +255,7 @@ function addRows(array) {
 			data.push(editBtn + deleteScoreBtn);
 		} else {
 			//如果该考试没有上传成绩，则“删除”按钮可用，“删除成绩”按钮不可用
-			data.push(editBtn + deleteBtn);
+			data.push(editBtn + deleteBtn + uploadBtn);
 		}
 		table.row.add(data).draw(false);
 	}

@@ -3,9 +3,12 @@
 <%@ taglib prefix="common" tagdir="/WEB-INF/tags/common"%>
 <%@ taglib prefix="admin" tagdir="/WEB-INF/tags/admin"%>
 <%@ page isELIgnored="false" %>
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+	String examId = (String)request.getParameter("exam_id");
+	String semesterNumber = (String)request.getParameter("semester_number");
 %>
 
 <!DOCTYPE html>
@@ -30,6 +33,8 @@
 <body>
 	<common:page-header/>
 	<div class="admin evc-content">
+		<input type="hidden" name="examId" value="<%=examId%>"/>
+		<input type="hidden" name="semesterNumber" value="<%=semesterNumber%>"/>
 		<admin:menu/>
 		<div class="content tab-content">
 			<!-- 标签页 -->
