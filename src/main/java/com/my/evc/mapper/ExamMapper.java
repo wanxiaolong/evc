@@ -18,7 +18,8 @@ public interface ExamMapper extends BaseMapper<Exam> {
 	/**
 	 * 查询某个学期的所有考试信息。
 	 */
-	public List<Exam> findBySemester(@Param("semesterNumber") int semesterNumber);
+	public List<Exam> findBySemester(
+			@Param("semesterNumber") int semesterNumber);
 	
 	/**
 	 * 查找最近一次考试信息
@@ -31,4 +32,8 @@ public interface ExamMapper extends BaseMapper<Exam> {
 	public Exam findBySemesterAndName(
 			@Param("semesterNumber") int semesterNumber,
 			@Param("examName") String examName);
+	
+	public void updateScoreStatus(
+			@Param("id") int id,
+			@Param("isUploaded") boolean isUploaded);
 }

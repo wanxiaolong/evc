@@ -33,6 +33,10 @@ public class ExamService implements BaseService<Exam>{
 	public Exam findByID(int id) throws BaseException {
 		return examMapper.find(id);
 	}
+
+	public void updateScoreStatus(int id, boolean isUploaded) throws BaseException {
+		examMapper.updateScoreStatus(id, isUploaded);
+	}
 	
 	/**
 	 * 获取所有的考试。

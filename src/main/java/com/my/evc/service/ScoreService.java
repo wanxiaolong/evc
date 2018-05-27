@@ -246,6 +246,7 @@ public class ScoreService implements BaseService<Score> {
 		}
 		
 		//将读取到的成绩转换成Score对象并保存到List中
+		int order = 0;//在excel中的顺序
 		List<Score> scores = new ArrayList<Score>();
 		for(Map<String, String> map : scoreList) {
 			Score score = new Score();
@@ -257,6 +258,7 @@ public class ScoreService implements BaseService<Score> {
 					saveScoreToSubject(title, scoreValue, score);
 				}
 			}
+			score.setOrder(order++);
 			scores.add(score);
 		}
 		
@@ -268,8 +270,7 @@ public class ScoreService implements BaseService<Score> {
 		LOGGER.info("成绩信息插入完成！已插入：" + rows);
 		
 		//更新exam的isScoreUploaded状态
-		exam.setScoreUploaded(true);
-		examMapper.update(exam);
+		examMapper.updateScoreStatus(intId, true);
 		
 		return rows;
 	}
@@ -473,14 +474,10 @@ public class ScoreService implements BaseService<Score> {
 	
 	/**
 	 * 按考试ID删除某次成绩。
-	 * @throws DaoException 
 	 */
 	public void deleteScoreByExam(int examId) throws DaoException {
 		scoreMapper.deleteByExam(examId);
-		
 		//删除成绩后，更新Exam的isScoreUploaded状态
-		Exam exam = examMapper.find(examId);
-		exam.setScoreUploaded(false);
-		examMapper.update(exam);
+		examMapper.updateScoreStatus(examId, false);
 	}
 }

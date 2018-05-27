@@ -6,6 +6,7 @@ package com.my.evc.model;
  * 比如哪天临时有个比赛，成绩也可以用这个统计。
  */
 public class Score extends BaseModel {
+	private int order;				//在excel中的顺序。因为按照等级排名后，原来的顺序被打乱了，需要通过这个字段恢复
 	private int studentNumber;		//学生的学号
 	private int examId;				//考试的主键
 	private String chinese;			//语文
@@ -38,6 +39,12 @@ public class Score extends BaseModel {
 	private int score2Rank;			//预留字段2排名
 	private int totalRank;			//总分排名
 	
+	public int getOrder() {
+		return order;
+	}
+	public void setOrder(int order) {
+		this.order = order;
+	}
 	public int getChineseRank() {
 		return chineseRank;
 	}

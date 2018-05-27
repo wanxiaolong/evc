@@ -136,7 +136,22 @@ public class DataUtil {
 		setRank(list, "score1");
 		setRank(list, "score2");
 		setRank(list, "total");
+		resumeOrder(list);
 		return list;
+	}
+	
+	/**
+	 * 把乱序的order列表按照Excel中出现的顺序排序。
+	 */
+	public static void resumeOrder(List<Score> list) {
+		Collections.sort(list, new Comparator<Score>(){
+			//创建一个匿名内部类来排序，排序的规则是按照order字段顺序
+			public int compare(Score o1, Score o2) {
+				int s1 = o1.getOrder();
+				int s2 = o2.getOrder();
+				return s1 > s2 ? 1 : (s1 == s2 ? 0 : -1);
+			}
+		});
 	}
 	
 	/**
