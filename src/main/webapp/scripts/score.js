@@ -99,9 +99,9 @@ function initDataTable(id) {
 		},
 		columnDefs: [
 			//--------------------------------  //前几列的名字固定，宽度固定
-			{ "sWidth": "100px", "targets": 0 },//学号
-			{ "sWidth": "70px" , "targets": 1 },//姓名
-			{ "sWidth": "150px", "targets": 2 },//学期
+			{ "sWidth": "80px", "targets": 0 },//学号
+			{ "sWidth": "60px" , "targets": 1 },//姓名
+			{ "sWidth": "130px", "targets": 2 },//学期
 			{ "sWidth": "150px", "targets": 3 },//考试
 			//----------------------------------//后续列为成绩列，宽度自动确定
 			{"targets": "_all", "defaultContent": ""}, 

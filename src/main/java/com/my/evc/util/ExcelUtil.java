@@ -33,7 +33,7 @@ public class ExcelUtil {
 	
 	private static final Logger LOGGER = Logger.getLogger(ExcelUtil.class);
 	//数字格式，防止长数字成为科学计数法形式，或者int变为double形式
-	private static final DecimalFormat FORMATTER = new DecimalFormat("0");
+	private static final DecimalFormat FORMATTER = new DecimalFormat("0.0");
 	
 	/**
 	 * 读取成绩表的Excel，第一行为表头，剩下的行数为成绩。结果将包含在一个List&lt;Map&gt;中，
@@ -74,7 +74,7 @@ public class ExcelUtil {
 					//根据不同的单元格类型，获取值
 					switch (cellType) {
 						case NUMERIC:
-							value = FORMATTER.format(cell.getNumericCellValue());
+							value = evaluateNumericCell(cell);
 							break;
 						case STRING:
 							value = cell.getStringCellValue();
@@ -172,6 +172,19 @@ public class ExcelUtil {
 			value = cellValue.getStringValue();
 		} else {
 			//不支持其他的结果类型
+		}
+		return value;
+	}
+	
+	/**
+	 * 获取一个数字单元格的值。
+	 * 1. 对于分数为小数的，抹掉.0。
+	 * 2. 大整数不用科学计数法表示。
+	 */
+	private static String evaluateNumericCell(Cell cell) {
+		String value = FORMATTER.format(cell.getNumericCellValue());
+		if (value.endsWith(".0")) {
+			value = value.substring(0, value.lastIndexOf(".0"));
 		}
 		return value;
 	}
