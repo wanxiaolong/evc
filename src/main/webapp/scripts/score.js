@@ -146,26 +146,57 @@ function addRows(array) {
 			score.studentNumber,
 			score.studentName,
 			score.semesterName,
-			score.examName,
-			score.chinese,
-			score.math,
-			score.english,
-			score.physics,
-			score.chemistry,
-			score.biologic,
-			score.politics,
-			score.history,
-			score.geography,
-			score.total
+			score.examName
 		];
+		if (score.chinese) {
+			data.push(score.chinese);
+			data.push(score.isShowRank ? score.chineseRank : '-');
+		}
+		if (score.math) {
+			data.push(score.math);
+			data.push(score.isShowRank ? score.mathRank : '-');
+		}
+		if (score.english) {
+			data.push(score.english);
+			data.push(score.isShowRank ? score.englishRank : '-');
+		}
+		if (score.physics) {
+			data.push(score.physics);
+			data.push(score.isShowRank ? score.physicsRank : '-');
+		}
+		if (score.chemistry) {
+			data.push(score.chemistry);
+			data.push(score.isShowRank ? score.chemistryRank : '-');
+		}
+		if (score.biologic) {
+			data.push(score.biologic);
+			data.push(score.isShowRank ? score.biologicRank : '-');
+		}
+		if (score.politics) {
+			data.push(score.politics);
+			data.push(score.isShowRank ? score.politicsRank : '-');
+		}
+		if (score.history) {
+			data.push(score.history);
+			data.push(score.isShowRank ? score.historyRank : '-');
+		}
+		if (score.geography) {
+			data.push(score.geography);
+			data.push(score.isShowRank ? score.geographyRank : '-');
+		}
+		if (score.total) {
+			data.push(score.total);
+		}
+		
 		//移除掉undefined或者是空字符串
-		data = data.filter(function(val){
-			return !(typeof(val) == 'undefined' || val === "");
-		});
+//		data = data.filter(function(val){
+//			return !(typeof(val) == 'undefined' || val === "");
+//		});
+		
 		//根据考试的配置，决定是否显示班级排名和年级排名
 		if (score.isShowClassRank) {
-			//TODO 添加班名信息
-			data.push(1);
+			//添加班名信息
+			data.push(score.totalRank);
 		}
 		if (score.isShowGradeRank) {
 			//TODO 添加级名信息
@@ -180,30 +211,39 @@ function addRows(array) {
 function initDynamicColumns(score) {
 	if (score.chinese) {
 		addField('chinese','语文');
+		addField('chineseRank','');
 	}
 	if (score.math) {
 		addField('math','数学');
+		addField('mathRank','');
 	}
 	if (score.english) {
 		addField('english','英语');
+		addField('englishRank','');
 	}
 	if (score.physics) {
 		addField('physics','物理');
+		addField('physicsRank','');
 	}
 	if (score.chemistry) {
 		addField('chemistry','化学');
+		addField('chemistryRank','');
 	}
 	if (score.biologic) {
 		addField('biologic','生物');
+		addField('chineseRank','');
 	}
 	if (score.politics) {
 		addField('politics','政治');
+		addField('politicsRank','');
 	}
 	if (score.history) {
 		addField('history','历史');
+		addField('historyRank','');
 	}
 	if (score.geography) {
 		addField('geography','地理');
+		addField('geographyRank','');
 	}
 	if (score.total) {
 		addField('total','总分');
