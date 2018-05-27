@@ -32,6 +32,7 @@ import com.my.evc.model.Student;
 import com.my.evc.model.Subject;
 import com.my.evc.type.FixedColumn;
 import com.my.evc.type.ScoreTitle;
+import com.my.evc.util.DataUtil;
 import com.my.evc.util.ExcelUtil;
 import com.my.evc.util.FileUtil;
 import com.my.evc.util.PinyinUtil;
@@ -194,7 +195,7 @@ public class ScoreService implements BaseService<Score> {
 			student.setBirthDay(birthday);
 			student.setGrade(map.get("年级"));
 			student.setClazz(map.get("班级"));
-
+			
 			//先通过姓名和生日查找该学生是否已经在数据库中了
 			Student stuInDB = studentMapper.findByNameAndBirthday(name, birthday);
 			
@@ -259,6 +260,9 @@ public class ScoreService implements BaseService<Score> {
 			scores.add(score);
 		}
 		
+		//将各科的单科成绩排序
+		DataUtil.getAllSubjectRank(scores);
+		
 		//把成绩List保存在数据库中
 		int rows = scoreMapper.createBatch(scores);
 		LOGGER.info("成绩信息插入完成！已插入：" + rows);
@@ -269,7 +273,7 @@ public class ScoreService implements BaseService<Score> {
 		
 		return rows;
 	}
-
+	
 	/**
 	 * 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数。
 	 * @param examName 带后缀的Excel文件名，例如：abc.xlsx。

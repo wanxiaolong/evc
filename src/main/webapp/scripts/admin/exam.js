@@ -56,7 +56,7 @@ $(document).ready(function(){
 
 //根据考试ID，删除该考试下的所有成绩
 function deleteScoreByExam(exam) {
-	var input = confirm("确定删除 [" + exam.name + "] 的所有成绩吗？");
+	var input = confirm("确定删除 [" + exam.name + "] 的所有成绩吗？注意：成绩将永久被删除，不可恢复。");
 	
 	if (input) {
 		ajax('POST', '/score/deletebyexam', 'exam_id=' + exam.id, null, deleteSuccessCallback);

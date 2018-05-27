@@ -1,6 +1,7 @@
 package com.my.evc.filter;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.my.evc.common.Constant;
+import com.my.evc.util.StringUtil;
 
 /**
  * 进入管理页面之前检查登录的拦截器。
@@ -24,10 +26,12 @@ public class LoginFilter implements Filter {
 	/**
 	 * 过滤请求。如果用户访问的是需要登录的页面（在admin目录下）并且当前没有登录过，则直接跳转到/admin/login.jsp
 	 */
+	@SuppressWarnings("deprecation")
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)throws ServletException, IOException {
 		HttpServletRequest request = (HttpServletRequest)servletRequest;
 		HttpServletResponse response = (HttpServletResponse)servletResponse;
 		String ctxPath = request.getContextPath();
+		String queryString = request.getQueryString();
 		//targetURL: 除掉项目名称后访问的路径
 		String targetURL = request.getRequestURI().substring(ctxPath.length());
 		HttpSession session = request.getSession(false);
@@ -35,7 +39,12 @@ public class LoginFilter implements Filter {
 		if(targetURL.startsWith("/admin/") && !LOGIN_URL.equals(targetURL)){
 			//在不为登陆页面时，再进行判断，如果不是登陆页面也没有session则跳转到登录页面，
 			if(session == null || session.getAttribute(Constant.PARAM_USER) == null){
-				response.sendRedirect(ctxPath + LOGIN_URL + "?ru=" + targetURL);
+				String contextPath = request.getContextPath();
+				String redirectURL = contextPath + "/admin/login.jsp?ru=" + targetURL;
+				if (!StringUtil.isEmpty(queryString)) {
+					redirectURL += URLEncoder.encode("?" + queryString);
+				}
+				response.sendRedirect(redirectURL);
 				return;
 			}
 		}

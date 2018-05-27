@@ -16,6 +16,7 @@ import com.my.evc.common.ErrorEnum;
 import com.my.evc.exception.SystemException;
 import com.my.evc.model.User;
 import com.my.evc.util.CommonUtil;
+import com.my.evc.util.StringUtil;
 
 /**
  * 检查是否登录的拦截器。
@@ -39,6 +40,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws IOException {
 		String ctxPath = request.getContextPath();
+		String queryString = request.getQueryString();
 		//targetURL: 除掉项目名称后访问的路径
 		String targetURL = request.getRequestURI().substring(ctxPath.length());
 
@@ -57,7 +59,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			User user = (User)session.getAttribute(Constant.PARAM_USER);
 			if (user == null) {
 				String contextPath = request.getContextPath();
-				response.sendRedirect(contextPath + "/admin/login.jsp?ru=" + targetURL);
+				String redirectURL = contextPath + "/admin/login.jsp?ru=" + targetURL;
+				if (!StringUtil.isEmpty(queryString)) {
+					redirectURL += queryString;
+				}
+				response.sendRedirect(redirectURL);
 				return false;
 			}
 			return true;

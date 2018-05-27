@@ -4,26 +4,34 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Score" keyProperty="id" useGeneratedKeys="true">
 		insert into score
-			(student_number,exam_id,chinese,math,english,physics,chemistry,
-			biologic,politics,history,geography,physical,experiment,score1,score2,total) 
+			(student_number,exam_id,chinese,chinese_rank,math,math_rank,
+			english,english_rank,physics,physics_rank,chemistry,chemistry_rank,
+			biologic,biologic_rank,politics,politics_rank,history,history_rank,
+			geography,geography_rank,physical,physical_rank,experiment,experiment_rank,
+			score1,score1_rank,score2,score2_rank,total,total_rank)
 		values
-			(#{studentNumber},#{examId},#{chinese},#{math},
-			#{english},#{physics},#{chemistry},
-			#{biologic},#{politics},#{history},#{geography},
-			#{physical},#{experiment},#{score1},#{score2},#{total})
+			(#{item.studentNumber},#{item.examId},#{item.chinese},#{item.chineseRank},#{item.math},#{item.mathRank},
+			#{item.english},#{item.englishRank},#{item.physics},#{item.physicsRank},#{item.chemistry},#{item.chemistryRank},
+			#{item.biologic},#{item.biologicRank},#{item.politics},#{item.politicsRank},#{item.history},#{item.historyRank},
+			#{item.geography},#{item.geographyRank},#{item.physical},#{item.physicalRank},#{item.experiment},#{item.experimentRank},
+			#{item.score1},#{item.score1Rank},#{item.score2},#{item.score2Rank},#{item.total},#{item.totalRank})
 	</insert>
 	
 	<insert id="createBatch" parameterType="java.util.List">
 		insert into score
-			(student_number,exam_id,chinese,math,english,physics,chemistry,
-			biologic,politics,history,geography,physical,experiment,score1,score2,total) 
+			(student_number,exam_id,chinese,chinese_rank,math,math_rank,
+			english,english_rank,physics,physics_rank,chemistry,chemistry_rank,
+			biologic,biologic_rank,politics,politics_rank,history,history_rank,
+			geography,geography_rank,physical,physical_rank,experiment,experiment_rank,
+			score1,score1_rank,score2,score2_rank,total,total_rank)
 		values
 		<!-- 对于List类型的参数，这里的collection直接写list就好 -->
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.studentNumber},#{item.examId},#{item.chinese},#{item.math},#{item.english},
-			#{item.physics},#{item.chemistry},#{item.biologic},
-			#{item.politics},#{item.history},#{item.geography},#{item.physical},
-			#{item.experiment},#{item.score1},#{item.score2},#{item.total})
+			(#{item.studentNumber},#{item.examId},#{item.chinese},#{item.chineseRank},#{item.math},#{item.mathRank},
+			#{item.english},#{item.englishRank},#{item.physics},#{item.physicsRank},#{item.chemistry},#{item.chemistryRank},
+			#{item.biologic},#{item.biologicRank},#{item.politics},#{item.politicsRank},#{item.history},#{item.historyRank},
+			#{item.geography},#{item.geographyRank},#{item.physical},#{item.physicalRank},#{item.experiment},#{item.experimentRank},
+			#{item.score1},#{item.score1Rank},#{item.score2},#{item.score2Rank},#{item.total},#{item.totalRank})
 		</foreach>
 	</insert>
 	
@@ -39,18 +47,32 @@
 		update score 
 		set 
 			chinese=#{chinese},
+			chinese_rank=#{chineseRank},
 			math=#{math},
+			math_rank=#{mathRank},
 			english=#{english},
+			english_rank=#{englishRank},
 			physics=#{physics},
+			physics_rank=#{physicsRank},
 			chemistry=#{chemistry},
+			chemistry_rank=#{chemistryRank},
 			biologic=#{biologic},
+			biologic_rank=#{biologicRank},
 			politics=#{politics},
+			politics_rank=#{politicsRank},
 			history=#{history},
+			history_rank=#{historyRank},
 			geography=#{geography},
+			geography_rank=#{geographyRank},
 			physical=#{physical},
+			physical_rank=#{physicalRank},
 			experiment=#{experiment},
+			experiment_rank=#{experimentRank},
 			score1=#{score1},
+			score1_rank=#{score1Rank},
 			score2=#{score2},
+			score2_rank=#{score2Rank},
+			total_rank=#{totalRank},
 			total=#{total}
 		where 
 			id=#{id}
@@ -61,19 +83,33 @@
 		score.student_number as studentNumber,
 		score.exam_id as examId,
 		score.chinese as chinese,
+		score.chinese_rank as chineseRank,
 		score.math as math,
+		score.math_rank as mathRank,
 		score.english as english,
+		score.english_rank as englishRank,
 		score.physics as physics,
+		score.physics_rank as physicsRank,
 		score.chemistry as chemistry,
+		score.chemistry_rank as chemistryRank,
 		score.biologic as biologic,
+		score.biologic_rank as biologicRank,
 		score.politics as politics,
+		score.politics_rank as politicsRank,
 		score.history as history,
+		score.history_rank as historyRank,
 		score.geography as geography,
+		score.geography_rank as geographyRank,
 		score.physical as physical,
+		score.physical_rank as physicalRank,
 		score.experiment as experiment,
+		score.experiment_rank as experimentRank,
 		score.score1 as score1,
+		score.score1_rank as score1Rank,
 		score.score2 as score2,
+		score.score2_rank as score2Rank,
 		score.total as total,
+		score.total_rank as totalRank,
 		score.creation_date as creationDate
 	</sql>
 	

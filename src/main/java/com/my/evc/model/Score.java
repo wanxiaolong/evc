@@ -22,7 +22,106 @@ public class Score extends BaseModel {
 	private String score1;			//预留字段1
 	private String score2;			//预留字段2
 	private String total;			//总分
+
+	private int chineseRank;		//语文排名
+	private int mathRank;			//数学排名
+	private int englishRank;		//英语排名
+	private int physicsRank;		//物理排名
+	private int chemistryRank;		//化学排名
+	private int biologicRank;		//生物排名
+	private int politicsRank;		//政治排名
+	private int historyRank;		//历史排名
+	private int geographyRank;		//地理排名
+	private int physicalRank;		//体育排名
+	private int experimentRank;		//实验排名
+	private int score1Rank;			//预留字段1排名
+	private int score2Rank;			//预留字段2排名
+	private int totalRank;			//总分排名
 	
+	public int getChineseRank() {
+		return chineseRank;
+	}
+	public void setChineseRank(int chineseRank) {
+		this.chineseRank = chineseRank;
+	}
+	public int getMathRank() {
+		return mathRank;
+	}
+	public void setMathRank(int mathRank) {
+		this.mathRank = mathRank;
+	}
+	public int getEnglishRank() {
+		return englishRank;
+	}
+	public void setEnglishRank(int englishRank) {
+		this.englishRank = englishRank;
+	}
+	public int getPhysicsRank() {
+		return physicsRank;
+	}
+	public void setPhysicsRank(int physicsRank) {
+		this.physicsRank = physicsRank;
+	}
+	public int getChemistryRank() {
+		return chemistryRank;
+	}
+	public void setChemistryRank(int chemistryRank) {
+		this.chemistryRank = chemistryRank;
+	}
+	public int getBiologicRank() {
+		return biologicRank;
+	}
+	public void setBiologicRank(int biologicRank) {
+		this.biologicRank = biologicRank;
+	}
+	public int getPoliticsRank() {
+		return politicsRank;
+	}
+	public void setPoliticsRank(int politicsRank) {
+		this.politicsRank = politicsRank;
+	}
+	public int getHistoryRank() {
+		return historyRank;
+	}
+	public void setHistoryRank(int historyRank) {
+		this.historyRank = historyRank;
+	}
+	public int getGeographyRank() {
+		return geographyRank;
+	}
+	public void setGeographyRank(int geographyRank) {
+		this.geographyRank = geographyRank;
+	}
+	public int getPhysicalRank() {
+		return physicalRank;
+	}
+	public void setPhysicalRank(int physicalRank) {
+		this.physicalRank = physicalRank;
+	}
+	public int getExperimentRank() {
+		return experimentRank;
+	}
+	public void setExperimentRank(int experimentRank) {
+		this.experimentRank = experimentRank;
+	}
+	public int getScore1Rank() {
+		return score1Rank;
+	}
+	public void setScore1Rank(int score1Rank) {
+		this.score1Rank = score1Rank;
+	}
+	public int getScore2Rank() {
+		return score2Rank;
+	}
+	public void setScore2Rank(int score2Rank) {
+		this.score2Rank = score2Rank;
+	}
+	public int getTotalRank() {
+		return totalRank;
+	}
+	public void setTotalRank(int totalRank) {
+		this.totalRank = totalRank;
+	}
 	public String getTotal() {
 		return total;
 	}
