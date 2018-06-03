@@ -3,6 +3,8 @@
  */
 var webroot = getWebRoot();
 var table;
+//缓存最后一次查询的结果，用于在“显示单科排名”复选框重新初始化数据，减少网络请求。
+var lastScoreQuery;
 $(document).ready(function(){
 	//移除select2下拉菜单的title属性，没用
 	$("#select2-semesterSelect-container").removeAttr("title");
@@ -39,6 +41,11 @@ $(document).ready(function(){
 	//点击成绩修改模态框的提交按钮，执行表单提交
 	$("#confirm-update").click(function(){
 		submitUpdate();
+	});
+	
+	//勾选复选框时，将显示或隐藏单科排名
+	$("#isShowRankChkbox").change(function(){
+		addRows(lastScoreQuery);
 	});
 });
 
@@ -131,6 +138,9 @@ function initDataTable(id) {
 
 //动态的向表格中增加数据
 function addRows(array) {
+	//更新上次查询结果
+	lastScoreQuery = array;
+	
 	if (array.length == 0) {
 		if (table) {
 			table.rows("tr").remove().draw();
@@ -150,9 +160,19 @@ function addRows(array) {
 	}
 	
 	//先处理表头，根据第一行数据的初始化表头
-	initDynamicColumns(array[0]);
+	var isShowRank = getIsShowRank(array[0]);
+	initDynamicColumns(array[0], isShowRank);
+	
+	//初始化“显示单科排名”复选框的状态
+	if (array[0].isShowRank) {
+		$("#isShowRankChkbox").removeAttr("disabled");
+	} else {
+		$("#isShowRankChkbox").attr("disabled","disabled");
+	}
+	
 	table = initDataTable("scoreTable");
 	$("#scoreTable").removeClass('hide');
+	
 	
 	//准备数据
 	for(var index in array) {
@@ -164,55 +184,55 @@ function addRows(array) {
 		];
 		if (score.chinese) {
 			data.push(score.chinese);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.chineseRank);
 			}
 		}
 		if (score.math) {
 			data.push(score.math);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.mathRank);
 			}
 		}
 		if (score.english) {
 			data.push(score.english);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.englishRank);
 			}
 		}
 		if (score.physics) {
 			data.push(score.physics);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.physicsRank);
 			}
 		}
 		if (score.chemistry) {
 			data.push(score.chemistry);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.chemistryRank);
 			}
 		}
 		if (score.biologic) {
 			data.push(score.biologic);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.biologicRank);
 			}
 		}
 		if (score.politics) {
 			data.push(score.politics);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.politicsRank);
 			}
 		}
 		if (score.history) {
 			data.push(score.history);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.historyRank);
 			}
 		}
 		if (score.geography) {
 			data.push(score.geography);
-			if(score.isShowRank) {
+			if(isShowRank) {
 				data.push(score.geographyRank);
 			}
 		}
@@ -237,58 +257,58 @@ function addRows(array) {
 }
 
 //根据成绩数据的值隐藏没有值的列
-function initDynamicColumns(score) {
+function initDynamicColumns(score, isShowRank) {
 	if (score.chinese) {
 		addField('chinese','语文');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('chineseRank','');
 		}
 	}
 	if (score.math) {
 		addField('math','数学');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('mathRank','');
 		}
 	}
 	if (score.english) {
 		addField('english','英语');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('englishRank','');
 		}
 	}
 	if (score.physics) {
 		addField('physics','物理');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('physicsRank','');
 		}
 	}
 	if (score.chemistry) {
 		addField('chemistry','化学');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('chemistryRank','');
 		}
 	}
 	if (score.biologic) {
 		addField('biologic','生物');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('biologicRank','');
 		}
 	}
 	if (score.politics) {
 		addField('politics','政治');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('politicsRank','');
 		}
 	}
 	if (score.history) {
 		addField('history','历史');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('historyRank','');
 		}
 	}
 	if (score.geography) {
 		addField('geography','地理');
-		if(score.isShowRank) {
+		if(isShowRank) {
 			addField('geographyRank','');
 		}
 	}
@@ -342,4 +362,16 @@ function updateSuccessCallback() {
 	$('#queryBtn').trigger('click');
 	//用toastr显示一个会自动消失的消息
 	toastr.success("修改成功！数据已更新。");
+}
+
+//决定时否显示“单科排名”。只有当考试允许显示排名，而且复选框选中时，才显示排名
+function getIsShowRank(score) {
+	//默认不显示
+	var isShowRank = false;
+	//检查复选框是否可用且被勾选
+	var isCheckboxChecked = $("#isShowRankChkbox").attr("disabled") != 'disabled' 
+		&& $("#isShowRankChkbox").prop("checked");
+	//考试允许显示排名，而且复选框选中时，才显示排名
+	isShowRank = score.isShowRank && isCheckboxChecked;
+	return isShowRank;
 }

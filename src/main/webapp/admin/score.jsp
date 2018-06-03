@@ -32,8 +32,11 @@
 		<div class="content">
 			<!-- 查询条件 -->
 			<div class="form-inline filter-block">
+				<div class="title">查询说明</div>
+				<div class="desc">
+					<p>1. 只有在“考试管理”中打开了“单科排名”，“显示单科排名”复选框才可用。</p>
+				</div>
 				<div class="title">查询条件</div>
-				
 				<div class="filter-row">
 					<div class="filter" id="semesterFilter">
 						<label>学期：</label>
@@ -41,15 +44,20 @@
 							<option value="none">--请选择--</option>
 						</select>
 					</div>
-					<div class="filter" id="semesterFilter">
+					<div class="filter" id="examFilter">
 						<label>考试：</label>
 						<select class="form-control" id="examSelect" name="exam" data-live-search="true" required>
 							<option value="none">--请选择--</option>
 						</select>
 					</div>
-					<button type="button" id="queryBtn" class="btn btn-default query-btn">
-						<i class="fa fa-search"></i>查询
-					</button>
+					<div class="filter">
+						<button type="button" id="queryBtn" class="btn btn-default query-btn">
+							<i class="fa fa-search"></i>查询
+						</button>
+					</div>
+					<div class="filter">
+						<input type="checkbox" id="isShowRankChkbox">显示单科排名
+					</div>
 				</div>
 			</div>
 	

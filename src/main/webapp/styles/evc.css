@@ -371,6 +371,7 @@ body #toast-container>div {
 	height: 20px;
 	width: 20px;
 	margin: 0;
+	vertical-align: middle;
 }
 .evc-content .filter #queryAll {
 	vertical-align: middle;
