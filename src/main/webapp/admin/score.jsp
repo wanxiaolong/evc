@@ -34,7 +34,7 @@
 			<div class="form-inline filter-block">
 				<div class="title">查询说明</div>
 				<div class="desc">
-					<p>1. 只有在“考试管理”中打开了“单科排名”，“显示单科排名”复选框才可用。</p>
+					<p>1. 不管在“考试管理”中是否打开了“单科排名”，“显示单科排名”复选框选中后都会显示成绩。</p>
 				</div>
 				<div class="title">查询条件</div>
 				<div class="filter-row">
@@ -56,7 +56,7 @@
 						</button>
 					</div>
 					<div class="filter">
-						<input type="checkbox" id="isShowRankChkbox" disabled="disabled">显示单科排名
+						<input type="checkbox" id="isShowRankChkbox">显示单科排名
 					</div>
 				</div>
 			</div>

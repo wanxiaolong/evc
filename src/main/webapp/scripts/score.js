@@ -134,7 +134,9 @@ function addRows(array) {
 	}
 	
 	//先处理表头，根据第一行数据的初始化表头
-	initDynamicColumns(array[0]);
+	var isShowRankColumn = getIsShowRankColumn(array);
+	initDynamicColumns(array[0], isShowRankColumn);
+	
 	table = initDataTable("scoreTable");
 	$("#scoreTable").removeClass('hide');
 	
@@ -149,39 +151,57 @@ function addRows(array) {
 		];
 		if (score.chinese) {
 			data.push(score.chinese);
-			data.push(score.isShowRank ? score.chineseRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.chineseRank : '-');
+			}
 		}
 		if (score.math) {
 			data.push(score.math);
-			data.push(score.isShowRank ? score.mathRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.mathRank : '-');
+			}
 		}
 		if (score.english) {
 			data.push(score.english);
-			data.push(score.isShowRank ? score.englishRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.englishRank : '-');
+			}
 		}
 		if (score.physics) {
 			data.push(score.physics);
-			data.push(score.isShowRank ? score.physicsRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.physicsRank : '-');
+			}
 		}
 		if (score.chemistry) {
 			data.push(score.chemistry);
-			data.push(score.isShowRank ? score.chemistryRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.chemistryRank : '-');
+			}
 		}
 		if (score.biologic) {
 			data.push(score.biologic);
-			data.push(score.isShowRank ? score.biologicRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.biologicRank : '-');
+			}
 		}
 		if (score.politics) {
 			data.push(score.politics);
-			data.push(score.isShowRank ? score.politicsRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.politicsRank : '-');
+			}
 		}
 		if (score.history) {
 			data.push(score.history);
-			data.push(score.isShowRank ? score.historyRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.historyRank : '-');
+			}
 		}
 		if (score.geography) {
 			data.push(score.geography);
-			data.push(score.isShowRank ? score.geographyRank : '-');
+			if (isShowRankColumn) {
+				data.push(score.isShowRank ? score.geographyRank : '-');
+			}
 		}
 		if (score.total) {
 			data.push(score.total);
@@ -207,42 +227,60 @@ function addRows(array) {
 }
 
 //根据成绩数据的值隐藏没有值的列
-function initDynamicColumns(score) {
+function initDynamicColumns(score, isShowRankColumn) {
 	if (score.chinese) {
 		addField('chinese','语文');
-		addField('chineseRank','');
+		if(isShowRankColumn) {
+			addField('chineseRank','');
+		}
 	}
 	if (score.math) {
 		addField('math','数学');
-		addField('mathRank','');
+		if(isShowRankColumn) {
+			addField('mathRank','');
+		}
 	}
 	if (score.english) {
 		addField('english','英语');
-		addField('englishRank','');
+		if(isShowRankColumn) {
+			addField('englishRank','');
+		}
 	}
 	if (score.physics) {
 		addField('physics','物理');
-		addField('physicsRank','');
+		if(isShowRankColumn) {
+			addField('physicsRank','');
+		}
 	}
 	if (score.chemistry) {
 		addField('chemistry','化学');
-		addField('chemistryRank','');
+		if(isShowRankColumn) {
+			addField('chemistryRank','');
+		}
 	}
 	if (score.biologic) {
 		addField('biologic','生物');
-		addField('chineseRank','');
+		if(isShowRankColumn) {
+			addField('biologicRank','');
+		}
 	}
 	if (score.politics) {
 		addField('politics','政治');
-		addField('politicsRank','');
+		if(isShowRankColumn) {
+			addField('politicsRank','');
+		}
 	}
 	if (score.history) {
 		addField('history','历史');
-		addField('historyRank','');
+		if(isShowRankColumn) {
+			addField('historyRank','');
+		}
 	}
 	if (score.geography) {
 		addField('geography','地理');
-		addField('geographyRank','');
+		if(isShowRankColumn) {
+			addField('geographyRank','');
+		}
 	}
 	if (score.total) {
 		addField('total','总分');
@@ -272,4 +310,18 @@ function findLastExamSuccessCallback(data) {
 //查找最后一次考试信息，失败时的回调
 function findLastExamErrorCallback() {
 	$(".score.evc-content .message").hide();
+}
+
+//决定时否显示“单科排名”。当该生所有考试中有任何一个允许显示排名，就显示排名
+function getIsShowRankColumn(array) {
+	//默认不显示
+	var isShowRank = false;
+	//如果结果中有任何一个考试需要显示排名，则排名就要显示
+	for(var score in array) {
+		if (array[score].isShowRank) {
+			isShowRank = true;
+			break;
+		}
+	}
+	return isShowRank;
 }

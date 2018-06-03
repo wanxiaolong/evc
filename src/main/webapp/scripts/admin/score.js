@@ -160,15 +160,8 @@ function addRows(array) {
 	}
 	
 	//先处理表头，根据第一行数据的初始化表头
-	var isShowRank = getIsShowRank(array[0]);
-	initDynamicColumns(array[0], isShowRank);
-	
-	//初始化“显示单科排名”复选框的状态
-	if (array[0].isShowRank) {
-		$("#isShowRankChkbox").removeAttr("disabled");
-	} else {
-		$("#isShowRankChkbox").attr("disabled","disabled");
-	}
+	var isShowRankColumn = getIsShowRankColumn(array[0]);
+	initDynamicColumns(array[0], isShowRankColumn);
 	
 	table = initDataTable("scoreTable");
 	$("#scoreTable").removeClass('hide');
@@ -184,25 +177,25 @@ function addRows(array) {
 		];
 		if (score.chinese) {
 			data.push(score.chinese);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.chineseRank);
 			}
 		}
 		if (score.math) {
 			data.push(score.math);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.mathRank);
 			}
 		}
 		if (score.english) {
 			data.push(score.english);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.englishRank);
 			}
 		}
 		if (score.physics) {
 			data.push(score.physics);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.physicsRank);
 			}
 		}
@@ -214,25 +207,25 @@ function addRows(array) {
 		}
 		if (score.biologic) {
 			data.push(score.biologic);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.biologicRank);
 			}
 		}
 		if (score.politics) {
 			data.push(score.politics);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.politicsRank);
 			}
 		}
 		if (score.history) {
 			data.push(score.history);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.historyRank);
 			}
 		}
 		if (score.geography) {
 			data.push(score.geography);
-			if(isShowRank) {
+			if(isShowRankColumn) {
 				data.push(score.geographyRank);
 			}
 		}
@@ -257,58 +250,58 @@ function addRows(array) {
 }
 
 //根据成绩数据的值隐藏没有值的列
-function initDynamicColumns(score, isShowRank) {
+function initDynamicColumns(score, isShowRankColumn) {
 	if (score.chinese) {
 		addField('chinese','语文');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('chineseRank','');
 		}
 	}
 	if (score.math) {
 		addField('math','数学');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('mathRank','');
 		}
 	}
 	if (score.english) {
 		addField('english','英语');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('englishRank','');
 		}
 	}
 	if (score.physics) {
 		addField('physics','物理');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('physicsRank','');
 		}
 	}
 	if (score.chemistry) {
 		addField('chemistry','化学');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('chemistryRank','');
 		}
 	}
 	if (score.biologic) {
 		addField('biologic','生物');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('biologicRank','');
 		}
 	}
 	if (score.politics) {
 		addField('politics','政治');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('politicsRank','');
 		}
 	}
 	if (score.history) {
 		addField('history','历史');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('historyRank','');
 		}
 	}
 	if (score.geography) {
 		addField('geography','地理');
-		if(isShowRank) {
+		if(isShowRankColumn) {
 			addField('geographyRank','');
 		}
 	}
@@ -364,14 +357,9 @@ function updateSuccessCallback() {
 	toastr.success("修改成功！数据已更新。");
 }
 
-//决定时否显示“单科排名”。只有当考试允许显示排名，而且复选框选中时，才显示排名
-function getIsShowRank(score) {
-	//默认不显示
-	var isShowRank = false;
-	//检查复选框是否可用且被勾选
-	var isCheckboxChecked = $("#isShowRankChkbox").attr("disabled") != 'disabled' 
-		&& $("#isShowRankChkbox").prop("checked");
-	//考试允许显示排名，而且复选框选中时，才显示排名
-	isShowRank = score.isShowRank && isCheckboxChecked;
+//决定时否显示“单科排名”。只有当复选框选中时，才显示排名
+function getIsShowRankColumn() {
+	//检查复选框是否被勾选
+	var isShowRank = $("#isShowRankChkbox").prop("checked");
 	return isShowRank;
 }
