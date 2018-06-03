@@ -56,7 +56,7 @@
 						</button>
 					</div>
 					<div class="filter">
-						<input type="checkbox" id="isShowRankChkbox">显示单科排名
+						<input type="checkbox" id="isShowRankChkbox" disabled="disabled">显示单科排名
 					</div>
 				</div>
 			</div>
