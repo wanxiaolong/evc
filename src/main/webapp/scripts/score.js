@@ -1,6 +1,5 @@
 /**
  * 本文件为score.jsp使用的初始化脚本。
- * 脚本中需要用到common.js的getWebRoot()函数，所以需要同时导入common.js文件。
  */
 var webroot = getWebRoot();
 var table;

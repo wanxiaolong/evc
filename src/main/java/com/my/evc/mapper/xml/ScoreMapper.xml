@@ -145,9 +145,13 @@
 	<select id="findByClass" parameterType="int" resultType="com.my.evc.vo.ScoreVo">
 		select
 			<include refid="all_fields"/>,
-		student.name as studentName
-		from score join student 
+		student.name as studentName,
+		exam.is_show_rank as isShowRank
+		from score 
+		join student 
 		on student.number = score.student_number
+		join exam 
+		on score.exam_id = exam.id
 		where exam_id=#{examId}
 	</select>
 </mapper>
