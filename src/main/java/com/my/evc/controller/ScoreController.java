@@ -113,12 +113,14 @@ public class ScoreController extends BaseController {
 
 		List<ScoreVo> scoreVos = null;
 		if (StringUtils.isEmpty(examId)) {
-			//如果是查询所有的历史成绩
+			//这里是学生查询成绩，按姓名拼音和生日查询。
 			if (queryAll) {
+				//如果是查询所有的历史成绩
 				semesterId = "0"; //semesterId=0: 此条件不作为过滤条件
 			}
 			scoreVos = scoreService.queryScoreBySemester(namePinYin, birthday, Integer.parseInt(semesterId));
 		} else {
+			//这里是管理员查询成绩，按班级查询
 			scoreVos = scoreService.queryScoreByClass(Integer.parseInt(examId));
 		}
 		

@@ -3,7 +3,7 @@ package com.my.evc.type;
 /**
  * 上传成绩时，Excel的表头。
  */
-public enum ScoreTitle {
+public enum ExcelTitle {
 	ID_NUMBER("学号"),
 	CHINESE("语文"),
 	MATH("数学"),
@@ -21,15 +21,15 @@ public enum ScoreTitle {
 	SCORE2("成绩2");
 	
 	private String title;
-	private ScoreTitle(String title) {
+	private ExcelTitle(String title) {
 		this.title = title;
 	}
 	public String getTitle() {
 		return title;
 	}
 	
-	public static ScoreTitle fromString(String s) {
-		for(ScoreTitle title : ScoreTitle.values()) {
+	public static ExcelTitle fromString(String s) {
+		for(ExcelTitle title : ExcelTitle.values()) {
 			if (title.getTitle().equals(s)) {
 				return title;
 			}

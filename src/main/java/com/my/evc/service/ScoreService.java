@@ -30,8 +30,8 @@ import com.my.evc.model.Score;
 import com.my.evc.model.Semester;
 import com.my.evc.model.Student;
 import com.my.evc.model.Subject;
+import com.my.evc.type.ExcelTitle;
 import com.my.evc.type.FixedColumn;
-import com.my.evc.type.ScoreTitle;
 import com.my.evc.util.DataUtil;
 import com.my.evc.util.ExcelUtil;
 import com.my.evc.util.FileUtil;
@@ -252,7 +252,7 @@ public class ScoreService implements BaseService<Score> {
 			Score score = new Score();
 			score.setExamId(intId);
 			for(String key : map.keySet()) {
-				ScoreTitle title = ScoreTitle.fromString(key.toUpperCase());
+				ExcelTitle title = ExcelTitle.fromString(key.trim());
 				if (title != null) {
 					String scoreValue = map.get(key);
 					saveScoreToSubject(title, scoreValue, score);
@@ -404,7 +404,7 @@ public class ScoreService implements BaseService<Score> {
 	/**
 	 * 根据科目，将分值保存到Score对象上。
 	 */
-	private void saveScoreToSubject(ScoreTitle subjectType, String value, Score score) {
+	private void saveScoreToSubject(ExcelTitle subjectType, String value, Score score) {
 		switch (subjectType) {
 			case ID_NUMBER:
 				score.setStudentNumber(Integer.parseInt(value));
@@ -457,7 +457,9 @@ public class ScoreService implements BaseService<Score> {
 	}
 
 	/**
-	 * 按姓名查询学生某次考试的成绩。
+	 * 按姓名查询学生某学期或者所有历史考试的成绩。
+	 * 由于这里查询的成绩有可能有多个考试，而且每个考试的科目也可能不同。
+	 * 为了方便在前端显示，前端页面只显示科目的并集，所以没有值的科目均显示"-"。
 	 */
 	public List<ScoreVo> queryScoreBySemester(String namePinYin, String birthday, int semesterId) {
 		List<ScoreVo> scoreVos = scoreMapper.findBySemester(namePinYin, birthday, semesterId);

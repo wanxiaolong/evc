@@ -8,11 +8,17 @@ import com.my.evc.model.Score;
 public class ScoreVo extends Score {
 	private String semesterName;		//考试名称
 	private String examName;			//考试名称
+	private String subjectIds;			//考试科目
 	private String studentName;			//学生姓名
 	private boolean isShowRank;			//是否显示单科排名
 	private boolean isShowClassRank;	//是否显示班级排名
 	private boolean isShowGradeRank;	//是否显示年级排名
-	
+	public String getSubjectIds() {
+		return subjectIds;
+	}
+	public void setSubjectIds(String subjectIds) {
+		this.subjectIds = subjectIds;
+	}
 	public boolean isShowRank() {
 		return isShowRank;
 	}
