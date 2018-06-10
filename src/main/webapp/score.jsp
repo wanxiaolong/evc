@@ -69,18 +69,7 @@
 
 		<!-- 表格布局 -->
 		<div class="title">查询结果</div>
-		<table id="scoreTable" class="table table-striped table-bordered hide">
-			<thead>
-				<tr id="headerRow">
-					<!-- 以下字段是固定的，每次查询都有 -->
-					<th>学号</th>
-					<th>姓名</th>
-					<th>学期</th>
-					<th>考试</th>
-					<!-- 这里是动态列，将在JS中初始化 -->
-				</tr>
-			</thead>
-			<tbody></tbody>
+		<table id="scoreTable" class="table score-table hide">
 		</table>
 	</div>
 	<common:page-footer/>

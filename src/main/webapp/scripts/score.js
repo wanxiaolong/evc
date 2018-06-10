@@ -7,6 +7,8 @@ $(document).ready(function(){
 	//移除select2下拉菜单的title属性，没用
 	$("#select2-semesterSelect-container").removeAttr("title");
 	
+	table = $("#scoreTable");
+	
 	//监听查询按钮点击事件
 	$('#queryBtn').click(function(){
 		executeScoreQuery();
@@ -90,214 +92,169 @@ function initSemesterSelect() {
 	}
 }
 
-//初始化Datatables表格
-function initDataTable(id) {
-	return $('#' + id).DataTable({
-		language: {
-			url: webroot + '/localization/chinese.json'
-		},
-		columnDefs: [
-			//--------------------------------  //前几列的名字固定，宽度固定
-			{ "sWidth": "80px", "targets": 0 },//学号
-			{ "sWidth": "60px" , "targets": 1 },//姓名
-			{ "sWidth": "130px", "targets": 2 },//学期
-			{ "sWidth": "150px", "targets": 3 },//考试
-			//----------------------------------//后续列为成绩列，宽度自动确定
-			{"targets": "_all", "defaultContent": ""}, 
-		],
-		bAutoWidth: false,
-		bPaginate: true,//是否显示分页器（左上角显示 ‘每页显示x条记录’）
-		bFilter: true, //是否显示搜索框（右上角）
-		bSort: true, //是否允许列排序
-		aaSorting: [[0, "asc"]] //默认的排序方式，第1列，升序排列
-	});
-}
-
 //动态的向表格中增加数据
 function addRows(array) {
+	table.children("tr").remove();
 	if (array.length == 0) {
-		if (table) {
-			table.rows("tr").remove().draw();
-		}
 		toastr.info("没有查到成绩！");
 		return;
 	}
 	
-	//如果表格已被初始化（页面上非第一次查询），先删除现有的行，再重新初始化表格后重新添加行（因为列有可能已经改变）。
-	if (table) {
-		//注意:
-		//1. 这里使用的是rows(selector)方法而不是row(selector)方法，这里用于选择多行
-		//2. 从表格中移除之后，需要重新调用draw()方法
-		table.rows("tr").remove().draw();
-		table.destroy();
-		$("#scoreTable thead tr th[dynamic-field]").remove();
-	}
+	table.removeClass("hide");
 	
-	//先处理表头，根据第一行数据的初始化表头
+	//只要所有的考试中有一个需要显示单科排名，那么就显示名次这列。如果某个考试设置不显示单科排名，则该值为“-”。
 	var isShowRankColumn = getIsShowRankColumn(array);
-	initDynamicColumns(array[0], isShowRankColumn);
 	
-	table = initDataTable("scoreTable");
-	$("#scoreTable").removeClass('hide');
-	
-	//准备数据
+	//准备数据：每个考试都有两行数据：一行是标题，一行是值。标题和值根据考试成绩的科目动态确定。
 	for(var index in array) {
 		var score = array[index];
+		
+		//固定不变的列
+		var title = ["学号","姓名","学期","考试"];
 		var data = [
 			score.studentNumber,
 			score.studentName,
 			score.semesterName,
 			score.examName
 		];
+		
+		//动态变化的列（因为每次考试的科目不同）
 		if (score.chinese) {
+			title.push("语文");
 			data.push(score.chinese);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.chineseRank : '-');
 			}
 		}
 		if (score.math) {
+			title.push("数学");
 			data.push(score.math);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.mathRank : '-');
 			}
 		}
 		if (score.english) {
+			title.push("英语");
 			data.push(score.english);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.englishRank : '-');
 			}
 		}
 		if (score.physics) {
+			title.push("物理");
 			data.push(score.physics);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.physicsRank : '-');
 			}
 		}
 		if (score.chemistry) {
+			title.push("化学");
 			data.push(score.chemistry);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.chemistryRank : '-');
 			}
 		}
 		if (score.biologic) {
+			title.push("生物");
 			data.push(score.biologic);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.biologicRank : '-');
 			}
 		}
 		if (score.politics) {
+			title.push("政治");
 			data.push(score.politics);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.politicsRank : '-');
 			}
 		}
 		if (score.history) {
+			title.push("历史");
 			data.push(score.history);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.historyRank : '-');
 			}
 		}
 		if (score.geography) {
+			title.push("地理");
 			data.push(score.geography);
 			if (isShowRankColumn) {
+				title.push(" ");
 				data.push(score.isShowRank ? score.geographyRank : '-');
 			}
 		}
-		if (score.total) {
-			data.push(score.total);
+		if (score.experiment) {
+			title.push("实验");
+			data.push(score.experiment);
+			if (isShowRankColumn) {
+				title.push(" ");
+				data.push(score.isShowRank ? score.experimentRank : '-');
+			}
+		}
+		if (score.physical) {
+			title.push("体育");
+			data.push(score.physical);
+			if (isShowRankColumn) {
+				title.push(" ");
+				data.push(score.isShowRank ? score.physicalRank : '-');
+			}
+		}
+		if (score.score1) {
+			title.push("成绩1");
+			data.push(score.score1);
+			if (isShowRankColumn) {
+				title.push(" ");
+				data.push(score.isShowRank ? score.score1Rank : '-');
+			}
+		}
+		if (score.score2) {
+			title.push("成绩2");
+			data.push(score.score2);
+			if (isShowRankColumn) {
+				title.push(" ");
+				data.push(score.isShowRank ? score.score2Rank : '-');
+			}
 		}
 		
-		//移除掉undefined或者是空字符串
-//		data = data.filter(function(val){
-//			return !(typeof(val) == 'undefined' || val === "");
-//		});
+		if (score.total) {
+			title.push("总分");
+			data.push(score.total);
+		}
 		
 		//根据考试的配置，决定是否显示班级排名和年级排名
 		if (score.isShowClassRank) {
 			//添加班名信息
+			title.push("班名");
 			data.push(score.totalRank);
 		}
 		if (score.isShowGradeRank) {
 			//TODO 添加级名信息
+			title.push("级名");
 			data.push(10);
 		}
 		
-		table.row.add(data).draw(false);
+		//将数组转换成HTML row并添加到表格中
+		addTableRow(title);
+		addTableRow(data);
 	}
 }
 
-//根据成绩数据的值隐藏没有值的列
-function initDynamicColumns(score, isShowRankColumn) {
-	if (score.chinese) {
-		addField('chinese','语文');
-		if(isShowRankColumn) {
-			addField('chineseRank','');
-		}
+//将数组转换成HTML row并添加到表格中
+function addTableRow(data) {
+	var tr = $('<tr></tr>');
+	for (var i in data) {
+		var td = $('<td>' + data[i] + '</td>');
+		tr.append(td);
 	}
-	if (score.math) {
-		addField('math','数学');
-		if(isShowRankColumn) {
-			addField('mathRank','');
-		}
-	}
-	if (score.english) {
-		addField('english','英语');
-		if(isShowRankColumn) {
-			addField('englishRank','');
-		}
-	}
-	if (score.physics) {
-		addField('physics','物理');
-		if(isShowRankColumn) {
-			addField('physicsRank','');
-		}
-	}
-	if (score.chemistry) {
-		addField('chemistry','化学');
-		if(isShowRankColumn) {
-			addField('chemistryRank','');
-		}
-	}
-	if (score.biologic) {
-		addField('biologic','生物');
-		if(isShowRankColumn) {
-			addField('biologicRank','');
-		}
-	}
-	if (score.politics) {
-		addField('politics','政治');
-		if(isShowRankColumn) {
-			addField('politicsRank','');
-		}
-	}
-	if (score.history) {
-		addField('history','历史');
-		if(isShowRankColumn) {
-			addField('historyRank','');
-		}
-	}
-	if (score.geography) {
-		addField('geography','地理');
-		if(isShowRankColumn) {
-			addField('geographyRank','');
-		}
-	}
-	if (score.total) {
-		addField('total','总分');
-	}
-	
-	//是否显示班级排名和年级排名
-	if (score.isShowClassRank) {
-		addField('clazzrank','班名');
-	}
-	if (score.isShowGradeRank) {
-		addField('graderank','级名');
-	}
-}
-
-function addField(field, name) {
-	var th = '<th dynamic-field="' + field + '">' + name + '</th>';
-	$("#scoreTable thead tr").append(th);
+	table.append(tr);
 }
 
 //查找最后一次考试信息，成功时的回调

@@ -386,6 +386,16 @@ body #toast-container>div {
 	display: none;
 	margin-bottom: 10px;
 }
+.evc-content .score-table tr:nth-child(odd) {
+	background: #f8f8f8;
+	font-weight: bold;
+}
+.evc-content .score-table tr td {
+	border: 1px solid #ddd;
+	padding: 5px;
+	line-height: 25px;
+}
+/*覆盖select2插件的样式*/
 .select2-container--default .selection .select2-selection--single .select2-selection__rendered {
 	height: 34px;
 	padding: 6px 12px;
@@ -407,6 +417,10 @@ body #toast-container>div {
 	cursor: not-allowed;
 	background-color: #eee;
 }
+.select2-container--default .selection .select2-selection--single .select2-selection__rendered.err-bdr {
+	border: 1px solid red;
+}
+/*覆盖datatables插件的样式*/
 .dataTables_wrapper {
 	margin: 10px 0px;
 }
@@ -426,9 +440,6 @@ table.table.dataTable tbody th, table.table.dataTable tbody td {
 .table-bordered>tfoot>tr>th:last-child,
 .table-bordered>thead>tr>th:last-child {
 	border-right: none;
-}
-.select2-container--default .selection .select2-selection--single .select2-selection__rendered.err-bdr {
-	border: 1px solid red;
 }
 
 /**
