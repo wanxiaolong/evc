@@ -24,3 +24,5 @@
 <!-- Customized common js -->
 <link href="<%=basePath%>/styles/evc.css" rel="stylesheet">
 <script src="<%=basePath%>/scripts/common.js"></script>
+
+<link rel="shortcut icon" href="<%=basePath%>/images/favicon.ico" /> 

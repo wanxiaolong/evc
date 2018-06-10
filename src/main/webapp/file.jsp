@@ -11,10 +11,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>中国英语村-资料下载</title>
-<common:import />
-<script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<link type="text/css" rel="stylesheet" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
+	<title>中国英语村-资料下载</title>
+	<common:import />
+	<script type="text/javascript" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"></link>
 </head>
 <body>
 	<common:page-header />

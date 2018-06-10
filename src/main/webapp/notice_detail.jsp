@@ -6,8 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>中国英语村-公告详情</title>
-<common:import />
+	<title>中国英语村-公告详情</title>
+	<common:import />
 </head>
 <body>
 	<common:page-header />
