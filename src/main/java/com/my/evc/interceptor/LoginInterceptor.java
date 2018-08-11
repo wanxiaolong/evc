@@ -20,10 +20,10 @@ import com.my.evc.util.StringUtil;
 
 /**
  * 检查是否登录的拦截器。
- * 注意：拦截器拦截的是Controller中的请求，而不是静态资源。
- * 比如：
- * /admin/path会被拦截（因为该请求由Controller返回），
- * /admin/path.jsp则不会被拦截（因为该请求没有经过Controller，当然也可以为该请求配置Controller，但我没这么做）。
+ * 注意：拦截器拦截的是Controller中的请求，而不是静态资源。<br>
+ * 比如：<br>
+ * <li>/admin/path会被拦截（因为该请求由Controller返回），</li>
+ * <li>/admin/path.jsp则不会被拦截（因为该请求没有经过Controller，当然也可以为该请求配置Controller，但我没这么做）。</li>
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 

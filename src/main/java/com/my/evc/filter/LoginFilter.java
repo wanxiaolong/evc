@@ -35,12 +35,20 @@ public class LoginFilter implements Filter {
 		//targetURL: 除掉项目名称后访问的路径
 		String targetURL = request.getRequestURI().substring(ctxPath.length());
 		HttpSession session = request.getSession(false);
+		
+		//如果打开的是login页面而且当前已经登录，则跳转到管理员的主页面/admin/home.jsp
+		if (LOGIN_URL.equals(targetURL)) {
+			if(session != null && session.getAttribute(Constant.PARAM_USER) != null){
+				response.sendRedirect(ctxPath + "/admin/home.jsp");
+				return;
+			}
+		}
+		
 		//对当前页面进行判断，如果当前页面不为登录页面
 		if(targetURL.startsWith("/admin/") && !LOGIN_URL.equals(targetURL)){
 			//在不为登陆页面时，再进行判断，如果不是登陆页面也没有session则跳转到登录页面，
 			if(session == null || session.getAttribute(Constant.PARAM_USER) == null){
-				String contextPath = request.getContextPath();
-				String redirectURL = contextPath + "/admin/login.jsp?ru=" + targetURL;
+				String redirectURL = ctxPath + "/admin/login.jsp?ru=" + targetURL;
 				if (!StringUtil.isEmpty(queryString)) {
 					redirectURL += URLEncoder.encode("?" + queryString);
 				}

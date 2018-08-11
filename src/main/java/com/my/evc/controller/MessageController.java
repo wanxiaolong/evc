@@ -22,7 +22,7 @@ import com.my.evc.security.RequirePermission;
 import com.my.evc.service.MessageService;
 
 /**
- * 本类处理公告相关的请求。
+ * 本类处理留言板相关的请求。
  */
 @Controller
 @RequestMapping("/message")
@@ -104,7 +104,7 @@ public class MessageController extends BaseController {
 	 */
 	@RequestMapping(value="/all", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse<List<Message>> listNotices(HttpServletRequest request, HttpServletResponse response)
+	public JsonResponse<List<Message>> listMessages(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		List<Message> messages = messageService.findAll();
 		return new JsonResponse<List<Message>>(SUCCESS, messages);

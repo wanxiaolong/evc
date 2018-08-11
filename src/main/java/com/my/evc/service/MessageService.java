@@ -10,6 +10,7 @@ import com.my.evc.exception.BaseException;
 import com.my.evc.mapper.MessageMapper;
 import com.my.evc.model.Message;
 import com.my.evc.type.MessageType;
+import com.my.evc.util.StringUtil;
 
 @Service
 @Transactional
@@ -47,7 +48,10 @@ public class MessageService implements BaseService<Message>{
 	}
 	
 	private Message convertType(Message message) {
-		int type = Integer.parseInt(message.getType());
+		String msgType = message.getType();
+		// Set the default value to avoid NumberFormatException
+		msgType = StringUtil.isEmpty(msgType) ? "1" : msgType;
+		int type = Integer.parseInt(msgType);
 		message.setType(MessageType.fromValue(type).getName());
 		return message;
 	}
