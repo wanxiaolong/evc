@@ -529,7 +529,7 @@ tbody td button {
 .evc-message .key,
 .evc-notice .key {
 	display: inline-block;
-	width: 50px;
+	width: 100px;
 	font-weight: bold;
 }
 .evc-message .content textarea {
