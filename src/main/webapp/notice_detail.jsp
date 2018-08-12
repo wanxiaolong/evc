@@ -12,33 +12,27 @@
 <body>
 	<common:page-header />
 	<div class="evc-content">
-		<div class="evc-message">
+		<div class="evc-notice">
 			<div><h3>公告详情</h3></div>
 			<div class="row">
-				<div class="col-md-6">
-					<label for="title">标题</label><br>
-					<input name="title" value="${model.title}" disabled="disabled"><br>
-				</div>
-				<div class="col-md-6">
-					<label for="author">发布者</label><br>
-					<input name="author" value="${model.userName}" disabled="disabled"><br>
-				</div>
+				<span class="key">标题：</span>
+				<span>${model.title}</span>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
-					<label for="importantLevel">重要性</label><br>
-					<input name="importantLevel" value="${model.importantLevel}" disabled="disabled"><br>
-				</div>
-				<div class="col-md-6">
-					<label for="creationDate">创建时间</label><br>
-					<input name="creationDate" value="${model.creationDate}" disabled="disabled"><br>
-				</div>
+				<span class="key">发布者：</span>
+				<span>${model.userName}</span>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
-					<label for="content">内容</label><br>
-					<textarea name="content" style="width: 1200px; height: 200px;">${model.content}</textarea><br>
-				</div>
+				<span class="key">重要性：</span>
+				<span>${model.importantLevel}</span>
+			</div>
+			<div class="row">
+				<span class="key">创建时间：</span>
+				<span>${model.creationDate}</span>
+			</div>
+			<div class="row">
+				<span class="key">内容：</span>
+				<div class="content">${model.content}</div>
 			</div>
 		</div>
 	</div>

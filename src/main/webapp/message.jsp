@@ -21,7 +21,9 @@
 	<div class="evc-content">
 		<div class="evc-message">
 			<div class="right">
-				<a href="/evc/message_detail.jsp">我要留言>>></a>
+				<button class="btn btn-primary btn-success" onclick="javascript:location.href='/evc/message_add.jsp'">
+					<i class="fa fa-plus-circle"></i>我要留言
+				</button>
 			</div>
 			<table id="messageTable" class="table table-striped column1-left">
 				<thead>

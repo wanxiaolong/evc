@@ -519,13 +519,42 @@ tbody td button {
 
 /**
  * -------------------------------------------
- * 创建留言页面
+ * 创建留言页面(message_add.jsp)
  * -------------------------------------------
  */
+.evc-message .row,
+.evc-notice .row {
+	line-height: 30px;
+}
+.evc-message .key,
+.evc-notice .key {
+	display: inline-block;
+	width: 50px;
+	font-weight: bold;
+}
+.evc-message .content textarea {
+	width: 100%;
+	height: 200px;
+}
+.evc-message input[type=text] {
+	width: 500px;
+}
+.evc-message input[type=radio] {
+	margin-left: 15px;
+}
+.evc-message input[type=radio]:first-of-type {
+	margin-left: 0px;
+}
 .evc-message .submit {
 	text-align: right;
 }
-.evc-message .submit input[type='submit'] {
+.evc-message .submit input[type=submit] {
 	width: 100px;
 	height: 30px;
 }
+
+/**
+ * -------------------------------------------
+ * 公告详情页面(notice_detail.jsp)
+ * -------------------------------------------
+ */

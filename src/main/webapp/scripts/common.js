@@ -29,7 +29,7 @@ function checkRequiredField() {
 		var val = '';
 		if (tagName == 'SELECT') { //普通的select
 			val = $(this).children('option:selected').attr('value');
-		} else if (tagName == 'INPUT') {//普通的input
+		} else if (tagName == 'INPUT' || tagName == 'TEXTAREA') {//普通的input或者textarea
 			val = $(this).val();
 		}
 
@@ -40,7 +40,6 @@ function checkRequiredField() {
 		} else {
 			$(this).removeClass('err-bdr');
 		}
-		
 		
 		//对于select2的下拉菜单，需要检查修饰原始select的span的值，该span的id为：select2-[id]-container
 		var isSelect2 = $(this).hasClass('select2-hidden-accessible');
