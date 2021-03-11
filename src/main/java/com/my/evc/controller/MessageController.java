@@ -40,11 +40,12 @@ public class MessageController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
 		String type = request.getParameter(Constant.PARAM_TYPE);
-		String title = request.getParameter(Constant.PARAM_TITLE);
+		String nick = request.getParameter(Constant.PARAM_NICK);
 		String contact = request.getParameter(Constant.PARAM_CONTACT);
+		String title = request.getParameter(Constant.PARAM_TITLE);
 		String content = request.getParameter(Constant.PARAM_CONTENT);
 		
-		Message message = new Message(type,title, contact, content);
+		Message message = new Message(type, nick, contact, title, content);
 		
 		messageService.create(message);
 		List<Message> messages = messageService.findAll();
@@ -75,11 +76,12 @@ public class MessageController extends BaseController {
 			HttpServletResponse response) throws BaseException, Exception {
 		String id = request.getParameter(Constant.PARAM_ID);
 		String type = request.getParameter(Constant.PARAM_TYPE);
-		String title = request.getParameter(Constant.PARAM_TITLE);
+		String nick = request.getParameter(Constant.PARAM_NICK);
 		String contact = request.getParameter(Constant.PARAM_CONTACT);
+		String title = request.getParameter(Constant.PARAM_TITLE);
 		String content = request.getParameter(Constant.PARAM_CONTENT);
-		
-		Message message = new Message(type,title, contact, content);
+
+		Message message = new Message(type, nick, contact, title, content);
 		message.setId(Integer.parseInt(id));
 		//从数据库中删除记录
 		messageService.update(message);

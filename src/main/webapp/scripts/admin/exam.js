@@ -222,7 +222,7 @@ function addRows(array) {
 						"<i class='fa fa-edit'></i>编辑" +
 					"</button>";
 	var deleteBtn = "<button id='deleterow' class='btn btn-primary btn-danger' type='button'>" +
-						"<i class='fa fa-trash'></i>删除考试" +
+						"<i class='fa fa-trash'></i>删除" +
 					"</button>";
 	
 	var uploadBtn = "<button id='uploadscore' class='btn btn-primary btn-success' type='button'>" +

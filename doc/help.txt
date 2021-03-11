@@ -78,3 +78,19 @@ https://www.cnblogs.com/DreamDrive/p/5762078.html
 25. Update batch using mybatis:
 https://blog.csdn.net/xyjawq1/article/details/74129316
 
+26. When running 'mvn install' in IDEA,
+Error: No compiler is provided in this environment. Perhaps you are running on a JRE rather than a JDK?
+https://zhuanlan.zhihu.com/p/305623063
+
+27. No maven window after imported project into IDEA
+https://blog.csdn.net/biaoge20150414/article/details/101052198
+
+27. How to run project with Tomcat in IDEA:
+https://blog.csdn.net/JontyHua/article/details/86363469
+
+28. IDEA run project with tomcat,
+Error: Permission denined
+https://blog.csdn.net/weixin_44037416/article/details/99637865
+
+
+

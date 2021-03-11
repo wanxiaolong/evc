@@ -51,7 +51,7 @@ function add() {
 
 //点击“删除”按钮后的操作
 function del(subject) {
-	ajax('POST', '/carousel/delete', 'id=' + subject.id, null, deleteSuccessCallback, errorCallback);
+	ajax('POST', '/carousel/delete', 'id=' + subject.id, null, deleteSuccessCallback, deleteFailedCallback);
 }
 
 //点击“编辑”按钮后的操作
@@ -85,7 +85,7 @@ function submitUpdate() {
 				'&order=' + order +
 				'&enabled=' + enabled;
 	
-	ajax('POST', url, data, null, updateSuccessCallback, errorCallback);
+	ajax('POST', url, data, null, updateSuccessCallback, updateFailedCallback);
 }
 
 //初始化Datatables表格

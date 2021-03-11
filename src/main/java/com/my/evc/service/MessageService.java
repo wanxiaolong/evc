@@ -2,6 +2,7 @@ package com.my.evc.service;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,9 @@ public class MessageService implements BaseService<Message>{
 
 	public Message findByID(int id) throws BaseException {
 		Message message = messageMapper.find(id);
+		if (message != null) {
+			convertType(message);
+		}
 		return message;
 	}
 	
@@ -41,7 +45,7 @@ public class MessageService implements BaseService<Message>{
 	 */
 	public List<Message> findAll() throws BaseException {
 		List<Message> messages = messageMapper.findAll();
-		for (Message message : messages) {
+		for (Message message : CollectionUtils.emptyIfNull(messages)) {
 			convertType(message);
 		}
 		return messages;

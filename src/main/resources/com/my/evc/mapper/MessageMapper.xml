@@ -4,9 +4,9 @@
 
 	<insert id="create" parameterType="com.my.evc.model.Message" keyProperty="id" useGeneratedKeys="true">
 		insert into message
-			(type,title,contact,content)
+			(type,nick,title,contact,content)
 		values
-			(#{type},#{title},#{contact},#{content})
+			(#{type},#{nick},#{title},#{contact},#{content})
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -17,7 +17,8 @@
 		update message 
 		set 
 			type=#{type}, 
-			title=#{title}, 
+			nick=#{nick},
+			title=#{title},
 			contact=#{contact}, 
 			content=#{content} 
 		where 
@@ -27,7 +28,8 @@
 	<sql id="all_fields">
 		id as id,
 		type as type, 
-		title as title, 
+		nick as nick,
+		title as title,
 		contact as contact,
 		content as content,
 		creation_date as creationDate

@@ -37,7 +37,7 @@ function initCarousel(array) {
 		
 		//添加图片元素
 		var div = '<div class="item">' + 
-						'<img src="' + webroot + carousel.imgUrl + '" alt="' + carousel.altText + '">' + 
+						'<img src="' + webroot + carousel.imgUrl + '" height="500px" alt="' + carousel.altText + '">' +
 					'</div>';
 		jqImgDiv.append(div);
 	}

@@ -22,9 +22,11 @@ public enum ErrorEnum {
 	
 	INVALID_PASSWORD(105, "密码错误"),
 	INVALID_PASSWORD_CONFIRM(106, "确认密码错误"),
+	INVALID_FILE_NAME(108, "文件名无效"),
 	USER_NOT_FOUND(102,"没有该用户"),
-	EXAM_NOT_FOUND(104,"没有找到考试信息");
-	
+	EXAM_NOT_FOUND(104,"没有找到考试信息"),
+	FILE_NOT_EXISTS(107,"文件不存在");
+
 	
 	
 	private String description;

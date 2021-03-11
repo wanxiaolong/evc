@@ -5,17 +5,19 @@ package com.my.evc.model;
  */
 public class Message extends BaseModel {
 	
-	private String type; //留言类型：问题question、建议suggestion、吐槽complain等
-	private String title; //标题
-	private String contact; //联系方式
-	private String content; //内容
+	private String type;       //留言类型：问题question、建议suggestion、吐槽complain等
+	private String nick;       //昵称
+	private String contact;    //联系方式
+	private String title;      //标题
+	private String content;    //内容
 	
 	public Message(){}
 	
-	public Message(String type, String title, String contact, String content) {
+	public Message(String type, String nick, String contact, String title, String content) {
 		this.type = type;
-		this.title = title;
+		this.nick = nick;
 		this.contact = contact;
+		this.title = title;
 		this.content = content;
 	}
 	
@@ -42,5 +44,11 @@ public class Message extends BaseModel {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 }

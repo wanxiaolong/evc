@@ -32,6 +32,7 @@
 						<th>标题</th>
 						<th>类型</th>
 						<th>发布者</th>
+						<th>联系方式</th>
 						<th>创建日期</th>
 					</tr>
 				</thead>

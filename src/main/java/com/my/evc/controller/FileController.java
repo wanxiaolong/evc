@@ -5,8 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.my.evc.common.ErrorEnum;
+import com.my.evc.common.SystemConfig;
+import com.my.evc.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +32,7 @@ public class FileController extends BaseController {
 	
 	@Autowired
 	private FileService fileService;
-	
+
 	/**
 	 * 文件上传。
 	 */
@@ -77,5 +82,29 @@ public class FileController extends BaseController {
 			throws BaseException, Exception {
 		List<File> files = fileService.findAll();
 		return new JsonResponse<List<File>>(SUCCESS, files);
+	}
+
+	/**
+	 * 文件下载。
+	 */
+	@RequestMapping(value="/download/*", method = RequestMethod.GET)
+	public void download(HttpServletRequest request, HttpServletResponse response)
+			throws BaseException, Exception {
+		String servletPath = request.getServletPath();
+		String fileName = servletPath.substring(servletPath.lastIndexOf('/') + 1);
+		File file = fileService.findByName(fileName);
+		if (file == null) {
+			throw new BusinessException(ErrorEnum.INVALID_FILE_NAME);
+		}
+
+		String path = SystemConfig.FILE_UPLOAD_PATH + java.io.File.separator + fileName;
+		long fileLength = FileUtil.handleDownloadFile(path, response.getOutputStream());
+
+		//告诉浏览器输出内容为数据流
+		response.setContentType("application/octet-stream");
+		//写明要下载的文件的大小
+		response.setContentLength((int)fileLength);
+		//设置附加文件名
+		response.addHeader("Content-Disposition","attachment;filename=\"" + fileName + "\"");
 	}
 }

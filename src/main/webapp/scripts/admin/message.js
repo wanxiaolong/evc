@@ -104,12 +104,12 @@ function initDataTable(id) {
 			url: webroot + '/localization/chinese.json'
 		},
 		columnDefs: [
-			{	"targets": 1, "sWidth": "80px"},
+			{	"targets": 1, "sWidth": "60px"},
 			{	"targets": 2, "sWidth": "150px"},
 			{	"targets": 4, "sWidth": "100px"},
 			{
 				"targets": -1,//倒数第1列，编辑
-				"sWidth": "200px",
+				"sWidth": "160px",
 				"sortable": false,//不能排序
 				"searchable": false,//不能搜索
 				"data": null,//data指定要显示的字段。这里设为null，即不显示任何字段
@@ -143,6 +143,7 @@ function addRows(array) {
 			message.type,
 			message.title,
 			message.content,
+			message.nick,
 			message.contact,
 			message.creationDate,
 		];

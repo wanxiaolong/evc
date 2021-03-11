@@ -37,6 +37,7 @@
 						<th>类型</th>
 						<th>标题</th>
 						<th>内容</th>
+						<th>昵称</th>
 						<th>联系方式</th>
 						<th>发布时间</th>
 						<th>操作</th>
@@ -70,6 +71,12 @@
 			<div class="name">内容：</div>
 			<div class="value">
 				<input type="text" name="content">
+			</div>
+		</div>
+		<div class="field">
+			<div class="name">昵称：</div>
+			<div class="value">
+				<input type="text" name="nick">
 			</div>
 		</div>
 		<div class="field">

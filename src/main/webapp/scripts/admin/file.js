@@ -27,7 +27,7 @@ $(document).ready(function(){
 
 //查询所有的文件信息
 function queryAll() {
-	ajax('GET', '/file/all', data, null, addRows);
+	ajax('GET', '/file/all', null, null, addRows);
 }
 
 //点击“删除”按钮后的操作
@@ -124,6 +124,6 @@ function initFileUpload() {
 		//上传成功后的回调
 		toastr.success("文件【" + data.jqXHR.responseJSON.response[0] + "】上传成功！");
 		//刷新文件信息列表
-		queryAllFiles();
+		queryAll();
 	});
 }

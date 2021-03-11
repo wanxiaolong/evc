@@ -214,12 +214,27 @@ function updateSuccessCallback() {
 	deleteSuccessCallback();
 }
 
-//删除操作的回调
+//带有对话框的ajax调用失败的回调（更新或创建，需要关闭对话框）
+function updateFailedCallback() {
+	//隐藏模态框
+	$('#myModal').modal('hide');
+	toastr.error("操作失败！查看控制台以了解详情。");
+}
+
+//删除操作成功的回调
 function deleteSuccessCallback() {
 	//再次查询，以刷新数据
 	queryAll();
 	//用toastr显示一个会自动消失的消息
 	toastr.success("操作成功！数据已刷新。");
+}
+
+//删除操作失败的回调
+function deleteFailedCallback() {
+	//再次查询，以刷新数据
+	queryAll();
+	//用toastr显示一个会自动消失的消息
+	toastr.error("操作失败！查看控制台以了解详情。");
 }
 
 //解决模态框中的select2不能搜索（不能获取焦点）的问题。见help.txt#17

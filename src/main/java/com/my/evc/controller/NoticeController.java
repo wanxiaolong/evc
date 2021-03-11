@@ -38,11 +38,21 @@ public class NoticeController extends BaseController {
 	 */
 	@ResponseBody
 	@RequirePermission(permissions = {Permission.NOTICE_ADD})
-	@RequestMapping(method = RequestMethod.POST)
-	public JsonResponse<String> createNotice(@RequestBody(required=true) Notice file,
-			HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public JsonResponse<String> createNotice(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException, Exception {
-		noticeService.create(null);
+		User loginUser = (User)request.getSession().getAttribute(Constant.PARAM_USER);
+
+		String title = request.getParameter(Constant.PARAM_TITLE);
+		String importantLevel = request.getParameter(Constant.PARAM_IMPORTANT_LEVEL);
+		String content = request.getParameter(Constant.PARAM_CONTENT);
+
+		Notice notice = new Notice();
+		notice.setTitle(title);
+		notice.setImportantLevel(importantLevel);
+		notice.setContent(content);
+		notice.setAdminId(loginUser.getId());
+		noticeService.create(notice);
 		return new JsonResponse<String>(SUCCESS, "Created succeed!");
 	}
 	
@@ -78,7 +88,7 @@ public class NoticeController extends BaseController {
 		notice.setContent(content);
 		notice.setTitle(title);
 		//这里用当前登录的用户更新公告
-		notice.setUserId(String.valueOf(loginUser.getId()));
+		notice.setAdminId(loginUser.getId());
 		
 		noticeService.update(notice);
 		return new JsonResponse<String>(SUCCESS, "Update succeed!");

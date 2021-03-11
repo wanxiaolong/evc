@@ -44,7 +44,7 @@ public class CarouselController extends BaseController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse<Object> updateExam(HttpServletRequest request, 
+	public JsonResponse<Object> updateCarousel(HttpServletRequest request,
 			HttpServletResponse response) throws BaseException, Exception {
 		String id = request.getParameter(Constant.PARAM_ID);
 		String enabled = request.getParameter(Constant.PARAM_ENABLED);
@@ -67,7 +67,7 @@ public class CarouselController extends BaseController {
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse<Object> createExam(HttpServletRequest request, 
+	public JsonResponse<Object> createCarousel(HttpServletRequest request,
 			HttpServletResponse response) throws BaseException, Exception {
 		String enabled = request.getParameter(Constant.PARAM_ENABLED);
 		String imgUrl = request.getParameter(Constant.PARAM_IMG_URL);

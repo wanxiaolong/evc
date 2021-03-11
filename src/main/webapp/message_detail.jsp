@@ -26,7 +26,15 @@
 			</div>
 			<div class="row">
 				<span class="key">昵称：</span>
+				<span>${model.nick}</span>
+			</div>
+			<div class="row">
+				<span class="key">联系方式：</span>
 				<span>${model.contact}</span>
+			</div>
+			<div class="row">
+				<span class="key">发布时间：</span>
+				<span>${model.creationDate}</span>
 			</div>
 			<div class="row">
 				<span class="key">内容：</span>

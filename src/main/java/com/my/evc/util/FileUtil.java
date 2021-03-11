@@ -1,13 +1,6 @@
 package com.my.evc.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,6 +11,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
@@ -52,9 +46,12 @@ public class FileUtil {
 			if (!item.isFormField()) {
 				String fileName = item.getName();
 				if (!StringUtils.isEmpty(fileName)) {//判断是否选择了文件
-					File file = new File(SystemConfig.FILE_UPLOAD_PATH, fileName);//获取根目录对应的真实物理路径
-					copyStream(item.getInputStream(), new FileOutputStream(file));
-					files.add(file.getName());
+					File targetFile = new File(SystemConfig.FILE_UPLOAD_PATH, fileName);//获取根目录对应的真实物理路径
+					if (!targetFile.exists()) {
+						targetFile.createNewFile();
+					}
+					copyStream(item.getInputStream(), new FileOutputStream(targetFile));
+					files.add(fileName);
 				}
 			}
 		}
@@ -69,14 +66,13 @@ public class FileUtil {
 		//只接受.xls和.xlsx文件，否则报错
 		if (!StringUtils.isEmpty(fileName)) {
 			String fileExtension = fileName.substring(fileName.lastIndexOf("."));
-			if (Constant.ALLOWED_FILE_EXTENSION.contains(fileExtension)) {
-				InputStream in = fileItem.getInputStream();
-				//先检查该Excel的表头是否符合要求
-				Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(ExcelUtil.getSheet0(in, fileName));
-				return headerMap;
-			} else {
+			if (!Constant.ALLOWED_FILE_EXTENSION.contains(fileExtension)) {
 				throw new BusinessException(ErrorEnum.INVALID_EXCEL_UNSUPPORTED_TYPE);
 			}
+			InputStream in = fileItem.getInputStream();
+			//先检查该Excel的表头是否符合要求
+			Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(ExcelUtil.getSheet0(in, fileName));
+			return headerMap;
 		} else {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_EMPTY_FILE_NAME);
 		}
@@ -182,5 +178,19 @@ public class FileUtil {
 		if (file.exists()) {
 			file.delete();
 		}
+	}
+
+	/**
+	 * 下载文件。
+	 */
+	public static long handleDownloadFile(String path, ServletOutputStream out) throws BusinessException, IOException {
+		File file = new File(path);
+		if (!file.exists()) {
+			throw new BusinessException(ErrorEnum.FILE_NOT_EXISTS);
+		}
+		InputStream in = new FileInputStream(file);
+		copyStream(in, out);
+		in.close();
+		return file.length();
 	}
 }

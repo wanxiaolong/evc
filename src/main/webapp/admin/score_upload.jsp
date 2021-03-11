@@ -84,7 +84,7 @@
 					</div> --%>
 				</div>
 				<div class="subject-msg-div">
-					请确保Excel第一列<b>学生信息</b>和<b class="red">科目信息</b>按照如下顺序（仅支持.xls和.xlsx格式的文件）：
+					请确保Excel第一行<b>学生信息</b>和<b class="red">科目信息</b>按照如下顺序（仅支持.xls和.xlsx格式的文件）：
 					<div>
 						<span id="studentmsg">学号，姓名，生日，年级，班级，</span>
 						<span id="subjectmsg"></span>

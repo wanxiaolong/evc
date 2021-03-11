@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.40</version>
+			<version>8.0.15</version>
 		</dependency>
 
 		<!-- Json Converter -->
@@ -176,5 +176,18 @@
 	</dependencies>
 	<build>
 		<finalName>evc</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<!-- Your JDK location -->
+					<executable>/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/javac</executable>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

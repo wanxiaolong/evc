@@ -53,6 +53,7 @@ function addRows(array) {
 			message,
 			message.title,
 			message.type,
+			message.nick,
 			message.contact,
 			message.creationDate
 		];

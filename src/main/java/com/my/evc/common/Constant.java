@@ -48,6 +48,7 @@ public class Constant {
 	public static final String PARAM_SUBJECT_ID = "subject_id";
 	public static final String PARAM_SUBJECT_IDS = "subject_ids";
 	public static final String PARAM_TYPE = "type";
+	public static final String PARAM_NICK = "nick";
 	public static final String PARAM_TITLE = "title";
 	public static final String PARAM_USER = "user";
 	public static final String PARAM_USERNAME = "username";
