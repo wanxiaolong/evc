@@ -27,10 +27,10 @@ CREATE TABLE `exam` (
   `people` int NOT NULL DEFAULT 0,
   `date` datetime NOT NULL,
   `semester_number` int NOT NULL,
-  `is_show_rank` tinyint NOT NULL DEFAULT '1',
-  `is_score_uploaded` tinyint NOT NULL DEFAULT '0',
-  `is_show_grade_rank` tinyint NOT NULL DEFAULT '1',
-  `is_show_class_rank` tinyint NOT NULL DEFAULT '1',
+  `is_show_rank` tinyint NOT NULL DEFAULT 1,
+  `is_score_uploaded` tinyint NOT NULL DEFAULT 0,
+  `is_show_grade_rank` tinyint NOT NULL DEFAULT 1,
+  `is_show_class_rank` tinyint NOT NULL DEFAULT 1,
   `note` varchar(50) DEFAULT NULL,
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -125,19 +125,21 @@ CREATE TABLE `reply` (
 -- ----------------------------
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `number` int NOT NULL,
   `name` varchar(45) NOT NULL,
   `name_pinyin` varchar(45) NOT NULL,
-  `sex` enum('1','0') NOT NULL DEFAULT '1',
-  `grade` int NOT NULL,
-  `class` int NOT NULL,
-  `birth_year` char(4) NOT NULL,
+  `sex` tinyint,
+  `grade` varchar(10) NOT NULL,
+  `class` varchar(10) NOT NULL,
+  `birth_year` char(4),
   `birth_day` char(4) NOT NULL,
   `description` varchar(100) DEFAULT NULL,
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_number` (`number`),
+  UNIQUE KEY `uk_name_birthday` (`name`,`birth_day`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for table `score`
@@ -220,12 +222,6 @@ CREATE TABLE `semester` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
--- ----------------------------
--- Records of student
--- ----------------------------
-INSERT INTO `student` VALUES (1,'2018004','张三丰','zhangsanfeng','1',2021,3,'1990','0809',NULL,'2017-11-27 19:55:31');
-
 -- ----------------------------
 -- Records of user
 -- ----------------------------
@@ -251,12 +247,12 @@ INSERT INTO `carousel` VALUES (5, '/images/slides/slide5.jpg', '', 5, NULL, 1, '
 INSERT INTO `subject` VALUES (1, '语文', '2021-03-11 00:27:29');
 INSERT INTO `subject` VALUES (2, '数学', '2021-03-11 00:27:37');
 INSERT INTO `subject` VALUES (3, '英语', '2021-03-11 00:27:42');
-INSERT INTO `subject` VALUES (4, '政治', '2021-03-11 00:27:53');
-INSERT INTO `subject` VALUES (5, '历史', '2021-03-11 00:27:59');
-INSERT INTO `subject` VALUES (6, '地理', '2021-03-11 00:28:04');
-INSERT INTO `subject` VALUES (7, '物理', '2021-03-11 00:28:09');
-INSERT INTO `subject` VALUES (8, '化学', '2021-03-11 00:28:14');
-INSERT INTO `subject` VALUES (9, '生物', '2021-03-11 00:28:18');
+INSERT INTO `subject` VALUES (4, '生物', '2021-03-11 00:28:18');
+INSERT INTO `subject` VALUES (5, '政治', '2021-03-11 00:27:53');
+INSERT INTO `subject` VALUES (6, '历史', '2021-03-11 00:27:59');
+INSERT INTO `subject` VALUES (7, '地理', '2021-03-11 00:28:04');
+INSERT INTO `subject` VALUES (8, '物理', '2021-03-11 00:28:09');
+INSERT INTO `subject` VALUES (9, '化学', '2021-03-11 00:28:14');
 INSERT INTO `subject` VALUES (10, '体育', '2021-03-11 00:28:25');
 INSERT INTO `subject` VALUES (11, '实验', '2021-03-11 00:28:25');
 
@@ -282,7 +278,7 @@ INSERT INTO `notice` VALUES (2, 1, '2021春节返校通知', '2', '2月18号返�
 -- ----------------------------
 INSERT INTO `exam` VALUES (1, '第一次月考', '1,2,3', 50, '2020-11-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 20:50:19');
 INSERT INTO `exam` VALUES (2, '半期考试', '1,2,3,4,5,6,7,8,9', 47, '2020-12-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 21:56:01');
-INSERT INTO `exam` VALUES (3, '期末考试', '1,2,3,4,5,6,7,8,9', 50, '2021-01-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 21:56:42');
+INSERT INTO `exam` VALUES (3, '期末考试', '1,2,3,4,5,6,7', 50, '2021-01-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 21:56:42');
 
 -- ----------------------------
 -- Records of message

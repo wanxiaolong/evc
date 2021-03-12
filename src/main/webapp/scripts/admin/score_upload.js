@@ -96,9 +96,15 @@ function initUploadConfig(examId) {
 	uploadConfig.maxFileCount = 1; //表示允许同时上传的最大文件个数;
 	
 	$("#upload-file").fileinput(uploadConfig).on("fileuploaded", function (event, data, previewId, index){
-		var fileName = data.filenames[0];
+		var responseJson = data.jqXHR.responseJSON;
 		//上传成功后的回调
-		toastr.success("文件" + fileName + "上传成功！");
+		if (responseJson.status == 0) {
+			var fileName = data.filenames[0];
+			toastr.success("文件" + fileName + "上传成功！");
+		} else {
+			var msg = "上传失败，原因：" + responseJson.errorMessage;
+			toastr.error(msg);
+		}
 	});
 }
 

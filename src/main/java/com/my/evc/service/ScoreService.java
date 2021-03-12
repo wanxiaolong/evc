@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -92,25 +93,37 @@ public class ScoreService implements BaseService<Score> {
 			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_NO_EXAM_ID);
 		}
 		//如果examId不是数字，或考试在数据库中不存在，直接报错
+		Integer intId;
 		try {
-			Integer.parseInt(examId);
+			intId = Integer.parseInt(examId);
 		} catch(Exception e) {
 			throw new BusinessException(ErrorEnum.ILLEGAL_REQUEST_INVALID_EXAM_ID);
 		}
-		
+
+		//先检查考试信息是否存在，不存在直接报错
+		Exam exam = examMapper.find(intId);
+		if (exam == null) {
+			throw new BusinessException(ErrorEnum.EXAM_NOT_FOUND);
+		}
+
 		//检查Excel文件中的科目是否和系统一致
-		Map<Integer, String> headerMap = FileUtil.handleFileItem(fileItem);
+		Map<Integer, String> headerMap = FileUtil.handleExcelFile(fileItem);
 		if (!isValidExcelHeader(headerMap, examId)) {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_SUBJECT_NOT_MATCH);
 		}
 		//读取Excel中的数据，Excel中的一行就是这里的一个Map
 		List<Map<String, String>> data = ExcelUtil.loadData(fileItem);
-		
+
+		//如果读取的数据行数，不等于考试的人数，则成绩不完全，直接报错
+		if (data.size() != exam.getPeople()) {
+			throw new BusinessException(ErrorEnum.INVALID_EXCEL_ROWS_NOT_MATCH);
+		}
+
 		//读取学生信息并插入到数据库中
 		autoSaveStudentForExam(data);
 		
 		//读取成绩信息并插入到数据库中，并更新Exam的isScoreUploaded状态
-		int rows = saveScoreForExam(examId, data);
+		int rows = saveScoreForExam(exam, data);
 		return rows;
 	}
 
@@ -161,7 +174,7 @@ public class ScoreService implements BaseService<Score> {
 					//读取学生信息并插入到数据库中
 					autoSaveStudentForExam(data);
 					//插入成绩信息
-					saveScoreForExam(String.valueOf(exam.getId()), data);
+					saveScoreForExam(exam, data);
 				} catch (BusinessException e) {
 					LOGGER.error("上传成绩失败，文件名：" + examName, e);
 					failedFiles.add(semesterName + File.separator + examName);
@@ -220,6 +233,7 @@ public class ScoreService implements BaseService<Score> {
 		//执行更新
 		int updateRows = 0;
 		if (updateList.size() > 0) {
+			LOGGER.info("学生信息需要更新的个数：" + updateList.size());
 			updateRows = studentMapper.updateBatch(updateList);
 			LOGGER.info("学生信息更新完成！已更新：" + updateRows);
 		}
@@ -227,6 +241,7 @@ public class ScoreService implements BaseService<Score> {
 		//把学生List保存在数据库中
 		int insertRows = 0;
 		if (insertList.size() > 0) {
+			LOGGER.info("学生信息需要插入的个数：" + insertList.size());
 			insertRows = studentMapper.createBatch(insertList);
 			LOGGER.info("学生信息插入完成！已插入：" + insertRows);
 		}
@@ -237,20 +252,13 @@ public class ScoreService implements BaseService<Score> {
 	 * 把读取好的成绩保存到数据库中，并更新Exam的isScoreUploaded状态，最后返回插入的行数。
 	 * @throws DaoException 
 	 */
-	private int saveScoreForExam(String examId, List<Map<String, String>> scoreList) throws BusinessException, DaoException {
-		//先检查考试信息是否存在，不存在直接报错
-		int intId = Integer.parseInt(examId);
-		Exam exam = examMapper.find(intId);
-		if (exam == null) {
-			throw new BusinessException(ErrorEnum.EXAM_NOT_FOUND);
-		}
-		
+	private int saveScoreForExam(Exam exam, List<Map<String, String>> scoreList) throws BusinessException, DaoException {
 		//将读取到的成绩转换成Score对象并保存到List中
 		int order = 0;//在excel中的顺序
 		List<Score> scores = new ArrayList<Score>();
 		for(Map<String, String> map : scoreList) {
 			Score score = new Score();
-			score.setExamId(intId);
+			score.setExamId(exam.getId());
 			for(String key : map.keySet()) {
 				ExcelTitle title = ExcelTitle.fromString(key.trim());
 				if (title != null) {
@@ -270,14 +278,13 @@ public class ScoreService implements BaseService<Score> {
 		LOGGER.info("成绩信息插入完成！已插入：" + rows);
 		
 		//更新exam的isScoreUploaded状态
-		examMapper.updateScoreStatus(intId, true);
+		examMapper.updateScoreStatus(exam.getId(), true);
 		
 		return rows;
 	}
 	
 	/**
 	 * 根据Excel文件名创建考试，列名作为考试的科目信息，行数作为考试人数。
-	 * @param examName 带后缀的Excel文件名，例如：abc.xlsx。
 	 */
 	private Exam createOrReturnExam(Semester semester, File examScoreFile) throws DaoException, 
 		FileNotFoundException, IOException, BusinessException {
@@ -463,14 +470,22 @@ public class ScoreService implements BaseService<Score> {
 	 */
 	public List<ScoreVo> queryScoreBySemester(String namePinYin, String birthday, int semesterId) {
 		List<ScoreVo> scoreVos = scoreMapper.findBySemester(namePinYin, birthday, semesterId);
+		for (ScoreVo vo : CollectionUtils.emptyIfNull(scoreVos)) {
+			DataUtil.removeScoreSuffix0(vo);
+		}
 		return scoreVos;
 	}
+
+
 	
 	/**
 	 * 查询全班某次考试的成绩。
 	 */
 	public List<ScoreVo> queryScoreByClass(int examId) {
 		List<ScoreVo> scoreVos = scoreMapper.findByClass(examId);
+		for (ScoreVo vo : CollectionUtils.emptyIfNull(scoreVos)) {
+			DataUtil.removeScoreSuffix0(vo);
+		}
 		return scoreVos;
 	}
 	

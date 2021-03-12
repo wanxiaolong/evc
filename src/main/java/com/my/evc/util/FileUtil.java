@@ -61,7 +61,7 @@ public class FileUtil {
 	/**
 	 * 调用ExcelUtil.getHeaderRow，从Excel文件中取出表头。只支持.xls和.xlsx文件。
 	 */
-	public static Map<Integer, String> handleFileItem(FileItem fileItem) throws BusinessException, IOException {
+	public static Map<Integer, String> handleExcelFile(FileItem fileItem) throws BusinessException, IOException {
 		String fileName = fileItem.getName();
 		//只接受.xls和.xlsx文件，否则报错
 		if (!StringUtils.isEmpty(fileName)) {
@@ -87,8 +87,6 @@ public class FileUtil {
 		while((length = in.read(buffer))!=-1){
 			out.write(buffer,0,length);
 		}
-		in.close();
-		out.close();
 	}
 	
 	/**
@@ -99,8 +97,7 @@ public class FileUtil {
 		DiskFileItemFactory factory = new DiskFileItemFactory();//基于磁盘文件项目创建一个工厂对象
 		ServletFileUpload upload = new ServletFileUpload(factory);//创建一个新的文件上传对象
 		List<FileItem> items = upload.parseRequest(request);//解析上传请求
-		Iterator<FileItem> itr = items.iterator();
-		return itr;
+		return items.iterator();
 	}
 	
 	/**

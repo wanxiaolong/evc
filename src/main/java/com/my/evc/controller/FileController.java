@@ -47,12 +47,8 @@ public class FileController extends BaseController {
 		
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
-		
-		if (fileNames.size() == count) {
-			return new JsonResponse<List<String>>(SUCCESS, fileNames);
-		} else {
-			return new JsonResponse<List<String>>(FAILED, fileNames);
-		}
+		int status = fileNames.size() == count ? SUCCESS : FAILED;
+		return new JsonResponse<List<String>>(status, fileNames);
 	}
 	
 	/**

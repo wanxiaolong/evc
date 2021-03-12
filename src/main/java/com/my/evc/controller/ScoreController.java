@@ -52,12 +52,11 @@ public class ScoreController extends BaseController {
 				if (Constant.PARAM_EXAM_ID.equalsIgnoreCase(item.getFieldName())) {
 					examId = item.getString();
 				}
-			}
-			if (!item.isFormField()) {
+			} else {
 				fileItem = item;
 			}
 		}
-		
+
 		scoreService.uploadScore(examId, fileItem);
 		
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
@@ -104,7 +103,7 @@ public class ScoreController extends BaseController {
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
 		String examId = request.getParameter(Constant.PARAM_EXAM_ID);
 		boolean queryAll = Boolean.parseBoolean(request.getParameter(Constant.PARAM_QUERY_ALL));
-		//检验验证码（测试期间注释掉）
+		//验证码（测试期间注释掉）
 //		String verifyCode = request.getParameter(Constant.PARAM_VERIFY_CODE);
 //		String sessionVerifyCode = (String)request.getSession().getAttribute(Constant.PARAM_VERIFY_CODE);
 //		if (!sessionVerifyCode.equalsIgnoreCase(verifyCode)) {
@@ -112,8 +111,9 @@ public class ScoreController extends BaseController {
 //		}
 
 		List<ScoreVo> scoreVos = null;
+		//管理员的成绩查询页面，会传入考试ID，查看本次考试的所有人的成绩
 		if (StringUtils.isEmpty(examId)) {
-			//这里是学生查询成绩，按姓名拼音和生日查询。
+			//考试ID为空，则是学生查询个人成绩，按姓名拼音和生日查询。
 			if (queryAll) {
 				//如果是查询所有的历史成绩
 				semesterId = "0"; //semesterId=0: 此条件不作为过滤条件

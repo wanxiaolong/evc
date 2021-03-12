@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.my.evc.vo.ScoreVo;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
@@ -152,6 +153,33 @@ public class DataUtil {
 				return s1 > s2 ? 1 : (s1 == s2 ? 0 : -1);
 			}
 		});
+	}
+
+	/**
+	 * 去掉以".0"结尾的分数，比如：89.0 => 89
+	 */
+	public static void removeScoreSuffix0(ScoreVo vo) {
+		vo.setChinese(trimSuffix0(vo.getChinese()));
+		vo.setMath(trimSuffix0(vo.getMath()));
+		vo.setEnglish(trimSuffix0(vo.getEnglish()));
+		vo.setPolitics(trimSuffix0(vo.getPolitics()));
+		vo.setHistory(trimSuffix0(vo.getHistory()));
+		vo.setGeography(trimSuffix0(vo.getGeography()));
+		vo.setPhysics(trimSuffix0(vo.getPhysics()));
+		vo.setChemistry(trimSuffix0(vo.getChemistry()));
+		vo.setBiologic(trimSuffix0(vo.getBiologic()));
+		vo.setExperiment(trimSuffix0(vo.getExperiment()));
+		vo.setPhysical(trimSuffix0(vo.getPhysical()));
+		vo.setScore1(trimSuffix0(vo.getScore1()));
+		vo.setScore2(trimSuffix0(vo.getScore2()));
+		vo.setTotal(trimSuffix0(vo.getTotal()));
+	}
+
+	private static String trimSuffix0(String score) {
+		if (score!= null && score.endsWith(".0")) {
+			score = score.substring(0, score.lastIndexOf(".0"));
+		}
+		return score;
 	}
 	
 	/**

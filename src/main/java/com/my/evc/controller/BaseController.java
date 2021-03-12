@@ -1,5 +1,6 @@
 package com.my.evc.controller;
 
+import com.my.evc.exception.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -7,10 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.FailedResponse;
-import com.my.evc.exception.BaseException;
-import com.my.evc.exception.DuplicateException;
-import com.my.evc.exception.ReferenceException;
-import com.my.evc.exception.ValidationException;
 
 /**
  * 本类是所有控制器（Controller）的基类，这里定义了统一处理异常的方式，所以在子类中无需捕获异常了。
@@ -23,12 +20,7 @@ public class BaseController {
 	protected static final String MODEL = "model";
 	private static final Logger LOGGER = Logger.getLogger(BaseController.class);
 
-	/**
-	 * Get the property of the FailedResponse object.
-	 * 
-	 * @return Return a FailedResponse object.
-	 */
-	public FailedResponse getFailedResponse(int errorCode, String errorMessage) {
+	private FailedResponse getFailedResponse(int errorCode, String errorMessage) {
 		FailedResponse failedResponse = new FailedResponse();
 		failedResponse.setStatus(FAILED);
 		failedResponse.setErrorCode(errorCode);
@@ -41,11 +33,7 @@ public class BaseController {
 	}
 
 	/**
-	 * Handle the duplicate exception.
-	 * 
-	 * @param duplicateException
-	 * @return Return a FailedResponse object that contains FAILED_STATUS,
-	 *		 errorCode and errorMessage in json format.
+	 * 处理DuplicateException。
 	 */
 	@ExceptionHandler(value = DuplicateException.class)
 	@ResponseBody
@@ -55,23 +43,17 @@ public class BaseController {
 	}
 
 	/**
-	 * Handle the base exception.
-	 * 
-	 * @return Return a FailedResponse object that contains FAILED_STATUS,
-	 *		 errorCode and errorMessage in json format.
+	 * 处理BusinessException。
 	 */
-	@ExceptionHandler(value = BaseException.class)
+	@ExceptionHandler(value = BusinessException.class)
 	@ResponseBody
-	public FailedResponse baseExceptionHandler(BaseException exception) {
+	public FailedResponse baseExceptionHandler(BusinessException exception) {
 		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
-		return getFailedResponse(ErrorEnum.DATABASE_ACCESS_FAILED);
+		return getFailedResponse(exception.getErrorEnum());
 	}
 
 	/**
-	 * Handle the validation exception.
-	 * 
-	 * @param validationException
-	 * @return
+	 * 处理ValidationException。
 	 */
 	@ExceptionHandler(value = ValidationException.class)
 	@ResponseBody
@@ -81,10 +63,7 @@ public class BaseController {
 	}
 
 	/**
-	 * Handle the reference exception.
-	 * 
-	 * @param referenceException
-	 * @return
+	 * 处理ReferenceException。
 	 */
 	@ExceptionHandler(value = ReferenceException.class)
 	@ResponseBody
@@ -94,10 +73,7 @@ public class BaseController {
 	}
 
 	/**
-	 * Handle the exception.
-	 * 
-	 * @param Exception
-	 * @return
+	 * 处理Exception。
 	 */
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
