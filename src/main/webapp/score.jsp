@@ -29,7 +29,9 @@
 		<!-- 查询条件 -->
 		<div class="form-inline filter-block">
 			<div class="message">
-				最近一次考试：<span id="examSemester"></span>-<span id="examName"></span>，参考人数：<span id="examPeople"></span>。
+				最近一次考试：<span id="examSemester"></span>-<span id="examName"></span>，
+				考试日期：<span id="examDate"></span>，
+				参考人数：<span id="examPeople"></span>。
 			</div>
 			<div class="title">查询说明</div>
 			<div class="desc">

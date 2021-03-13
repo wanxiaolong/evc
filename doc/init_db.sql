@@ -25,12 +25,12 @@ CREATE TABLE `exam` (
   `name` varchar(20) NOT NULL,
   `subject_ids` varchar(100) NOT NULL,
   `people` int NOT NULL DEFAULT 0,
-  `date` datetime NOT NULL,
+  `date` char(10) NOT NULL,
   `semester_number` int NOT NULL,
-  `is_show_rank` tinyint NOT NULL DEFAULT 1,
+  `is_show_rank` tinyint NOT NULL DEFAULT 0,
   `is_score_uploaded` tinyint NOT NULL DEFAULT 0,
-  `is_show_grade_rank` tinyint NOT NULL DEFAULT 1,
-  `is_show_class_rank` tinyint NOT NULL DEFAULT 1,
+  `is_show_grade_rank` tinyint NOT NULL DEFAULT 0,
+  `is_show_class_rank` tinyint NOT NULL DEFAULT 0,
   `note` varchar(50) DEFAULT NULL,
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -276,9 +276,9 @@ INSERT INTO `notice` VALUES (2, 1, '2021春节返校通知', '2', '2月18号返�
 -- ----------------------------
 -- Records of exam
 -- ----------------------------
-INSERT INTO `exam` VALUES (1, '第一次月考', '1,2,3', 50, '2020-11-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 20:50:19');
-INSERT INTO `exam` VALUES (2, '半期考试', '1,2,3,4,5,6,7,8,9', 47, '2020-12-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 21:56:01');
-INSERT INTO `exam` VALUES (3, '期末考试', '1,2,3,4,5,6,7', 50, '2021-01-28 00:00:00', 20211, 1, 0, 1, 1, NULL, '2021-03-11 21:56:42');
+INSERT INTO `exam` VALUES (1, '五学月考试', '1,2,3,4,5,6,7', 70, '2020-11-28', 20211, 0, 0, 0, 0, NULL, '2021-03-11 20:50:19');
+INSERT INTO `exam` VALUES (2, '半期考试', '1,2,3,4,5,6,7,8,9', 47, '2020-12-28', 20211, 0, 0, 1, 1, NULL, '2021-03-11 21:56:01');
+INSERT INTO `exam` VALUES (3, '期末考试', '1,2,3,4,5,6,7', 106, '2021-01-28', 20211, 0, 0, 0, 0, NULL, '2021-03-11 21:56:42');
 
 -- ----------------------------
 -- Records of message

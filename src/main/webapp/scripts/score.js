@@ -261,6 +261,7 @@ function addTableRow(data) {
 function findLastExamSuccessCallback(data) {
 	$("#examSemester").html(data.semesterName);
 	$("#examName").html(data.name);
+	$("#examDate").html(data.date);
 	$("#examPeople").html(data.people);
 	$(".score.evc-content .message").show();
 }

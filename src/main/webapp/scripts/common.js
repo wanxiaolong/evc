@@ -72,8 +72,7 @@ function checkRequiredField() {
  * @param errorCallback 请求失败后的回调函数
  */
 function ajax(type, url, data, dataType, successCallback, errorCallback) {
-	var log = "[" + type + "] URL=" + url + ", Data=" + JSON.stringify(data);
-	printLog("请求： --> " + log);
+	printLog("请求 --> [" + type + "] URL=" + url + ", Data=" + JSON.stringify(data));
 	$.ajax({
 		type: type,
 		url: webroot + url,
@@ -81,7 +80,7 @@ function ajax(type, url, data, dataType, successCallback, errorCallback) {
 		dataType: dataType,
 		timeout: 5000, //超时时间
 		success: function (data) {
-			printLog("成功！ <-- [" + url + "] "+ JSON.stringify(data))
+			printLog("成功 <-- [" + type + "] URL=" + url + ", Data=" + JSON.stringify(data))
 			if (data.errorMessage != null) {
 				toastr.error(data.errorMessage);
 				return;
@@ -95,13 +94,13 @@ function ajax(type, url, data, dataType, successCallback, errorCallback) {
 			}
 		},
 		error: function (jqXHR, status, error) {
-			printLog("失败！ <-- [" + url + "] ，状态：" + status + "，异常：" + error);
+			printLog("失败 <-- [" + type + "] URL=" + url + ", 状态：" + status + "，异常：" + error);
 			if (errorCallback != null && typeof(errorCallback) == 'function') {
 				//如果提供了失败回调，则调用
 				errorCallback();
 			} else {
 				//如果没提供失败回调，这里只是弹出一个错误消息提示
-				toastr.error("操作失败！" + "状态：" + status + "，异常：" + error);
+				toastr.error("操作失败！" + "状态：" + status + ", 异常：" + error);
 			}
 		}
 	});
@@ -137,10 +136,7 @@ function queryAllSemesters() {
 
 //【成绩查询页】将查询到的学期信息动态增加到下拉菜单中
 function addSemesterOption(array) {
-	//先清空原来的选择项
-	$("#semesterSelect").empty();
-	$("#semesterSelect").append("<option value='none'>--请选择--</option>");
-
+	clearSelectOption("#semesterSelect");
 	
 	//再依次添加
 	for(var index in array) {
@@ -149,44 +145,17 @@ function addSemesterOption(array) {
 		$("#semesterSelect").append(option);
 	}
 
-	//如果是从“考试管理”页面跳转过来的，则还需要初始化选中的学期和考试
+	//如果是从“考试管理”页面跳转过来的[带有semester_number和exam_id两个参数]，则还需要初始化选中的学期和考试
 	var examId = $("input[name='examId']").val();
 	var semesterNumber = $("input[name='semesterNumber']").val();
 	if (semesterNumber != undefined && semesterNumber != 'null' && 
 			examId != undefined && examId != 'null') {
+		//设置选中的学期，这会触发semesterSelect的change()事件。具体会发生什么，就看不同的页面js怎么实现了
 		setSelect2SelectedOption('semesterSelect', semesterNumber);
-		var url = '/exam/findBySemester?semester_id=' + semesterNumber;
-		ajax('GET', url, null, null, preSelectExam);
 	}
 	
 	//用中文渲染select2
 	$("#semesterSelect").select2({
-		language: "zh-CN"
-	});
-	
-}
-
-function preSelectExam(array) {
-	var examId = $("input[name='examId']").val();
-	//将查询到的学期信息动态增加到下拉菜单中
-	clearSelectOption("#examSelect");
-	//再依次添加
-	for(var index in array) {
-		var exam = array[index];
-		
-		//这里只添加没有上传成绩的考试，已上传的直接过滤。如需重新为考试上传成绩，可以到“考试管理”里面删掉成绩
-		if (exam.isScoreUploaded) {
-			continue;
-		}
-		
-		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
-		$("#examSelect").append(option);
-	}
-	
-	setSelect2SelectedOption('examSelect', examId);
-	
-	//用中文渲染select2
-	$("#examSelect").select2({
 		language: "zh-CN"
 	});
 }
@@ -195,6 +164,7 @@ function preSelectExam(array) {
 function clearSelectOption(selector) {
 	//先清空原来的选择项
 	$(selector).empty();
+	//添加第一个默认选项
 	$(selector).append("<option value='none'>--请选择--</option>");
 }
 
@@ -203,7 +173,7 @@ function setSelect2SelectedOption(elementId, selectedValue) {
 	var select2 = $("#" + elementId).select2({
 		language: "zh-CN"
 	});
-	select2.val(selectedValue).trigger("change");
+	select2.val(selectedValue);
 	select2.change();
 }
 

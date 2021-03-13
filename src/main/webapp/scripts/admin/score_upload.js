@@ -2,7 +2,7 @@
  * 本文件为score_upload.jsp使用的初始化脚本。
  */
 var subjectMap = new Map();//保存所有的科目信息
-var examMap = new Map();//保存一学期的所有考试，key=id, value=Exam以避免重复查询
+var examMap = new Map();//保存一学期的所有考试，key=Exam.id, value=Exam以避免重复查询
 var webroot = getWebRoot();
 
 //由于有按考试上传和批量上传，所以这里定义了这两种上传方式的公共配置
@@ -35,18 +35,13 @@ $(document).ready(function(){
 	$('#semesterSelect').change(function(){
 		//获取selected的值
 		var selectedSemester = $("#semesterSelect").children('option:selected').val();
-		//如果没有选择有效的，则直接返回
+		//如果没有选择有效的，则无需查询该学期下面的考试，直接返回
 		if (selectedSemester == 'none') {
 			reInitSelectOption("#examSelect");
 			return;
 		}
 		var url = '/exam/findBySemester?semester_id=' + selectedSemester;
 		ajax('GET', url, null, null, addExamOption);
-		
-		//在common.js中定义。设置考试下拉菜单的选中项为“--请选择--”
-		setSelect2SelectedOption("examSelect", "none");
-		//学期变化会带来考试变化，考试变化又有相应的函数
-		handleExamChange();
 	});
 	
 	//初始化考试下拉菜单
@@ -54,7 +49,7 @@ $(document).ready(function(){
 		language: "zh-CN"
 	});
 	
-	//考试下拉菜单变化的事件
+	//考试下拉菜单变化的事件。考试下拉菜单变化会导致考试科目变化
 	$("#examSelect").change(function(){
 		handleExamChange();
 	});
@@ -62,6 +57,20 @@ $(document).ready(function(){
 	//在“批量上传”页面，直接初始化这个input
 	uploadBatchConfig();
 });
+
+//判断一个select是否有指定value的option
+function containsSelectOption(selectId, value) {
+	var optionValues = [];
+	var examOptions = $("#" + selectId).children();
+	if (examOptions == null || examOptions.length == 0) {
+		return false;
+	}
+	for (var i = 0; i < examOptions.length; i++) {
+		var optionValue = examOptions[i].value;
+		optionValues.push(optionValue);
+	}
+	return optionValues.includes(value);
+}
 
 //初始化批量上传的配置
 function uploadBatchConfig() {
@@ -149,31 +158,40 @@ function queryAllSubjects() {
 
 //将查询到的学期信息动态增加到下拉菜单中
 function addExamOption(array) {
-	//该方法在common.js中
-	clearSelectOption("#examSelect");
-	//再依次添加
-	for(var index in array) {
-		var exam = array[index];
-		
-		//这里只添加没有上传成绩的考试，已上传的直接过滤。如需重新为考试上传成绩，可以到“考试管理”里面删掉成绩
-		if (exam.isScoreUploaded) {
-			continue;
-		}
-		
-		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
-		$("#examSelect").append(option);
-	}
-	//用中文渲染select2
-	$("#examSelect").select2({
-		language: "zh-CN"
-	});
-	
 	//当获取到一个学期的所有考试信息的时候，重新初始化examMap。当然也可以重新去请求一次，这是为了减少网络请求。
 	examMap.clear();
 	for(var index in array) {
 		var exam = array[index];
 		examMap.set(exam.id, exam);
 	}
+
+	//该方法在common.js中
+	clearSelectOption("#examSelect");
+	//再依次添加
+	for(var index in array) {
+		var exam = array[index];
+		//这里只添加没有上传成绩的考试，已上传的直接过滤。如需重新为考试上传成绩，可以到“考试管理”里面删掉成绩
+		if (exam.isScoreUploaded) {
+			continue;
+		}
+		var option = "<option value='" + exam.id+"'>" + exam.name + "</option>";
+		$("#examSelect").append(option);
+	}
+
+	//如果考试下拉选项里有考试隐藏域的值(从考试管理页面跳转到本页面的时候会将学期和考试作为参数放在本页面的隐藏域中)
+	//则设置考试下拉菜单的选中项
+	var examId = $("input[name='examId']").val();
+	if (containsSelectOption('examSelect', examId)) {
+		//这会触发examSelect上的change()事件
+		setSelect2SelectedOption("examSelect", examId);
+		//考试下拉只默认选中一次。当再次选中对应的学期后，考试下来菜单不默认选中任何值。这里只需要把隐藏域置空即可
+		$("input[name='examId']").val("");
+	}
+
+	//用中文渲染select2
+	$("#examSelect").select2({
+		language: "zh-CN"
+	});
 }
 
 function querySuccessCallback(subjects) {
