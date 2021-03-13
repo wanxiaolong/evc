@@ -21,7 +21,7 @@ var uploadConfig = {
 	maxFileCount: 1,//最大文件数，如果是成绩批量上传，则文件为一个.zip文件，所以限制最大上传文件数
 	enctype:'multipart/form-data',
 	validateInitialCount:true,
-	previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+	previewFileIcon: "<i class='glyphicon glyphicon-file'></i>",
 	msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 };
 

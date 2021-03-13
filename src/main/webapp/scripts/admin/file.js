@@ -118,7 +118,7 @@ function initFileUpload() {
 		maxFileCount: 10, //表示允许同时上传的最大文件个数
 		enctype:'multipart/form-data',
 		validateInitialCount:true,
-		previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+		previewFileIcon: "<i class='glyphicon glyphicon-file'></i>",
 		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 	}).on("fileuploaded", function (event, data, previewId, index){
 		//上传成功后的回调
