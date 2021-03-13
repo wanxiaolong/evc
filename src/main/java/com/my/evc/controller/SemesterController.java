@@ -28,7 +28,7 @@ import com.my.evc.service.SemesterService;
 public class SemesterController extends BaseController {
 	
 	/** 学期名称的固定格式，将用于验证输入参数。 */
-	private static final String SEMESTER_PATTERN = "[0-9]{4}~[0-9]{4}[上|下]学期";
+	private static final String SEMESTER_PATTERN = "[0-9]{4}_[0-9]{4}[上|下]学期";
 	
 	@Autowired
 	private SemesterService semesterService;
@@ -63,14 +63,14 @@ public class SemesterController extends BaseController {
 	@ResponseBody
 	public JsonResponse<Object> create(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		//用正则表达式验证学期名字是否符合“2016~2017上学期”这样的格式，不符合则直接拒绝
+		//用正则表达式验证学期名字是否符合“2016_2017上学期”这样的格式，不符合则直接拒绝
 		String name = request.getParameter(Constant.PARAM_NAME);
 		boolean isMatch = Pattern.matches(SEMESTER_PATTERN, name);
 		if (!isMatch) {
 			throw new BusinessException(ErrorEnum.INVALID_SEMESTER_NAME);
 		}
 		
-		String yearString = name.substring(name.indexOf("~") + 1, name.indexOf("~") + 5);
+		String yearString = name.substring(name.indexOf("_") + 1, name.indexOf("_") + 5);
 		
 		Semester semester = new Semester();
 		semester.setName(name);

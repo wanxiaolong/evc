@@ -115,7 +115,7 @@ public class FileUtil {
 	}
 
 	public static void main(String[] args) throws Exception {
-		File file = new File(SystemConfig.UNZIP_PATH + File.separator + "2018~2019上学期.zip");
+		File file = new File(SystemConfig.UNZIP_PATH + File.separator + "2018_2019上学期.zip");
 		unzip(file);
 	}
 	
@@ -123,7 +123,7 @@ public class FileUtil {
 	 * 解压文件。
 	 * 需要注意的是，创建ZipFile对象的时候需要制定Charset，否则会使用默认的UTF-8编码，此时如果文件夹中有中文字符，
 	 * 则会出现<pre>java.lang.IllegalArgumentException: MALFORMED</pre>的错误。详情参见help.txt文档的#20。<br>
-	 * <p>这里要求解压后的文件夹是基于“学期”命名的，比如“2018~2019上学期”，而里面包含了该学期的所有考试成绩的Excel，
+	 * <p>这里要求解压后的文件夹是基于“学期”命名的，比如“2018_2019上学期”，而里面包含了该学期的所有考试成绩的Excel，
 	 * 文件的名字即为考试名字，比如“第一学月考试.xlsx”。</p>
 	 */
 	public static void unzip(File file) throws IOException {

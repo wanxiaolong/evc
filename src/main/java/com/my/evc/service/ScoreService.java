@@ -145,7 +145,7 @@ public class ScoreService implements BaseService<Score> {
 		
 		//2. 解压zip文件
 		FileUtil.unzip(zipFile);
-		//zipPath: path/to/2018~2019上学期.zip
+		//zipPath: path/to/2018_2019上学期.zip
 		String zipPath = zipFile.getPath();
 		
 		//extractedFolder代表解压后的文件夹，这是一个按“学期”命名的文件夹
@@ -341,11 +341,11 @@ public class ScoreService implements BaseService<Score> {
 
 	/**
 	 * 根据文件夹名字创建学期。
-	 * @param name 文件夹名字，必须满足以下命名规范：2018~2019上学期
+	 * @param name 文件夹名字，必须满足以下命名规范：2018_2019上学期
 	 * @return 创建好的学期信息。
 	 */
 	private Semester createSemester(String name) throws DaoException {
-		int index = name.indexOf("~") + 1;
+		int index = name.indexOf("_") + 1;
 		int year = Integer.parseInt(name.substring(index, index + 4));//2019
 		int semesterNumber = Integer.parseInt(year + (name.contains("上") ? "1" : "2"));//20191
 

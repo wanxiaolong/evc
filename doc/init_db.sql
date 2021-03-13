@@ -259,13 +259,13 @@ INSERT INTO `subject` VALUES (11, '实验', '2021-03-11 00:28:25');
 -- ----------------------------
 -- Records of semester
 -- ----------------------------
-INSERT INTO `semester` VALUES (1, '2017~2018上学期', 20181, 2018, '2021-03-11 00:33:21');
-INSERT INTO `semester` VALUES (2, '2017~2018下学期', 20182, 2018, '2021-03-11 00:33:48');
-INSERT INTO `semester` VALUES (3, '2018~2019上学期', 20191, 2019, '2021-03-11 00:34:14');
-INSERT INTO `semester` VALUES (4, '2018~2019下学期', 20192, 2019, '2021-03-11 00:35:06');
-INSERT INTO `semester` VALUES (5, '2019~2020上学期', 20201, 2020, '2021-03-11 00:35:24');
-INSERT INTO `semester` VALUES (6, '2019~2020下学期', 20202, 2020, '2021-03-11 00:35:38');
-INSERT INTO `semester` VALUES (7, '2020~2021上学期', 20211, 2021, '2021-03-11 00:36:14');
+INSERT INTO `semester` VALUES (1, '2017_2018上学期', 20181, 2018, '2021-03-11 00:33:21');
+INSERT INTO `semester` VALUES (2, '2017_2018下学期', 20182, 2018, '2021-03-11 00:33:48');
+INSERT INTO `semester` VALUES (3, '2018_2019上学期', 20191, 2019, '2021-03-11 00:34:14');
+INSERT INTO `semester` VALUES (4, '2018_2019下学期', 20192, 2019, '2021-03-11 00:35:06');
+INSERT INTO `semester` VALUES (5, '2019_2020上学期', 20201, 2020, '2021-03-11 00:35:24');
+INSERT INTO `semester` VALUES (6, '2019_2020下学期', 20202, 2020, '2021-03-11 00:35:38');
+INSERT INTO `semester` VALUES (7, '2020_2021上学期', 20211, 2021, '2021-03-11 00:36:14');
 
 -- ----------------------------
 -- Records of notice
