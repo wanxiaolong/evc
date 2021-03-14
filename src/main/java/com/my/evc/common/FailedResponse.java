@@ -1,13 +1,22 @@
 package com.my.evc.common;
 
 public class FailedResponse extends JsonResponse {
-    private ErrorEnum error;
+    private Integer errorCode;
+    private String errorMsg;
 
-    public ErrorEnum getError() {
-        return error;
+    public Integer getErrorCode() {
+        return errorCode;
     }
 
-    public void setError(ErrorEnum error) {
-        this.error = error;
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }

@@ -7,9 +7,9 @@ package com.my.evc.common;
  */
 public class SystemConfig {
 	/**
-	 * 最大文件大小：50MB
+	 * 最大文件大小：10MB
 	 */
-	public static final int FILE_MAX_SIZE = 5 * 1024;
+	public static final int FILE_MAX_SIZE = 10 * 1024 * 1024;
 	/**
 	 * 文件上传路径
 	 */

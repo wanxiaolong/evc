@@ -29,7 +29,8 @@ public enum ErrorEnum {
 	EXAM_SCORE_UPLOADED(108,"该考试成绩已经上传，请勿重复上传"),
 
 	FILE_NOT_EXISTS(107,"文件不存在"),
-	FILE_TOO_LARGE(109,"文件太大。最大支持50MB文件"),
+	FILE_TOO_LARGE(109,"文件太大"),
+	FILE_ALREADY_EXISTS(111,"文件已经存在"),
 	NO_FILE_IN_REQUEST(110,"请求中没有可以上传的文件"),
 	;
 

@@ -4,18 +4,18 @@
 
 	<insert id="create" parameterType="com.my.evc.model.File" keyProperty="id" useGeneratedKeys="true">
 		insert into file
-			(type,name,path,description)
+			(type,name,description)
 		values
-			(#{type},#{name},#{path},#{description})
+			(#{type},#{name},#{description})
 	</insert>
 	
 	<insert id="createBatch" parameterType="java.util.List">
 		insert into file
-			(type,name,path,description)
+			(type,name,description)
 		values
 		<!-- 对于List类型的参数，这里的collection直接写list就好 -->
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.type},#{item.name},#{item.path},#{item.description})
+			(#{item.type},#{item.name},#{item.description})
 		</foreach>
 	</insert>
 	
@@ -28,7 +28,6 @@
 		set 
 			type=#{type},
 			name=#{name},
-			path=#{path},
 			description=#{description},
 			download_count=#{downloadCount}
 		where 
@@ -39,7 +38,6 @@
 		id as id,
 		type as type,
 		name as name,
-		path as path,
 		description as description,
 		download_count as downloadCount,
 		creation_date as creationDate

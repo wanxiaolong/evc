@@ -82,7 +82,6 @@ function addRows(array) {
 		var data = [
 			file,
 			file.name,
-			file.path,
 			file.downloadCount,
 			file.creationDate
 		];
@@ -121,30 +120,35 @@ function initFileUpload() {
 		previewFileIcon: "<i class='glyphicon glyphicon-file'></i>",
 		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 	})
-	//
-	.on("fileuploaded", function (event, data, previewId, index) {
+	//上传完成（响应状态码为200）
+	.on("fileuploaded", function (e, data) {
 		var resp = data.jqXHR.responseJSON;
 		if (resp.status == 0) {
 			//上传成功
 			toastr.success("文件【" + resp.data[0] + "】上传成功！");
 			//刷新文件信息列表
 			queryAll();
-		} else {
-			//上传失败
-			toastr.success("文件上传失败！原因【" + resp.error.description + "】");
 		}
 	})
 	//上传请求失败时触发的回调函数
 	.on("fileuploadfail", function(e, data) {
-		console.log(JSON.stringify(data));
+		printUploadEventLog(e, data);
+	})
+	//上传错误（响应状态码不是200）
+	.on("fileuploaderror", function(e, data) {
+		printUploadEventLog(e, data);
 	})
 	//上传请求成功时触发的回调函数
 	.on("fileuploaddone", function(e, data) {
-		console.log(JSON.stringify(data));
+		printUploadEventLog(e, data);
 	})
 	//上传请求结束后，不管成功，错误或者中止都会被触发。相当于Java中的finally。
 	.on("fileuploadalways", function(e, data) {
-		console.log("always happens");
+		printUploadEventLog(e, data);
 	})
 	;
+}
+
+function printUploadEventLog(e, data) {
+	printLog("EventType=" + e.type + ", data=" + JSON.stringify(data));
 }

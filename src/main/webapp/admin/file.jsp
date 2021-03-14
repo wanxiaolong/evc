@@ -50,7 +50,6 @@
 						<tr>
 							<th>ID</th>
 							<th>文件名</th>
-							<th>路径</th>
 							<th>下载次数</th>
 							<th>创建日期</th>
 							<th>操作</th>

@@ -9,6 +9,7 @@ import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.SystemConfig;
 import com.my.evc.exception.BusinessException;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -42,14 +43,12 @@ public class FileController extends BaseController {
 	@ResponseBody
 	public JsonResponse<List<String>> uploadFile(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		List<String> fileNames = FileUtil.handleUploadFile(request);
-		
-		int count = fileService.createFiles(fileNames);
-		
+		List<FileItem> list = FileUtil.parseRequestIgnoreFormField(request);
+		List<String> fileNames = fileService.uploadFile(list);
+
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，
 		//否则前台页面会显示Unexpected end of JSON input.错误。这是jQuery的参数设定。参看help文档#3.
-		int status = fileNames.size() == count ? SUCCESS : FAILED;
-		return new JsonResponse<List<String>>(status, fileNames);
+		return new JsonResponse<List<String>>(SUCCESS, fileNames);
 	}
 	
 	/**
@@ -93,6 +92,10 @@ public class FileController extends BaseController {
 		if (file == null) {
 			throw new BusinessException(ErrorEnum.INVALID_FILE_NAME);
 		}
+
+		//将下载次数+1
+		file.setDownloadCount(file.getDownloadCount() + 1);
+		fileService.update(file);
 
 		String path = SystemConfig.FILE_UPLOAD_PATH + java.io.File.separator + fileName;
 		long fileLength = FileUtil.handleDownloadFile(path, response.getOutputStream());

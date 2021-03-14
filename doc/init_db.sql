@@ -45,7 +45,6 @@ CREATE TABLE `file` (
   `subject` varchar(20) DEFAULT NULL,
   `type` varchar(20) NOT NULL COMMENT 'file type. may be video, music, excel file, zip file and so on',
   `name` varchar(40) NOT NULL,
-  `path` varchar(100) NOT NULL,
   `description` varchar(100) DEFAULT NULL,
   `download_count` int(11) NOT NULL DEFAULT '0',
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

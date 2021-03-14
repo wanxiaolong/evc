@@ -2,12 +2,15 @@ package com.my.evc.controller;
 
 import com.my.evc.exception.*;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.FailedResponse;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 本类是所有控制器（Controller）的基类，这里定义了统一处理异常的方式，所以在子类中无需捕获异常了。
@@ -23,7 +26,8 @@ public class BaseController {
 	private FailedResponse getFailedResponse(ErrorEnum error) {
 		FailedResponse failedResponse = new FailedResponse();
 		failedResponse.setStatus(FAILED);
-		failedResponse.setError(error);
+		failedResponse.setErrorCode(error.getCode());
+		failedResponse.setErrorMsg(error.getDescription());
 		return failedResponse;
 	}
 
@@ -32,8 +36,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = DuplicateException.class)
 	@ResponseBody
-	public FailedResponse duplicateExceptionHandler(DuplicateException exception) {
+	public FailedResponse duplicateExceptionHandler(DuplicateException exception, HttpServletResponse response) {
 		LOGGER.error(exception.getErrorEnum().getDescription());
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		return getFailedResponse(exception.getErrorEnum());
 	}
 
@@ -42,8 +47,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = BusinessException.class)
 	@ResponseBody
-	public FailedResponse baseExceptionHandler(BusinessException exception) {
+	public FailedResponse baseExceptionHandler(BusinessException exception, HttpServletResponse response) {
 		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		return getFailedResponse(exception.getErrorEnum());
 	}
 
@@ -52,8 +58,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = ValidationException.class)
 	@ResponseBody
-	public FailedResponse validationExceptionHandler(ValidationException exception) {
+	public FailedResponse validationExceptionHandler(ValidationException exception, HttpServletResponse response) {
 		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		return getFailedResponse(exception.getErrorEnum());
 	}
 
@@ -62,8 +69,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = ReferenceException.class)
 	@ResponseBody
-	public FailedResponse referenceExceptionHandler(ReferenceException exception) {
+	public FailedResponse referenceExceptionHandler(ReferenceException exception, HttpServletResponse response) {
 		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		return getFailedResponse(exception.getErrorEnum());
 	}
 
@@ -72,8 +80,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = SystemException.class)
 	@ResponseBody
-	public FailedResponse referenceExceptionHandler(SystemException exception) {
+	public FailedResponse referenceExceptionHandler(SystemException exception, HttpServletResponse response) {
 		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return getFailedResponse(exception.getErrorEnum());
 	}
 
@@ -82,8 +91,9 @@ public class BaseController {
 	 */
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
-	public FailedResponse generalExceptionHandler(Exception exception) {
+	public FailedResponse generalExceptionHandler(Exception exception, HttpServletResponse response) {
 		LOGGER.error(exception.getMessage(), exception);
+		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return getFailedResponse(ErrorEnum.SYSTEM_ERROR);
 	}
 }

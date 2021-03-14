@@ -37,14 +37,7 @@ public class FileUtil {
 	/**
 	 * 处理文件上传的请求。
 	 */
-	public static List<String> handleUploadFile(HttpServletRequest request)
-			throws ServletException, IOException, FileUploadException, BusinessException {
-		List<FileItem> list = parseRequestIgnoreFormField(request);
-		//如果有超大文件，报错
-		if (containLargeFiles(list)) {
-			throw new BusinessException(ErrorEnum.FILE_TOO_LARGE);
-		}
-
+	public static List<String> handleUploadFile(List<FileItem> list) throws IOException {
 		//上传文件到指定目录
 		List<String> fileNames = new ArrayList<String>();
 		for (FileItem item : list) {
@@ -60,15 +53,6 @@ public class FileUtil {
 		}
 		return fileNames;
 	}
-
-	/**
-	 * 检查列表中是否有超大的文件。
-	 */
-	private static boolean containLargeFiles(List<FileItem> items) {
-		return CollectionUtils.emptyIfNull(items).stream()
-				.filter(item -> item.getSize() > SystemConfig.FILE_MAX_SIZE)
-				.collect(Collectors.toList()).size() > 0;
-	}
 	
 	/**
 	 * 调用ExcelUtil.getHeaderRow，从Excel文件中取出表头。只支持.xls和.xlsx文件。
@@ -76,18 +60,18 @@ public class FileUtil {
 	public static Map<Integer, String> handleExcelFile(FileItem fileItem) throws BusinessException, IOException {
 		String fileName = fileItem.getName();
 		//只接受.xls和.xlsx文件，否则报错
-		if (!StringUtils.isEmpty(fileName)) {
-			String fileExtension = fileName.substring(fileName.lastIndexOf("."));
-			if (!Constant.ALLOWED_FILE_EXTENSION.contains(fileExtension)) {
-				throw new BusinessException(ErrorEnum.INVALID_EXCEL_UNSUPPORTED_TYPE);
-			}
-			InputStream in = fileItem.getInputStream();
-			//先检查该Excel的表头是否符合要求
-			Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(ExcelUtil.getSheet0(in, fileName));
-			return headerMap;
-		} else {
+		if (StringUtils.isEmpty(fileName)) {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_EMPTY_FILE_NAME);
 		}
+
+		String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+		if (!Constant.ALLOWED_FILE_EXTENSION.contains(fileExtension)) {
+			throw new BusinessException(ErrorEnum.INVALID_EXCEL_UNSUPPORTED_TYPE);
+		}
+		InputStream in = fileItem.getInputStream();
+		//先检查该Excel的表头是否符合要求
+		Map<Integer, String> headerMap = ExcelUtil.getHeaderRow(ExcelUtil.getSheet0(in, fileName));
+		return headerMap;
 	}
 	
 	/**
