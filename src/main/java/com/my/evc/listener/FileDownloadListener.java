@@ -20,13 +20,13 @@ import com.my.evc.service.FileService;
 public class FileDownloadListener implements ServletRequestListener {
 	/**
 	 * 把逻辑放在请求销毁的回调函数里，是不想阻碍下载流程，提高用户体验。
-	 * 因为这个请求不用再真正下载文件之前完成。
+	 * 因为这个请求不用在真正下载文件之前完成。
 	 */
 	public void requestDestroyed(ServletRequestEvent sre) {
 		ServletRequest request = sre.getServletRequest();
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String uri = httpRequest.getServletPath();
-		if (uri.startsWith("/files")) {
+		if (uri.startsWith("/file/download")) {
 			ServletContext sc = request.getServletContext();
 			XmlWebApplicationContext cxt = (XmlWebApplicationContext)WebApplicationContextUtils.getWebApplicationContext(sc);
 			//这里用到的FileService没有被自动注入进来。

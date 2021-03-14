@@ -82,6 +82,7 @@ public class FileController extends BaseController {
 
 	/**
 	 * 文件下载。
+	 * 注意：下载次数的增加，在FileDownloadListener里面实现的，目的是不希望阻塞用户下载。
 	 */
 	@RequestMapping(value="/download/*", method = RequestMethod.GET)
 	public void download(HttpServletRequest request, HttpServletResponse response)
@@ -92,10 +93,6 @@ public class FileController extends BaseController {
 		if (file == null) {
 			throw new BusinessException(ErrorEnum.INVALID_FILE_NAME);
 		}
-
-		//将下载次数+1
-		file.setDownloadCount(file.getDownloadCount() + 1);
-		fileService.update(file);
 
 		String path = SystemConfig.FILE_UPLOAD_PATH + java.io.File.separator + fileName;
 		long fileLength = FileUtil.handleDownloadFile(path, response.getOutputStream());
