@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.my.evc.common.SystemConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +42,9 @@ import com.my.evc.vo.ScoreVo;
 
 @Service
 @Transactional
+@Slf4j
 public class ScoreService implements BaseService<Score> {
 	
-	private static final Logger LOGGER = Logger.getLogger(ScoreService.class);
 	
 	/**
 	 * 一个保存着所有科目的BiMap，Key是科目ID，Value是科目名称。使用BiMap是为了能方便的进行互相转换。
@@ -183,7 +183,7 @@ public class ScoreService implements BaseService<Score> {
 					//插入成绩信息
 					saveScoreForExam(exam, data);
 				} catch (BusinessException e) {
-					LOGGER.error("上传成绩失败，文件名：" + examName, e);
+					log.error("上传成绩失败，文件名：" + examName, e);
 					failedFiles.add(semesterName + File.separator + examName);
 				}
 			}
@@ -235,22 +235,22 @@ public class ScoreService implements BaseService<Score> {
 				insertList.add(student);
 			}
 		}
-		LOGGER.info("学生信息无需更新的个数：" + count);
+		log.info("学生信息无需更新的个数：" + count);
 		
 		//执行更新
 		int updateRows = 0;
 		if (updateList.size() > 0) {
-			LOGGER.info("学生信息需要更新的个数：" + updateList.size());
+			log.info("学生信息需要更新的个数：" + updateList.size());
 			updateRows = studentMapper.updateBatch(updateList);
-			LOGGER.info("学生信息更新完成！已更新：" + updateRows);
+			log.info("学生信息更新完成！已更新：" + updateRows);
 		}
 		
 		//把学生List保存在数据库中
 		int insertRows = 0;
 		if (insertList.size() > 0) {
-			LOGGER.info("学生信息需要插入的个数：" + insertList.size());
+			log.info("学生信息需要插入的个数：" + insertList.size());
 			insertRows = studentMapper.createBatch(insertList);
-			LOGGER.info("学生信息插入完成！已插入：" + insertRows);
+			log.info("学生信息插入完成！已插入：" + insertRows);
 		}
 		return updateRows + insertRows;
 	}
@@ -282,7 +282,7 @@ public class ScoreService implements BaseService<Score> {
 		
 		//把成绩List保存在数据库中
 		int rows = scoreMapper.createBatch(scores);
-		LOGGER.info("成绩信息插入完成！已插入：" + rows);
+		log.info("成绩信息插入完成！已插入：" + rows);
 		
 		//更新exam的isScoreUploaded状态
 		examMapper.updateScoreStatus(exam.getId(), true);
@@ -378,7 +378,7 @@ public class ScoreService implements BaseService<Score> {
 		try {
 			exam = examMapper.find(Integer.parseInt(examId));
 		} catch (DaoException e) {
-			LOGGER.error("Find exam error", e);
+			log.error("Find exam error", e);
 		}
 		if (exam == null) {
 			throw new BusinessException(ErrorEnum.EXAM_NOT_FOUND);

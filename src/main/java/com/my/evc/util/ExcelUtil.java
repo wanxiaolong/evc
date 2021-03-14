@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -29,9 +29,9 @@ import com.my.evc.exception.BusinessException;
  * 本类是操作Excel的工具类。
  * 用于从Excel导入成绩到数据库，也用于从数据库导出成绩到Excel
  */
+@Slf4j
 public class ExcelUtil {
 	
-	private static final Logger LOGGER = Logger.getLogger(ExcelUtil.class);
 	//数字格式，防止长数字成为科学计数法形式，或者int变为double形式
 	private static final DecimalFormat FORMATTER = new DecimalFormat("0.0");
 	
@@ -102,7 +102,7 @@ public class ExcelUtil {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_NO_SCORE);
 		}
 		
-		LOGGER.info("读取Excel完成！读取到的成绩：" + scoreList.size());
+		log.info("读取Excel完成！读取到的成绩：" + scoreList.size());
 		return scoreList;
 	}
 	

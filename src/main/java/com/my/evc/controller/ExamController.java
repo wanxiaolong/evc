@@ -94,10 +94,12 @@ public class ExamController extends BaseController {
 		String isShowClassRank = request.getParameter(Constant.PARAM_SHOW_CLASS_RANK);
 		String isShowGradeRank = request.getParameter(Constant.PARAM_SHOW_GRADE_RANK);
 		String semesterId = request.getParameter(Constant.PARAM_SEMESTER_ID);
-		Exam exam = new Exam(Integer.parseInt(examId), name, subjectIds, 
-				Integer.parseInt(people), date, Integer.parseInt(semesterId), 
+
+		Exam exam= new Exam(Integer.parseInt(examId), name, subjectIds,
+				Integer.parseInt(people), date, Integer.parseInt(semesterId),
 				CommonUtil.strToBool(isShowRank),
 				CommonUtil.strToBool(isShowGradeRank), CommonUtil.strToBool(isShowClassRank));
+
 		examService.update(exam);
 		return new JsonResponse<Object>(SUCCESS, null);
 	}

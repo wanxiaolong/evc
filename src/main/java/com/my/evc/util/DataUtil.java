@@ -10,16 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.my.evc.vo.ScoreVo;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import com.my.evc.model.Score;
 import com.my.evc.model.Subject;
 import com.my.evc.vo.ExamVo;
 
+@Slf4j
 public class DataUtil {
-	
-	private static final Logger LOGGER = Logger.getLogger(DataUtil.class);
 	
 	/**
 	 * 将考试科目ID转换成考试名称
@@ -112,14 +111,14 @@ public class DataUtil {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("getFieldError", e);
+			log.error("getFieldError", e);
 			return;
 		}
 	}
 	
 	/**
 	 * 将所有的科目进行单科排序，并将各科的排名保存到指定的key中。
-	 * @param data 从excel中读取到的带排序的数据。
+	 * @param list 从excel中读取到的带排序的数据。
 	 * @return 包含单科成绩排名的列表
 	 */
 	public static List<Score> getAllSubjectRank(List<Score> list) {

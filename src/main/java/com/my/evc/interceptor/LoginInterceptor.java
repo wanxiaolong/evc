@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -25,10 +25,9 @@ import com.my.evc.util.StringUtil;
  * <li>/admin/path会被拦截（因为该请求由Controller返回），</li>
  * <li>/admin/path.jsp则不会被拦截（因为该请求没有经过Controller，当然也可以为该请求配置Controller，但我没这么做）。</li>
  */
+@Slf4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-	private static Logger logger = Logger.getLogger(LoginInterceptor.class);
-	
 	//这是拦截的白名单，在这里面的请求则不会被拦截。
 	//这些请求也可以再spring-context.xml中以<mvc:exclude-mapping path=""/>的方式指定
 	private List<String> excludedUrls = null;
@@ -69,7 +68,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		} catch (Exception e) {
 			String uri = CommonUtil.extractRequestURI(request);
-			logger.debug("Fail to check login status for resource: " + uri, e);
+			log.debug("Fail to check login status for resource: " + uri, e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return false;
 		}
@@ -81,7 +80,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		try {
 			super.postHandle(request, response, handler, modelAndView);
 		} catch (Exception e) {
-			logger.error("Login check后处理失败：" + e);
+			log.error("Login check后处理失败：" + e);
 			throw new SystemException(ErrorEnum.SYSTEM_ERROR);
 		}
 	}

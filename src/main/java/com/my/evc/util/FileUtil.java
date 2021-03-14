@@ -10,16 +10,15 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import com.my.evc.common.Constant;
@@ -30,9 +29,8 @@ import com.my.evc.exception.BusinessException;
 /**
  * 文件工具类。
  */
+@Slf4j
 public class FileUtil {
-	
-	private static final Logger LOGGER = Logger.getLogger(FileUtil.class);
 	
 	/**
 	 * 处理文件上传的请求。
@@ -141,11 +139,11 @@ public class FileUtil {
 		//确保目标文件夹存在
 		new File(SystemConfig.SCORE_UNZIP_PATH).mkdir();
 		Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
-		LOGGER.info("当前文件：" + file.getPath());
+		log.info("当前文件：" + file.getPath());
 		while (zipFileEntries.hasMoreElements()) {
 			ZipEntry entry = zipFileEntries.nextElement();
 			String entryName = entry.getName();
-			LOGGER.info("正在提取：" + entryName);
+			log.info("正在提取：" + entryName);
 
 			//entryName是基于压缩文件的路径，可能包含多层子目录。比如，
 			//压缩文件的根目录为path，那么entryName可以为path/sub1/sub2/file1.txt

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,11 +25,10 @@ import com.my.evc.util.CommonUtil;
 /**
  * 调用Restful方法之前检查权限的拦截器。
  */
+@Slf4j
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	private static final String ACCESS_DENY_LOG = "Access denied: User=%s, Role=%s, Resource=%s";
 
-	private static Logger logger = Logger.getLogger(PermissionInterceptor.class);
-	
 	@Autowired
 	private RoleService roleService;
 	
@@ -58,13 +57,13 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			if (!hasPermission) {
 				User user = (User)session.getAttribute(Constant.PARAM_USER);
 				String logMessage = String.format(ACCESS_DENY_LOG,user.getUsername(), user.getRoleId(), CommonUtil.extractRequestURI(request));
-				logger.debug(logMessage);
+				log.debug(logMessage);
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				return false;
 			}
 			return true;
 		} catch (Exception e) {
-			logger.debug("Fail to authorize RESTful service call", e);
+			log.debug("Fail to authorize RESTful service call", e);
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return false;
 		}
@@ -76,7 +75,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		try {
 			super.postHandle(request, response, handler, modelAndView);
 		} catch (Exception e) {
-			logger.error("Restful service权限后处理失败：" + e);
+			log.error("Restful service权限后处理失败：" + e);
 			throw new SystemException(ErrorEnum.SYSTEM_ERROR);
 		}
 	}
@@ -115,7 +114,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 				//取到后，放入session中，便于下次读取
 				session.setAttribute(Constant.PARAM_PERMISSIONS, permissions);
 			} catch (Exception e) {
-				logger.error("获取用户权限失败：" + e);
+				log.error("获取用户权限失败：" + e);
 				throw new BusinessException(ErrorEnum.SYSTEM_ERROR);
 			}
 		}
