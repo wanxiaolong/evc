@@ -1,11 +1,13 @@
 package com.my.evc.controller;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.my.evc.common.ErrorEnum;
+import com.my.evc.exception.BusinessException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,12 +44,11 @@ public class ScoreController extends BaseController {
 	@ResponseBody
 	public JsonResponse<String> uploadScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		Iterator<FileItem> itr = FileUtil.parseFromRequest(request);
+		List<FileItem> list = FileUtil.parseRequest(request);
 		
 		String examId = null;
 		FileItem fileItem = null;
-		while (itr.hasNext()) {
-			FileItem item = (FileItem) itr.next();
+		for (FileItem item : CollectionUtils.emptyIfNull(list)) {
 			if (item.isFormField()) {
 				if (Constant.PARAM_EXAM_ID.equalsIgnoreCase(item.getFieldName())) {
 					examId = item.getString();
@@ -55,6 +56,11 @@ public class ScoreController extends BaseController {
 			} else {
 				fileItem = item;
 			}
+		}
+
+		//如果请求中没有文件，报错
+		if (fileItem == null) {
+			throw new BusinessException(ErrorEnum.NO_FILE_IN_REQUEST);
 		}
 
 		scoreService.uploadScore(examId, fileItem);
@@ -72,17 +78,14 @@ public class ScoreController extends BaseController {
 	@ResponseBody
 	public JsonResponse<List<String>> uploadBatchScore(HttpServletRequest request, 
 			HttpServletResponse response) throws BaseException, Exception {
-		Iterator<FileItem> itr = FileUtil.parseFromRequest(request);
-		
-		FileItem fileItem = null;
-		while (itr.hasNext()) {
-			FileItem item = (FileItem) itr.next();
-			if (!item.isFormField()) {
-				fileItem = item;
-			}
+		List<FileItem> list = FileUtil.parseRequestIgnoreFormField(request);
+		//如果请求中没有文件，报错
+		if (CollectionUtils.isEmpty(list)) {
+			throw new BusinessException(ErrorEnum.NO_FILE_IN_REQUEST);
 		}
-		
-		List<String> failedFiles = scoreService.uploadBatchScore(fileItem);
+
+		//批量上传成绩时，只处理第一个文件，其余文件将被忽略。
+		List<String> failedFiles = scoreService.uploadBatchScore(list.get(0));
 		
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		//由于前台是使用jQuery的ajax异步上传的，上传完成后必须返回一个JSON字符串，

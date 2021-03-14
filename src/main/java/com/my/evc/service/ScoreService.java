@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.my.evc.common.SystemConfig;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
@@ -106,14 +107,19 @@ public class ScoreService implements BaseService<Score> {
 			throw new BusinessException(ErrorEnum.EXAM_NOT_FOUND);
 		}
 
+		//如果该考试已经上传过成绩，报错
+		if (exam.isScoreUploaded()) {
+			throw new BusinessException(ErrorEnum.EXAM_SCORE_UPLOADED);
+		}
+
 		//检查Excel文件中的科目是否和系统一致
 		Map<Integer, String> headerMap = FileUtil.handleExcelFile(fileItem);
 		if (!isValidExcelHeader(headerMap, examId)) {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_SUBJECT_NOT_MATCH);
 		}
-		//读取Excel中的数据，Excel中的一行就是这里的一个Map
-		List<Map<String, String>> data = ExcelUtil.loadData(fileItem);
 
+		//读取Excel中的数据，Excel中的一行就是这里的一个Map。这里在内存中完成，不保存文件。
+		List<Map<String, String>> data = ExcelUtil.loadData(fileItem);
 		//如果读取的数据行数，不等于考试的人数，则成绩不完全，直接报错
 		if (data.size() != exam.getPeople()) {
 			throw new BusinessException(ErrorEnum.INVALID_EXCEL_ROWS_NOT_MATCH);
@@ -141,7 +147,8 @@ public class ScoreService implements BaseService<Score> {
 	 */
 	public List<String> uploadBatchScore(FileItem item) throws Exception {
 		//1. 把zip文件保存在临时目录
-		File zipFile = FileUtil.saveStreamToFile(item);
+		String zipFilePath = SystemConfig.SCORE_UNZIP_PATH + File.separator + item.getName();
+		File zipFile = FileUtil.saveStreamToFile(item, zipFilePath);
 		
 		//2. 解压zip文件
 		FileUtil.unzip(zipFile);

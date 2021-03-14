@@ -26,7 +26,12 @@ public enum ErrorEnum {
 	INVALID_FILE_NAME(108, "文件名无效"),
 	USER_NOT_FOUND(102,"没有该用户"),
 	EXAM_NOT_FOUND(104,"没有找到考试信息"),
-	FILE_NOT_EXISTS(107,"文件不存在");
+	EXAM_SCORE_UPLOADED(108,"该考试成绩已经上传，请勿重复上传"),
+
+	FILE_NOT_EXISTS(107,"文件不存在"),
+	FILE_TOO_LARGE(109,"文件太大。最大支持50MB文件"),
+	NO_FILE_IN_REQUEST(110,"请求中没有可以上传的文件"),
+	;
 
 	
 	

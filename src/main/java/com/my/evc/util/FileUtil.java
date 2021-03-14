@@ -4,9 +4,9 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -37,25 +38,36 @@ public class FileUtil {
 	 * 处理文件上传的请求。
 	 */
 	public static List<String> handleUploadFile(HttpServletRequest request)
-			throws ServletException, IOException, FileUploadException {
-		Iterator<FileItem> itr = parseFromRequest(request);
-		
-		List<String> files = new ArrayList<String>();
-		while (itr.hasNext()) {
-			FileItem item = (FileItem) itr.next();
-			if (!item.isFormField()) {
-				String fileName = item.getName();
-				if (!StringUtils.isEmpty(fileName)) {//判断是否选择了文件
-					File targetFile = new File(SystemConfig.FILE_UPLOAD_PATH, fileName);//获取根目录对应的真实物理路径
-					if (!targetFile.exists()) {
-						targetFile.createNewFile();
-					}
-					copyStream(item.getInputStream(), new FileOutputStream(targetFile));
-					files.add(fileName);
+			throws ServletException, IOException, FileUploadException, BusinessException {
+		List<FileItem> list = parseRequestIgnoreFormField(request);
+		//如果有超大文件，报错
+		if (containLargeFiles(list)) {
+			throw new BusinessException(ErrorEnum.FILE_TOO_LARGE);
+		}
+
+		//上传文件到指定目录
+		List<String> fileNames = new ArrayList<String>();
+		for (FileItem item : list) {
+			String fileName = item.getName();
+			if (!StringUtils.isEmpty(fileName)) {//判断是否选择了文件
+				File targetFile = new File(SystemConfig.FILE_UPLOAD_PATH, fileName);//获取根目录对应的真实物理路径
+				if (!targetFile.exists()) {
+					targetFile.createNewFile();
 				}
+				copyStream(item.getInputStream(), new FileOutputStream(targetFile));
+				fileNames.add(fileName);
 			}
 		}
-		return files;
+		return fileNames;
+	}
+
+	/**
+	 * 检查列表中是否有超大的文件。
+	 */
+	private static boolean containLargeFiles(List<FileItem> items) {
+		return CollectionUtils.emptyIfNull(items).stream()
+				.filter(item -> item.getSize() > SystemConfig.FILE_MAX_SIZE)
+				.collect(Collectors.toList()).size() > 0;
 	}
 	
 	/**
@@ -92,19 +104,33 @@ public class FileUtil {
 	/**
 	 * 通过Apache fileupload工具包来解析请求，以获得可操作的FileItem对象。
 	 */
-	public static Iterator<FileItem> parseFromRequest(HttpServletRequest request) throws FileUploadException {
+	public static List<FileItem> parseRequest(HttpServletRequest request) throws FileUploadException {
 		//通过Apache fileupload工具包来解析请求，以获得可操作的FileItem对象。
 		DiskFileItemFactory factory = new DiskFileItemFactory();//基于磁盘文件项目创建一个工厂对象
 		ServletFileUpload upload = new ServletFileUpload(factory);//创建一个新的文件上传对象
 		List<FileItem> items = upload.parseRequest(request);//解析上传请求
-		return items.iterator();
+		return items;
+	}
+
+	/**
+	 * 解析请求，只返回文件。(附加字段将被忽略)
+	 */
+	public static List<FileItem> parseRequestIgnoreFormField(HttpServletRequest request) throws FileUploadException {
+		List<FileItem> items = parseRequest(request);
+		List<FileItem> filteredItems = new ArrayList<FileItem>();
+		for (FileItem item : CollectionUtils.emptyIfNull(items)) {
+			if (!item.isFormField()) {
+				filteredItems.add(item);
+			}
+		}
+		return filteredItems;
 	}
 	
 	/**
 	 * 先把上传的文件保存在临时文件夹里。
 	 */
-	public static File saveStreamToFile(FileItem item) throws FileNotFoundException, IOException {
-		File file = new File(SystemConfig.UNZIP_PATH + File.separator + item.getName());
+	public static File saveStreamToFile(FileItem item, String pathToFile) throws FileNotFoundException, IOException {
+		File file = new File(pathToFile);
 		if(file.exists()) {
 			file.delete();
 		}
@@ -115,7 +141,7 @@ public class FileUtil {
 	}
 
 	public static void main(String[] args) throws Exception {
-		File file = new File(SystemConfig.UNZIP_PATH + File.separator + "2018_2019上学期.zip");
+		File file = new File(SystemConfig.SCORE_UNZIP_PATH + File.separator + "2018_2019上学期.zip");
 		unzip(file);
 	}
 	
@@ -129,7 +155,7 @@ public class FileUtil {
 	public static void unzip(File file) throws IOException {
 		ZipFile zip = new ZipFile(file, Charset.forName("GBK"));
 		//确保目标文件夹存在
-		new File(SystemConfig.UNZIP_PATH).mkdir();
+		new File(SystemConfig.SCORE_UNZIP_PATH).mkdir();
 		Enumeration<? extends ZipEntry> zipFileEntries = zip.entries();
 		LOGGER.info("当前文件：" + file.getPath());
 		while (zipFileEntries.hasMoreElements()) {
@@ -139,7 +165,7 @@ public class FileUtil {
 
 			//entryName是基于压缩文件的路径，可能包含多层子目录。比如，
 			//压缩文件的根目录为path，那么entryName可以为path/sub1/sub2/file1.txt
-			File destFile = new File(SystemConfig.UNZIP_PATH, entryName);
+			File destFile = new File(SystemConfig.SCORE_UNZIP_PATH, entryName);
 			
 			//这里需要确保文件不存在，而且父目录存在
 			if(destFile.exists()) {

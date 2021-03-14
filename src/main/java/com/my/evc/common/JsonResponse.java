@@ -6,7 +6,7 @@ public class JsonResponse<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int status;
-	private T response;
+	private T data;
 
 	public JsonResponse() {
 		super();
@@ -17,10 +17,10 @@ public class JsonResponse<T> implements Serializable {
 		this.status = status;
 	}
 
-	public JsonResponse(int status, T response) {
+	public JsonResponse(int status, T data) {
 		super();
 		this.status = status;
-		this.response = response;
+		this.data = data;
 	}
 
 	public int getStatus() {
@@ -31,11 +31,11 @@ public class JsonResponse<T> implements Serializable {
 		this.status = status;
 	}
 
-	public T getResponse() {
-		return response;
+	public T getData() {
+		return data;
 	}
 
-	public void setResponse(T response) {
-		this.response = response;
+	public void setData(T data) {
+		this.data = data;
 	}
 }

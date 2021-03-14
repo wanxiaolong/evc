@@ -20,16 +20,11 @@ public class BaseController {
 	protected static final String MODEL = "model";
 	private static final Logger LOGGER = Logger.getLogger(BaseController.class);
 
-	private FailedResponse getFailedResponse(int errorCode, String errorMessage) {
+	private FailedResponse getFailedResponse(ErrorEnum error) {
 		FailedResponse failedResponse = new FailedResponse();
 		failedResponse.setStatus(FAILED);
-		failedResponse.setErrorCode(errorCode);
-		failedResponse.setErrorMessage(errorMessage);
+		failedResponse.setError(error);
 		return failedResponse;
-	}
-	
-	public FailedResponse getFailedResponse(ErrorEnum errorEnum) {
-		return getFailedResponse(errorEnum.getCode(), errorEnum.getDescription());
 	}
 
 	/**
@@ -73,11 +68,21 @@ public class BaseController {
 	}
 
 	/**
+	 * 处理SystemException。
+	 */
+	@ExceptionHandler(value = SystemException.class)
+	@ResponseBody
+	public FailedResponse referenceExceptionHandler(SystemException exception) {
+		LOGGER.error(exception.getErrorEnum().getDescription(), exception);
+		return getFailedResponse(exception.getErrorEnum());
+	}
+
+	/**
 	 * 处理Exception。
 	 */
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
-	public FailedResponse exceptionHandler(Exception exception) {
+	public FailedResponse generalExceptionHandler(Exception exception) {
 		LOGGER.error(exception.getMessage(), exception);
 		return getFailedResponse(ErrorEnum.SYSTEM_ERROR);
 	}

@@ -79,22 +79,26 @@ function ajax(type, url, data, dataType, successCallback, errorCallback) {
 		data: data,
 		dataType: dataType,
 		timeout: 5000, //超时时间
-		success: function (data) {
+		//这里的success只代表请求成功，并不代表执行的操作成功。
+		success: function (resp) { //返回的都是JsonResponse对象
 			printLog("成功 <-- [" + type + "] URL=" + url + ", Data=" + JSON.stringify(data))
-			if (data.errorMessage != null) {
-				toastr.error(data.errorMessage);
+			//操作失败，显示错误原因
+			if (resp.status != 0) {
+				toastr.error(resp.error.description);
 				return;
 			}
+			//这里才操作成功
 			if (successCallback != null && typeof(successCallback) == 'function') {
 				//如果提供了成功回调，则调用
-				successCallback(data.response);
+				successCallback(resp.data);
 			} else {
 				//如果没提供成功回调，这里只是弹出一个错误消息提示
 				toast.error("操作成功！");
 			}
 		},
+		//这里的失败，代表请求失败。比如网络异常
 		error: function (jqXHR, status, error) {
-			printLog("失败 <-- [" + type + "] URL=" + url + ", 状态：" + status + "，异常：" + error);
+			printError("失败 <-- [" + type + "] URL=" + url + ", 状态：" + status + "，异常：" + error);
 			if (errorCallback != null && typeof(errorCallback) == 'function') {
 				//如果提供了失败回调，则调用
 				errorCallback();

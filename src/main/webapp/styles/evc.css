@@ -129,9 +129,6 @@ body {
 .evc-content .krajee-default.file-preview-error {
 	border: 1px solid red;
 }
-.evc-content .krajee-default .file-footer-caption {
-	margin-bottom: 24px;
-}
 .evc-content .krajee-default.file-preview-frame .file-thumbnail-footer {
 	height: 90px;
 }

@@ -186,7 +186,9 @@
 					<fork>true</fork>
 					<!-- Your JDK location -->
 					<executable>/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/bin/javac</executable>
-				</configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>

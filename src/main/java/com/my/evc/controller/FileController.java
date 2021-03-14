@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.my.evc.common.ErrorEnum;
 import com.my.evc.common.SystemConfig;
 import com.my.evc.exception.BusinessException;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

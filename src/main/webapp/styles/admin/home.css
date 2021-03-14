@@ -111,3 +111,10 @@
 		width: 200px;
 	}
 }
+
+/**
+覆盖fileinput插件的默认样式
+ */
+.file-input .krajee-default.file-preview-frame .kv-file-content {
+	height: 120px;
+}

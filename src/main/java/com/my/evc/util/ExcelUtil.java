@@ -107,7 +107,7 @@ public class ExcelUtil {
 	}
 	
 	/**
-	 * @see #loadExcel(InputStream, String)
+	 * @see #loadData(InputStream, String)
 	 */
 	public static List<Map<String, String>> loadData(FileItem item) 
 			throws BusinessException, IOException {
@@ -115,7 +115,7 @@ public class ExcelUtil {
 	}
 	
 	/**
-	 * @see #loadExcel(InputStream, String)
+	 * @see #loadData(InputStream, String)
 	 */
 	public static List<Map<String, String>> loadData(File file) 
 			throws BusinessException, IOException {
@@ -125,7 +125,6 @@ public class ExcelUtil {
 	/**
 	 * 获取Excel中的第一行。用于校验该Excel中的科目名称和顺序是否和数据库中的“考试”对象一致。
 	 * @return Map Key是列的索引（从0开始），Value是列名字
-	 * @see #getExcelHeaderRow(InputStream, String)
 	 */
 	public static Map<Integer, String> getHeaderRow(Sheet sheet) {
 		//获取表头单元格个数

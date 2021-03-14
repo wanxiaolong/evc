@@ -1,7 +1,5 @@
 package com.my.evc.common;
 
-import java.io.File;
-
 /**
  * 这个类持有所有的系统配置。<br>
  * 为了更好的管理配置项，请将配置的名字以模块的名字开头，并且使用全大写。<br>
@@ -9,9 +7,9 @@ import java.io.File;
  */
 public class SystemConfig {
 	/**
-	 * 最大文件大小：100MB
+	 * 最大文件大小：50MB
 	 */
-	public static final int FILE_MAX_SIZE = 100 * 1024 * 1024;
+	public static final int FILE_MAX_SIZE = 5 * 1024;
 	/**
 	 * 文件上传路径
 	 */
@@ -19,12 +17,7 @@ public class SystemConfig {
 	/**
 	 * 成绩上传路径（包括解压路径）
 	 */
-	public static String SCORE_UPLOAD_PATH = "";
-	/**
-	 * 解压的临时目录 
-	 */
-	public static String UNZIP_PATH = "";
-	
+	public static String SCORE_UNZIP_PATH = "";
 	
 	/**
 	 * 这个方法由Spring调用，用来注入配置信息。
@@ -38,8 +31,7 @@ public class SystemConfig {
 	 * 这个方法由Spring调用，用来注入配置信息。
 	 * @see spring-context.xml
 	 */
-	public static void setScoreUploadPath(String scoreUploadPath) {
-		SCORE_UPLOAD_PATH = scoreUploadPath;
-		UNZIP_PATH = scoreUploadPath + File.separator + "extracted";
+	public static void setScoreUnzipPath(String scoreUnzipPath) {
+		SCORE_UNZIP_PATH = scoreUnzipPath;
 	}
 }

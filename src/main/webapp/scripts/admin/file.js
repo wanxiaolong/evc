@@ -113,17 +113,38 @@ function initFileUpload() {
 		//maxImageWidth: 1000,//图片的最大宽度
 		//maxImageHeight: 1000,//图片的最大高度
 		minFileSize: 1,
-		maxFileSize: 102400,//单位为kb，如果为0表示不限制文件大小
+		maxFileSize: 10240,//单位为kb，如果为0表示不限制文件大小。这里是10MB
 		//minFileCount: 1,
 		maxFileCount: 10, //表示允许同时上传的最大文件个数
 		enctype:'multipart/form-data',
 		validateInitialCount:true,
 		previewFileIcon: "<i class='glyphicon glyphicon-file'></i>",
 		msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-	}).on("fileuploaded", function (event, data, previewId, index){
-		//上传成功后的回调
-		toastr.success("文件【" + data.jqXHR.responseJSON.response[0] + "】上传成功！");
-		//刷新文件信息列表
-		queryAll();
-	});
+	})
+	//
+	.on("fileuploaded", function (event, data, previewId, index) {
+		var resp = data.jqXHR.responseJSON;
+		if (resp.status == 0) {
+			//上传成功
+			toastr.success("文件【" + resp.data[0] + "】上传成功！");
+			//刷新文件信息列表
+			queryAll();
+		} else {
+			//上传失败
+			toastr.success("文件上传失败！原因【" + resp.error.description + "】");
+		}
+	})
+	//上传请求失败时触发的回调函数
+	.on("fileuploadfail", function(e, data) {
+		console.log(JSON.stringify(data));
+	})
+	//上传请求成功时触发的回调函数
+	.on("fileuploaddone", function(e, data) {
+		console.log(JSON.stringify(data));
+	})
+	//上传请求结束后，不管成功，错误或者中止都会被触发。相当于Java中的finally。
+	.on("fileuploadalways", function(e, data) {
+		console.log("always happens");
+	})
+	;
 }

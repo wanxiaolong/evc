@@ -63,6 +63,7 @@
 			<!-- 文件上传Tab页 -->
 			<div id="fileUpload" class="tab-pane fade">
 				<div class="row">
+					<p>上传说明：上传的单个文件不超过10MB，一次上传的数量不超过10个。</p>
 					<p>支持一次上传多个文件，支持预览：</p>
 				</div>
 				<div class="row">
