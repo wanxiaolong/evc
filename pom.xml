@@ -33,7 +33,7 @@
 	</repositories>
 
 	<properties>
-		<spring.version>5.3.4</spring.version>
+		<spring.version>5.3.27</spring.version>
 	</properties>
 
 	<dependencies>
